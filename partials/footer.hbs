@@ -1,0 +1,23 @@
+<section class="lane lane--spacer">
+  <div class="lane__wrap">
+    <div class="lane__content">
+      <footer class="footer">
+        <div class="footer__columns">
+
+          {{#get "posts" filter="tag:hash-footer" include="tags,authors" as |post|}}
+            {{#post}}
+              {{content}}
+            {{/post}}
+          {{/get}}
+
+        </div>
+        <div class="footer__obi">
+          <a class="footer__logo" href="/">
+            <img src="{{asset "dist/images/logo.svg"}}" alt="SFF" />
+          </a>
+          <span class="footer__copyright">Made with love in Scotland | Copyright &copy; {{date format="YYYY"}}</span>
+        </div>
+      </footer>
+    </div>
+  </div>
+</section>
