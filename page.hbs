@@ -1,0 +1,29 @@
+{{!< default}}
+
+{{#page}}
+  <div class="wrapper">
+
+    {{navigation}}
+
+    {{content}}
+
+    {{#has tag="#show-contact"}}
+      {{> contact}}
+    {{/has}}
+
+  </div>
+{{/page}}
+
+{{#post}}
+  <div class="wrapper">
+
+    {{navigation}}
+
+    {{content}}
+
+    {{#has tag="#show-contact"}}
+      {{> contact}}
+    {{/has}}
+
+  </div>
+{{/post}}

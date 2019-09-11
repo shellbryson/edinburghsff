@@ -1,0 +1,155 @@
+// ############################################################################
+// Footer
+// ############################################################################
+
+.footer {
+  color: $color-body;
+
+  @include small {
+    margin: 75px auto 0;
+  }
+
+  a {
+    display: block;
+    color: $color-active;
+
+    &:hover,
+    &:focus {
+      color: $color-brand;
+    }
+  }
+
+  p {
+    text-align: left;
+  }
+
+  address {
+    margin-bottom: 1rem;
+    div {
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  ul+header {
+    margin-top: 2rem;
+  }
+
+  p + form {
+
+    input {
+      margin-top: 0;
+    }
+  }
+
+  &__columns {
+    display: grid;
+    grid-column-gap: 2rem;
+    grid-row-gap: 3rem;
+    grid-template-columns: 1fr;
+
+    @include xsmall {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    @include small {
+      grid-column-gap: 3rem;
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    @include large {
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+  }
+
+  &__column {
+    h2 {
+      font-size: 18px;
+
+      @include small {
+        font-size: 18px;
+        margin-bottom: 1rem;
+      }
+
+      @include medium {
+        font-size: 18px;
+        margin-bottom: 1rem;
+      }
+    }
+  }
+
+  &__form {
+
+    margin-bottom: 2rem;
+
+    input {
+      @include placeholder($color-field-placeholder);
+      @include rem(height, 30px);
+      @include rem(line-height, 30px);
+      @include rem(padding, 0 8px);
+      @include rem(font-size, 16px);
+      margin: 16px 0;
+      box-sizing: border-box;
+      width: 100%;
+      border: 1px solid $color-field-border;
+      border-radius: 5px;
+      color: $color-black;
+      background-color: $color-faint;
+      transition: 250ms;
+    }
+
+    button {
+      display: block;
+      height: 40px;
+      padding: 0 2rem;
+      border-radius: 20px;
+      font-size: 1rem;
+      font-family: $base-font;
+      line-height: 40px;
+      color: $color-white;
+      background-color: $color-button-primary;
+      text-align: center;
+      text-transform: uppercase;
+      border: 0;
+
+      &:focus,
+      &:hover {
+        background-color: $color-button-primary-hover;
+        color: $color-white;
+      }
+
+      &:active {
+        background-color: $color-button-primary-active;
+      }
+    }
+  }
+
+  &__logo {
+    display: block;
+    margin-bottom: 16px;
+  }
+
+  &__heading {
+    text-transform: capitalize;
+  }
+
+  &__obi {
+    border-top: 1px solid $color-brand;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    text-align: center;
+  }
+
+  &__social {
+    display: flex;
+    margin: 2rem 0;
+  }
+
+  &__social-link {
+    margin-right: 16px;
+  }
+
+  &__copyright {
+    color: $color-body;
+    padding-bottom: 2rem;
+  }
+}

@@ -1,0 +1,55 @@
+.profile {
+  @include rem(margin-top, 64px);
+  display: flex;
+  color: $color-body;
+
+  &__image {
+    display: block;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-size: contain;
+    background-color: rgba(0,0,0,0.1);
+
+    @include small {
+      width: 48px;
+      height: 48px;
+    }
+
+    @include medium {
+      width: 54px;
+      height: 54px;
+    }
+  }
+
+  &__info {
+    margin-left: 16px;
+    line-height: 32px;
+
+    @include small {
+      line-height: 48px;
+    }
+
+    @include medium {
+      line-height: 54px;
+    }
+  }
+
+  &__name {
+    @include font;
+    font-family: $base-font-medium;
+  }
+}
+
+.portrait {
+  display: block;
+  border-radius: 50%;
+  background-size: contain;
+  background-color: rgba(0,0,0,0.1);
+  max-width: 200px !important;
+  margin: 2rem auto;
+
+  @include small {
+    max-width: 300px !important;
+  }
+}

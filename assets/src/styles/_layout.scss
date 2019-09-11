@@ -1,0 +1,319 @@
+// ############################################################################
+// Layout
+// ############################################################################
+
+.wrapper {
+  width: 100%;
+  max-width: 2000px;
+  margin: 0 auto;
+}
+
+.centered {
+  text-align: center;
+
+  & > .mz-button {
+    display: inline-block;
+  }
+}
+
+.lane {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center top;
+
+  // Insite a stripe container
+  .stripe & {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+
+  &__wrap {
+    display: block;
+    max-width: 1110px;
+    width: 100%;
+    margin: 0 auto;
+
+    .lane--split & {
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-gap: 1rem;
+
+      @include small {
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 4rem;
+      }
+
+      > div {
+
+        align-self: center;
+
+        img {
+          width: 100%;
+        }
+      }
+    }
+
+    .lane--split-75 & {
+
+      @include small {
+        display: grid;
+        grid-template-columns: 3fr 1fr;
+        grid-gap: 2rem;
+      }
+
+      > div {
+
+        img {
+          width: 100%;
+        }
+      }
+    }
+
+    .lane--split-66 & {
+
+      @include small {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        grid-gap: 1rem;
+      }
+
+      @include medium {
+        grid-gap: 2rem;
+      }
+    }
+
+  }
+
+  &--masthead {
+    display: flex;
+    min-height: 350px;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem 0;
+
+    @include small {
+      min-height: 450px;
+    }
+  }
+
+  &--masthead-small {
+    display: flex;
+    min-height: 150px;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem 0;
+
+    @include small {
+      min-height: 150px;
+    }
+  }
+
+  // This spacer may be overided by striped/inversed sections
+  &--spacer {
+    margin-top: 75px;
+
+    .stripe & {
+      margin-top: 43px; // 75 - 2rem (padding of stripe)
+    }
+  }
+
+  &--inverse {
+    background-color: $color-bg-lane-inverse;
+  }
+
+  &--shaded {
+    background-color: #e9ecf3;
+  }
+
+  &--split {
+
+  }
+
+  // If two sections with backgrounds are next to each other, then we should always remove the spacing
+  // to avoid a weird white gap
+  &--shaded + &--shaded {
+    margin-top: 0!important
+  }
+
+  &--shaded + &--shaded {
+    margin-top: 0!important
+  }
+
+  &--shaded + &--inverse {
+    margin-top: 0!important
+  }
+
+  &--wide {
+
+    .lane__wrap {
+      max-width: 1440px;
+    }
+  }
+
+  &--tiled-background {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    background-repeat: repeat;
+    background-size: auto;
+
+    @include small {
+      margin-top: 2rem;
+      padding-top: 3rem;
+      padding-bottom: 3rem;
+    }
+  }
+
+  // CONTENT ZONE
+  &__content {
+    display: block;
+    padding-left: 1rem;
+    padding-right: 1rem;
+
+    @include content-max {
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    // INSIDE: masthead
+    .lane--masthead & {
+
+      @include xsmall {
+        width: 60%;
+      }
+
+      @include small {
+        width: 50%;
+      }
+    }
+
+    &--padded {
+      padding-top: 2rem;
+      padding-bottom: 2rem;
+
+      @include small {
+        padding-top: 4rem;
+        padding-bottom: 4rem;
+      }
+    }
+  }
+}
+
+// ############################################################################
+// Splits (do not apply to lanes)
+// ############################################################################
+
+.split-50 {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 2rem;
+
+  @include small {
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 2rem;
+  }
+}
+
+.split-75 {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+}
+
+// ############################################################################
+// Striping
+// ############################################################################
+
+.stripe {
+
+  section {
+
+    &:nth-child(even) {
+      background-color: $color-bg-lane;
+    }
+  }
+}
+
+.download-box {
+  display: inline-block;
+  padding: 2rem;
+  background: $color-white;
+  border-radius: 1rem;
+
+  &__inner {
+    display: flex;
+
+    p {
+      font-family: $base-font-bold;
+    }
+
+    img {
+      margin-right: 2rem;
+    }
+  }
+}
+
+.download-image {
+  max-width: 300px;
+  margin: 1rem auto;
+
+  img {
+    margin: 1rem auto;
+    max-width: 300px;
+  }
+
+  &__actions {
+    display: flex;
+    margin-top: 1rem;
+
+    .mz-button {
+
+      &:first-child {
+        margin-right: 1rem;
+      }
+
+      &:last-child {
+        margin-left: 1rem;
+      }
+    }
+  }
+}
+
+// ############################################################################
+// Scrolling
+// ############################################################################
+
+.mz-no-scroll {
+  overflow: hidden;
+  height: 100%;
+  touch-action: none;
+
+  @include medium {
+    overflow: inherit;
+    touch-action: allow;
+  }
+}
+
+// ############################################################################
+// Special content
+// ############################################################################
+
+.kg-card {
+
+}
+
+// Videos etc that are not in standard content blocks
+.kg-embed-card {
+  margin: 2rem auto;
+
+  iframe {
+    display: block;
+    width: 75%;
+    margin: 1rem auto;
+  }
+
+  figcaption {
+    display: block;
+    margin: 1rem auto;
+    text-align: center;
+  }
+}

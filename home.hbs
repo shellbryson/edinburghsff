@@ -1,0 +1,19 @@
+{{!< default}}
+
+<div class="wrapper">
+
+  {{navigation}}
+
+  {{#get "pages" filter="slug:home" include="tags,authors" as |page|}}
+  {{#page}}
+
+      {{content}}
+
+      {{#has tag="#show-contact"}}
+        {{> contact}}
+      {{/has}}
+
+  {{/page}}
+  {{/get}}
+
+</div>

@@ -1,0 +1,25 @@
+// ****************
+// * Buttons
+// ****************
+
+@mixin button($width: 100%, $size: 18px) {
+  // @include rem(padding, 0 $size);
+  // @include rem(font-size, $size);
+  // display: block;
+  // height: ($size * 2) + 4;
+  // border: 0;
+  // border-radius: 5px;
+  // color: $color-white;
+  // background-color: $color-brand;
+  // appearance: none;
+  // cursor: pointer;
+  //
+  // @include small {
+  //   width: $width;
+  // }
+  //
+  // &:focus,
+  // &:hover {
+  //   background-color: lighten($color-brand, 5%);
+  // }
+}

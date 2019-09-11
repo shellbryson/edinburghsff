@@ -1,0 +1,105 @@
+// ############################################################################
+// Grid
+// ############################################################################
+
+.grid {
+
+  p,
+  h3 {
+    text-align: center;
+  }
+
+  h3 {
+    font-size: 18px;
+    margin-bottom: 18px;
+  }
+
+  a {
+    margin-top: auto;
+    color: $color-exclusive;
+    font-size: 18px;
+    transition: $animation-speed;
+
+    &:hover,
+    &:focus {
+      color: darken($color-exclusive, 20%);
+    }
+  }
+
+  img {
+    height: 72px;
+    margin: 0 auto 1rem;
+    transition: $animation-speed-slow;
+
+    @include breakpoint(500px) {
+      height: 88px;
+    }
+
+    @include small {
+      height: 100px;
+    }
+
+    @include medium {
+      margin: 0 auto 2rem;
+    }
+  }
+
+  &__inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-column-gap: 2rem;
+    grid-row-gap: 2rem;
+
+    @include breakpoint(500px) {
+      grid-template-columns: 1fr 1fr;
+      grid-row-gap: 75px;
+    }
+
+    @include small {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    div {
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+
+      &:hover {
+        img {
+          transform: scale(1.1);
+        }
+      }
+    }
+  }
+
+  &__after {
+
+    margin-top: 64px;
+
+    @include small {
+      margin-top: 64px;
+    }
+
+    p {
+      font-family: $base-font-bold;
+      font-size: 18px;
+      font-weight: bold;
+      text-align: center;
+
+      @include small {
+        font-size: 28px;
+      }
+    }
+  }
+
+  // We are inside a lane with a color background
+  .lane--inverse & {
+    color: $color-white;
+
+    h2,
+    h3,
+    p {
+      color: $color-white;
+    }
+  }
+}

@@ -1,0 +1,153 @@
+.mz-tiles {
+
+  h2,
+  h3,
+  h4 {
+    @include rem(padding-bottom, 32px);
+  }
+
+  ul {
+
+    @include small {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-column-gap: 64px;
+      grid-row-gap: 32px;
+    }
+
+    @include medium {
+      grid-column-gap: 128px;
+    }
+
+    .no-cssgrid & {
+
+      @include small {
+        display: block;
+      }
+    }
+
+    li {
+
+      @include rem(margin-bottom, 16px);
+      padding: 0;
+
+      @include small {
+        margin-bottom: 0;
+      }
+
+      .no-cssgrid & {
+
+        @include small {
+          display: inline-block;
+          width: 48%;
+          vertical-align: top;
+        }
+      }
+
+      // Avoid adding any content formatting here other than spacing.
+      // This is styled via `.mz-content`
+
+      p {
+        color: $color-body;
+
+        &:last-child {
+          padding: 0;
+        }
+      }
+
+      h2,
+      h3,
+      h4 {
+        @include font-smoothing;
+        @include rem(font-size, 20px);
+        @include rem(padding-bottom, 6px);
+      }
+    }
+
+  }
+
+  // Spacer for headings following list, to avoid ugly space in last combo
+  ul + h2,
+  ul + h3,
+  ul + h4 {
+    @include rem(margin-top, 44px);
+  }
+
+  // Inner content
+
+  .mz-content {
+    &:last-child {
+      margin-bottom: 0;
+
+      ul {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  // Modified
+
+  &--data {
+
+    ul {
+      @include small {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr;
+      }
+
+      .no-cssgrid & {
+
+        @include small {
+          display: block;
+          width: 100%;
+        }
+      }
+    }
+
+    h3,
+    h4 {
+      @include rem(font-size, 24px);
+    }
+  }
+
+  &--demo-faq {
+    li {
+      h2,
+      h3,
+      h4 {
+        color: $color-brand;
+      }
+    }
+  }
+
+  &--productfuture {
+    li {
+      h2,
+      h3,
+      h4 {
+        color: $color-brand;
+      }
+    }
+  }
+
+  &--productfuture-faq {
+    li {
+      h2,
+      h3,
+      h4 {
+        color: $color-brand;
+      }
+    }
+  }
+
+  &--marketing-faq {
+    li {
+      h2,
+      h3,
+      h4 {
+        color: $color-brand-marketing;
+      }
+    }
+  }
+}

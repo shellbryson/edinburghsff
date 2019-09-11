@@ -1,0 +1,20 @@
+{{#primary_author}}
+  <div class="profile">
+
+    {{#if profile_image}}
+
+    <div class="profile__image" style="background-image: url('{{img_url profile_image}}');"></div>
+
+    {{else}}
+
+    <div class="profile__image profile__image--blank"></div>
+
+    {{/if}}
+
+    <div class="profile__info">
+      <span class="profile__name">{{name}}</span>
+      <span class="profile__bio">{{bio}}</span>
+    </div>
+
+  </div>
+{{/primary_author}}

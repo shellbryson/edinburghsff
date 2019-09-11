@@ -1,0 +1,47 @@
+[
+  {
+    "from": "/how/",
+    "to": "/product-testing/",
+    "permanent": true
+  },
+  {
+    "from": "/who/",
+    "to": "/partners/",
+    "permanent": true
+  },
+  {
+    "from": "/why/",
+    "to": "/improve-retail-margins/",
+    "permanent": true
+  },
+  {
+    "from": "/what/",
+    "to": "/product-future/",
+    "permanent": true
+  },
+  {
+    "from": "/mallzee-marketing/",
+    "to": "/mallzee-app/",
+    "permanent": true
+  },
+  {
+    "from": "/data/",
+    "to": "/our-data/",
+    "permanent": true
+  },
+  {
+    "from": "/about-us/",
+    "to": "/about/",
+    "permanent": true
+  },
+  {
+    "from": "/subscribe/",
+    "to": "/the-drop/",
+    "permanent": true
+  },
+  {
+    "from": "/marketing/",
+    "to": "/mallzee-app/",
+    "permanent": true
+  }
+]

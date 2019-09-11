@@ -1,0 +1,50 @@
+.newsletter {
+
+  &__form {
+    margin: 0 auto;
+
+    @include small {
+      display: flex;
+      width: 70%;
+    }
+  }
+
+  // Directly followed by paragraph
+  &+p {
+    margin-top: 2rem;
+  }
+
+  .form-group {
+    width: 100%;
+    margin-right: 1rem;
+  }
+  
+  input {
+    @include placeholder($color-field-placeholder);
+    @include rem(height, 50px);
+    @include rem(line-height, 50px);
+    @include rem(font-size, 16px);
+    margin-bottom: 1rem;
+    padding: 0 1rem;
+    box-sizing: border-box;
+    width: 100%;
+    border: 1px solid $color-field-border;
+    border-radius: 5px;
+    color: $color-black;
+    background-color: $color-faint;
+    transition: 250ms;
+
+    @include small {
+      margin-right: 1rem;
+    }
+  }
+
+  button {
+    margin: 0 auto;
+
+    @include small {
+      margin: 0;
+      max-width: 150px;
+    }
+  }
+}

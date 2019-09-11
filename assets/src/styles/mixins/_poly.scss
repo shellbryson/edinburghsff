@@ -1,0 +1,5 @@
+@mixin poly($p1, $p2, $p3, $c) {
+  -webkit-clip-path: polygon($p1, $p2, $p3);
+  background-color: $c;
+  clip-path: polygon($p1, $p2, $p3);
+}

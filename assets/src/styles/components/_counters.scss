@@ -1,0 +1,48 @@
+// ############################################################################
+// Counters
+// ############################################################################
+
+.counters {
+  padding: 75px 0;
+
+  @include small {
+    padding: 75px 0;
+  }
+
+  p,
+  h2 {
+    text-align: center;
+  }
+
+  h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+
+    @include small {
+      font-size: 3rem;
+    }
+
+    @include medium {
+      font-size: 3rem;
+    }
+  }
+
+  &__inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-column-gap: 2rem;
+    grid-row-gap: 2rem;
+
+    @include small {
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-row-gap: 75px;
+    }
+
+    div {
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+    }
+  }
+
+}

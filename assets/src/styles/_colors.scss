@@ -1,0 +1,70 @@
+// Base colors
+$color-white: #ffffff;
+$color-black: #000000;
+$color-body: #2d4277;
+$color-body-alternate: #494f62;
+$color-background-shade: #f7f7f7;
+$color-brand-marketing: #00cfff;
+
+$color-button-primary: #e01053;
+$color-button-primary-hover: #fd3b7a;
+$color-button-primary-active: #ae0c40;
+$color-button-primary-disabled: #f7c1d2;
+
+$color-button-secondary: #e0b77d;
+$color-button-secondary-hover: #ecc99e;
+$color-button-secondary-active: #b38956;
+$color-button-secondary-disabled: #f8ebd9;
+
+$color-button-tertiary: #194288;
+$color-button-tertiary-hover: #194288;
+$color-button-tertiary-active: #194288;
+$color-button-tertiary-disabled :#194288;
+
+$color-transparent: rgba(0, 0, 0, 0);
+
+$color-exclusive: #e6b272;
+
+
+// Colors v2
+$color-brand: #2d4277;
+$color-heading: #2d4277;
+$color-heading-invert: $color-white;
+$color-lane-background: #2d4277;
+$color-lane-background-alt: $color-white;
+$color-lane-background-fade: #f8fafb;
+$color-lane-background-orange: #e6b272;
+$color-heading-sub: #e6b272;
+$color-active: #e6b272;
+$color-faint: #f2f3f5;
+$color-lane-grey: #f2f3f5;
+
+// Lanes
+$color-bg-lane-inverse: #505b77;
+
+
+$color-bg-lane: #f7f7f7;
+$color-bg-lane-darker: $color-faint;
+$color-bg-lane-blackout: #4f5f6b;
+$color-bg-lane-blackout-alt: $color-body;
+
+// Text
+$color-headings: $color-body;
+$color-body-faint: lighten($color-body, 30%);
+
+// Sidebar
+$color-sidebar: #fcfcfc;
+
+// Forms
+$color-field-placeholder: $color-body;
+$color-field-border: #c4cdd5;
+$color-button: $color-brand;
+$color-form-error: #ff0000;
+
+// Alias
+$color-link-hover: $color-brand;
+$color-brand-icon: $color-brand;
+
+// Footer
+$color-footer-titles: #75889d;
+$color-footer-background: #494f62;

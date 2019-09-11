@@ -1,0 +1,73 @@
+{{!< default}}
+
+<div class="wrapper">
+
+  {{navigation}}
+
+  {{#post}}
+
+  <section class="lane lane--masthead-small">
+    <div class="lane__wrap">
+      <div class="lane__content">
+        <h2>{{title}}</h2>
+        <p class="shout">{{excerpt}}</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="lane lane--split-66 lane--tiled-background">
+    <div class="lane__wrap">
+
+      <div class="lane__content">
+        {{#if feature_image}}
+        <div class="blog__feature">
+          <img src="{{img_url feature_image}}" alt="{{title}}" class="feature-image" />
+        </div>
+        {{/if}}
+        <div class="blog">
+          {{content}}
+          <div class="blog__tags">
+            <p>Tags: {{tags}}</p>
+          </div>
+          <time class="mz-post__date sr-only" datetime="{{date format=" YYYY-MM-DD "}}">{{date format="D MMMM YYYY"}}</time>
+        </div>
+        {{>author}}
+      </div>
+
+      <div class="sidebar">
+        {{>sidebar-newsletter}}
+        {{>sidebar-search}}
+        {{>sidebar-tags}}
+      </div>
+
+    </div>
+  </div>
+
+  {{/post}}
+
+  <section class="lane lane--spacer">
+    <div class="lane__wrap">
+      <div class="lane__content">
+        <h2 class="centered">Want to understand how Product Future by Mallzee Insights can improve your margins?</h2>
+        <p class="centered shout">Let’s schedule a time for a friendly walkthrough with one of our retail experts.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="lane lane--spacer">
+    <div class="lane__wrap">
+      <div class="lane__content">
+        {{> contact}}
+      </div>
+    </div>
+  </div>
+
+  {{> latest-posts}}
+
+  {{> newsletter}}
+
+</div>
+
+<div class="js-subscribe hidden">
+  {{> contact-cta}}
+</div>

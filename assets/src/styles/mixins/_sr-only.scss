@@ -1,0 +1,20 @@
+@mixin sr-only {
+  overflow: hidden;
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  color: $color-black;
+  background-color: $color-white;
+  clip: rect(1px, 1px, 1px, 1px);
+
+  // Catch legacy browser and display all SR text
+  .no-cssgrid & {
+    display: block;
+    position: relative !important;
+    width: auto;
+    height: auto;
+    color: $color-white;
+    background-color: inherit;
+    clip: none;
+  }
+}

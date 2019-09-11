@@ -1,0 +1,125 @@
+.blog-card {
+
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  border-radius: 0 0 10px 10px;
+  background-color: $color-white;
+  box-shadow: 1px 13px 46px -2px rgba(0, 0, 0, 0.2);
+  transition: 250ms;
+
+  .cards--zoomed & {
+    &:hover {
+
+      @include small {
+        box-shadow: 1px 20px 54px -2px rgba(0, 0, 0, 0.3);
+        transform: scale(1.02);
+      }
+
+      @include medium {
+        box-shadow: 1px 20px 54px -2px rgba(0, 0, 0, 0.3);
+        transform: translateY(-1rem) scale(1.1);
+      }
+    }
+  }
+
+  h2 {
+    padding: 0;
+  }
+
+  &__image {
+    display: block;
+    width: 100%;
+    height: 200px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+
+    .cards-large & {
+      height: 320px;
+    }
+  }
+
+  &__excerpt {
+    @include font-smoothing;
+    @include rem(font-size, $body-font-size-small);
+    display: block;
+    overflow: hidden;
+    width: auto;
+    margin: 0 1rem;
+    color: $color-body;
+    word-wrap: break-word;
+    hyphens: auto;
+    line-height: 1.3;
+
+    p {
+      text-align: left;
+    }
+
+    span {
+
+      &:last-child {
+        display: inline-block;
+        color: $color-exclusive;
+        padding-left: 4px;
+      }
+    }
+  }
+
+  &__header {
+    display: block;
+    overflow: hidden;
+    margin: 1rem 1rem 0 1rem;
+  }
+
+  &__title {
+    @include rem(font-size, 20px);
+    display: block;
+    padding: 0;
+    line-height: $heading-line-height;
+
+    & > a {
+      color: $color-body!important;
+      font-family: $base-font-medium;
+      display: block;
+      overflow: hidden;
+      max-width: 90%;
+      line-height: 1.3;
+    }
+  }
+
+  &__meta {
+    margin: auto 1rem 1rem 1rem;
+  }
+
+  &__date {
+    display: none;
+  }
+
+  // Tags container has a height so that the space remains if there are no tags
+  &__tags {
+    display: block;
+  }
+
+  &__tag {
+    @include rem(font-size, 14px);
+    color: $color-brand;
+
+    &::after {
+      display: inline-block;
+      content: ",";
+    }
+
+    &:last-child {
+      &::after {
+        display: none;
+      }
+    }
+  }
+
+  .profile {
+    margin-top: 1rem;
+  }
+
+}

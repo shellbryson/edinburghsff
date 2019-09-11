@@ -1,0 +1,34 @@
+// *****************************************************************************
+// * Set placeholder styling in a cross-browser way
+// * (because not supported by autoprefix)
+// *****************************************************************************
+
+@mixin placeholder($color: $color-field-placeholder) {
+
+  // Note: these rules have to remain seperated as according to W3C spec if any
+  // one of them fails when nested, they all fail:
+
+  &::-webkit-input-placeholder {
+    @include font-smoothing;
+    color: $color;
+    opacity: 1;
+  }
+
+  &:-ms-input-placeholder {
+    @include font-smoothing;
+    color: $color;
+    opacity: 1;
+  }
+
+  &::-moz-placeholder {
+    @include font-smoothing;
+    color: $color;
+    opacity: 1;
+  }
+
+  &:-moz-placeholder {
+    @include font-smoothing;
+    color: $color;
+    opacity: 1;
+  }
+}

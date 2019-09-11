@@ -1,0 +1,30 @@
+<nav class="navigation">
+
+  <div class="navigation__logo">
+    <a class="navigation__logo-link" href="/">
+      <img src="{{asset "dist/images/mallzee-insights-logo.svg"}}"
+        alt="Mallzee Insights Logo"
+        class="navigation__logo-image" />
+    </a>
+  </div>
+
+  <div class="navigation__mobile">
+    <button class="navigation__toggle" aria-expanded="false" aria-owns="mz-navigation" aria-controls="mz-navigation" aria-haspopup="true" data-navigation-toggle>
+      <span class="sr-only">Toggle Navigation - Press Escape to close</span>
+      <span class="navigation__toggle-wrapper">
+        <span class="navigation__toggle-icon"></span>
+      </span>
+    </button>
+  </div>
+
+  <ul class="navigation__menu" data-navigation aria-hidden="false" role="menu">
+
+    {{#foreach navigation}}
+      <li class="navigation__entry" role="menuitem">
+        <a class="navigation__link {{#if current}} mz-navigation__link--active{{/if}}" href="{{url absolute="true"}}">{{label}}</a>
+      </li>
+    {{/foreach}}
+
+  </ul>
+
+</nav>

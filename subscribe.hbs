@@ -1,0 +1,57 @@
+{{!< default}}
+
+<div class="wrapper">
+
+  {{navigation}}
+
+  {{#if success}}
+
+  <section class="lane lane--spacer">
+    <div class="lane__wrap">
+      <div class="lane__content">
+        <h1>Subscribed!</h1>
+        <p>
+          You have successfully subscribed to Mallzee Insights and B2B newsletter.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {{else if error}}
+
+  <section class="lane lane--spacer">
+    <div class="lane__wrap">
+      <div class="lane__content">
+        <h1>Oops</h1>
+        <p>
+          Unable to subscribe at this time.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {{else}}
+
+  <section class="lane lane--spacer">
+    <div class="lane__wrap">
+      <div class="lane__content">
+        <h1>Subscribe to Mallzee Insights</h1>
+        <p>
+          Subscribe to Mallzee Insights for the latest posts and B2B newsletter.
+        </p>
+        {{subscribe_form
+          form_class="form"
+          input_class="form__input"
+          button_class="mz-button"
+          placeholder="Your email address"
+          autofocus="true"
+        }}
+      </div>
+    </div>
+  </section>
+
+  {{/if}}
+
+  {{> latest-posts}}
+
+</div>
