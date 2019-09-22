@@ -1,7 +1,7 @@
 // Base colors
 $color-white: #ffffff;
 $color-black: #000000;
-$color-body: #2d4277;
+// $color-body: #2d4277;
 $color-body-alternate: #494f62;
 $color-background-shade: #f7f7f7;
 $color-brand-marketing: #00cfff;
@@ -24,6 +24,12 @@ $color-button-tertiary-disabled :#194288;
 $color-transparent: rgba(0, 0, 0, 0);
 
 $color-exclusive: #e6b272;
+
+
+// SFF colors
+$color-background: #a8b1da;
+$color-panel-bg: lighten($color-background, 30%);
+$color-body: darken($color-background, 80%);
 
 
 // Colors v2

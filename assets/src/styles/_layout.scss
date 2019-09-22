@@ -2,6 +2,63 @@
 // Layout
 // ############################################################################
 
+body {
+  background-color: $color-background;
+}
+
+.sff {
+
+  &__wrapper {
+    max-width: 100%;
+    overflow-x: hidden;
+    padding: 2rem;
+  }
+
+  &__cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 2rem;
+    width: 100%;
+    margin-top: 4rem;
+
+    > div {
+      width: 100%;
+    }
+  }
+
+  &__box {
+    padding-top: 6rem;
+    //border: 1px dotted black;
+  }
+
+  &__panel {
+    display: flex;
+    flex-direction: column;
+    background-color: $color-panel-bg;
+    box-shadow: 2px 2px 15px 0px rgba($color-black, 0.2);
+  }
+
+  &__panel-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+
+    > div {
+      border: 1px dotted darken($color-panel-bg, 10%);
+    }
+
+    img {
+      width: 100%;
+    }
+  }
+
+
+  &__content {
+    margin: 2rem;
+  }
+}
+
+
+
 .wrapper {
   width: 100%;
   max-width: 2000px;

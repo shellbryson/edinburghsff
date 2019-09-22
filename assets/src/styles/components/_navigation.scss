@@ -10,14 +10,14 @@
   justify-content: space-between;
   padding: 1rem;
 
-  @include medium {
-    display: flex;
-    max-width: 1440px;
-    margin: 0 auto;
-    padding: 0 1rem;
-    min-height: 80px;
-    align-items: center;
-  }
+  // @include medium {
+  //   display: flex;
+  //   max-width: 1440px;
+  //   margin: 0 auto;
+  //   padding: 0 1rem;
+  //   min-height: 80px;
+  //   align-items: center;
+  // }
 
   @include breakpoint(1440px) {
     padding: 0;
@@ -122,11 +122,11 @@
     }
 
     // Only show menu on desktop (unless mobile toggled)
-    @include medium {
-      display: flex;
-      align-items: center;
-      margin-top: 1.5rem;
-    }
+    // @include medium {
+    //   display: flex;
+    //   align-items: center;
+    //   margin-top: 1.5rem;
+    // }
   }
 
   &__entry {
@@ -185,18 +185,19 @@
 
   &__mobile {
 
-    @include medium {
-      display: none;
-    }
+    // @include medium {
+    //   display: none;
+    // }
   }
 
   &__logo {
     display: inline-block;
-    width: 180px;
+    background-color: $color-panel-bg;
 
-    @include small {
-      width: 400px;
+    img {
+      width: 32px;
     }
+
   }
 
   &__logo-link {

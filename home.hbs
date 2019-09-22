@@ -1,19 +1,42 @@
 {{!< default}}
 
-<div class="wrapper">
-
-  {{navigation}}
+<div class="sff__cols flip">
 
   {{#get "pages" filter="slug:home" include="tags,authors" as |page|}}
   {{#page}}
 
+  <div class="sff__panel">
+    <div class="sff__panel-row">
+      <div>
+        <img src="{{@site.logo}}" alt="Edinburgh SF/F logo" />
+      </div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    <div class="sff__content">
+      <h2>{{title}}</h2>
       {{content}}
-
-      {{#has tag="#show-contact"}}
-        {{> contact}}
-      {{/has}}
+      {{#if feature_image}}
+      <div>
+        <img src="{{img_url feature_image}}" alt="{{title}}" class="feature-image" />
+      </div>
+      {{/if}}
+    </div>
+  </div>
 
   {{/page}}
   {{/get}}
 
+  <div>
+    <div class="sff__box">
+      <heading>
+        <h1 class="sff-title">SF/F</h1>
+        <h2 class="sff-strap">Edinburgh Science Fiction / Fantasy Writers</h2>
+      </heading>
+    </div>
+  </div>
+
 </div>
+
+

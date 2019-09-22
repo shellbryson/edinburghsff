@@ -63,7 +63,8 @@ h3,
 h4,
 h5 {
   @include font-smoothing;
-  font-family: $base-font-bold;
+  font-family: $base-font-heading;
+  font-weight: bold;
   color: $color-headings;
   transition: $animation-speed;
 
@@ -92,6 +93,27 @@ h1 {
     margin-bottom: 3rem;
     line-height: 1.05;
   }
+
+  &.sff-title {
+    display: block;
+    width: 100%;
+    font-size: 3rem;
+    padding-top: 1rem;
+    border-top: 0.5rem solid $color-black;
+    text-shadow: 0 0 14px rgba($color-white,0.88);
+
+    @include small {
+      margin-bottom: 0;
+      font-size: 4rem;
+      line-height: 1.13;
+    }
+
+    @include medium {
+      margin-bottom: 0;
+      font-size: 6rem;
+      line-height: 1.05;
+    }
+  }
 }
 
 h2 {
@@ -109,6 +131,26 @@ h2 {
     font-size: 2.25rem;
     margin-bottom: 2.25rem;
     line-height: 1.25;
+  }
+
+  &.sff-strap {
+    display: block;
+    width: 100%;
+    font-size: 2rem;
+    text-transform: uppercase;
+    text-shadow: 0 0 14px rgba($color-white,0.88);
+
+    @include small {
+      font-size: 2rem;
+      margin-bottom: 0;
+      line-height: 1.25;
+    }
+
+    @include medium {
+      font-size: 2.25rem;
+      margin-bottom: 0;
+      line-height: 1.25;
+    }
   }
 }
 

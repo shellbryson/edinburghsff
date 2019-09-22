@@ -133,12 +133,6 @@ $(function ($) {
 
     }
 
-    if ($nav.hasClass(is_open)) {
-      hideIntercom(true);
-    } else {
-      hideIntercom(false);
-    }
-
   });
 
   $navSecondaryToggle.on('click', function(e) {
