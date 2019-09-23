@@ -1,42 +1,56 @@
 {{!< default}}
 
-<div class="sff__cols flip">
+<div class="sff__lane">
+  <div class="sff__cols">
 
-  {{#get "pages" filter="slug:home" include="tags,authors" as |page|}}
-  {{#page}}
-
-  <div class="sff__panel">
-    <div class="sff__panel-row">
-      <div>
-        <img src="{{@site.logo}}" alt="Edinburgh SF/F logo" />
+    <div>
+      <div class="sff__box">
+        <heading>
+          <h1 class="sff-title sr-only">SF/F</h1>
+          <img src="/assets/dist/images/Logo-mono.png" alt="Edinburgh SFF logo" />
+          <h2 class="sff-strap">Edinburgh Science Fiction / Fantasy Writers</h2>
+        </heading>
       </div>
-      <div></div>
-      <div></div>
-      <div></div>
     </div>
-    <div class="sff__content">
-      <h2>{{title}}</h2>
-      {{content}}
-      {{#if feature_image}}
-      <div>
-        <img src="{{img_url feature_image}}" alt="{{title}}" class="feature-image" />
+
+    {{#get "pages" filter="slug:home" include="tags,authors" as |page|}}
+    {{#page}}
+
+    <div class="sff__panel">
+      <div class="sff__panel-row">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div>
+          <img src="{{@site.logo}}" alt="Edinburgh SF/F logo" />
+        </div>
       </div>
-      {{/if}}
+      <div class="sff__content">
+        <h2>{{title}}</h2>
+        {{content}}
+        {{#if feature_image}}
+        <div>
+          <img src="{{img_url feature_image}}" alt="{{title}}" class="feature-image" />
+        </div>
+        {{/if}}
+      </div>
     </div>
+
+    {{/page}}
+    {{/get}}
+
   </div>
-
-  {{/page}}
-  {{/get}}
-
-  <div>
-    <div class="sff__box">
-      <heading>
-        <h1 class="sff-title">SF/F</h1>
-        <h2 class="sff-strap">Edinburgh Science Fiction / Fantasy Writers</h2>
-      </heading>
-    </div>
-  </div>
-
 </div>
+
+<div class="sff__lane">
+  <div class="sff__single">
+      <div class="sff__panel">
+        <iframe
+          src="https://calendar.google.com/calendar/embed?height=600&amp;wkst=1&amp;bgcolor=%237986CB&amp;ctz=Europe%2FLondon&amp;src=YWJ1bzQ4MDNkZjhrcTdqM2U5cnQ4bXRydGNAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&amp;color=%23795548&amp;showTitle=1&amp;showCalendars=0&amp;showTz=0&amp;showDate=0&amp;title=Edinburgh%20SFF"
+          style="border-width:0" width="100%" height="600" frameborder="0" scrolling="no"></iframe>
+      </div>
+  </div>
+</div>
+
 
 

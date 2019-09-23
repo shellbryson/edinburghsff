@@ -109,30 +109,6 @@ $(function ($) {
     $menuLinks.attr('tabindex') === '-1' ?
       $menuLinks.attr('tabindex', '') : $menuLinks.attr('tabindex', '-1');
 
-    if (window.innerHeight && window.innerWidth) {
-      const _ih = window.innerHeight;
-      const _iw = window.innerWidth;
-      const _top = $nav.offset().top;
-
-      if (_iw < 1024) {
-
-        if ($nav.hasClass(is_open)) {
-          const _os = _ih - _top;
-          $nav.css('height',  _os + "px");
-          resetScrollPosition();
-          $body.classList.add('mz-no-scroll');
-        } else {
-          $body.classList.remove('mz-no-scroll');
-          $nav.css('height', 'inherit');
-        }
-
-      } else {
-        $body.classList.remove('mz-no-scroll');
-        $nav.css('height', 'inherit');
-      }
-
-    }
-
   });
 
   $navSecondaryToggle.on('click', function(e) {

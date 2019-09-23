@@ -1,29 +1,16 @@
 {{!< default}}
 
-{{#page}}
-  <div class="wrapper">
+<div class="sff__lane">
+  <div class="sff__single">
+      <div class="sff__panel">
+      {{#post}}
+        <div class="sff__content"></div>
+          <h1>{{title}}</h1>
 
-    {{navigation}}
+          {{content}}
 
-    {{content}}
-
-    {{#has tag="#show-contact"}}
-      {{> contact}}
-    {{/has}}
-
+        {{/post}}
+        </div>
+    </div>
   </div>
-{{/page}}
-
-{{#post}}
-  <div class="wrapper">
-
-    {{navigation}}
-
-    {{content}}
-
-    {{#has tag="#show-contact"}}
-      {{> contact}}
-    {{/has}}
-
-  </div>
-{{/post}}
+</div>

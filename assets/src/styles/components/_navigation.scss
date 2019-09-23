@@ -10,15 +10,6 @@
   justify-content: space-between;
   padding: 1rem;
 
-  // @include medium {
-  //   display: flex;
-  //   max-width: 1440px;
-  //   margin: 0 auto;
-  //   padding: 0 1rem;
-  //   min-height: 80px;
-  //   align-items: center;
-  // }
-
   @include breakpoint(1440px) {
     padding: 0;
   }
@@ -74,24 +65,6 @@
       background-color: $color-headings;
       text-align: center;
       backface-visibility: visible;
-
-      // Inverted menu
-
-      .mz-background-brand & {
-        background-color: $color-white;
-      }
-
-      .mz-background-cover--darken & {
-        background-color: $color-white;
-      }
-
-      .lane--blackout & {
-        background-color: $color-white;
-      }
-
-      .lane--blackout-alt & {
-        background-color: $color-white;
-      }
     }
 
     // Top line
@@ -109,33 +82,28 @@
 
   &__menu {
     display: none;
-    position: relative;
+    position: absolute;
     padding: 0;
-    margin-top: 2rem;
+    margin-top: 3rem;
+    background: $color-black;
+    color: $color-white;
+    right: 1rem;
+    width: 66%;
+
+    @include small {
+      max-width: 300px;
+    }
 
     &.js-isOpen {
       display: block;
-
-      @include medium {
-        display: flex;
-      }
     }
-
-    // Only show menu on desktop (unless mobile toggled)
-    // @include medium {
-    //   display: flex;
-    //   align-items: center;
-    //   margin-top: 1.5rem;
-    // }
   }
 
   &__entry {
     @include font-smoothing;
+    display: block;
     position: relative;
-
-    @include small {
-      margin-left: 1rem;
-    }
+    padding: 1rem 2rem 1rem 1rem;
   }
 
   &__link {
@@ -148,25 +116,10 @@
     font-size: 1rem;
     font-family: $base-font;
     transition: 400ms;
-    text-transform: capitalize;
-
-    @include small {
-      width: auto;
-    }
-
-    &:hover,
-    &:focus {
-      margin-bottom: 4px;
-      padding-bottom: 12px;
-      border-bottom: 2px solid $color-transparent;
-      color: $color-brand !important;
-
-      @include medium {
-        margin-bottom: 0;
-        padding-bottom: 16px;
-        border-bottom: 2px solid $color-brand;
-      }
-    }
+    text-transform: uppercase;
+    color: $color-white;
+    font-family: $base-font-heading;
+    font-size: 18px;
 
     &--active {
       margin-bottom: 0;
@@ -183,36 +136,6 @@
     }
   }
 
-  &__mobile {
-
-    // @include medium {
-    //   display: none;
-    // }
-  }
-
-  &__logo {
-    display: inline-block;
-    background-color: $color-panel-bg;
-
-    img {
-      width: 32px;
-    }
-
-  }
-
-  &__logo-link {
-    display: block;
-  }
-
-  &__logo-image {
-    display: block;
-    width: 100%;
-    max-width: 140px;
-
-    @include small {
-      max-width: 180px;
-    }
-  }
 }
 
 .show {
