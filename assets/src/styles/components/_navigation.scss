@@ -10,10 +10,6 @@
   justify-content: space-between;
   padding: 1rem;
 
-  @include breakpoint(1440px) {
-    padding: 0;
-  }
-
   &__toggle {
     display: block;
     position: absolute;
@@ -108,7 +104,6 @@
 
   &__link {
     display: block;
-    width: 50%;
     margin-bottom: 4px;
     padding-bottom: 12px;
     border-bottom: 2px solid $color-transparent;
@@ -122,17 +117,7 @@
     font-size: 18px;
 
     &--active {
-      margin-bottom: 0;
-      padding-bottom: 16px;
-      border-top: 4px solid $color-active;
-      color: $color-active;
 
-      // Masks the hover/focus if already active
-      &:hover,
-      &:focus {
-        border-bottom: 2px solid $color-active;
-        color: $color-active;
-      }
     }
   }
 

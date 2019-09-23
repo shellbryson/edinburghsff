@@ -9,9 +9,11 @@ body {
 .sff {
 
   &__wrapper {
-    max-width: 100%;
-    overflow-y: hidden;
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
     padding: 2rem;
+    overflow-y: hidden;
   }
 
   &__lane {
@@ -65,7 +67,6 @@ body {
     }
   }
 
-
   &__content {
     margin: 2rem;
   }
@@ -73,14 +74,6 @@ body {
   &__footer {
     text-align: center;
   }
-}
-
-
-
-.wrapper {
-  width: 100%;
-  max-width: 2000px;
-  margin: 0 auto;
 }
 
 .centered {
