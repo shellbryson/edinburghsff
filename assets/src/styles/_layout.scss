@@ -4,12 +4,13 @@
 
 body {
   background-color: $color-background;
+  max-width: 100vw;
+  overflow-x: hidden;
 }
 
 .sff {
 
   &__wrapper {
-    width: 100%;
     max-width: 1440px;
     margin: 0 auto;
     padding: 2rem;
