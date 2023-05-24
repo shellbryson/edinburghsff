@@ -1,0 +1,35 @@
+body {
+  font-family: 'Fira Code', monospace;
+  padding: 16px;
+  margin: 0;
+  background-color: #fff;
+}
+
+.sff {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.sff-masthead img {
+  width: 100%;
+  height: auto;
+}
+
+.sff-header {
+
+}
+
+.sff-community {
+  background-color: rgba(0,0,0, 0.1);
+  padding: 16px;
+  max-width: 500px;
+  margin: 2rem auto;
+}
+
+.sff-community h2 {
+  text-align: center;
+}
+
+a {
+  color: red;
+}
