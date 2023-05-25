@@ -1,31 +1,28 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { UserAuth } from '../context/AuthContext';
+import React, { useEffect, useState } from 'react';
 
-const Dashboard = () => {
-  const { user, logout } = UserAuth();
-  const navigate = useNavigate();
+// MUI
+import Button from '@mui/material/Button';
 
-  const handleLogout = async () => {
-    try {
-      await logout();
-      navigate('/');
-      console.log('You are logged out')
-    } catch (e) {
-      console.log(e.message);
-    }
-  };
+const LinkList = ({ data, onDelete, onUpdate }) => {
+  const [links, setLinks] = useState([]);
+
+  useEffect(() => {
+    setLinks(data);
+  }, [data])
 
   return (
-    <div className='max-w-[600px] mx-auto my-16 p-4'>
-      <h1 className='text-2xl font-bold py-4'>Dashboard</h1>
-      <p>User Email: {user && user.email}</p>
-
-      <button onClick={handleLogout} className='border px-6 py-2 my-4'>
-        Logout
-      </button>
-    </div>
+    <>
+      {links.map((data, index) => (
+        <div key={index}>
+          <h3>{data.title}</h3>
+          <p>{data.description}</p>
+          <a href={data.url} target='_blank' rel='noreferrer'>{data.url}</a>
+          <Button size='small' onClick={() => onDelete(data.id)}>Delete</Button>
+          <Button size='small' onClick={() => onUpdate(data)}>Update</Button>
+        </div>
+      ))}
+    </>
   );
 };
 
-export default Dashboard;
+export default LinkList;

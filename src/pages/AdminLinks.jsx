@@ -18,6 +18,9 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
+// Custom Components
+import LinkList from '../components/LinkList';
+
 export default function AdminLinks() {
 
   const [links, setLinks] = useState([])
@@ -84,9 +87,10 @@ export default function AdminLinks() {
         description: description,
         url: url
       });
+
       getLinks();
       handleCloseAdd();
-      console.log("Document written with ID: ", docRef.id);
+
     } catch (e) {
       console.error("Error adding document: ", e);
     }
@@ -114,6 +118,8 @@ export default function AdminLinks() {
       });
 
       getLinks();
+      handleCloseUpdate();
+
     } catch (e) {
       console.error("Error adding document: ", e);
     }
@@ -184,20 +190,10 @@ export default function AdminLinks() {
       <Stack>
         <Typography component="h1" variant='h1'>Links</Typography>
         <Button onClick={() => handleOpenAdd()} variant='outlined'>Add</Button>
-
-        <div>
-          {links.map((data, index) => (
-            <div key={index}>
-              <h3>{data.title}</h3>
-              <p>{data.description}</p>
-              <a href={data.url} target='_blank' rel='noreferrer'>{data.url}</a>
-              <Button size='small' onClick={() => handleDelete(data.id)}>Delete</Button>
-              <Button size='small' onClick={() => handleOpenUpdate(data)}>Update</Button>
-            </div>
-          ))}
-        </div>
-
       </Stack>
+
+      <LinkList data={links} onDelete={handleDelete} onUpdate={handleOpenUpdate} />
+
     </Container>
   )
 }
