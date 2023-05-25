@@ -47,7 +47,7 @@ export default function AdminLinks() {
     setLinks(l);
   }
 
-  const handleOpenAdd = () => () => {
+  const handleOpenAdd = () => {
     setOpenAdd(true);
   };
 
@@ -55,7 +55,7 @@ export default function AdminLinks() {
     setOpenAdd(false);
   };
 
-  const handleOpenUpdate = () => () => {
+  const handleOpenUpdate = () => {
     console.log('update')
     setOpenUpdate(true);
   };
@@ -164,7 +164,7 @@ export default function AdminLinks() {
 
       <Stack>
         <Typography component="h1" variant='h1'>Links</Typography>
-        <Button onClick={handleOpenAdd()} variant='outlined'>Add</Button>
+        <Button onClick={() => handleOpenAdd()} variant='outlined'>Add</Button>
 
         <div>
           {links.map((data, index) => (
@@ -174,7 +174,7 @@ export default function AdminLinks() {
               <p>{data.id}</p>
               <a href={data.url} target='_blank' rel='noreferrer'>{data.url}</a>
               <Button size='small' onClick={() => handleDelete(data.id)}>Delete</Button>
-              <Button size='small' onClick={handleOpenUpdate()}>Update</Button>
+              <Button size='small' onClick={() => handleOpenUpdate()}>Update</Button>
             </div>
           ))}
         </div>
