@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { Link, useNavigate } from 'react-router-dom';
-import { doc, getDocs, addDoc, deleteDoc, collection } from 'firebase/firestore';
+import { doc, getDocs, addDoc, updateDoc, deleteDoc, collection } from 'firebase/firestore';
 
 import { db } from "../firebase";
 
@@ -22,9 +22,15 @@ import DialogTitle from '@mui/material/DialogTitle';
 export default function AdminLinks() {
 
   const [links, setLinks] = useState([])
+
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [url, setURL] = useState('');
+
+  const [updateTitle, setUpdateTitle] = useState('');
+  const [updateDescription, setUpdateDescription] = useState('');
+  const [updateUrl, setUpdateURL] = useState('');
+  const [updateId, setUpdateId] = useState('');
 
   const [openAdd, setOpenAdd] = useState(false);
   const [openUpdate, setOpenUpdate] = useState(false);
@@ -55,8 +61,11 @@ export default function AdminLinks() {
     setOpenAdd(false);
   };
 
-  const handleOpenUpdate = () => {
-    console.log('update')
+  const handleOpenUpdate = (data) => {
+    setUpdateTitle(data.title);
+    setUpdateDescription(data.description);
+    setUpdateURL(data.url);
+    setUpdateId(data.id);
     setOpenUpdate(true);
   };
 
@@ -91,18 +100,18 @@ export default function AdminLinks() {
     }
   };
 
-  const handleUpdate = async (id) => {
-    e.preventDefault();
-    setError('')
+  const handleUpdate = async () => {
+    console.log('update', updateId);
     try {
-      const docRef = await addDoc(collection(db, "links"), {
-        title: title,
-        description: description,
-        url: url
+      const l = doc(db, "links", updateId);
+
+      await updateDoc(l, {
+        title: updateTitle,
+        description: updateDescription,
+        url: updateUrl
       });
+
       getLinks();
-      handleCloseAdd();
-      console.log("Document written with ID: ", docRef.id);
     } catch (e) {
       console.error("Error adding document: ", e);
     }
@@ -144,21 +153,21 @@ export default function AdminLinks() {
         aria-labelledby="update-dialog-title">
         <DialogTitle id="update-dialog-title">Update</DialogTitle>
         <DialogContent dividers={scroll === 'paper'}>
-        <Stack spacing={2}>
+          <Stack spacing={2}>
             <div>
-              <TextField label="Title" onChange={(e) => setTitle(e.target.value)} type='text' />
+              <TextField label="Title" value={updateTitle} onChange={(e) => setUpdateTitle(e.target.value)} type='text' />
             </div>
             <div>
-              <TextField label="URL" onChange={(e) => setURL(e.target.value)} type='url' />
+              <TextField label="URL" value={updateUrl} onChange={(e) => setUpdateURL(e.target.value)} type='url' />
             </div>
             <div>
-              <TextField multiline rows={8} label="Description" onChange={(e) => setDescription(e.target.value)}  />
+              <TextField multiline rows={8} value={updateDescription} label="Description" onChange={(e) => setUpdateDescription(e.target.value)}  />
             </div>
           </Stack>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseUpdate} variant='outlined'>Cancel</Button>
-          <Button onClick={handleUpdate} variant='outlined' type="submit">Update</Button>
+          <Button onClick={handleCloseUpdate} variant='outlined'>Close</Button>
+          <Button onClick={handleUpdate} variant='outlined' type="submit">Save</Button>
         </DialogActions>
       </Dialog>
 
@@ -174,7 +183,7 @@ export default function AdminLinks() {
               <p>{data.id}</p>
               <a href={data.url} target='_blank' rel='noreferrer'>{data.url}</a>
               <Button size='small' onClick={() => handleDelete(data.id)}>Delete</Button>
-              <Button size='small' onClick={() => handleOpenUpdate()}>Update</Button>
+              <Button size='small' onClick={() => handleOpenUpdate(data)}>Update</Button>
             </div>
           ))}
         </div>
