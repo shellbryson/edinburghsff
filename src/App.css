@@ -29,6 +29,13 @@ body {
   height: auto;
 }
 
+.sff-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 0.5rem;
+  margin: 2rem;
+}
+
 a {
   color: red;
 }

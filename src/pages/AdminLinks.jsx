@@ -187,10 +187,10 @@ export default function AdminLinks() {
         </DialogActions>
       </Dialog>
 
-      <Stack>
+      <Container maxWidth="md">
         <Typography component="h1" variant='h1'>Links</Typography>
         <Button onClick={() => handleOpenAdd()} variant='outlined'>Add</Button>
-      </Stack>
+      </Container>
 
       <LinkList data={links} onDelete={handleDelete} onUpdate={handleOpenUpdate} />
 
