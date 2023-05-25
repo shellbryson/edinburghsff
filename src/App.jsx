@@ -1,6 +1,9 @@
 import React from 'react';
 import { Routes, Route, } from "react-router-dom";
 
+import { ThemeProvider } from '@mui/material/styles';
+import { customTheme } from './theme/theme'
+
 // Layouts
 import PageLayout from './layouts/PageLayout';
 import AdminLayout from './layouts/AdminLayout';
@@ -8,23 +11,24 @@ import AdminLayout from './layouts/AdminLayout';
 // Regular Pages
 import Welcome from './pages/Welcome';
 import NotFound from './pages/NotFound';
+import Signin from './pages/Signin';
 
 // Admin Pages
-import Signin from './pages/Signin';
 import Dashboard from './pages/Dashboard';
 import AdminLinks from './pages/AdminLinks';
+import AdminEvents from './pages/AdminEvents';
 
 import './App.css';
 
 function App() {
 
   return (
-    <div className="sff">
+    <ThemeProvider theme={customTheme}>
       <Routes>
-
         <Route path="/dashboard" element={<AdminLayout />}>
           <Route index element={<Dashboard />} />
-          <Route path='addlink' element={<AdminLinks />} />
+          <Route path='links' element={<AdminLinks />} />
+          <Route path='events' element={<AdminEvents />} />
         </Route>
 
         <Route path="/" element={<PageLayout />}>
@@ -32,9 +36,8 @@ function App() {
           <Route path="signin" element={<Signin />} />
           <Route path="*" element={<NotFound />} />
         </Route>
-
       </Routes>
-    </div>
+    </ThemeProvider>
   )
 }
 

@@ -2,6 +2,10 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserAuth } from '../context/AuthContext';
 
+// MUI Components
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+
 const Dashboard = () => {
   const { user, logout } = UserAuth();
   const navigate = useNavigate();
@@ -17,14 +21,14 @@ const Dashboard = () => {
   };
 
   return (
-    <div className='max-w-[600px] mx-auto my-16 p-4'>
-      <h1 className='text-2xl font-bold py-4'>Dashboard</h1>
-      <p>User Email: {user && user.email}</p>
+    <>
+      <Typography component="h1" variant='h1'>Dashboard</Typography>
+      <Typography component="p" variant='p' sx={{mb: 2}}>User Email: {user && user.email}</Typography>
 
-      <button onClick={handleLogout} className='border px-6 py-2 my-4'>
+      <Button variant='outlined' onClick={handleLogout}>
         Logout
-      </button>
-    </div>
+      </Button>
+    </>
   );
 };
 

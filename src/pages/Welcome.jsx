@@ -1,51 +1,74 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 
-
+// Helpers
 import { UserAuth } from '../context/AuthContext';
 
+// Custom Components
 import MastheadImage from '../assets/masthead.png';
+
+// MUI Components
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
+import Paper from '@mui/material/Paper';
+
+const styles = {
+  paper: {
+    maxWidth: 500,
+    margin: '0 auto',
+    paddingTop: "3rem",
+    paddingRight: "2rem",
+    paddingBottom: "3rem",
+    paddingLeft: "2rem",
+    marginBottom: '2rem',
+    backgroundColor: 'primary.main'
+  },
+};
 
 export default function Welcome() {
 
   const { user } = UserAuth();
 
   return (
-    <div className="sff">
+    <Container disableGutters>
 
-      <div className="sff-masthead">
-        <img src={MastheadImage} alt="Edinburgh SFF banner image containing a space scene and mysterious forest" />
-      </div>
+      <Box sx={{ mb: "2rem" }}>
+        <img src={MastheadImage} className="sff-masthead-img" alt="Edinburgh SFF banner image containing a space scene and mysterious forest" />
+      </Box>
 
-      <header className="sff-header">
-        <h1>Edinburgh SFF</h1>
-        <h2>The Science Fiction &amp; Fantasy Writing community</h2>
-        <h3>New writers, Critique and Events.</h3>
-      </header>
+      <Container maxWidth="md">
 
-      <div className="sff-content">
-        <p>For the latest information and events, find us on Mastodon <a rel="me" href="https://writing.exchange/@EdinburghSFF">@EdinburghSFF@writing.exchange</a>, Twitter <a href="https://twitter.com/edinburghsff">@edinburghsff</a> or drop into our <a href="https://discord.gg/5EaXDTwrEY">Discord</a> for a chat.</p>
-      </div>
+        <Box sx={{ mb: "2rem" }}>
+          <Typography component="h1" variant='h1'>Edinburgh SFF</Typography>
+          <Typography component="p" variant='h2'>The Science Fiction &amp; Fantasy Writing community</Typography>
+          <Typography component="p">New writers, Critique and Events.</Typography>
+        </Box>
 
-      <div className="sff-community">
-        <h2>Join our community</h2>
-        <p>A friendly community for writers of all levels, whether just starting out or published.</p>
-        <p><a href="https://discord.gg/5EaXDTwrEY">Discord</a></p>
-        <p><a rel="me" href="https://writing.exchange/@EdinburghSFF">Mastodon</a></p>
-      </div>
+        <Box sx={{ mb: "2rem" }}>
+          <Typography component="p">For the latest information and events, find us on Mastodon <a rel="me" href="https://writing.exchange/@EdinburghSFF">@EdinburghSFF@writing.exchange</a>, Twitter <a href="https://twitter.com/edinburghsff">@edinburghsff</a> or drop into our <a href="https://discord.gg/5EaXDTwrEY">Discord</a> for a chat.</Typography>
+        </Box>
 
-      {user && (
-        <div className="sff-content">
-          <p><Link to="/dashboard">Dashboard</Link></p>
-        </div>
-      )}
+        <Paper elevation={3} style={styles.paper}>
+          <Typography component="p" variant='h2'>Join our community</Typography>
+          <Typography component="p">A friendly community for writers of all levels, whether just starting out or published.</Typography>
+          <Typography component="p"><a href="https://discord.gg/5EaXDTwrEY">Discord</a></Typography>
+          <Typography component="p"><a rel="me" href="https://writing.exchange/@EdinburghSFF">Mastodon</a></Typography>
+        </Paper>
 
-      {!user && (
-        <div className="sff-content">
-          <p><Link to="/signin">Sign In</Link></p>
-        </div>
-      )}
+        {user && (
+          <Box sx={{ mb: "2rem" }}>
+            <Typography component="p"><Link to="/dashboard">Dashboard</Link></Typography>
+          </Box>
+        )}
 
-    </div>
+        {!user && (
+          <Box sx={{ mb: "2rem" }}>
+            <Typography component="p"><Link to="/signin">Sign In</Link></Typography>
+          </Box>
+        )}
+      </Container>
+
+    </Container>
   )
 }

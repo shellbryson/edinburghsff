@@ -1,15 +1,21 @@
 #root {
   margin: 0 auto;
   text-align: center;
+
+  --font-body: 'Fira Code', monospace;
+  --font-body-weight: 400;
+  --font-body-bold-weight: 500;
+
+  --font-heading: 'Fira Code', monospace;
+
+  --color-body: #003B4A;
+  --color-body-faded: #c5d3d6;
 }
 
 body {
-  display: flex;
   min-width: 320px;
   min-height: 100vh;
-
-  font-family: 'Fira Code', monospace;
-  /* padding: 16px; */
+  font-family: var(--font-body);
   margin: 0;
   background-color: #fff;
 }
@@ -18,32 +24,9 @@ body {
   margin: 0 auto;
 }
 
-.sff-masthead img {
+.sff-masthead-img {
   width: 100%;
   height: auto;
-}
-
-.sff-header {
-  max-width: 500px;
-  margin: 2rem auto;
-  padding: 0 1rem;
-}
-
-.sff-content {
-  max-width: 800px;
-  margin: 2rem auto;
-  padding: 0 1rem;
-}
-
-.sff-community {
-  background-color: rgba(0,0,0, 0.1);
-  max-width: 500px;
-  margin: 2rem auto;
-  padding: 1rem;
-}
-
-.sff-community h2 {
-  text-align: center;
 }
 
 a {

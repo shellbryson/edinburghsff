@@ -12,7 +12,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 
-export default function Signin() {
+export default function AdminEvents() {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -25,7 +25,7 @@ export default function Signin() {
     setError('')
     try {
       await signIn(email, password)
-      navigate('/dashboard')
+      navigate('/admin')
     } catch (e) {
       setError(e.message)
       console.log(e.message)
@@ -33,20 +33,28 @@ export default function Signin() {
   };
 
   return (
-    <div>
+    <div className='max-w-[700px] mx-auto my-16 p-4'>
       <div>
-        <Typography component="h1" variant='h1'>Sign in</Typography>
+        <h1 className='text-2xl font-bold py-2'>Sign in to your account</h1>
+        <p className='py-2'>
+          Don't have an account yet?{' '}
+          <Link to='/signup' className='underline'>
+            Sign up.
+          </Link>
+        </p>
       </div>
       <form onSubmit={handleSubmit}>
-        <div>
-          <TextField label="Email Address" onChange={(e) => setEmail(e.target.value)} type='email' />
+        <div className='flex flex-col py-2'>
+          <label className='py-2 font-medium'>Email Address</label>
+          <input onChange={(e) => setEmail(e.target.value)} className='border p-3' type='email' />
         </div>
-        <div>
-          <TextField label="password" onChange={(e) => setPassword(e.target.value)} type='password' />
+        <div className='flex flex-col py-2'>
+          <label className='py-2 font-medium'>Password</label>
+          <input onChange={(e) => setPassword(e.target.value)} className='border p-3' type='password' />
         </div>
-        <Button variant='outlined' type="submit">
+        <button className='border border-blue-500 bg-blue-600 hover:bg-blue-500 w-full p-4 my-2 text-white'>
           Sign In
-        </Button>
+        </button>
       </form>
     </div>
   )

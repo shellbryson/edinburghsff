@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { UserAuth } from '../context/AuthContext';
+import React, { useEffect, useState } from 'react';
 
+import { Link, useNavigate } from 'react-router-dom';
+import { doc, getDocs, addDoc, deleteDoc, collection } from 'firebase/firestore';
+
+import { db } from "../firebase";
 
 // MUI
 import Paper from '@mui/material/Paper';
@@ -12,50 +14,173 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 
-export default function Signin() {
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+export default function AdminLinks() {
+
+  const [links, setLinks] = useState([])
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [url, setURL] = useState('');
+
+  const [openAdd, setOpenAdd] = useState(false);
+  const [openUpdate, setOpenUpdate] = useState(false);
+
   const [error, setError] = useState('');
-  const navigate = useNavigate();
-  const { signIn } = UserAuth();
 
-  const handleSubmit = async (e) => {
+  useEffect(() => {
+    getLinks()
+  }, [])
+
+  const getLinks = async () => {
+    const querySnapshot = await getDocs(collection(db, "links"));
+    const l = [];
+    querySnapshot.forEach((doc) => {
+      l.push({
+        ...doc.data(),
+        id: doc.id
+      });
+    });
+    setLinks(l);
+  }
+
+  const handleOpenAdd = () => () => {
+    setOpenAdd(true);
+  };
+
+  const handleCloseAdd = () => {
+    setOpenAdd(false);
+  };
+
+  const handleOpenUpdate = () => () => {
+    console.log('update')
+    setOpenUpdate(true);
+  };
+
+  const handleCloseUpdate = () => {
+    setOpenUpdate(false);
+  };
+
+  const handleAdd = async (e) => {
     e.preventDefault();
     setError('')
     try {
-      await signIn(email, password)
-      navigate('/admin')
+      const docRef = await addDoc(collection(db, "links"), {
+        title: title,
+        description: description,
+        url: url
+      });
+      getLinks();
+      handleCloseAdd();
+      console.log("Document written with ID: ", docRef.id);
     } catch (e) {
-      setError(e.message)
-      console.log(e.message)
+      console.error("Error adding document: ", e);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    console.log('delete', id);
+    try {
+      await deleteDoc(doc(db, "links", id));
+      getLinks();
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  };
+
+  const handleUpdate = async (id) => {
+    e.preventDefault();
+    setError('')
+    try {
+      const docRef = await addDoc(collection(db, "links"), {
+        title: title,
+        description: description,
+        url: url
+      });
+      getLinks();
+      handleCloseAdd();
+      console.log("Document written with ID: ", docRef.id);
+    } catch (e) {
+      console.error("Error adding document: ", e);
     }
   };
 
   return (
-    <div className='max-w-[700px] mx-auto my-16 p-4'>
-      <div>
-        <h1 className='text-2xl font-bold py-2'>Sign in to your account</h1>
-        <p className='py-2'>
-          Don't have an account yet?{' '}
-          <Link to='/signup' className='underline'>
-            Sign up.
-          </Link>
-        </p>
-      </div>
-      <form onSubmit={handleSubmit}>
-        <div className='flex flex-col py-2'>
-          <label className='py-2 font-medium'>Email Address</label>
-          <input onChange={(e) => setEmail(e.target.value)} className='border p-3' type='email' />
+    <Container>
+      <Dialog
+        open={openAdd}
+        onClose={handleCloseAdd}
+        scroll="paper"
+        aria-labelledby="add-dialog-title">
+        <DialogTitle id="add-dialog-title">
+          <Typography variant="h2" component="span">Add</Typography>
+        </DialogTitle>
+        <DialogContent dividers={scroll === 'paper'}>
+          <Stack spacing={2}>
+            <div>
+              <TextField label="Title" onChange={(e) => setTitle(e.target.value)} type='text' />
+            </div>
+            <div>
+              <TextField label="URL" onChange={(e) => setURL(e.target.value)} type='url' />
+            </div>
+            <div>
+              <TextField multiline rows={8} label="Description" onChange={(e) => setDescription(e.target.value)}  />
+            </div>
+          </Stack>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseAdd} variant='outlined' >Cancel</Button>
+          <Button onClick={handleAdd} variant='outlined' type="submit">Add</Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog
+        open={openUpdate}
+        onClose={handleCloseUpdate}
+        scroll="paper"
+        aria-labelledby="update-dialog-title">
+        <DialogTitle id="update-dialog-title">Update</DialogTitle>
+        <DialogContent dividers={scroll === 'paper'}>
+        <Stack spacing={2}>
+            <div>
+              <TextField label="Title" onChange={(e) => setTitle(e.target.value)} type='text' />
+            </div>
+            <div>
+              <TextField label="URL" onChange={(e) => setURL(e.target.value)} type='url' />
+            </div>
+            <div>
+              <TextField multiline rows={8} label="Description" onChange={(e) => setDescription(e.target.value)}  />
+            </div>
+          </Stack>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseUpdate} variant='outlined'>Cancel</Button>
+          <Button onClick={handleUpdate} variant='outlined' type="submit">Update</Button>
+        </DialogActions>
+      </Dialog>
+
+      <Stack>
+        <Typography component="h1" variant='h1'>Links</Typography>
+        <Button onClick={handleOpenAdd()} variant='outlined'>Add</Button>
+
+        <div>
+          {links.map((data, index) => (
+            <div key={index}>
+              <h3>{data.title}</h3>
+              <p>{data.description}</p>
+              <p>{data.id}</p>
+              <a href={data.url} target='_blank' rel='noreferrer'>{data.url}</a>
+              <Button size='small' onClick={() => handleDelete(data.id)}>Delete</Button>
+              <Button size='small' onClick={handleOpenUpdate()}>Update</Button>
+            </div>
+          ))}
         </div>
-        <div className='flex flex-col py-2'>
-          <label className='py-2 font-medium'>Password</label>
-          <input onChange={(e) => setPassword(e.target.value)} className='border p-3' type='password' />
-        </div>
-        <button className='border border-blue-500 bg-blue-600 hover:bg-blue-500 w-full p-4 my-2 text-white'>
-          Sign In
-        </button>
-      </form>
-    </div>
+
+      </Stack>
+    </Container>
   )
 }
+
