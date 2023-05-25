@@ -2,7 +2,7 @@ import React from 'react';
 import { Routes, Route, } from "react-router-dom";
 
 import { ThemeProvider } from '@mui/material/styles';
-import { customTheme } from './theme/theme'
+import { customTheme } from './theme/theme';
 
 // Layouts
 import PageLayout from './layouts/PageLayout';
@@ -21,7 +21,6 @@ import AdminEvents from './pages/AdminEvents';
 import './App.css';
 
 function App() {
-
   return (
     <ThemeProvider theme={customTheme}>
       <Routes>

@@ -15,7 +15,7 @@
 body {
   min-width: 320px;
   min-height: 100vh;
-  font-family: var(--font-body);
+  font-family: 'Fira Code', monospace;
   margin: 0;
   background-color: #fff;
 }

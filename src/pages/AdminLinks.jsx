@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from 'react';
 
-import { Link, useNavigate } from 'react-router-dom';
 import { doc, getDocs, addDoc, updateDoc, deleteDoc, collection } from 'firebase/firestore';
-
 import { db } from "../firebase";
 
 // MUI
-import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
-import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 
@@ -18,6 +14,9 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
+
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 export default function AdminLinks() {
 
@@ -36,6 +35,9 @@ export default function AdminLinks() {
   const [openUpdate, setOpenUpdate] = useState(false);
 
   const [error, setError] = useState('');
+
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
   useEffect(() => {
     getLinks()
@@ -120,6 +122,9 @@ export default function AdminLinks() {
   return (
     <Container>
       <Dialog
+        fullWidth
+        maxWidth="sm"
+        fullScreen={fullScreen}
         open={openAdd}
         onClose={handleCloseAdd}
         scroll="paper"
@@ -127,47 +132,52 @@ export default function AdminLinks() {
         <DialogTitle id="add-dialog-title">
           <Typography variant="h2" component="span">Add</Typography>
         </DialogTitle>
-        <DialogContent dividers={scroll === 'paper'}>
-          <Stack spacing={2}>
+        <DialogContent>
+          <Stack spacing={2} sx={{ mt: 2}}>
             <div>
-              <TextField label="Title" onChange={(e) => setTitle(e.target.value)} type='text' />
+              <TextField sx={{ width: '100%' }} label="Title" onChange={(e) => setTitle(e.target.value)} type='text' />
             </div>
             <div>
-              <TextField label="URL" onChange={(e) => setURL(e.target.value)} type='url' />
+              <TextField sx={{ width: '100%' }} label="URL" onChange={(e) => setURL(e.target.value)} type='url' />
             </div>
             <div>
-              <TextField multiline rows={8} label="Description" onChange={(e) => setDescription(e.target.value)}  />
+              <TextField sx={{ width: '100%' }} multiline rows={8} label="Description" onChange={(e) => setDescription(e.target.value)}  />
             </div>
           </Stack>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseAdd} variant='outlined' >Cancel</Button>
-          <Button onClick={handleAdd} variant='outlined' type="submit">Add</Button>
+          <Button onClick={handleCloseAdd} variant='outlined'>Cancel</Button>
+          <Button onClick={handleAdd} variant='contained' type="submit">Add</Button>
         </DialogActions>
       </Dialog>
 
       <Dialog
+        fullWidth
+        maxWidth="sm"
+        fullScreen={fullScreen}
         open={openUpdate}
         onClose={handleCloseUpdate}
         scroll="paper"
         aria-labelledby="update-dialog-title">
-        <DialogTitle id="update-dialog-title">Update</DialogTitle>
-        <DialogContent dividers={scroll === 'paper'}>
-          <Stack spacing={2}>
+        <DialogTitle id="update-dialog-title">
+          <Typography variant="h2" component="span">Update</Typography>
+        </DialogTitle>
+        <DialogContent>
+          <Stack spacing={2} sx={{ mt: 2}}>
             <div>
-              <TextField label="Title" value={updateTitle} onChange={(e) => setUpdateTitle(e.target.value)} type='text' />
+              <TextField sx={{ width: '100%' }} label="Title" value={updateTitle} onChange={(e) => setUpdateTitle(e.target.value)} type='text' />
             </div>
             <div>
-              <TextField label="URL" value={updateUrl} onChange={(e) => setUpdateURL(e.target.value)} type='url' />
+              <TextField sx={{ width: '100%' }} label="URL" value={updateUrl} onChange={(e) => setUpdateURL(e.target.value)} type='url' />
             </div>
             <div>
-              <TextField multiline rows={8} value={updateDescription} label="Description" onChange={(e) => setUpdateDescription(e.target.value)}  />
+              <TextField sx={{ width: '100%' }} multiline rows={8} value={updateDescription} label="Description" onChange={(e) => setUpdateDescription(e.target.value)}  />
             </div>
           </Stack>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseUpdate} variant='outlined'>Close</Button>
-          <Button onClick={handleUpdate} variant='outlined' type="submit">Save</Button>
+          <Button onClick={handleUpdate} variant='contained' type="submit">Save</Button>
         </DialogActions>
       </Dialog>
 
@@ -180,7 +190,6 @@ export default function AdminLinks() {
             <div key={index}>
               <h3>{data.title}</h3>
               <p>{data.description}</p>
-              <p>{data.id}</p>
               <a href={data.url} target='_blank' rel='noreferrer'>{data.url}</a>
               <Button size='small' onClick={() => handleDelete(data.id)}>Delete</Button>
               <Button size='small' onClick={() => handleOpenUpdate(data)}>Update</Button>
