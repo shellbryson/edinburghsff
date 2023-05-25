@@ -18,7 +18,7 @@ const LinkList = ({ data, onDelete, onUpdate }) => {
   return (
     <div className="sff-grid">
       {links.map((data, index) => (
-        <Card variant="outlined">
+        <Card variant="outlined" key={index}>
           <CardContent>
             <Stack spacing={2}>
               <Typography gutterBottom>
