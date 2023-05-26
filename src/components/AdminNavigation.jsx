@@ -12,9 +12,6 @@ const AdminNavigation = () => {
     <Box sx={{ mb: "0.5rem", mt: "0.5rem" }}>
       <List component={Stack} direction="row" justifyContent="center" gap={1}>
         <Typography component="p">
-          <Link to="/dashboard">Dashboard</Link>
-        </Typography>
-        <Typography component="p">
           <Link to="/dashboard/links">Links</Link>
         </Typography>
         <Typography component="p">

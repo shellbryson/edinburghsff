@@ -10,6 +10,7 @@ import AdminLayout from './layouts/AdminLayout';
 
 // Regular Pages
 import Welcome from './pages/Welcome';
+import Links from './pages/Links';
 import NotFound from './pages/NotFound';
 import Signin from './pages/Signin';
 
@@ -33,6 +34,7 @@ function App() {
         <Route path="/" element={<PageLayout />}>
           <Route index element={<Welcome />} />
           <Route path="signin" element={<Signin />} />
+          <Route path="links" element={<Links />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

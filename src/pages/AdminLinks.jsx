@@ -311,7 +311,7 @@ export default function AdminLinks() {
         <Button onClick={() => handleOpenAdd()} variant='outlined'>Add</Button>
       </Container>
 
-      <LinkList data={links} onDelete={handleDelete} onUpdate={handleOpenUpdate} />
+      <LinkList enableAdminActions={true} data={links} onDelete={handleDelete} onUpdate={handleOpenUpdate} />
 
     </Container>
   )
