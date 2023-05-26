@@ -3,12 +3,19 @@ import React, { useEffect, useState } from 'react';
 import { doc, getDocs, addDoc, updateDoc, deleteDoc, collection } from 'firebase/firestore';
 import { db } from "../firebase";
 
+import { useAuth } from '../context/AuthContext';
+
 // MUI
+import Alert from '@mui/material/Alert';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
+
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
 
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -23,15 +30,19 @@ import LinkList from '../components/LinkList';
 
 export default function AdminLinks() {
 
+  const { user } = useAuth();
+
   const [links, setLinks] = useState([])
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [url, setURL] = useState('');
+  const [show, setShow] = useState(true);
 
   const [updateTitle, setUpdateTitle] = useState('');
   const [updateDescription, setUpdateDescription] = useState('');
   const [updateUrl, setUpdateURL] = useState('');
+  const [updateShow, setUpdateShow] = useState(true);
   const [updateId, setUpdateId] = useState('');
 
   const [openAdd, setOpenAdd] = useState(false);
@@ -43,7 +54,8 @@ export default function AdminLinks() {
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
   useEffect(() => {
-    getLinks()
+    getLinks();
+    console.log("currentUser", user);
   }, [])
 
   const getLinks = async () => {
@@ -70,8 +82,11 @@ export default function AdminLinks() {
     setUpdateTitle(data.title);
     setUpdateDescription(data.description);
     setUpdateURL(data.url);
+    setUpdateShow(data.show);
     setUpdateId(data.id);
     setOpenUpdate(true);
+
+    console.log("currentUser", user)
   };
 
   const handleCloseUpdate = () => {
@@ -79,13 +94,29 @@ export default function AdminLinks() {
   };
 
   const handleAdd = async (e) => {
-    e.preventDefault();
-    setError('')
+    setError('');
+
+    if (!title || !description || !url) {
+      setError('Please fill out all fields');
+      return;
+    }
+
     try {
       const docRef = await addDoc(collection(db, "links"), {
         title: title,
         description: description,
-        url: url
+        url: url,
+        show: show,
+        created: {
+          email: user.email,
+          uid: user.uid,
+          timestamp: new Date()
+        },
+        updated: {
+          email: user.email,
+          uid: user.uid,
+          timestamp: new Date()
+        }
       });
 
       getLinks();
@@ -97,7 +128,6 @@ export default function AdminLinks() {
   };
 
   const handleDelete = async (id) => {
-    console.log('delete', id);
     try {
       await deleteDoc(doc(db, "links", id));
       getLinks();
@@ -107,14 +137,25 @@ export default function AdminLinks() {
   };
 
   const handleUpdate = async () => {
-    console.log('update', updateId);
+    setError('');
+
+    if (!updateTitle || !updateDescription || !updateUrl) {
+      setError('Please fill out all fields');
+      return;
+    }
+
     try {
       const l = doc(db, "links", updateId);
 
       await updateDoc(l, {
         title: updateTitle,
         description: updateDescription,
-        url: updateUrl
+        show: updateShow,
+        updated: {
+          email: user.email,
+          uid: user.uid,
+          timestamp: new Date()
+        }
       });
 
       getLinks();
@@ -136,24 +177,22 @@ export default function AdminLinks() {
         scroll="paper"
         aria-labelledby="add-dialog-title">
         <DialogTitle id="add-dialog-title">
-          <Typography variant="h2" component="span">Add</Typography>
+          <Typography variant="h2" component="span">Add New Link</Typography>
         </DialogTitle>
         <DialogContent>
           <Stack spacing={2} sx={{ mt: 2}}>
-            <div>
-              <TextField sx={{ width: '100%' }} label="Title" onChange={(e) => setTitle(e.target.value)} type='text' />
-            </div>
-            <div>
-              <TextField sx={{ width: '100%' }} label="URL" onChange={(e) => setURL(e.target.value)} type='url' />
-            </div>
-            <div>
-              <TextField sx={{ width: '100%' }} multiline rows={8} label="Description" onChange={(e) => setDescription(e.target.value)}  />
-            </div>
+            <TextField sx={{ width: '100%' }} required label="Title" onChange={(e) => setTitle(e.target.value)} type='text' />
+            <TextField sx={{ width: '100%' }} required label="URL" onChange={(e) => setURL(e.target.value)} type='url' />
+            <TextField sx={{ width: '100%' }} required multiline rows={8} label="Description" onChange={(e) => setDescription(e.target.value)}  />
+            <FormGroup>
+              <FormControlLabel onChange={(e) => setShow(e.target.checked)} control={<Checkbox checked />} label="Display on site" />
+            </FormGroup>
+            { error && <Alert severity="warning">{error}</Alert> }
           </Stack>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseAdd} variant='outlined'>Cancel</Button>
-          <Button onClick={handleAdd} variant='contained' type="submit">Add</Button>
+          <Button onClick={handleAdd} variant='contained'>Add Link</Button>
         </DialogActions>
       </Dialog>
 
@@ -166,24 +205,22 @@ export default function AdminLinks() {
         scroll="paper"
         aria-labelledby="update-dialog-title">
         <DialogTitle id="update-dialog-title">
-          <Typography variant="h2" component="span">Update</Typography>
+          <Typography variant="h2" component="span">Update Link</Typography>
         </DialogTitle>
         <DialogContent>
           <Stack spacing={2} sx={{ mt: 2}}>
-            <div>
-              <TextField sx={{ width: '100%' }} label="Title" value={updateTitle} onChange={(e) => setUpdateTitle(e.target.value)} type='text' />
-            </div>
-            <div>
-              <TextField sx={{ width: '100%' }} label="URL" value={updateUrl} onChange={(e) => setUpdateURL(e.target.value)} type='url' />
-            </div>
-            <div>
-              <TextField sx={{ width: '100%' }} multiline rows={8} value={updateDescription} label="Description" onChange={(e) => setUpdateDescription(e.target.value)}  />
-            </div>
+            <TextField sx={{ width: '100%' }} required label="Title" value={updateTitle} onChange={(e) => setUpdateTitle(e.target.value)} type='text' />
+            <TextField sx={{ width: '100%' }} required label="URL" value={updateUrl} onChange={(e) => setUpdateURL(e.target.value)} type='url' />
+            <TextField sx={{ width: '100%' }} required multiline rows={8} value={updateDescription} label="Description" onChange={(e) => setUpdateDescription(e.target.value)}  />
+            <FormGroup>
+              <FormControlLabel onChange={(e) => setUpdateShow(e.target.checked)} control={<Checkbox />} checked={updateShow} label="Display on site" />
+            </FormGroup>
+            { error && <Alert severity="warning">{error}</Alert> }
           </Stack>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseUpdate} variant='outlined'>Close</Button>
-          <Button onClick={handleUpdate} variant='contained' type="submit">Save</Button>
+          <Button onClick={handleCloseUpdate} variant='outlined'>Cancel</Button>
+          <Button onClick={handleUpdate} variant='contained'>Save Link</Button>
         </DialogActions>
       </Dialog>
 

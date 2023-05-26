@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from "react-router-dom";
 
 // Helpers
-import { UserAuth } from '../context/AuthContext';
+import { useAuth } from '../context/AuthContext';
 
 // Custom Components
 import MastheadImage from '../assets/masthead.png';
@@ -28,7 +28,7 @@ const styles = {
 
 export default function Welcome() {
 
-  const { user } = UserAuth();
+  const { user } = useAuth();
 
   return (
     <Container disableGutters>

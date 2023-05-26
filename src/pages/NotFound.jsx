@@ -1,12 +1,12 @@
 import React from 'react';
 
-import { UserAuth } from '../context/AuthContext';
+import { useAuth } from '../context/AuthContext';
 
 import MastheadImage from '../assets/masthead.png';
 
 export default function NotFound() {
 
-  const { user } = UserAuth();
+  const { user } = useAuth();
 
   return (
     <div className="sff">

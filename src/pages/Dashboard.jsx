@@ -1,13 +1,13 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { UserAuth } from '../context/AuthContext';
+import { useAuth } from '../context/AuthContext';
 
 // MUI Components
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 
 const Dashboard = () => {
-  const { user, logout } = UserAuth();
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = async () => {

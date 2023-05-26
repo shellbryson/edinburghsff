@@ -7,7 +7,7 @@ import {
 
 import { auth } from '../firebase';
 
-const UserContext = createContext();
+const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
 
@@ -23,7 +23,7 @@ export const AuthContextProvider = ({ children }) => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      console.log(currentUser);
+      console.log("SFF: currentUser", currentUser);
       setUser(currentUser);
     });
     return () => {
@@ -32,12 +32,10 @@ export const AuthContextProvider = ({ children }) => {
   }, []);
 
   return (
-    <UserContext.Provider value={{ user, logout, signIn }}>
+    <AuthContext.Provider value={{ user, logout, signIn }}>
       {children}
-    </UserContext.Provider>
+    </AuthContext.Provider>
   );
 };
 
-export const UserAuth = () => {
-  return useContext(UserContext);
-};
+export const useAuth = () => useContext(AuthContext);
