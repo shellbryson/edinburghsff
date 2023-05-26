@@ -17,6 +17,7 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 import AddPhotoAlternateOutlinedIcon from '@mui/icons-material/AddPhotoAlternateOutlined';
+import LinearProgress from '@mui/material/LinearProgress';
 
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -230,6 +231,10 @@ export default function AdminLinks() {
             <TextField sx={{ width: '100%' }} required label="URL" onChange={(e) => setURL(e.target.value)} type='url' />
             <TextField sx={{ width: '100%' }} required multiline rows={8} label="Description" onChange={(e) => setDescription(e.target.value)}  />
 
+            { progresspercent > 0 && progresspercent < 100 &&
+              <LinearProgress variant="determinate" value={progresspercent} />
+            }
+
             <form onSubmit={handleFileUpload} className='form'>
               <input type='file' accept=".png,.jpg,.svg,.gif" />
               <IconButton type='submit'>
@@ -273,7 +278,11 @@ export default function AdminLinks() {
             <TextField sx={{ width: '100%' }} required label="URL" value={updateUrl} onChange={(e) => setUpdateURL(e.target.value)} type='url' />
             <TextField sx={{ width: '100%' }} required multiline rows={8} value={updateDescription} label="Description" onChange={(e) => setUpdateDescription(e.target.value)}  />
 
-            <form onSubmit={handleFileUpload} className='form'>
+            { progresspercent > 0 && progresspercent < 100 &&
+              <LinearProgress variant="determinate" value={progresspercent} />
+            }
+
+            <form onSubmit={handleFileUpload}>
               <input type='file' accept=".png,.jpg,.svg,.gif" />
               <IconButton type='submit'>
                 <AddPhotoAlternateOutlinedIcon />
