@@ -31,6 +31,7 @@ const LinkList = ({ data, onDelete, onUpdate }) => {
                 <a href={data.url} target='_blank' rel='noreferrer'>{data.url}</a>
               </Typography>
             </Stack>
+            { data.image && <img src={data.image} alt={data.title} /> }
           </CardContent>
           <CardActions>
             <Button size='small' onClick={() => onDelete(data.id)}>Delete</Button>

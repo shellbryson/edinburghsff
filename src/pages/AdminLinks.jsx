@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 
 import { doc, getDocs, addDoc, updateDoc, deleteDoc, collection } from 'firebase/firestore';
-import { db } from "../firebase";
+import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
+import { db, storage } from "../firebase";
 
 import { useAuth } from '../context/AuthContext';
+
+import { v4 as uuid } from 'uuid';
 
 // MUI
 import Alert from '@mui/material/Alert';
@@ -12,6 +15,8 @@ import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
+import IconButton from '@mui/material/IconButton';
+import AddPhotoAlternateOutlinedIcon from '@mui/icons-material/AddPhotoAlternateOutlined';
 
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -53,6 +58,9 @@ export default function AdminLinks() {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
+  const [imgUrl, setImgUrl] = useState(null);
+  const [progresspercent, setProgresspercent] = useState(0);
+
   useEffect(() => {
     getLinks();
     console.log("currentUser", user);
@@ -82,8 +90,10 @@ export default function AdminLinks() {
     setUpdateTitle(data.title);
     setUpdateDescription(data.description);
     setUpdateURL(data.url);
+    setImgUrl(data.image);
     setUpdateShow(data.show);
     setUpdateId(data.id);
+
     setOpenUpdate(true);
 
     console.log("currentUser", user)
@@ -95,11 +105,14 @@ export default function AdminLinks() {
 
   const handleAdd = async (e) => {
     setError('');
+    setImgUrl('');
 
     if (!title || !description || !url) {
       setError('Please fill out all fields');
       return;
     }
+
+    const strippedImageUrl = imgUrl.split('&')[0];
 
     try {
       const docRef = await addDoc(collection(db, "links"), {
@@ -107,6 +120,7 @@ export default function AdminLinks() {
         description: description,
         url: url,
         show: show,
+        image: strippedImageUrl,
         created: {
           email: user.email,
           uid: user.uid,
@@ -138,11 +152,14 @@ export default function AdminLinks() {
 
   const handleUpdate = async () => {
     setError('');
+    setImgUrl('');
 
     if (!updateTitle || !updateDescription || !updateUrl) {
       setError('Please fill out all fields');
       return;
     }
+
+    const strippedImageUrl = imgUrl.split('&')[0];
 
     try {
       const l = doc(db, "links", updateId);
@@ -151,6 +168,7 @@ export default function AdminLinks() {
         title: updateTitle,
         description: updateDescription,
         show: updateShow,
+        image: strippedImageUrl,
         updated: {
           email: user.email,
           uid: user.uid,
@@ -165,6 +183,33 @@ export default function AdminLinks() {
       console.error("Error adding document: ", e);
     }
   };
+
+  const handleFileUpload = (e) => {
+    e.preventDefault()
+    const file = e.target[0]?.files[0]
+
+    if (!file) return;
+
+    const filename = encodeURI(file.name);
+    const storageRef = ref(storage, `links/${uuid()}___${filename}`);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+
+    uploadTask.on("state_changed",
+      (snapshot) => {
+        const progress =
+          Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+        setProgresspercent(progress);
+      },
+      (error) => {
+        alert(error);
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          setImgUrl(downloadURL)
+        });
+      }
+    );
+  }
 
   return (
     <Container>
@@ -184,10 +229,25 @@ export default function AdminLinks() {
             <TextField sx={{ width: '100%' }} required label="Title" onChange={(e) => setTitle(e.target.value)} type='text' />
             <TextField sx={{ width: '100%' }} required label="URL" onChange={(e) => setURL(e.target.value)} type='url' />
             <TextField sx={{ width: '100%' }} required multiline rows={8} label="Description" onChange={(e) => setDescription(e.target.value)}  />
+
+            <form onSubmit={handleFileUpload} className='form'>
+              <input type='file' accept=".png,.jpg,.svg,.gif" />
+              <IconButton type='submit'>
+                <AddPhotoAlternateOutlinedIcon />
+              </IconButton>
+            </form>
+
+            {
+              imgUrl &&
+              <img src={imgUrl} alt='uploaded file' height={200} />
+            }
+
             <FormGroup>
               <FormControlLabel onChange={(e) => setShow(e.target.checked)} control={<Checkbox checked />} label="Display on site" />
             </FormGroup>
+
             { error && <Alert severity="warning">{error}</Alert> }
+
           </Stack>
         </DialogContent>
         <DialogActions>
@@ -212,6 +272,19 @@ export default function AdminLinks() {
             <TextField sx={{ width: '100%' }} required label="Title" value={updateTitle} onChange={(e) => setUpdateTitle(e.target.value)} type='text' />
             <TextField sx={{ width: '100%' }} required label="URL" value={updateUrl} onChange={(e) => setUpdateURL(e.target.value)} type='url' />
             <TextField sx={{ width: '100%' }} required multiline rows={8} value={updateDescription} label="Description" onChange={(e) => setUpdateDescription(e.target.value)}  />
+
+            <form onSubmit={handleFileUpload} className='form'>
+              <input type='file' accept=".png,.jpg,.svg,.gif" />
+              <IconButton type='submit'>
+                <AddPhotoAlternateOutlinedIcon />
+              </IconButton>
+            </form>
+
+            {
+              imgUrl &&
+              <img src={imgUrl} alt='uploaded file' height={200} />
+            }
+
             <FormGroup>
               <FormControlLabel onChange={(e) => setUpdateShow(e.target.checked)} control={<Checkbox />} checked={updateShow} label="Display on site" />
             </FormGroup>
