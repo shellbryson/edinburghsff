@@ -18,7 +18,7 @@ import Dashboard from './pages/Dashboard';
 import AdminLinks from './pages/AdminLinks';
 import AdminEvents from './pages/AdminEvents';
 
-import './App.css';
+import './App.scss';
 
 function App() {
   return (

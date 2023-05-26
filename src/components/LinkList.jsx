@@ -8,6 +8,9 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 
+// Custom UI
+import TileImage from '../components/TileImage';
+
 const LinkList = ({ data, onDelete, onUpdate }) => {
   const [links, setLinks] = useState([]);
 
@@ -31,7 +34,7 @@ const LinkList = ({ data, onDelete, onUpdate }) => {
                 <a href={data.url} target='_blank' rel='noreferrer'>{data.url}</a>
               </Typography>
             </Stack>
-            { data.image && <img src={data.image} alt={data.title} /> }
+            { data.image && <TileImage image={data.image} alt={data.title} /> }
           </CardContent>
           <CardActions>
             <Button size='small' onClick={() => onDelete(data.id)}>Delete</Button>
