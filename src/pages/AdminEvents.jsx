@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { doc, getDocs, addDoc, updateDoc, deleteDoc, collection } from 'firebase/firestore';
+import { doc, getDocs, addDoc, updateDoc, deleteDoc, collection, query, orderBy, limit } from 'firebase/firestore';
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { db, storage } from "../firebase";
 
@@ -38,13 +38,14 @@ import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 // Custom Components
-import LinkList from '../components/LinkList';
+import EventsList from '../components/EventsList';
+import EventsListImage from '../components/EventsListImage';
 
 export default function AdminEvents() {
 
   const { user } = useAuth();
 
-  const [links, setLinks] = useState([])
+  const [events, setEvents] = useState([])
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -78,8 +79,10 @@ export default function AdminEvents() {
     console.log("currentUser", user);
   }, [])
 
+  const q = query(collection(db, "events"), orderBy("eventStart", "desc"));
+
   const getEvents = async () => {
-    const querySnapshot = await getDocs(collection(db, "events"));
+    const querySnapshot = await getDocs(q);
     const l = [];
     querySnapshot.forEach((doc) => {
       l.push({
@@ -87,7 +90,7 @@ export default function AdminEvents() {
         id: doc.id
       });
     });
-    setLinks(l);
+    setEvents(l);
   }
 
   const handleOpenAdd = () => {
@@ -239,7 +242,7 @@ export default function AdminEvents() {
   }
 
   return (
-    <Container>
+    <Container disableGutters maxWidth="md">
       <Dialog
         fullWidth
         maxWidth="sm"
@@ -275,7 +278,7 @@ export default function AdminEvents() {
 
             {
               imgUrl &&
-              <img src={imgUrl} alt='uploaded file' height={200} />
+                <EventsListImage image={imgUrl} alt={title} />
             }
 
             <FormGroup>
@@ -288,7 +291,7 @@ export default function AdminEvents() {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseAdd} variant='outlined'>Cancel</Button>
-          <Button onClick={handleAdd} variant='contained'>Add Link</Button>
+          <Button onClick={handleAdd} variant='contained'>Add Event</Button>
         </DialogActions>
       </Dialog>
 
@@ -327,7 +330,7 @@ export default function AdminEvents() {
 
             {
               imgUrl &&
-              <img src={imgUrl} alt='uploaded file' height={200} />
+                <EventsListImage image={imgUrl} alt={title} />
             }
 
             <FormGroup>
@@ -338,7 +341,7 @@ export default function AdminEvents() {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseUpdate} variant='outlined'>Cancel</Button>
-          <Button onClick={handleUpdate} variant='contained'>Save Link</Button>
+          <Button onClick={handleUpdate} variant='contained'>Save Event</Button>
         </DialogActions>
       </Dialog>
 
@@ -347,7 +350,7 @@ export default function AdminEvents() {
         <Button onClick={() => handleOpenAdd()} variant='outlined'>Add</Button>
       </Container>
 
-      <LinkList enableAdminActions={true} data={links} onDelete={handleDelete} onUpdate={handleOpenUpdate} />
+      <EventsList enableAdminActions={true} data={events} onDelete={handleDelete} onUpdate={handleOpenUpdate} />
 
     </Container>
   )
