@@ -113,7 +113,7 @@ export default function AdminLinks() {
       return;
     }
 
-    const strippedImageUrl = imgUrl.split('&')[0];
+    const strippedImageUrl = imgUrl ? imgUrl.split('&')[0] : '';
 
     try {
       const docRef = await addDoc(collection(db, "links"), {
@@ -160,7 +160,7 @@ export default function AdminLinks() {
       return;
     }
 
-    const strippedImageUrl = imgUrl.split('&')[0];
+    const strippedImageUrl = imgUrl ? imgUrl.split('&')[0] : '';
 
     try {
       const l = doc(db, "links", updateId);
