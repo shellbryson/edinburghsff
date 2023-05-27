@@ -8,6 +8,7 @@ import { useAuth } from '../context/AuthContext';
 
 import { v4 as uuid } from 'uuid';
 import dayjs from 'dayjs';
+import 'dayjs/locale/en-gb';
 
 // MUI
 import Alert from '@mui/material/Alert';
@@ -56,8 +57,8 @@ export default function AdminEvents() {
   const [updateDescription, setUpdateDescription] = useState('');
   const [updateUrl, setUpdateURL] = useState('');
   const [updateShow, setUpdateShow] = useState(true);
-  const [updateEventStart, setUpdateEventStart] = useState('');
-  const [updateEventEnd, setUpdateEventEnd] = useState('');
+  const [updateEventStart, setUpdateEventStart] = useState(dayjs(new Date()));
+  const [updateEventEnd, setUpdateEventEnd] = useState(dayjs(new Date()));
 
   const [updateId, setUpdateId] = useState('');
 
@@ -98,16 +99,24 @@ export default function AdminEvents() {
   };
 
   const handleOpenUpdate = (data) => {
+
+    console.log("selected data", data)
+    console.log("selected data start", data.eventStart.seconds)
+    console.log("selected data end", data.eventEnd.seconds)
+
+    const start = new Date(data.eventStart.seconds * 1000 + data.eventStart.nanoseconds / 1000000);
+    const end = new Date(data.eventEnd.seconds * 1000 + data.eventEnd.nanoseconds / 1000000);
+
     setUpdateTitle(data.title);
     setUpdateDescription(data.description);
     setUpdateURL(data.url);
     setImgUrl(data.image);
     setUpdateShow(data.show);
     setUpdateId(data.id);
+    setUpdateEventStart(dayjs(start));
+    setUpdateEventEnd(dayjs(end));
 
     setOpenUpdate(true);
-
-    console.log("currentUser", user)
   };
 
   const handleCloseUpdate = () => {
@@ -159,7 +168,7 @@ export default function AdminEvents() {
 
   const handleDelete = async (id) => {
     try {
-      await deleteDoc(doc(db, "links", id));
+      await deleteDoc(doc(db, "events", id));
       getEvents();
     } catch (e) {
       console.error("Error adding document: ", e);
@@ -178,15 +187,15 @@ export default function AdminEvents() {
     const strippedImageUrl = imgUrl ? imgUrl.split('&')[0] : '';
 
     try {
-      const l = doc(db, "links", updateId);
+      const l = doc(db, "events", updateId);
 
       await updateDoc(l, {
         title: updateTitle,
         description: updateDescription,
         show: updateShow,
         image: strippedImageUrl,
-        eventStart: eventStart.$d,
-        eventEnd: eventEnd.$d,
+        eventStart: updateEventStart.$d,
+        eventEnd: updateEventEnd.$d,
         updated: {
           email: user.email,
           uid: user.uid,
@@ -248,11 +257,8 @@ export default function AdminEvents() {
             <TextField sx={{ width: '100%' }} required label="URL" onChange={(e) => setURL(e.target.value)} type='url' />
             <TextField sx={{ width: '100%' }} required multiline rows={8} label="Description" onChange={(e) => setDescription(e.target.value)}  />
 
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-gb">
               <DateTimePicker label="Event start" value={eventStart} onChange={(newValue) => setEventStart(newValue)} />
-            </LocalizationProvider>
-
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DateTimePicker label="Event end" value={eventEnd} onChange={(newValue) => setEventEnd(newValue)}/>
             </LocalizationProvider>
 
@@ -302,6 +308,11 @@ export default function AdminEvents() {
             <TextField sx={{ width: '100%' }} required label="Title" value={updateTitle} onChange={(e) => setUpdateTitle(e.target.value)} type='text' />
             <TextField sx={{ width: '100%' }} required label="URL" value={updateUrl} onChange={(e) => setUpdateURL(e.target.value)} type='url' />
             <TextField sx={{ width: '100%' }} required multiline rows={8} value={updateDescription} label="Description" onChange={(e) => setUpdateDescription(e.target.value)}  />
+
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DateTimePicker label="Event start" value={updateEventStart} onChange={(newValue) => setUpdateEventStart(newValue)} />
+              <DateTimePicker label="Event end" value={updateEventEnd} onChange={(newValue) => setUpdateEventEnd(newValue)}/>
+            </LocalizationProvider>
 
             { progresspercent > 0 && progresspercent < 100 &&
               <LinearProgress variant="determinate" value={progresspercent} />
