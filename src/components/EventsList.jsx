@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 
-import { useAuth } from '../context/AuthContext';
-
 // MUI
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
@@ -36,9 +34,8 @@ const styleActions={
   borderTop: "1px solid #ccc"
 }
 
-const EventsList = ({ data, onDelete, onUpdate, enableAdminActions }) => {
+const EventsList = ({ data, onDelete, onUpdate }) => {
   const [links, setLinks] = useState([]);
-  const { user } = useAuth();
 
   useEffect(() => {
     setLinks(data);
@@ -46,7 +43,7 @@ const EventsList = ({ data, onDelete, onUpdate, enableAdminActions }) => {
 
   return (
     <TableContainer component={Paper} sx={{ mt: 4 }}>
-      <Table sx={{ minWidth: 650 }} aria-label="List of events">
+      <Table sx={{ minWidth: 500 }} aria-label="List of events">
         <TableHead>
           <TableRow>
             <TableCell>Date</TableCell>

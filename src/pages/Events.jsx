@@ -35,7 +35,7 @@ export default function AdminLinks() {
       <Typography variant="h4" component="h1" gutterBottom>
         Events
       </Typography>
-      <EventsGrid data={events} enableAdminActions={false} />
+      <EventsGrid data={events} />
     </Container>
   )
 }

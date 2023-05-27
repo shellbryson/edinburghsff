@@ -183,7 +183,19 @@ export default function AdminEvents() {
   };
 
   const handleDelete = async (id) => {
-    confirm({ description: "This action will permanently delete the selected Event" })
+
+    const settings = {
+      description: "This action will permanently delete the selected Event",
+      confirmationText: "Delete Event",
+      confirmationButtonProps: {
+        variant: "contained"
+      },
+      cancellationButtonProps: {
+        variant: "outlined"
+      }
+    }
+
+    confirm(settings)
     .then(() => {
       performDelete(id)
     })
@@ -361,7 +373,7 @@ export default function AdminEvents() {
 
       <Container maxWidth="md">
         <Typography component="h1" variant='h1'>Events</Typography>
-        <Button onClick={() => handleOpenAdd()} variant='outlined'>Add</Button>
+        <Button onClick={() => handleOpenAdd()} variant='outlined'>Add an event</Button>
       </Container>
 
       <EventsList enableAdminActions={true} data={events} onDelete={handleDelete} onUpdate={handleOpenUpdate} />
