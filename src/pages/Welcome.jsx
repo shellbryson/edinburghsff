@@ -56,17 +56,6 @@ export default function Welcome() {
           <Typography component="p"><a rel="me" href="https://writing.exchange/@EdinburghSFF">Mastodon</a></Typography>
         </Paper>
 
-        {user && (
-          <Box sx={{ mb: "2rem" }}>
-            <Typography component="p"><Link to="/dashboard">Dashboard</Link></Typography>
-          </Box>
-        )}
-
-        {!user && (
-          <Box sx={{ mb: "2rem" }}>
-            <Typography component="p"><Link to="/signin">Sign In</Link></Typography>
-          </Box>
-        )}
       </Container>
 
     </Container>

@@ -8,18 +8,18 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 
 // Custom Components
-import LinkList from '../components/LinkList';
+import EventsGrid from '../components/EventsGrid';
 
 export default function AdminLinks() {
 
-  const [links, setLinks] = useState([])
+  const [events, setEvents] = useState([])
 
   useEffect(() => {
-    getLinks();
+    getEvents();
   }, [])
 
-  const getLinks = async () => {
-    const querySnapshot = await getDocs(collection(db, "links"));
+  const getEvents = async () => {
+    const querySnapshot = await getDocs(collection(db, "events"));
     const l = [];
     querySnapshot.forEach((doc) => {
       l.push({
@@ -27,15 +27,15 @@ export default function AdminLinks() {
         id: doc.id
       });
     });
-    setLinks(l);
+    setEvents(l);
   }
 
   return (
     <Container>
       <Typography variant="h4" component="h1" gutterBottom>
-        Links
+        Events
       </Typography>
-      <LinkList data={links} enableAdminActions={false} />
+      <EventsGrid data={events} enableAdminActions={false} />
     </Container>
   )
 }

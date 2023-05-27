@@ -16,6 +16,9 @@ export const customTheme = createTheme({
     },
     p: {
       fontSize: 16,
+    },
+    p_small: {
+      fontSize: 12,
     }
   },
   palette: {

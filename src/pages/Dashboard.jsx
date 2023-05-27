@@ -1,10 +1,13 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 // MUI Components
+import Container from '@mui/material/Container';
+import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
 
 const Dashboard = () => {
   const { user, logout } = useAuth();
@@ -21,14 +24,24 @@ const Dashboard = () => {
   };
 
   return (
-    <>
+    <Container>
       <Typography component="h1" variant='h1'>Dashboard</Typography>
-      <Typography component="p" variant='p' sx={{mb: 2}}>User Email: {user && user.email}</Typography>
-
-      <Button variant='outlined' onClick={handleLogout}>
-        Logout
-      </Button>
-    </>
+      <Container maxWidth="sm">
+        <Paper sx={{ padding: 2, mb: 2 }} elevation={3}>
+          <Stack spacing={2}>
+            <Typography component="h2">Tools</Typography>
+            <Link to='/dashboard/events'>Edit events</Link>
+            <Link to='/dashboard/links'>Edit links</Link>
+          </Stack>
+        </Paper>
+        <Stack spacing={2}>
+          <Typography  sx={{ mt: 6, mb: 2}} component="p" variant='p'>Signed in as {user && user.email}</Typography>
+          <Button variant='outlined' onClick={handleLogout}>
+            Sign out
+          </Button>
+        </Stack>
+      </Container>
+    </Container>
   );
 };
 

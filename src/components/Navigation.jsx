@@ -4,34 +4,28 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 // MUI Components
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import List from '@mui/material/List';
-import Stack from '@mui/material/Stack';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+
+// Custom Components
+import Menu from './Menu';
+
+// Assets
+import Logo from '../assets/logo.svg';
 
 const Navigation = () => {
 
   const { user } = useAuth();
 
   return (
-    <Box sx={{ mb: "0.5rem", mt: "0.5rem" }}>
-      <List component={Stack} direction="row" justifyContent="center" gap={1}>
-
-        <Typography component="p">
-          <Link to="/">Home</Link>
-        </Typography>
-
-        <Typography component="p">
-          <Link to="/links">Links</Link>
-        </Typography>
-
-        {user &&
-          <Typography component="p">
-            <Link to="/dashboard">Dashboard</Link>
-          </Typography>
-        }
-      </List>
-    </Box>
+    <AppBar position="static" color="secondary" elevation={0} style={{ backgroundColor: "#fff" }}>
+      <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
+        <Link to="/">
+          <img style={{ height: 30 }} height="30" width="30" src={Logo} alt="Edinburgh SFF Logo" />
+        </Link>
+        <Menu />
+      </Toolbar>
+    </AppBar>
   );
 };
 
