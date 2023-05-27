@@ -6,6 +6,8 @@ import { db, storage } from "../firebase";
 
 import { useAuth } from '../context/AuthContext';
 
+import { useConfirm } from "material-ui-confirm";
+
 import { v4 as uuid } from 'uuid';
 import dayjs from 'dayjs';
 import 'dayjs/locale/en-gb';
@@ -46,6 +48,8 @@ export default function AdminEvents() {
   const { user } = useAuth();
 
   const [events, setEvents] = useState([])
+
+  const confirm = useConfirm();
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -169,13 +173,23 @@ export default function AdminEvents() {
     }
   };
 
-  const handleDelete = async (id) => {
+  const performDelete = async (id) => {
     try {
       await deleteDoc(doc(db, "events", id));
       getEvents();
     } catch (e) {
       console.error("Error adding document: ", e);
     }
+  };
+
+  const handleDelete = async (id) => {
+    confirm({ description: "This action will permanently delete the selected Event" })
+    .then(() => {
+      performDelete(id)
+    })
+    .catch(() => {
+      /* ... */
+    });
   };
 
   const handleUpdate = async () => {
@@ -312,7 +326,7 @@ export default function AdminEvents() {
             <TextField sx={{ width: '100%' }} required label="URL" value={updateUrl} onChange={(e) => setUpdateURL(e.target.value)} type='url' />
             <TextField sx={{ width: '100%' }} required multiline rows={8} value={updateDescription} label="Description" onChange={(e) => setUpdateDescription(e.target.value)}  />
 
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-gb">
               <DateTimePicker label="Event start" value={updateEventStart} onChange={(newValue) => setUpdateEventStart(newValue)} />
               <DateTimePicker label="Event end" value={updateEventEnd} onChange={(newValue) => setUpdateEventEnd(newValue)}/>
             </LocalizationProvider>

@@ -4,6 +4,8 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 import { ThemeProvider } from '@mui/material/styles';
 import { customTheme } from './theme/theme';
 
+import { ConfirmProvider } from "material-ui-confirm";
+
 // MUI Components
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
@@ -51,21 +53,24 @@ function App() {
 
   return (
     <ThemeProvider theme={customTheme}>
-      <Routes>
-        <Route path="/dashboard" element={<AdminLayout />}>
-          <Route index element={<Dashboard />} />
-          <Route path='links' element={<AdminLinks />} />
-          <Route path='events' element={<AdminEvents />} />
-        </Route>
 
-        <Route path="/" element={<PageLayout />}>
-          <Route index element={<Welcome />} />
-          <Route path="signin" element={<Signin />} />
-          <Route path="links" element={<Links />} />
-          <Route path="events" element={<Events />} />
-          <Route path="*" element={<NotFound />} />
-        </Route>
-      </Routes>
+      <ConfirmProvider>
+        <Routes>
+          <Route path="/dashboard" element={<AdminLayout />}>
+            <Route index element={<Dashboard />} />
+            <Route path='links' element={<AdminLinks />} />
+            <Route path='events' element={<AdminEvents />} />
+          </Route>
+
+          <Route path="/" element={<PageLayout />}>
+            <Route index element={<Welcome />} />
+            <Route path="signin" element={<Signin />} />
+            <Route path="links" element={<Links />} />
+            <Route path="events" element={<Events />} />
+            <Route path="*" element={<NotFound />} />
+          </Route>
+        </Routes>
+      </ConfirmProvider>
 
       <Box sx={{ display: "flex", alignContent: "center", justifyContent: "center", margin: "4rem"}}>
         <img src={Logo} alt="Edinburgh SFF Logo" width="50" height="50" />
@@ -78,6 +83,7 @@ function App() {
           <BottomNavigationAction onClick={handleClickLinks} label="Links" icon={<AutoStoriesOutlinedIcon />} />
         </BottomNavigation>
       </Paper>
+
     </ThemeProvider>
   )
 }
