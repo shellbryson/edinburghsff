@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { getDocs, collection } from 'firebase/firestore';
+import { getDocs, collection, query, orderBy, limit  } from 'firebase/firestore';
 import { db } from "../firebase";
 
 // MUI
@@ -18,8 +18,10 @@ export default function AdminLinks() {
     getEvents();
   }, [])
 
+  const q = query(collection(db, "events"), orderBy("eventStart", "desc"));
+
   const getEvents = async () => {
-    const querySnapshot = await getDocs(collection(db, "events"));
+    const querySnapshot = await getDocs(q);
     const l = [];
     querySnapshot.forEach((doc) => {
       l.push({
@@ -31,12 +33,14 @@ export default function AdminLinks() {
   }
 
   return (
-    <Container>
-      <Typography variant="h4" component="h1" gutterBottom>
-        Events
-      </Typography>
+    <>
+      <Container>
+        <Typography variant="h4" component="h1" gutterBottom>
+          Events
+        </Typography>
+      </Container>
       <EventsGrid data={events} />
-    </Container>
+    </>
   )
 }
 

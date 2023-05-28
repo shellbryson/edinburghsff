@@ -35,7 +35,7 @@ export default function AdminLinks() {
       <Typography variant="h4" component="h1" gutterBottom>
         Links
       </Typography>
-      <LinkList data={links} enableAdminActions={false} />
+      <LinkList data={links} />
     </Container>
   )
 }

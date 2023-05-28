@@ -33,3 +33,27 @@ body {
 a {
   color: red;
 }
+
+//
+
+$color-start: #bd6767; // Start color
+$color-end: #6e67bd; // End color
+
+$grid-columns: 4; // Number of grid columns
+$grid-rows: 3; // Number of grid rows
+
+$color-steps: $grid-columns * $grid-rows; // Total number of color steps
+
+.grid {
+
+  > div {
+    @for $i from 1 through $color-steps {
+      $color-percentage: percentage($i / $color-steps);
+      $interpolated-color: mix($color-start, $color-end, $color-percentage);
+
+      &:nth-child(#{$i}) {
+        background-color: $interpolated-color;
+      }
+    }
+  }
+}

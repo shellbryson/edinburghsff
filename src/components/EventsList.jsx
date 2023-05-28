@@ -47,8 +47,9 @@ const EventsList = ({ data, onDelete, onUpdate }) => {
         <TableHead>
           <TableRow>
             <TableCell>Date</TableCell>
-            <TableCell>Event Title</TableCell>
+            <TableCell>Title</TableCell>
             <TableCell>Image</TableCell>
+            <TableCell>Location</TableCell>
             <TableCell></TableCell>
           </TableRow>
         </TableHead>
@@ -61,7 +62,8 @@ const EventsList = ({ data, onDelete, onUpdate }) => {
               <TableCell component="th" scope="row" ><Typography>{dayjs(data.eventStart.toDate().toLocaleString(), 'DD/MM/YYYY, HH:mm:ss').format('DD/MM/YYYY')}</Typography></TableCell>
               <TableCell>{data.title}</TableCell>
               <TableCell><EventsListImage image={data?.image} alt={data?.title} /></TableCell>
-              <TableCell align="right">
+              <TableCell>{data.eventLocation}</TableCell>
+              <TableCell>
                 <IconButton size='small' onClick={() => onDelete(data.id)}>
                   <DeleteOutlineOutlinedIcon />
                 </IconButton>

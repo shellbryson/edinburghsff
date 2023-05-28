@@ -10,9 +10,11 @@ export const customTheme = createTheme({
       paddingBottom: '2rem'
     },
     h2: {
-      fontSize: 18,
-      textTransform: 'uppercase',
+      fontSize: 24,
       paddingBottom: '1.5rem'
+    },
+    tile_heading: {
+      fontSize: 24,
     },
     p: {
       fontSize: 16,
@@ -40,6 +42,18 @@ export const customTheme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
+          fontFamily: 'var(--font-body)'
+        },
+        sizeSmall: {
+          fontSize: '0.8rem',
+          padding: '3px 1rem',
+        }
+      },
+    },
+    MuiIconButton: {
+      styleOverrides: {
+        root: {
+          fontSize: '1rem',
           fontFamily: 'var(--font-body)'
         },
         sizeSmall: {

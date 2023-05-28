@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from "../firebase";
+
 import dayjs from 'dayjs';
 import 'dayjs/locale/en-gb';
 
@@ -10,11 +13,12 @@ import Stack from '@mui/material/Stack';
 
 // Custom UI
 import EventsGridImage from './EventsGridImage';
+import EventDetails from './EventDetails';
 
 const styleGrid={
   display: "grid",
-  gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-  gap: "0.5rem",
+  gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+  gap: "0",
   marginTop: "2rem"
 }
 
@@ -22,6 +26,7 @@ const styleGridCell={
   display: "block",
   position: "relative",
   aspect: "1/1",
+  cursor: "pointer",
 }
 
 const styleGridContent={
@@ -29,52 +34,75 @@ const styleGridContent={
   position: "absolute",
   aspect: "1/1",
   zIndex: 2,
-  top: 0,
-  left: 0
+  inset: "1rem",
+  textAlign: "left",
+  color: "#fff",
+}
+
+const styleEventTitle={
+  padding: 0
 }
 
 const styleEventDate={
-  display: "block",
-  position: "absolute",
-  zIndex: 3,
-  top: "1rem",
-  left: "1rem"
+  padding: 0
 }
 
 const EventsList = ({ data }) => {
-  const [links, setLinks] = useState([]);
+  const [events, setEvents] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState({});
 
   useEffect(() => {
-    setLinks(data);
-  }, [data])
+    setEvents(data);
+  }, [data]);
 
   const eventDate = (eventStartDate) => {
     const d = dayjs(eventStartDate.toDate().toLocaleString(), 'DD/MM/YYYY, HH:mm:ss').format('DD/MM/YY')
-    return <Typography component="p" variant='h1' style={styleEventDate}>{d}</Typography>;
+    return <Typography component="p" style={styleEventDate}>{d}</Typography>;
   }
 
+  const fetchEvent = async (id) => {
+    if (!id) return;
+
+    console.log("ESFF: fetching Event", id)
+
+    const docRef = doc(db, "events", id);
+    const docSnap = await getDoc(docRef);
+
+    setSelectedEvent(docSnap.data());
+  }
+
+  const handleOpenEvent = (id) => {
+    fetchEvent(id);
+    setIsOpen(true);
+  };
+
+  const handleCloseEvent = () => {
+    setIsOpen(false);
+  };
+
   return (
-    <Box style={styleGrid}>
-      {links.map((data, index) => (
-        <Box style={styleGridCell} key={index}>
-          <EventsGridImage image={data?.image} alt={data?.title} />
-          { eventDate(data?.eventStart) }
-          <Box style={styleGridContent}>
-            <Stack spacing={2}>
-              <Typography gutterBottom>
-                {data.title}
-              </Typography>
-              <Typography variant="p">
-                {data.description}
-              </Typography>
-              <Typography variant="p">
-                <a href={data.url} target='_blank' rel='noreferrer'>{data.url}</a>
-              </Typography>
-            </Stack>
+    <>
+      <EventDetails isOpen={isOpen} selectedEvent={selectedEvent} onCloseCallback={handleCloseEvent} />
+      <Box style={styleGrid} className="grid">
+        {events.map((data, index) => (
+          <Box style={styleGridCell} key={index} onClick={() => handleOpenEvent(data.id) }>
+            <EventsGridImage image={data?.image} alt={data?.title} />
+            <Box style={styleGridContent}>
+              <Stack spacing={2}>
+                <Typography variant='tile_heading' style={styleEventTitle}>
+                  {data.title}
+                </Typography>
+                <Typography variant="p">
+                  {data.descriptionShort}
+                </Typography>
+              </Stack>
+              { eventDate(data?.eventStart) }
+            </Box>
           </Box>
-        </Box>
-      ))}
-    </Box>
+        ))}
+      </Box>
+    </>
   );
 };
 

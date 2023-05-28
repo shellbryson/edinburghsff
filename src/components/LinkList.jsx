@@ -10,7 +10,6 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Grid';
-import List from '@mui/material/List';
 
 
 // Custom UI
@@ -33,7 +32,6 @@ const styleActions={
 
 const LinkList = ({ data, onDelete, onUpdate, enableAdminActions }) => {
   const [links, setLinks] = useState([]);
-  const { user } = useAuth();
 
   useEffect(() => {
     setLinks(data);
