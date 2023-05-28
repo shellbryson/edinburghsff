@@ -67,6 +67,7 @@ function App() {
             <Route path="signin" element={<Signin />} />
             <Route path="links" element={<Links />} />
             <Route path="events" element={<Events />} />
+            <Route path="events/:eventID/:eventTitle" element={<Events />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>

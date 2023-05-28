@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useParams, useNavigate } from "react-router-dom";
 
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from "../firebase";
@@ -51,14 +52,30 @@ const EventsList = ({ data }) => {
   const [events, setEvents] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState({});
+  const navigate = useNavigate();
+  const params = useParams();
 
   useEffect(() => {
     setEvents(data);
+
+    if (params?.eventID) {
+      fetchEvent(params.eventID);
+      setIsOpen(true);
+    }
   }, [data]);
 
   const eventDate = (eventStartDate) => {
     const d = dayjs(eventStartDate.toDate().toLocaleString(), 'DD/MM/YYYY, HH:mm:ss').format('DD/MM/YY')
     return <Typography component="p" style={styleEventDate}>{d}</Typography>;
+  }
+
+  const slugify = (str) => {
+    return str
+      .toLowerCase()
+      .trim()
+      .replace(/[^\w\s-]/g, "")
+      .replace(/[\s_-]+/g, "-")
+      .replace(/^-+|-+$/g, "");
   }
 
   const fetchEvent = async (id) => {
@@ -72,7 +89,8 @@ const EventsList = ({ data }) => {
     setSelectedEvent(docSnap.data());
   }
 
-  const handleOpenEvent = (id) => {
+  const handleOpenEvent = (id, title) => {
+    navigate(`/events/${id}/${slugify(title)}`);
     fetchEvent(id);
     setIsOpen(true);
   };
@@ -86,7 +104,7 @@ const EventsList = ({ data }) => {
       <EventDetails isOpen={isOpen} selectedEvent={selectedEvent} onCloseCallback={handleCloseEvent} />
       <Box style={styleGrid} className="grid">
         {events.map((data, index) => (
-          <Box style={styleGridCell} key={index} onClick={() => handleOpenEvent(data.id) }>
+          <Box style={styleGridCell} key={index} onClick={() => handleOpenEvent(data.id, data.title) }>
             <EventsGridImage image={data?.image} alt={data?.title} />
             <Box style={styleGridContent}>
               <Stack spacing={2}>
