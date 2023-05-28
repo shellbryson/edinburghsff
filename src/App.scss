@@ -30,26 +30,6 @@ body {
   height: auto;
 }
 
-.sff-linklist-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 0.5rem;
-  margin-top: 2rem;
-}
-
-.sff-linklist-image {
-  aspect-ratio: 1/1;
-  border: 1px solid #ccc;
-  padding: 2px;
-
-  &__image {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-}
-
 a {
   color: red;
 }

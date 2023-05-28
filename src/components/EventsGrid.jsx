@@ -1,75 +1,80 @@
 import React, { useEffect, useState } from 'react';
 
-import { useAuth } from '../context/AuthContext';
+import dayjs from 'dayjs';
+import 'dayjs/locale/en-gb';
 
 // MUI
 import Typography from '@mui/material/Typography';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-import Grid from '@mui/material/Grid';
 
 // Custom UI
 import EventsGridImage from './EventsGridImage';
 
-const styleCard={
-  display: "flex",
-  flexDirection: "column",
-  justifyContent: "space-between",
+const styleGrid={
+  display: "grid",
+  gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+  gap: "0.5rem",
+  marginTop: "2rem"
 }
 
-const styleContent={
-  height: "100%"
+const styleGridCell={
+  display: "block",
+  position: "relative",
+  aspect: "1/1",
 }
 
-const styleActions={
-  justifyContent:"center",
-  borderTop: "1px solid #ccc"
+const styleGridContent={
+  display: "block",
+  position: "absolute",
+  aspect: "1/1",
+  zIndex: 2,
+  top: 0,
+  left: 0
 }
 
-const EventsList = ({ data, onDelete, onUpdate, enableAdminActions }) => {
+const styleEventDate={
+  display: "block",
+  position: "absolute",
+  zIndex: 3,
+  top: "1rem",
+  left: "1rem"
+}
+
+const EventsList = ({ data }) => {
   const [links, setLinks] = useState([]);
-  const { user } = useAuth();
 
   useEffect(() => {
     setLinks(data);
-  }, [data, onDelete, onUpdate])
+  }, [data])
+
+  const eventDate = (eventStartDate) => {
+    const d = dayjs(eventStartDate.toDate().toLocaleString(), 'DD/MM/YYYY, HH:mm:ss').format('DD/MM/YY')
+    return <Typography component="p" variant='h1' style={styleEventDate}>{d}</Typography>;
+  }
 
   return (
-    <div className="sff-linklist-grid">
+    <Box style={styleGrid}>
       {links.map((data, index) => (
-        <Card variant="outlined" key={index} style={styleCard}>
-          <CardContent style={styleContent}>
-            <Grid container spacing={2}>
-              <Grid item xs={8}>
-                <Stack spacing={2}>
-                  <Typography gutterBottom>
-                    {data.title}
-                  </Typography>
-                  <Typography variant="p">
-                    {data.description}
-                  </Typography>
-                  <Typography variant="p">
-                    <a href={data.url} target='_blank' rel='noreferrer'>{data.url}</a>
-                  </Typography>
-                </Stack>
-              </Grid>
-              <Grid item xs={4}>
-                <EventsGridImage image={data?.image} alt={data?.title} />
-              </Grid>
-            </Grid>
-          </CardContent>
-          { enableAdminActions &&
-            <CardActions style={styleActions}>
-              <Button size='small' onClick={() => onDelete(data.id)}>Delete</Button>
-              <Button size='small' onClick={() => onUpdate(data)}>Update</Button>
-            </CardActions>
-          }
-        </Card>
+        <Box style={styleGridCell} key={index}>
+          <EventsGridImage image={data?.image} alt={data?.title} />
+          { eventDate(data?.eventStart) }
+          <Box style={styleGridContent}>
+            <Stack spacing={2}>
+              <Typography gutterBottom>
+                {data.title}
+              </Typography>
+              <Typography variant="p">
+                {data.description}
+              </Typography>
+              <Typography variant="p">
+                <a href={data.url} target='_blank' rel='noreferrer'>{data.url}</a>
+              </Typography>
+            </Stack>
+          </Box>
+        </Box>
       ))}
-    </div>
+    </Box>
   );
 };
 

@@ -57,6 +57,7 @@ export default function AdminEvents() {
   const [show, setShow] = useState(true);
   const [eventStart, setEventStart] = useState(dayjs(new Date()));
   const [eventEnd, setEventEnd] = useState(dayjs(new Date()));
+  const [eventLocation, setEventLocation] = useState('');
 
   const [updateTitle, setUpdateTitle] = useState('');
   const [updateDescription, setUpdateDescription] = useState('');
@@ -64,6 +65,7 @@ export default function AdminEvents() {
   const [updateShow, setUpdateShow] = useState(true);
   const [updateEventStart, setUpdateEventStart] = useState(dayjs(new Date()));
   const [updateEventEnd, setUpdateEventEnd] = useState(dayjs(new Date()));
+  const [updateEventLocation, setUpdateEventLocation] = useState('');
 
   const [updateId, setUpdateId] = useState('');
 
@@ -107,10 +109,6 @@ export default function AdminEvents() {
 
   const handleOpenUpdate = (data) => {
 
-    console.log("selected data", data)
-    console.log("selected data start", data.eventStart.seconds)
-    console.log("selected data end", data.eventEnd.seconds)
-
     const start = new Date(data.eventStart.seconds * 1000 + data.eventStart.nanoseconds / 1000000);
     const end = new Date(data.eventEnd.seconds * 1000 + data.eventEnd.nanoseconds / 1000000);
 
@@ -122,6 +120,7 @@ export default function AdminEvents() {
     setUpdateId(data.id);
     setUpdateEventStart(dayjs(start));
     setUpdateEventEnd(dayjs(end));
+    setUpdateEventLocation(data.eventLocation);
 
     setOpenUpdate(true);
   };
@@ -134,7 +133,14 @@ export default function AdminEvents() {
     setError('');
     setImgUrl('');
 
-    if (!title || !description || !url) {
+    if (
+      !title ||
+      !description ||
+      !url ||
+      !eventStart ||
+      !eventEnd ||
+      !eventLocation
+    ) {
       setError('Please fill out all fields');
       return;
     }
@@ -153,6 +159,7 @@ export default function AdminEvents() {
         image: strippedImageUrl,
         eventStart: eventStart.$d,
         eventEnd: eventEnd.$d,
+        eventLocation: eventLocation,
         created: {
           email: user.email,
           uid: user.uid,
@@ -208,7 +215,14 @@ export default function AdminEvents() {
     setError('');
     setImgUrl('');
 
-    if (!updateTitle || !updateDescription || !updateUrl) {
+    if (
+      !updateTitle ||
+      !updateDescription ||
+      !updateUrl ||
+      !updateEventStart ||
+      !updateEventEnd ||
+      !updateEventLocation
+    ) {
       setError('Please fill out all fields');
       return;
     }
@@ -218,19 +232,24 @@ export default function AdminEvents() {
     try {
       const l = doc(db, "events", updateId);
 
-      await updateDoc(l, {
+      const data = {
         title: updateTitle,
         description: updateDescription,
         show: updateShow,
         image: strippedImageUrl,
         eventStart: updateEventStart.$d,
         eventEnd: updateEventEnd.$d,
+        eventLocation: updateEventLocation,
         updated: {
           email: user.email,
           uid: user.uid,
           timestamp: new Date()
         }
-      });
+      }
+
+      console.log("SFF update event with:", data)
+
+      await updateDoc(l, data);
 
       getEvents();
       handleCloseUpdate();
@@ -291,6 +310,8 @@ export default function AdminEvents() {
               <DateTimePicker label="Event end" value={eventEnd} onChange={(newValue) => setEventEnd(newValue)}/>
             </LocalizationProvider>
 
+            <TextField sx={{ width: '100%' }} required label="Location" onChange={(e) => setEventLocation(e.target.value)} type='text' />
+
             { progresspercent > 0 && progresspercent < 100 &&
               <LinearProgress variant="determinate" value={progresspercent} />
             }
@@ -342,6 +363,8 @@ export default function AdminEvents() {
               <DateTimePicker label="Event start" value={updateEventStart} onChange={(newValue) => setUpdateEventStart(newValue)} />
               <DateTimePicker label="Event end" value={updateEventEnd} onChange={(newValue) => setUpdateEventEnd(newValue)}/>
             </LocalizationProvider>
+
+            <TextField sx={{ width: '100%' }} required label="Location" value={updateEventLocation} onChange={(e) => setUpdateEventLocation(e.target.value)} type='text' />
 
             { progresspercent > 0 && progresspercent < 100 &&
               <LinearProgress variant="determinate" value={progresspercent} />
