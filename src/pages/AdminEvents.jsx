@@ -82,8 +82,7 @@ export default function AdminEvents() {
 
   useEffect(() => {
     getEvents();
-    console.log("currentUser", user);
-  }, [])
+  }, []);
 
   const q = query(collection(db, "events"), orderBy("eventStart", "desc"));
 
@@ -100,6 +99,9 @@ export default function AdminEvents() {
   }
 
   const handleOpenAdd = () => {
+    setError('');
+    setImgUrl('');
+
     setOpenAdd(true);
   };
 
