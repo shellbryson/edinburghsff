@@ -5,22 +5,43 @@ import 'dayjs/locale/en-gb';
 
 // MUI
 import Typography from '@mui/material/Typography';
-import Stack from '@mui/material/Stack';
+import Box from '@mui/material/Box';
+import Link from '@mui/material/Link';
 import Button from '@mui/material/Button';
-import LaunchOutlinedIcon from '@mui/icons-material/LaunchOutlined';
 
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 
-// Custom UI
+import LaunchOutlinedIcon from '@mui/icons-material/LaunchOutlined';
+import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
+import EventAvailableOutlinedIcon from '@mui/icons-material/EventAvailableOutlined';
 
+// Custom UI
+import EventsDetailsImage from './EventsDetailsImage';
+
+// Theme helpers
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
+const styleEventTitle={
+  textAlign: "center"
+}
+
 const styleEventDate={
   marginBottom: "1rem"
+}
+
+const styleEventMeta={
+  textAlign: "center"
+}
+
+const styleEventDecsription={
+  backgroundColor: "#f5f5f5",
+  padding: "1rem",
+  marginBottom: "1rem",
+  marginTop: "1rem"
 }
 
 const EventDetails = ({ selectedEvent, isOpen, onCloseCallback }) => {
@@ -37,15 +58,26 @@ const EventDetails = ({ selectedEvent, isOpen, onCloseCallback }) => {
     setIsOpenDialog(isOpen);
   }, [selectedEvent, isOpen]);
 
-  const eventDate = (eventStartDate) => {
-    if (!eventStartDate) return;
-    const d = dayjs(eventStartDate.toDate().toLocaleString(), 'DD/MM/YYYY, HH:mm:ss').format('DD/MM/YY')
-    return <Typography component="p" style={styleEventDate}>{d}</Typography>;
+  const eventDate = () => {
+    if (!currentEvent.eventStart) return;
+    const d = dayjs(currentEvent.eventStart.toDate().toLocaleString(), 'DD/MM/YYYY, HH:mm:ss').format('DD/MM/YY');
+    const e = currentEvent.eventEnd ? <> - {dayjs(currentEvent.eventEnd.toDate().toLocaleString(), 'DD/MM/YYYY, HH:mm:ss').format('DD/MM/YY')} </>: null;
+    const pluralize = d && e && d !== e ? 'Dates: ' : 'Date: ';
+
+    return <>
+      <EventAvailableOutlinedIcon /><Typography component="p" style={styleEventDate}>
+        {pluralize}{d}{e}
+      </Typography>
+    </>;
+  }
+
+  const cleanUrl = (url) => {
+    if (!url) return;
+    return url.replace(/^(https?:\/\/)?(www\.)?|\/$/g, '');
   }
 
   const handleView = () => {
-    // go to event site...
-    setOpenDetails(true);
+    window.open(currentEvent.url, '_blank');
   };
 
   const handleCloseDetails = () => {
@@ -61,15 +93,20 @@ const EventDetails = ({ selectedEvent, isOpen, onCloseCallback }) => {
       onClose={handleCloseDetails}
       scroll="paper"
       aria-labelledby="add-dialog-title">
-      <DialogTitle id="add-dialog-title">
+      <DialogTitle id="add-dialog-title" sx={styleEventTitle}>
         <Typography variant="h2" component="span">{currentEvent.title}</Typography>
       </DialogTitle>
       <DialogContent>
-        <Stack spacing={2} sx={{ mt: 2}}>
-          {eventDate(currentEvent?.eventStart)}
+        <EventsDetailsImage image={currentEvent?.image} alt={currentEvent?.title} />
+        <Box style={styleEventMeta}>
+          {eventDate()}
+          <LocationOnOutlinedIcon />
+          <Typography component="p" variant='p'> {currentEvent.eventLocation}</Typography>
+        </Box>
+        <Box style={styleEventDecsription}>
           <Typography component="p" variant='p'>{currentEvent.description}</Typography>
-          <Typography component="p" variant='p'><a href="{event.url}" target='_blank' rel='noreferrer'>{currentEvent.url}</a></Typography>
-        </Stack>
+          <Typography component="p" variant='p' sx={{ mt: 2 }}>More at: <Link to={currentEvent.url}>{cleanUrl(currentEvent.url)}</Link></Typography>
+        </Box>
       </DialogContent>
       <DialogActions>
         <Button onClick={handleView} variant='outlined' endIcon={<LaunchOutlinedIcon />}>Go to Event site</Button>

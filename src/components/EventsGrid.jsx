@@ -49,7 +49,7 @@ const styleEventDate={
   padding: 0
 }
 
-const EventsList = ({ data }) => {
+const EventsGrid = ({ data }) => {
   const [events, setEvents] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState({});
@@ -127,4 +127,4 @@ const EventsList = ({ data }) => {
   );
 };
 
-export default EventsList;
+export default EventsGrid;
