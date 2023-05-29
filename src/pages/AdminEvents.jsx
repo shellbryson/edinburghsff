@@ -16,6 +16,7 @@ import 'dayjs/locale/en-gb';
 import Alert from '@mui/material/Alert';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -40,6 +41,7 @@ import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 // Custom Components
+import PageHeading from '../components/PageHeading';
 import EventsList from '../components/EventsList';
 import EventsListImage from '../components/EventsListImage';
 
@@ -57,6 +59,7 @@ export default function AdminEvents() {
   const [show, setShow] = useState(true);
   const [eventStart, setEventStart] = useState(dayjs(new Date()));
   const [eventEnd, setEventEnd] = useState(dayjs(new Date()));
+  const [eventIsAllDay, setEventIsAllDay] = useState(false);
   const [eventLocation, setEventLocation] = useState('');
 
   const [updateTitle, setUpdateTitle] = useState('');
@@ -65,6 +68,7 @@ export default function AdminEvents() {
   const [updateShow, setUpdateShow] = useState(true);
   const [updateEventStart, setUpdateEventStart] = useState(dayjs(new Date()));
   const [updateEventEnd, setUpdateEventEnd] = useState(dayjs(new Date()));
+  const [updateEventIsAllDay, setUpdateEventIsAllDay] = useState(false);
   const [updateEventLocation, setUpdateEventLocation] = useState('');
 
   const [updateId, setUpdateId] = useState('');
@@ -101,7 +105,6 @@ export default function AdminEvents() {
   const handleOpenAdd = () => {
     setError('');
     setImgUrl('');
-
     setOpenAdd(true);
   };
 
@@ -122,6 +125,7 @@ export default function AdminEvents() {
     setUpdateId(data.id);
     setUpdateEventStart(dayjs(start));
     setUpdateEventEnd(dayjs(end));
+    setUpdateEventIsAllDay(data.eventIsAllDay || false);
     setUpdateEventLocation(data.eventLocation);
 
     setOpenUpdate(true);
@@ -149,9 +153,6 @@ export default function AdminEvents() {
 
     const strippedImageUrl = imgUrl ? imgUrl.split('&')[0] : '';
 
-    console.log("eventStart", eventStart);
-    console.log("eventEnd", eventEnd);
-
     try {
       const docRef = await addDoc(collection(db, "events"), {
         title: title,
@@ -161,6 +162,7 @@ export default function AdminEvents() {
         image: strippedImageUrl,
         eventStart: eventStart.$d,
         eventEnd: eventEnd.$d,
+        eventIsAllDay: eventIsAllDay,
         eventLocation: eventLocation,
         created: {
           email: user.email,
@@ -241,6 +243,7 @@ export default function AdminEvents() {
         image: strippedImageUrl,
         eventStart: updateEventStart.$d,
         eventEnd: updateEventEnd.$d,
+        eventIsAllDay: updateEventIsAllDay,
         eventLocation: updateEventLocation,
         updated: {
           email: user.email,
@@ -310,6 +313,9 @@ export default function AdminEvents() {
             <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-gb">
               <DateTimePicker label="Event start" value={eventStart} onChange={(newValue) => setEventStart(newValue)} />
               <DateTimePicker label="Event end" value={eventEnd} onChange={(newValue) => setEventEnd(newValue)}/>
+              <FormGroup>
+                <FormControlLabel onChange={(e) => setEventIsAllDay(e.target.checked)} control={<Checkbox />} label="All day" />
+              </FormGroup>
             </LocalizationProvider>
 
             <TextField sx={{ width: '100%' }} required label="Location" onChange={(e) => setEventLocation(e.target.value)} type='text' />
@@ -331,7 +337,7 @@ export default function AdminEvents() {
             }
 
             <FormGroup>
-              <FormControlLabel onChange={(e) => setShow(e.target.checked)} control={<Checkbox checked />} label="Display on site" />
+              <FormControlLabel onChange={(e) => setShow(e.target.checked)} control={<Checkbox />} label="Show in Event Grid" />
             </FormGroup>
 
             { error && <Alert severity="warning">{error}</Alert> }
@@ -364,6 +370,9 @@ export default function AdminEvents() {
             <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-gb">
               <DateTimePicker label="Event start" value={updateEventStart} onChange={(newValue) => setUpdateEventStart(newValue)} />
               <DateTimePicker label="Event end" value={updateEventEnd} onChange={(newValue) => setUpdateEventEnd(newValue)}/>
+              <FormGroup>
+                <FormControlLabel onChange={(e) => setUpdateEventIsAllDay(e.target.checked)} control={<Checkbox />} checked={updateEventIsAllDay} label="All day" />
+              </FormGroup>
             </LocalizationProvider>
 
             <TextField sx={{ width: '100%' }} required label="Location" value={updateEventLocation} onChange={(e) => setUpdateEventLocation(e.target.value)} type='text' />
@@ -385,7 +394,7 @@ export default function AdminEvents() {
             }
 
             <FormGroup>
-              <FormControlLabel onChange={(e) => setUpdateShow(e.target.checked)} control={<Checkbox />} checked={updateShow} label="Display on site" />
+              <FormControlLabel onChange={(e) => setUpdateShow(e.target.checked)} control={<Checkbox />} checked={updateShow} label="Show in Event Grid" />
             </FormGroup>
             { error && <Alert severity="warning">{error}</Alert> }
           </Stack>
@@ -397,8 +406,10 @@ export default function AdminEvents() {
       </Dialog>
 
       <Container maxWidth="md">
-        <Typography component="h1" variant='h1'>Events</Typography>
-        <Button onClick={() => handleOpenAdd()} variant='outlined'>Add an event</Button>
+        <PageHeading heading="Events" />
+        <Box sx={{ textAlign: "center"}}>
+          <Button onClick={() => handleOpenAdd()} variant='outlined'>Add an event</Button>
+        </Box>
       </Container>
 
       <EventsList enableAdminActions={true} data={events} onDelete={handleDelete} onUpdate={handleOpenUpdate} />

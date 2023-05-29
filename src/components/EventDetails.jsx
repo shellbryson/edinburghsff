@@ -60,13 +60,26 @@ const EventDetails = ({ selectedEvent, isOpen, onCloseCallback }) => {
 
   const eventDate = () => {
     if (!currentEvent.eventStart) return;
-    const d = dayjs(currentEvent.eventStart.toDate().toLocaleString(), 'DD/MM/YYYY, HH:mm:ss').format('DD/MM/YY');
-    const e = currentEvent.eventEnd ? <> - {dayjs(currentEvent.eventEnd.toDate().toLocaleString(), 'DD/MM/YYYY, HH:mm:ss').format('DD/MM/YY')} </>: null;
-    const pluralize = d && e && d !== e ? 'Dates: ' : 'Date: ';
+
+    let displayDate = "";
+
+    if (currentEvent.eventIsAllDay) {
+      const _startDate = dayjs(currentEvent.eventStart.toDate().toLocaleString(), 'DD/MM/YYYY, HH:mm:ss').format('DD/MM/YYYY');
+      const _endDate = dayjs(currentEvent.eventEnd.toDate().toLocaleString(), 'DD/MM/YYYY, HH:mm:ss').format('DD/MM/YYYY');
+
+      displayDate = _startDate === _endDate ? _startDate : `${_startDate} to ${_endDate}`;
+
+    } else {
+
+      const _startDate = dayjs(currentEvent.eventStart.toDate().toLocaleString(), 'DD/MM/YYYY, HH:mm:ss').format('DD/MM/YYYY, HH:mm');
+      const _endDate = dayjs(currentEvent.eventEnd.toDate().toLocaleString(), 'DD/MM/YYYY, HH:mm:ss').format('HH:mm');
+
+      displayDate = `${_startDate} to ${_endDate}`;
+    }
 
     return <>
       <EventAvailableOutlinedIcon /><Typography component="p" style={styleEventDate}>
-        {pluralize}{d}{e}
+        When: {displayDate}
       </Typography>
     </>;
   }
