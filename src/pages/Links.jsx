@@ -4,10 +4,10 @@ import { getDocs, collection } from 'firebase/firestore';
 import { db } from "../firebase";
 
 // MUI
-import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 
 // Custom Components
+import PageHeading from '../components/PageHeading';
 import LinkList from '../components/LinkList';
 
 export default function AdminLinks() {
@@ -31,12 +31,12 @@ export default function AdminLinks() {
   }
 
   return (
-    <Container>
-      <Typography variant="h4" component="h1" gutterBottom>
-        Links
-      </Typography>
+    <>
+      <Container>
+        <PageHeading heading="Links" />
+      </Container>
       <LinkList data={links} />
-    </Container>
+    </>
   )
 }
 

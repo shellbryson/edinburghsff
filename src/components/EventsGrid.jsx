@@ -11,6 +11,7 @@ import 'dayjs/locale/en-gb';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
+import Link from '@mui/material/Link';
 
 // Custom UI
 import EventsGridImage from './EventsGridImage';
@@ -41,6 +42,7 @@ const styleGridContent={
 }
 
 const styleEventTitle={
+  fontSize: "clamp(1rem, -0.875rem + 8.333vw, 3.5rem)",
   padding: 0
 }
 
@@ -102,9 +104,9 @@ const EventsList = ({ data }) => {
   return (
     <>
       <EventDetails isOpen={isOpen} selectedEvent={selectedEvent} onCloseCallback={handleCloseEvent} />
-      <Box style={styleGrid} className="grid">
+      <Box style={styleGrid} className="sff-events-grid">
         {events.map((data, index) => (
-          <Box style={styleGridCell} key={index} onClick={() => handleOpenEvent(data.id, data.title) }>
+          <Link className="sff-events-grid__event" style={styleGridCell} key={index} href={`/events/${data.id}/${slugify(data.title)}`} onClick={() => handleOpenEvent(data.id, data.title) }>
             <EventsGridImage image={data?.image} alt={data?.title} />
             <Box style={styleGridContent}>
               <Stack spacing={2}>
@@ -117,7 +119,7 @@ const EventsList = ({ data }) => {
               </Stack>
               { eventDate(data?.eventStart) }
             </Box>
-          </Box>
+          </Link>
         ))}
       </Box>
     </>

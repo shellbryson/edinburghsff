@@ -4,10 +4,10 @@ import { getDocs, collection, query, orderBy, limit  } from 'firebase/firestore'
 import { db } from "../firebase";
 
 // MUI
-import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 
 // Custom Components
+import PageHeading from '../components/PageHeading';
 import EventsGrid from '../components/EventsGrid';
 
 export default function AdminLinks() {
@@ -35,9 +35,7 @@ export default function AdminLinks() {
   return (
     <>
       <Container>
-        <Typography variant="h4" component="h1" gutterBottom>
-          Events
-        </Typography>
+        <PageHeading heading="Events" />
       </Container>
       <EventsGrid data={events} />
     </>

@@ -1,22 +1,32 @@
-#root {
-  margin: 0 auto;
-  text-align: center;
+/*
+  EDINBURGH SFF
+*/
 
-  --font-body: 'Fira Code', monospace;
+$color-body: #003B4A;
+$color-body-faded: #c5d3d6;
+$color-links: rgb(255, 55, 0);
+$color-grid-start: #bd6767;
+$color-grid-end: #6e67bd;
+
+$body-font: 'Fira Code', monospace;
+
+#root {
+  --font-body: $body-font;
   --font-body-weight: 400;
   --font-body-bold-weight: 500;
-
-  --font-heading: 'Fira Code', monospace;
-
-  --color-body: #003B4A;
-  --color-body-faded: #c5d3d6;
+  --font-heading: $body-font;
+  --color-body: $color-body;
+  --color-body-faded: $color-body-faded;
+  --color-links: $color-links;
 }
 
 body {
   min-width: 320px;
   min-height: 100vh;
-  font-family: 'Fira Code', monospace;
   margin: 0;
+  padding: 0;
+  font-size: 16px;
+  font-family: $body-font;
   padding-bottom: 4rem;
   background-color: #fff;
 }
@@ -31,25 +41,20 @@ body {
 }
 
 a {
-  color: red;
+  color: $color-links;
 }
 
-//
+.sff-events-grid {
 
-$color-start: #bd6767; // Start color
-$color-end: #6e67bd; // End color
+  $grid-columns: 4;
+  $grid-rows: 3;
+  $color-steps: $grid-columns * $grid-rows;
 
-$grid-columns: 4; // Number of grid columns
-$grid-rows: 3; // Number of grid rows
-
-$color-steps: $grid-columns * $grid-rows; // Total number of color steps
-
-.grid {
-
-  > div {
+  &__event {
     @for $i from 1 through $color-steps {
-      $color-percentage: percentage($i / $color-steps);
-      $interpolated-color: mix($color-start, $color-end, $color-percentage);
+      $reset-index: $i % $color-steps; // Cycle back to 0 when we reach the end of the color grid
+      $color-percentage: percentage(calc($reset-index / $color-steps));
+      $interpolated-color: mix($color-grid-start, $color-grid-end, $color-percentage);
 
       &:nth-child(#{$i}) {
         background-color: $interpolated-color;
