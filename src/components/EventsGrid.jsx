@@ -42,7 +42,6 @@ const styleGridContent={
 }
 
 const styleEventTitle={
-  fontSize: "clamp(1rem, -0.875rem + 8.333vw, 3.5rem)",
   padding: 0
 }
 
@@ -91,13 +90,15 @@ const EventsList = ({ data }) => {
     setSelectedEvent(docSnap.data());
   }
 
-  const handleOpenEvent = (id, title) => {
+  const handleOpenEvent = (e, id, title) => {
+    e && e.preventDefault();
     navigate(`/events/${id}/${slugify(title)}`);
     fetchEvent(id);
     setIsOpen(true);
   };
 
   const handleCloseEvent = () => {
+    navigate(`/events`);
     setIsOpen(false);
   };
 
@@ -106,7 +107,7 @@ const EventsList = ({ data }) => {
       <EventDetails isOpen={isOpen} selectedEvent={selectedEvent} onCloseCallback={handleCloseEvent} />
       <Box style={styleGrid} className="sff-events-grid">
         {events.map((data, index) => (
-          <Link className="sff-events-grid__event" style={styleGridCell} key={index} href={`/events/${data.id}/${slugify(data.title)}`} onClick={() => handleOpenEvent(data.id, data.title) }>
+          <Link className="sff-events-grid__event" style={styleGridCell} key={index} href={`/events/${data.id}/${slugify(data.title)}`} onClick={(e) => {handleOpenEvent(e, data.id, data.title)}}>
             <EventsGridImage image={data?.image} alt={data?.title} />
             <Box style={styleGridContent}>
               <Stack spacing={2}>
