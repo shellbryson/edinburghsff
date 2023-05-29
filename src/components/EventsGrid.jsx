@@ -62,7 +62,7 @@ const EventsList = ({ data }) => {
       fetchEvent(params.eventID);
       setIsOpen(true);
     }
-  }, [data]);
+  }, [data, params?.eventID]);
 
   const eventDate = (eventStartDate) => {
     const d = dayjs(eventStartDate.toDate().toLocaleString(), 'DD/MM/YYYY, HH:mm:ss').format('DD/MM/YY')
