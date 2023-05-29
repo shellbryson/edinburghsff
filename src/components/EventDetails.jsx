@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Button from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
 
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -44,7 +45,7 @@ const styleEventDecsription={
   marginTop: "1rem"
 }
 
-const EventDetails = ({ selectedEvent, isOpen, onCloseCallback }) => {
+const EventDetails = ({ selectedEvent, isOpen, onCloseCallback, isLoadingEvent }) => {
 
   const [isOpenDialog, setIsOpenDialog] = useState(false);
   const [currentEvent, setCurrentEvent] = useState({});
@@ -56,7 +57,7 @@ const EventDetails = ({ selectedEvent, isOpen, onCloseCallback }) => {
     console.log("ESFF EventDetails:", selectedEvent);
     setCurrentEvent(selectedEvent);
     setIsOpenDialog(isOpen);
-  }, [selectedEvent, isOpen]);
+  }, [selectedEvent, isOpen, isLoadingEvent]);
 
   const eventDate = () => {
     if (!currentEvent.eventStart) return;
@@ -110,19 +111,30 @@ const EventDetails = ({ selectedEvent, isOpen, onCloseCallback }) => {
         <Typography variant="h2" component="span">{currentEvent.title}</Typography>
       </DialogTitle>
       <DialogContent>
-        <EventsDetailsImage image={currentEvent?.image} alt={currentEvent?.title} />
-        <Box style={styleEventMeta}>
-          {eventDate()}
-          <LocationOnOutlinedIcon />
-          <Typography component="p" variant='p'> {currentEvent.eventLocation}</Typography>
-        </Box>
-        <Box style={styleEventDecsription}>
-          <Typography component="p" variant='p'>{currentEvent.description}</Typography>
-          <Typography component="p" variant='p' sx={{ mt: 2 }}>More at: <Link to={currentEvent.url}>{cleanUrl(currentEvent.url)}</Link></Typography>
-        </Box>
+        { isLoadingEvent &&
+          <>
+            <Box sx={{ display: 'flex', flexDirection: "column", alignItems: "center", justifyContent: "center", height: "200px" }}>
+              <CircularProgress />
+            </Box>
+          </>
+        }
+        { !isLoadingEvent && <>
+          <EventsDetailsImage image={currentEvent?.image} alt={currentEvent?.title} />
+          <Box style={styleEventMeta}>
+            {eventDate()}
+            <LocationOnOutlinedIcon />
+            <Typography component="p" variant='p'> {currentEvent.eventLocation}</Typography>
+          </Box>
+          <Box style={styleEventDecsription}>
+            <Typography component="p" variant='p'>{currentEvent.description}</Typography>
+            <Typography component="p" variant='p' sx={{ mt: 2 }}>More at: <Link to={currentEvent.url}>{cleanUrl(currentEvent.url)}</Link></Typography>
+          </Box>
+        </>}
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleView} variant='outlined' endIcon={<LaunchOutlinedIcon />}>Go to Event site</Button>
+        { !isLoadingEvent &&
+          <Button onClick={handleView} variant='outlined' endIcon={<LaunchOutlinedIcon />}>Go to Event site</Button>
+        }
         <Button onClick={handleCloseDetails} variant='contained'>Close</Button>
       </DialogActions>
     </Dialog>

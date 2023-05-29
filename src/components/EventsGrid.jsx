@@ -16,11 +16,12 @@ import Link from '@mui/material/Link';
 // Custom UI
 import EventsGridImage from './EventsGridImage';
 import EventDetails from './EventDetails';
+import { set } from 'react-hook-form';
 
 const styleGrid={
   display: "grid",
   gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-  gap: "0",
+  gap: "4px",
   marginTop: "2rem"
 }
 
@@ -32,13 +33,15 @@ const styleGridCell={
 }
 
 const styleGridContent={
-  display: "block",
+  display: "flex",
+  flexDirection: "column",
   position: "absolute",
   aspect: "1/1",
   zIndex: 2,
   inset: "1rem",
   textAlign: "left",
   color: "#fff",
+  height: "calc(100% - 2rem)",
 }
 
 const styleEventTitle={
@@ -46,12 +49,14 @@ const styleEventTitle={
 }
 
 const styleEventDate={
-  padding: 0
+  padding: 0,
+  marginTop: "auto",
 }
 
 const EventsGrid = ({ data }) => {
   const [events, setEvents] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
+  const [isLoadingEvent, setIsLoadingEvent] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState({});
   const navigate = useNavigate();
   const params = useParams();
@@ -60,14 +65,26 @@ const EventsGrid = ({ data }) => {
     setEvents(data);
 
     if (params?.eventID) {
+      setIsLoadingEvent(true);
       fetchEvent(params.eventID);
       setIsOpen(true);
     }
   }, [data, params?.eventID]);
 
-  const eventDate = (eventStartDate) => {
-    const d = dayjs(eventStartDate.toDate().toLocaleString(), 'DD/MM/YYYY, HH:mm:ss').format('DD/MM/YY')
-    return <Typography component="p" style={styleEventDate}>{d}</Typography>;
+  const eventDate = (eventStartDate, eventEndDate, eventIsAllDay) => {
+    let displayDate = "";
+
+    if (eventIsAllDay) {
+      const _startDate = dayjs(eventStartDate.toDate().toLocaleString(), 'DD/MM/YYYY, HH:mm:ss').format('DD/MM/YY');
+      const _endDate = dayjs(eventEndDate.toDate().toLocaleString(), 'DD/MM/YYYY, HH:mm:ss').format('DD/MM/YY');
+      displayDate = _startDate === _endDate ? _startDate : `${_startDate} to ${_endDate}`;
+    } else {
+      const _startDate = dayjs(eventStartDate.toDate().toLocaleString(), 'DD/MM/YYYY, HH:mm:ss').format('DD/MM/YY, HH:mm');
+      const _endDate = dayjs(eventEndDate.toDate().toLocaleString(), 'DD/MM/YYYY, HH:mm:ss').format('HH:mm');
+      displayDate = `${_startDate} to ${_endDate}`;
+    }
+
+    return <Typography component="p" style={styleEventDate}>{displayDate}</Typography>;
   }
 
   const slugify = (str) => {
@@ -87,12 +104,14 @@ const EventsGrid = ({ data }) => {
     const docRef = doc(db, "events", id);
     const docSnap = await getDoc(docRef);
 
+    setIsLoadingEvent(false);
     setSelectedEvent(docSnap.data());
   }
 
   const handleOpenEvent = (e, id, title) => {
     e && e.preventDefault();
     navigate(`/events/${id}/${slugify(title)}`);
+    setIsLoadingEvent(true);
     fetchEvent(id);
     setIsOpen(true);
   };
@@ -100,11 +119,12 @@ const EventsGrid = ({ data }) => {
   const handleCloseEvent = () => {
     navigate(`/events`);
     setIsOpen(false);
+    setSelectedEvent({});
   };
 
   return (
     <>
-      <EventDetails isOpen={isOpen} selectedEvent={selectedEvent} onCloseCallback={handleCloseEvent} />
+      <EventDetails isOpen={isOpen} isLoadingEvent={isLoadingEvent} selectedEvent={selectedEvent} onCloseCallback={handleCloseEvent} />
       <Box style={styleGrid} className="sff-events-grid">
         {events.map((data, index) => (
           <Link className="sff-events-grid__event" style={styleGridCell} key={index} href={`/events/${data.id}/${slugify(data.title)}`} onClick={(e) => {handleOpenEvent(e, data.id, data.title)}}>
@@ -118,7 +138,7 @@ const EventsGrid = ({ data }) => {
                   {data.descriptionShort}
                 </Typography>
               </Stack>
-              { eventDate(data?.eventStart) }
+              { eventDate(data?.eventStart, data?.eventEnd, data?.eventIsAllDay) }
             </Box>
           </Link>
         ))}
