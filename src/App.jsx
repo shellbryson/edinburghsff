@@ -38,6 +38,10 @@ import AdminMap from './pages/AdminMap';
 import './App.scss';
 import Logo from './assets/logo.svg';
 
+const logoStyle = {
+  filter: "grayscale() opacity(0.3)",
+}
+
 function App() {
 
   const navigate = useNavigate();
@@ -80,7 +84,7 @@ function App() {
       </ConfirmProvider>
 
       <Box sx={{ display: "flex", alignContent: "center", justifyContent: "center", margin: "4rem"}}>
-        <img src={Logo} alt="Edinburgh SFF Logo" width="50" height="50" />
+        <img src={Logo} style={logoStyle} alt="Edinburgh SFF Logo" width="64" height="64" />
       </Box>
 
       <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
