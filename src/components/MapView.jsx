@@ -12,26 +12,16 @@ import GoogleMapReact from 'google-maps-react-markers';
 import Box from '@mui/material/Box';
 
 // Custom UI
+import MapPin from './MapPin';
 
 const styleMap={
   display: "block",
   position: "relative",
   marginTop: "2rem",
   width: "100%",
-  height: "90vh",
+  height: "80vh",
   overflow: "hidden",
 }
-
-const pinStyle = {
-
-}
-
-const LocationPin = ({ text }) => (
-  <div style={ pinStyle }>
-    <PushPinOutlinedIcon />
-    <p className="">{text}</p>
-  </div>
-)
 
 export default function MapView() {
 
@@ -81,9 +71,10 @@ export default function MapView() {
             defaultZoom={defaultLocation.zoom}>
 
             {locations.map((place) => (
-              <LocationPin
+              <MapPin
                 key={place.id}
-                text={place.title}
+                tags={place.tags}
+                title={place.title}
                 lat={parseFloat(place.lat)}
                 lng={parseFloat(place.lng)}
               />
