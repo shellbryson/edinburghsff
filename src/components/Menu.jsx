@@ -112,6 +112,14 @@ export default function Menu() {
               Links
             </ListItemText>
           </ListItem>
+          <ListItem onClick={()=>handleOnClick("/about")}>
+            <ListItemIcon>
+              <InfoOutlinedIcon />
+            </ListItemIcon>
+            <ListItemText>
+              About
+            </ListItemText>
+          </ListItem>
 
           <Divider />
 
@@ -159,17 +167,6 @@ export default function Menu() {
               </ListItem>
             </>
           }
-
-          <Divider />
-
-          <ListItem onClick={()=>handleOnClick("/about")}>
-            <ListItemIcon>
-              <InfoOutlinedIcon />
-            </ListItemIcon>
-            <ListItemText>
-              About
-            </ListItemText>
-          </ListItem>
 
         </List>
       </Drawer>
