@@ -15,6 +15,9 @@ import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined
 import AutoStoriesOutlinedIcon from '@mui/icons-material/AutoStoriesOutlined';
 import MapOutlinedIcon from '@mui/icons-material/MapOutlined';
 
+// Custom Components
+import Navigation from './components/Navigation';
+
 // Layouts
 import PageLayout from './layouts/PageLayout';
 import AdminLayout from './layouts/AdminLayout';
@@ -60,6 +63,8 @@ function App() {
 
   return (
     <ThemeProvider theme={customTheme}>
+
+      <Navigation />
 
       <ConfirmProvider>
         <Routes>
