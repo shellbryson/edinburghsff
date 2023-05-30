@@ -18,6 +18,7 @@ import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 import AddPhotoAlternateOutlinedIcon from '@mui/icons-material/AddPhotoAlternateOutlined';
 import LinearProgress from '@mui/material/LinearProgress';
+import Box from '@mui/material/Box';
 
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -32,7 +33,8 @@ import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 // Custom Components
-import LinkList from '../components/LinkList';
+import PageHeading from '../components/PageHeading';
+import LinkList from '../components/LinksList';
 
 export default function AdminLinks() {
 
@@ -307,8 +309,10 @@ export default function AdminLinks() {
       </Dialog>
 
       <Container maxWidth="md">
-        <Typography component="h1" variant='h1'>Links</Typography>
-        <Button onClick={() => handleOpenAdd()} variant='outlined'>Add</Button>
+        <PageHeading heading="Links" />
+        <Box sx={{ textAlign: "center"}}>
+          <Button onClick={() => handleOpenAdd()} variant='outlined'>Add Link</Button>
+        </Box>
       </Container>
 
       <LinkList enableAdminActions={true} data={links} onDelete={handleDelete} onUpdate={handleOpenUpdate} />

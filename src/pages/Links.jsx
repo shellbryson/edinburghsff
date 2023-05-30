@@ -8,7 +8,7 @@ import Container from '@mui/material/Container';
 
 // Custom Components
 import PageHeading from '../components/PageHeading';
-import LinkList from '../components/LinkList';
+import LinkTiles from '../components/LinkTiles';
 
 export default function AdminLinks() {
 
@@ -35,7 +35,7 @@ export default function AdminLinks() {
       <Container>
         <PageHeading heading="Links" />
       </Container>
-      <LinkList data={links} />
+      <LinkTiles data={links} />
     </>
   )
 }

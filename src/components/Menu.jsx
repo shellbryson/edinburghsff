@@ -12,8 +12,6 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Drawer from '@mui/material/Drawer';
 import Divider from '@mui/material/Divider';
 import CloseIcon from '@mui/icons-material/Close';
-import Box from '@mui/material/Box';
-import { Typography } from '@mui/material';
 
 import MapOutlinedIcon from '@mui/icons-material/MapOutlined';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';

@@ -43,7 +43,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 // Custom Components
 import PageHeading from '../components/PageHeading';
 import EventsList from '../components/EventsList';
-import EventsListImage from '../components/EventsListImage';
+import EventsListImage from '../components/ListImage';
 
 export default function AdminEvents() {
 

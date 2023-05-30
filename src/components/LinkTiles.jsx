@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 
-import { useAuth } from '../context/AuthContext';
-
 // MUI
 import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
@@ -11,9 +9,8 @@ import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Grid';
 
-
 // Custom UI
-import LinkListImage from './LinkListImage';
+import LinkTileImage from './LinkTileImage';
 
 const styleCard={
   display: "flex",
@@ -30,7 +27,7 @@ const styleActions={
   borderTop: "1px solid #ccc"
 }
 
-const LinkList = ({ data, onDelete, onUpdate, enableAdminActions }) => {
+const LinkTiles = ({ data, onDelete, onUpdate, enableAdminActions }) => {
   const [links, setLinks] = useState([]);
 
   useEffect(() => {
@@ -57,7 +54,7 @@ const LinkList = ({ data, onDelete, onUpdate, enableAdminActions }) => {
                 </Stack>
               </Grid>
               <Grid item xs={4}>
-                <LinkListImage image={data?.image} alt={data?.title} />
+                <LinkTileImage image={data?.image} alt={data?.title} />
               </Grid>
             </Grid>
           </CardContent>
@@ -73,4 +70,4 @@ const LinkList = ({ data, onDelete, onUpdate, enableAdminActions }) => {
   );
 };
 
-export default LinkList;
+export default LinkTiles;

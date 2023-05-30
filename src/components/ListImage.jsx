@@ -19,7 +19,7 @@ const eventImageStyle = {
   objectFit: "cover"
 }
 
-const EventsListImage = ({ image, alt }) => {
+const ListListImage = ({ image, alt }) => {
 
   return (
     <Box style={eventImageContainerStyle}>
@@ -30,4 +30,4 @@ const EventsListImage = ({ image, alt }) => {
   );
 };
 
-export default EventsListImage;
+export default ListListImage;

@@ -17,7 +17,7 @@ import TableRow from '@mui/material/TableRow';
 import dayjs from 'dayjs';
 
 // Custom UI
-import EventsListImage from './EventsListImage';
+import ListImage from './ListImage';
 
 const styleCard={
   display: "flex",
@@ -61,7 +61,7 @@ const EventsList = ({ data, onDelete, onUpdate }) => {
             >
               <TableCell component="th" scope="row" ><Typography>{dayjs(data.eventStart.toDate().toLocaleString(), 'DD/MM/YYYY, HH:mm:ss').format('DD/MM/YYYY')}</Typography></TableCell>
               <TableCell>{data.title}</TableCell>
-              <TableCell><EventsListImage image={data?.image} alt={data?.title} /></TableCell>
+              <TableCell><ListImage image={data?.image} alt={data?.title} /></TableCell>
               <TableCell>{data.eventLocation}</TableCell>
               <TableCell>
                 <IconButton size='small' onClick={() => onDelete(data.id)}>

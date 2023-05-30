@@ -43,7 +43,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 // Custom Components
 import PageHeading from '../components/PageHeading';
 import MapList from '../components/MapList';
-import EventsListImage from '../components/EventsListImage';
+import EventsListImage from '../components/ListImage';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;

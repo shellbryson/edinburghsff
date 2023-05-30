@@ -1,6 +1,6 @@
 import React from 'react';
 
-const LinkListImage = ({ image, alt }) => {
+const LinkTileImage = ({ image, alt }) => {
 
   return (
     <div className="sff-linklist-image">
@@ -11,4 +11,4 @@ const LinkListImage = ({ image, alt }) => {
   );
 };
 
-export default LinkListImage;
+export default LinkTileImage;

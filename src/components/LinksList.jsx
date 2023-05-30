@@ -16,7 +16,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
 // Custom UI
-import ListImage from './ListImage';
+import EventsListImage from './ListImage';
 
 const MapList = ({ data, onDelete, onUpdate }) => {
   const [places, setPlaces] = useState([]);
@@ -56,7 +56,7 @@ const MapList = ({ data, onDelete, onUpdate }) => {
                   {place.tags && renderLocationTags(place.tags)}
                 </Box>
               </TableCell>
-              <TableCell><ListImage image={place?.image} alt={place?.title} /></TableCell>
+              <TableCell><EventsListImage image={place?.image} alt={place?.title} /></TableCell>
               <TableCell>
                 <IconButton size='small' onClick={() => onDelete(place.id)}>
                   <DeleteOutlineOutlinedIcon />
