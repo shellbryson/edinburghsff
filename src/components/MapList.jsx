@@ -28,7 +28,6 @@ const MapList = ({ data, onDelete, onUpdate }) => {
 
   const renderLocationTags = (tags) => {
     if (!tags) return;
-    console.log(tags);
     const tagArray = tags.split(',');
     return tagArray.map((tag, i) => (
       <Chip key={i} label={tag} />

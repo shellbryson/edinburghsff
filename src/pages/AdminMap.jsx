@@ -140,9 +140,11 @@ export default function AdminMap() {
     setUpdateLocationLat(data.lat);
     setUpdateLocationLng(data.lng);
 
-    const tags = data.tags.split(',');
-
-    setUpdateLocationTags(tags || []);
+    if (data.tags) {
+      setUpdateLocationTags(data.tags.split(','));
+    } else {
+      setUpdateLocationTags([]);
+    }
 
     setOpenUpdate(true);
   };
