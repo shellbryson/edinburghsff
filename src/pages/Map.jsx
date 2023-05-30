@@ -15,7 +15,7 @@ export default function Map() {
       <Container>
         <PageHeading heading="Map" />
         <Typography variant="p" component="p" gutterBottom align='center'>
-          Places to write, read or of interest
+          Writer-friendly cafes, bookshops and venues
         </Typography>
       </Container>
       <MapView />

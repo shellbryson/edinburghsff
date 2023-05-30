@@ -11,15 +11,14 @@ import LocalCafeOutlinedIcon from '@mui/icons-material/LocalCafeOutlined';
 
 const pinStyle = {
   display: "flex",
-  transformOrigin: "50%, 50%",
   alignItems: "center",
 }
 
 const iconStyle = {
   display: "block",
-  width: "3rem",
-  height: "3rem",
-  fontSize: "3rem",
+  width: "2rem",
+  height: "2rem",
+  fontSize: "2rem",
   borderRadius: "50%",
   backgroundColor: "rgba(255, 255, 255, 0.75)"
 }
@@ -29,7 +28,7 @@ const pinLabelStyle = {
   padding: "0.5rem",
 }
 
-export default function MapPin({tags, title}) {
+export default function MapPin({tags, title, onMarkerClick}) {
   let pinIcon;
   let tagArray;
 
@@ -37,17 +36,17 @@ export default function MapPin({tags, title}) {
     tagArray = tags.split(",");
     if (tagArray.includes("Venue")) {
       pinIcon = <StarOutlinedIcon style={ iconStyle } />;
-    } else if (tagArray.includes("Writer Friendly")) {
-      pinIcon = <LocalCafeOutlinedIcon style={ iconStyle } />;
     } else if (tagArray.includes("Bookshop")) {
       pinIcon = <MenuBookOutlinedIcon style={ iconStyle }/>;
+    } else if (tagArray.includes("Cafe")) {
+      pinIcon = <LocalCafeOutlinedIcon style={ iconStyle } />;
     } else {
       pinIcon = <PushPinOutlinedIcon style={ iconStyle }/>;
     }
   }
 
   return (
-    <Box style={ pinStyle }>
+    <Box style={ pinStyle } onClick={onMarkerClick}>
       <Box style={ iconStyle }>{pinIcon}</Box>
       <Typography component="p" style={ pinLabelStyle }>{title}</Typography>
     </Box>

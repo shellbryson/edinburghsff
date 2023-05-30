@@ -3,13 +3,11 @@ import React, { useState, useEffect, useRef } from 'react';
 import { getDocs, collection, query } from 'firebase/firestore';
 import { db } from "../firebase";
 
-import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
-
-// import GoogleMapReact from 'google-map-react';
 import GoogleMapReact from 'google-maps-react-markers';
 
 // MUI
 import Box from '@mui/material/Box';
+import CircularProgress from '@mui/material/CircularProgress';
 
 // Custom UI
 import MapPin from './MapPin';
@@ -47,6 +45,11 @@ export default function MapView() {
     setIsLoaded(true)
   }
 
+  const onGoogleApiLoaded = ({ map, maps }) => {
+    mapRef.current = map
+    setMapReady(true)
+  }
+
   useEffect(() => {
     getLocations();
   }, [])
@@ -66,7 +69,7 @@ export default function MapView() {
           <GoogleMapReact
             apiKey={import.meta.env.VITE_GOOGLEMAPS_API_KEY}
             bootstrapURLKeys={{ key: import.meta.env.VITE_GOOGLEMAPS_API_KEY }}
-            yesIWantToUseGoogleMapApiInternals
+            onGoogleApiLoaded={onGoogleApiLoaded}
             defaultCenter={defaultLocation.center}
             defaultZoom={defaultLocation.zoom}>
 
@@ -79,9 +82,13 @@ export default function MapView() {
                 lng={parseFloat(place.lng)}
               />
             ))}
-
           </GoogleMapReact>
         </Box>
+      }
+      { !isLoaded &&
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: "100%", minHeight: "300px" }}>
+        <CircularProgress />
+      </Box>
       }
     </>
   )

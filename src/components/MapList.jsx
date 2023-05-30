@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
 // MUI
-import Typography from '@mui/material/Typography';
 import Chip from '@mui/material/Chip';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';

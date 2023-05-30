@@ -60,7 +60,7 @@ const locationTagsLookup = [
   'Venue',
   'Cafe',
   'Bookshop',
-  'Writer friendly',
+  'Writer friendly cafe',
   'Place of interest'
 ];
 
@@ -105,7 +105,7 @@ export default function AdminMap() {
     getEvents();
   }, []);
 
-  const q = query(collection(db, "locations"), orderBy("title", "desc"));
+  const q = query(collection(db, "locations"), orderBy("title", "asc"));
 
   const getEvents = async () => {
     const querySnapshot = await getDocs(q);
@@ -159,7 +159,6 @@ export default function AdminMap() {
 
     if (
       !title ||
-      !description ||
       !url ||
       !locationLat ||
       !locationLng
@@ -237,7 +236,6 @@ export default function AdminMap() {
 
     if (
       !updateTitle ||
-      !updateDescription ||
       !updateUrl ||
       !updateLocationLat ||
       !updateLocationLng
@@ -363,7 +361,7 @@ export default function AdminMap() {
               </Select>
             </FormControl>
 
-            <TextField sx={{ width: '100%' }} required multiline rows={8} label="Description" onChange={(e) => setDescription(e.target.value)}  />
+            <TextField sx={{ width: '100%' }} multiline rows={8} label="Description" onChange={(e) => setDescription(e.target.value)}  />
             <TextField sx={{ width: '100%' }} required label="Lat" onChange={(e) => setLocationLat(e.target.value)} type='text' />
             <TextField sx={{ width: '100%' }} required label="Lng" onChange={(e) => setLocationLng(e.target.value)} type='text' />
 
@@ -439,7 +437,7 @@ export default function AdminMap() {
               </Select>
             </FormControl>
 
-            <TextField sx={{ width: '100%' }} required multiline rows={8} value={updateDescription} label="Description" onChange={(e) => setUpdateDescription(e.target.value)}  />
+            <TextField sx={{ width: '100%' }} multiline rows={8} value={updateDescription} label="Description" onChange={(e) => setUpdateDescription(e.target.value)}  />
             <TextField sx={{ width: '100%' }} required label="Lat" value={updateLocationLat} onChange={(e) => setUpdateLocationLat(e.target.value)} type='text' />
             <TextField sx={{ width: '100%' }} required label="Lng" value={updateLocationLng} onChange={(e) => setUpdateLocationLng(e.target.value)} type='text' />
 
