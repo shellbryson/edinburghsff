@@ -66,30 +66,31 @@ function App() {
 
       <Navigation />
 
-      <ConfirmProvider>
-        <Routes>
-          <Route path="/dashboard" element={<AdminLayout />}>
-            <Route index element={<Dashboard />} />
-            <Route path='links' element={<AdminLinks />} />
-            <Route path='events' element={<AdminEvents />} />
-            <Route path='map' element={<AdminMap />} />
-          </Route>
+      <Box sx={{ marginTop: "4rem"}}>
+        <ConfirmProvider>
+          <Routes>
+            <Route path="/dashboard" element={<AdminLayout />}>
+              <Route index element={<Dashboard />} />
+              <Route path='links' element={<AdminLinks />} />
+              <Route path='events' element={<AdminEvents />} />
+              <Route path='map' element={<AdminMap />} />
+            </Route>
 
-          <Route path="/" element={<PageLayout />}>
-            <Route index element={<Welcome />} />
-            <Route path="signin" element={<Signin />} />
-            <Route path="links" element={<Links />} />
-            <Route path="map" element={<Map />} />
-            <Route path="about" element={<About />} />
-            <Route path="events/:eventID/:eventTitle" element={<Events />} />
-            <Route path="events" element={<Events />} />
-            <Route path="*" element={<NotFound />} />
-          </Route>
-        </Routes>
-      </ConfirmProvider>
-
-      <Box sx={{ display: "flex", alignContent: "center", justifyContent: "center", margin: "4rem"}}>
-        <img src={Logo} style={logoStyle} alt="Edinburgh SFF Logo" width="64" height="64" />
+            <Route path="/" element={<PageLayout />}>
+              <Route index element={<Welcome />} />
+              <Route path="signin" element={<Signin />} />
+              <Route path="links" element={<Links />} />
+              <Route path="map" element={<Map />} />
+              <Route path="about" element={<About />} />
+              <Route path="events/:eventID/:eventTitle" element={<Events />} />
+              <Route path="events" element={<Events />} />
+              <Route path="*" element={<NotFound />} />
+            </Route>
+          </Routes>
+        </ConfirmProvider>
+        <Box sx={{ display: "flex", alignContent: "center", justifyContent: "center", margin: "4rem"}}>
+          <img src={Logo} style={logoStyle} alt="Edinburgh SFF Logo" width="64" height="64" />
+        </Box>
       </Box>
 
       <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
