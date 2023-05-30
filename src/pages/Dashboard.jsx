@@ -9,6 +9,9 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 
+// Custom Components
+import PageHeading from '../components/PageHeading';
+
 const Dashboard = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
@@ -25,12 +28,13 @@ const Dashboard = () => {
 
   return (
     <Container>
-      <Typography component="h1" variant='h1'>Dashboard</Typography>
+      <PageHeading heading="Dashboard" />
       <Container maxWidth="sm">
         <Paper sx={{ padding: 2, mb: 2 }} elevation={3}>
           <Stack spacing={2}>
             <Typography component="h2">Tools</Typography>
             <Link to='/dashboard/events'>Edit events</Link>
+            <Link to='/dashboard/map'>Edit map</Link>
             <Link to='/dashboard/links'>Edit links</Link>
           </Stack>
         </Paper>
