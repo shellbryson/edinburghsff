@@ -16,7 +16,6 @@ import Link from '@mui/material/Link';
 // Custom UI
 import EventsGridImage from './EventsGridImage';
 import EventDetails from './EventDetails';
-import { set } from 'react-hook-form';
 
 const styleGrid={
   display: "grid",

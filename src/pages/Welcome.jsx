@@ -39,13 +39,13 @@ export default function Welcome() {
 
       <Container maxWidth="md">
 
-        <Box sx={{ mb: "2rem" }}>
+        <Box sx={{ mb: "2rem", textAlign: "center" }}>
           <Typography component="h1" variant='h1'>Edinburgh SFF</Typography>
           <Typography component="p" variant='h2'>The Science Fiction &amp; Fantasy Writing community</Typography>
           <Typography component="p">New writers, Critique and Events.</Typography>
         </Box>
 
-        <Box sx={{ mb: "2rem" }}>
+        <Box sx={{ mb: "2rem", textAlign: "center" }}>
           <Typography component="p">For the latest information and events, find us on Mastodon <a rel="me" href="https://writing.exchange/@EdinburghSFF">@EdinburghSFF@writing.exchange</a>, Twitter <a href="https://twitter.com/edinburghsff">@edinburghsff</a> or drop into our <a href="https://discord.gg/5EaXDTwrEY">Discord</a> for a chat.</Typography>
         </Box>
 

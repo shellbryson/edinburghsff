@@ -14,6 +14,7 @@ import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
 import AutoStoriesOutlinedIcon from '@mui/icons-material/AutoStoriesOutlined';
+import MapOutlinedIcon from '@mui/icons-material/MapOutlined';
 
 // Layouts
 import PageLayout from './layouts/PageLayout';
@@ -21,6 +22,7 @@ import AdminLayout from './layouts/AdminLayout';
 
 // Regular Pages
 import Welcome from './pages/Welcome';
+import Map from './pages/Map';
 import Links from './pages/Links';
 import Events from './pages/Events';
 import NotFound from './pages/NotFound';
@@ -39,8 +41,8 @@ function App() {
 
   const navigate = useNavigate();
 
-  const handleClickHome = () => {
-    navigate("/");
+  const handleClickMap = () => {
+    navigate("/map");
   }
 
   const handleClickEvents = () => {
@@ -66,6 +68,7 @@ function App() {
             <Route index element={<Welcome />} />
             <Route path="signin" element={<Signin />} />
             <Route path="links" element={<Links />} />
+            <Route path="map" element={<Map />} />
             <Route path="events/:eventID/:eventTitle" element={<Events />} />
             <Route path="events" element={<Events />} />
             <Route path="*" element={<NotFound />} />
@@ -79,7 +82,7 @@ function App() {
 
       <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
         <BottomNavigation showLabels>
-          <BottomNavigationAction onClick={handleClickHome} label="Home" icon={<HomeOutlinedIcon />} />
+          <BottomNavigationAction onClick={handleClickMap} label="Map" icon={<MapOutlinedIcon />} />
           <BottomNavigationAction onClick={handleClickEvents} label="Events" icon={<CalendarMonthOutlinedIcon />} />
           <BottomNavigationAction onClick={handleClickLinks} label="Links" icon={<AutoStoriesOutlinedIcon />} />
         </BottomNavigation>

@@ -5,6 +5,7 @@ import { db } from "../firebase";
 
 // MUI
 import Container from '@mui/material/Container';
+import Typography from '@mui/material/Typography';
 
 // Custom Components
 import PageHeading from '../components/PageHeading';
@@ -36,6 +37,9 @@ export default function AdminLinks() {
     <>
       <Container>
         <PageHeading heading="Events" />
+        <Typography variant="p" component="p" gutterBottom align='center'>
+          Events for writers and readers
+        </Typography>
       </Container>
       <EventsGrid data={events} />
     </>
