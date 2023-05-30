@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { doc, getDocs, addDoc, updateDoc, deleteDoc, collection, query, orderBy, arrayUnion } from 'firebase/firestore';
+import { doc, getDocs, addDoc, updateDoc, deleteDoc, collection, query, orderBy } from 'firebase/firestore';
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { db, storage } from "../firebase";
 
@@ -60,7 +60,7 @@ const locationTagsLookup = [
   'Venue',
   'Cafe',
   'Bookshop',
-  'Writer friendly cafe',
+  'Library',
   'Place of interest'
 ];
 

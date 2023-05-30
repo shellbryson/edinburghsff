@@ -8,6 +8,7 @@ import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
 import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
 import MenuBookOutlinedIcon from '@mui/icons-material/MenuBookOutlined';
 import LocalCafeOutlinedIcon from '@mui/icons-material/LocalCafeOutlined';
+import LocalLibraryOutlinedIcon from '@mui/icons-material/LocalLibraryOutlined';
 
 const pinStyle = {
   display: "flex",
@@ -40,6 +41,8 @@ export default function MapPin({tags, title}) {
       pinIcon = <MenuBookOutlinedIcon style={ iconStyle }/>;
     } else if (tagArray.includes("Cafe")) {
       pinIcon = <LocalCafeOutlinedIcon style={ iconStyle } />;
+    } else if (tagArray.includes("Library")) {
+      pinIcon = <LocalLibraryOutlinedIcon style={ iconStyle } />;
     } else {
       pinIcon = <PushPinOutlinedIcon style={ iconStyle }/>;
     }

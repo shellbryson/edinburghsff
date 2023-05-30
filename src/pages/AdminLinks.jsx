@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { doc, getDocs, addDoc, updateDoc, deleteDoc, collection } from 'firebase/firestore';
+import { doc, getDocs, addDoc, updateDoc, deleteDoc, collection, query, orderBy } from 'firebase/firestore';
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { db, storage } from "../firebase";
 
@@ -66,11 +66,12 @@ export default function AdminLinks() {
 
   useEffect(() => {
     getLinks();
-    console.log("currentUser", user);
   }, [])
 
+  const q = query(collection(db, "links"), orderBy("title", "asc"));
+
   const getLinks = async () => {
-    const querySnapshot = await getDocs(collection(db, "links"));
+    const querySnapshot = await getDocs(q);
     const l = [];
     querySnapshot.forEach((doc) => {
       l.push({
@@ -315,7 +316,7 @@ export default function AdminLinks() {
         </Box>
       </Container>
 
-      <LinkList enableAdminActions={true} data={links} onDelete={handleDelete} onUpdate={handleOpenUpdate} />
+      <LinkList data={links} onDelete={handleDelete} onUpdate={handleOpenUpdate} />
 
     </Container>
   )

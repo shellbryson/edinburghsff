@@ -2,7 +2,7 @@ import React from 'react';
 
 import Box from '@mui/material/Box';
 
-const eventImageContainerStyle = {
+const listImageContainerStyle = {
   display: "block",
   aspect: "1/1",
   border: "1px solid #ccc",
@@ -11,7 +11,7 @@ const eventImageContainerStyle = {
   height: "2rem",
 }
 
-const eventImageStyle = {
+const listImageStyle = {
   display: "block",
   aspect: "1/1",
   width: "100%",
@@ -22,9 +22,9 @@ const eventImageStyle = {
 const ListListImage = ({ image, alt }) => {
 
   return (
-    <Box style={eventImageContainerStyle}>
+    <Box style={listImageContainerStyle}>
       {image &&
-        <img style={eventImageStyle} src={image} alt={alt} loading="lazy" />
+        <img style={listImageStyle} src={image} alt={alt} loading="lazy" />
       }
     </Box>
   );
