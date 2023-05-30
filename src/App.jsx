@@ -11,7 +11,6 @@ import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
-import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
 import AutoStoriesOutlinedIcon from '@mui/icons-material/AutoStoriesOutlined';
 import MapOutlinedIcon from '@mui/icons-material/MapOutlined';
@@ -32,6 +31,7 @@ import Signin from './pages/Signin';
 import Dashboard from './pages/Dashboard';
 import AdminLinks from './pages/AdminLinks';
 import AdminEvents from './pages/AdminEvents';
+import AdminMap from './pages/AdminMap';
 
 // Assets
 import './App.scss';
@@ -62,6 +62,7 @@ function App() {
             <Route index element={<Dashboard />} />
             <Route path='links' element={<AdminLinks />} />
             <Route path='events' element={<AdminEvents />} />
+            <Route path='map' element={<AdminMap />} />
           </Route>
 
           <Route path="/" element={<PageLayout />}>

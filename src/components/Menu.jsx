@@ -15,6 +15,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import Box from '@mui/material/Box';
 import { Typography } from '@mui/material';
 
+import MapOutlinedIcon from '@mui/icons-material/MapOutlined';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
 import AutoStoriesOutlinedIcon from '@mui/icons-material/AutoStoriesOutlined';
@@ -91,6 +92,14 @@ export default function Menu() {
               Home
             </ListItemText>
           </ListItem>
+          <ListItem onClick={()=>handleOnClick("/map")}>
+            <ListItemIcon>
+              <MapOutlinedIcon />
+            </ListItemIcon>
+            <ListItemText>
+              Map for writer
+            </ListItemText>
+          </ListItem>
           <ListItem onClick={()=>handleOnClick("/events")}>
             <ListItemIcon>
               <CalendarMonthOutlinedIcon />
@@ -142,6 +151,14 @@ export default function Menu() {
                 </ListItemIcon>
                 <ListItemText>
                   Edit links
+                </ListItemText>
+              </ListItem>
+              <ListItem onClick={()=>handleOnClick("/dashboard/map")}>
+                <ListItemIcon>
+                  <SettingsOutlinedIcon />
+                </ListItemIcon>
+                <ListItemText>
+                  Edit map
                 </ListItemText>
               </ListItem>
             </>
