@@ -24,6 +24,7 @@ import Welcome from './pages/Welcome';
 import Map from './pages/Map';
 import Links from './pages/Links';
 import Events from './pages/Events';
+import About from './pages/About';
 import NotFound from './pages/NotFound';
 import Signin from './pages/Signin';
 
@@ -70,6 +71,7 @@ function App() {
             <Route path="signin" element={<Signin />} />
             <Route path="links" element={<Links />} />
             <Route path="map" element={<Map />} />
+            <Route path="about" element={<About />} />
             <Route path="events/:eventID/:eventTitle" element={<Events />} />
             <Route path="events" element={<Events />} />
             <Route path="*" element={<NotFound />} />

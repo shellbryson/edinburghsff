@@ -20,9 +20,7 @@ import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
 import AutoStoriesOutlinedIcon from '@mui/icons-material/AutoStoriesOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
-
-// Extras
-import packageJson from '../../package.json';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 
 // Context
 import { useAuth } from '../context/AuthContext';
@@ -166,11 +164,12 @@ export default function Menu() {
 
           <Divider />
 
-          <ListItem>
+          <ListItem onClick={()=>handleOnClick("/about")}>
+            <ListItemIcon>
+              <InfoOutlinedIcon />
+            </ListItemIcon>
             <ListItemText>
-              <Box sx={{ mt: 4 }}>
-                <Typography component="p" variant='p_small'>Version { packageJson.version }</Typography>
-              </Box>
+              About
             </ListItemText>
           </ListItem>
 

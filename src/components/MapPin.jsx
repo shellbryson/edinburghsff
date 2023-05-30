@@ -28,7 +28,7 @@ const pinLabelStyle = {
   padding: "0.5rem",
 }
 
-export default function MapPin({tags, title, onMarkerClick}) {
+export default function MapPin({tags, title}) {
   let pinIcon;
   let tagArray;
 
@@ -46,7 +46,7 @@ export default function MapPin({tags, title, onMarkerClick}) {
   }
 
   return (
-    <Box style={ pinStyle } onClick={onMarkerClick}>
+    <Box style={ pinStyle }>
       <Box style={ iconStyle }>{pinIcon}</Box>
       <Typography component="p" style={ pinLabelStyle }>{title}</Typography>
     </Box>
