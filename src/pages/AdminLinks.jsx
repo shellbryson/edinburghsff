@@ -46,15 +46,12 @@ export default function AdminLinks() {
   const [description, setDescription] = useState('');
   const [url, setURL] = useState('');
   const [show, setShow] = useState(true);
+  const [linkClassification, setLinkClassification] = useState('');
+  const [isUpdate, setIsUpdate] = useState(false);
 
-  const [updateTitle, setUpdateTitle] = useState('');
-  const [updateDescription, setUpdateDescription] = useState('');
-  const [updateUrl, setUpdateURL] = useState('');
-  const [updateShow, setUpdateShow] = useState(true);
   const [updateId, setUpdateId] = useState('');
 
   const [openAdd, setOpenAdd] = useState(false);
-  const [openUpdate, setOpenUpdate] = useState(false);
 
   const [error, setError] = useState('');
 
@@ -82,29 +79,43 @@ export default function AdminLinks() {
     setLinks(l);
   }
 
-  const handleOpenAdd = () => {
+  const handleOpenForm = () => {
     setOpenAdd(true);
   };
 
-  const handleCloseAdd = () => {
+  const handleCloseForm = () => {
+
+    // Reset all fields
+    setTitle('');
+    setDescription('');
+    setURL('');
+    setShow(true);
+    setLinkClassification('');
+    setImgUrl('');
+
+    // Reset to Add mode
+    setIsUpdate(false);
+
+    // Close the dialog
     setOpenAdd(false);
   };
 
   const handleOpenUpdate = (data) => {
-    setUpdateTitle(data.title);
-    setUpdateDescription(data.description);
-    setUpdateURL(data.url);
+
+    console.log("data", data);
+
+    setTitle(data.title);
+    setDescription(data.description);
+    setURL(data.url);
     setImgUrl(data.image);
-    setUpdateShow(data.show);
+    setShow(data.show);
     setUpdateId(data.id);
 
-    setOpenUpdate(true);
+    setIsUpdate(true);
+
+    setOpenAdd(true);
 
     console.log("currentUser", user)
-  };
-
-  const handleCloseUpdate = () => {
-    setOpenUpdate(false);
   };
 
   const handleAdd = async (e) => {
@@ -138,17 +149,8 @@ export default function AdminLinks() {
       });
 
       getLinks();
-      handleCloseAdd();
+      handleCloseForm();
 
-    } catch (e) {
-      console.error("Error adding document: ", e);
-    }
-  };
-
-  const handleDelete = async (id) => {
-    try {
-      await deleteDoc(doc(db, "links", id));
-      getLinks();
     } catch (e) {
       console.error("Error adding document: ", e);
     }
@@ -158,7 +160,7 @@ export default function AdminLinks() {
     setError('');
     setImgUrl('');
 
-    if (!updateTitle || !updateDescription || !updateUrl) {
+    if (!title || !description || !url) {
       setError('Please fill out all fields');
       return;
     }
@@ -169,9 +171,10 @@ export default function AdminLinks() {
       const l = doc(db, "links", updateId);
 
       await updateDoc(l, {
-        title: updateTitle,
-        description: updateDescription,
-        show: updateShow,
+        title: title,
+        description: description,
+        url: url,
+        show: show,
         image: strippedImageUrl,
         updated: {
           email: user.email,
@@ -181,8 +184,17 @@ export default function AdminLinks() {
       });
 
       getLinks();
-      handleCloseUpdate();
+      handleCloseForm();
 
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await deleteDoc(doc(db, "links", id));
+      getLinks();
     } catch (e) {
       console.error("Error adding document: ", e);
     }
@@ -222,17 +234,21 @@ export default function AdminLinks() {
         maxWidth="sm"
         fullScreen={fullScreen}
         open={openAdd}
-        onClose={handleCloseAdd}
+        onClose={handleCloseForm}
         scroll="paper"
         aria-labelledby="add-dialog-title">
         <DialogTitle id="add-dialog-title">
-          <Typography variant="h2" component="span">Add New Link</Typography>
+          { isUpdate ?
+            <Typography variant="h2" component="span">Update Link</Typography>
+          :
+            <Typography variant="h2" component="span">Add New Link</Typography>
+          }
         </DialogTitle>
         <DialogContent>
           <Stack spacing={2} sx={{ mt: 2}}>
-            <TextField sx={{ width: '100%' }} required label="Title" onChange={(e) => setTitle(e.target.value)} type='text' />
-            <TextField sx={{ width: '100%' }} required label="URL" onChange={(e) => setURL(e.target.value)} type='url' />
-            <TextField sx={{ width: '100%' }} required multiline rows={8} label="Description" onChange={(e) => setDescription(e.target.value)}  />
+            <TextField sx={{ width: '100%' }} value={title} required label="Title" onChange={(e) => setTitle(e.target.value)} type='text' />
+            <TextField sx={{ width: '100%' }} value={url} required label="URL" onChange={(e) => setURL(e.target.value)} type='url' />
+            <TextField sx={{ width: '100%' }} value={description} required multiline rows={8} label="Description" onChange={(e) => setDescription(e.target.value)}  />
 
             { progresspercent > 0 && progresspercent < 100 &&
               <LinearProgress variant="determinate" value={progresspercent} />
@@ -259,60 +275,19 @@ export default function AdminLinks() {
           </Stack>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseAdd} variant='outlined'>Cancel</Button>
-          <Button onClick={handleAdd} variant='contained'>Add Link</Button>
-        </DialogActions>
-      </Dialog>
-
-      <Dialog
-        fullWidth
-        maxWidth="sm"
-        fullScreen={fullScreen}
-        open={openUpdate}
-        onClose={handleCloseUpdate}
-        scroll="paper"
-        aria-labelledby="update-dialog-title">
-        <DialogTitle id="update-dialog-title">
-          <Typography variant="h2" component="span">Update Link</Typography>
-        </DialogTitle>
-        <DialogContent>
-          <Stack spacing={2} sx={{ mt: 2}}>
-            <TextField sx={{ width: '100%' }} required label="Title" value={updateTitle} onChange={(e) => setUpdateTitle(e.target.value)} type='text' />
-            <TextField sx={{ width: '100%' }} required label="URL" value={updateUrl} onChange={(e) => setUpdateURL(e.target.value)} type='url' />
-            <TextField sx={{ width: '100%' }} required multiline rows={8} value={updateDescription} label="Description" onChange={(e) => setUpdateDescription(e.target.value)}  />
-
-            { progresspercent > 0 && progresspercent < 100 &&
-              <LinearProgress variant="determinate" value={progresspercent} />
-            }
-
-            <form onSubmit={handleFileUpload}>
-              <input type='file' accept=".png,.jpg,.svg,.gif" />
-              <IconButton type='submit'>
-                <AddPhotoAlternateOutlinedIcon />
-              </IconButton>
-            </form>
-
-            {
-              imgUrl &&
-              <img src={imgUrl} alt='uploaded file' height={200} />
-            }
-
-            <FormGroup>
-              <FormControlLabel onChange={(e) => setUpdateShow(e.target.checked)} control={<Checkbox />} checked={updateShow} label="Display on site" />
-            </FormGroup>
-            { error && <Alert severity="warning">{error}</Alert> }
-          </Stack>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseUpdate} variant='outlined'>Cancel</Button>
-          <Button onClick={handleUpdate} variant='contained'>Save Link</Button>
+          <Button onClick={handleCloseForm} variant='outlined'>Cancel</Button>
+          { isUpdate ?
+            <Button onClick={handleUpdate} variant='contained'>Update Link</Button>
+            :
+            <Button onClick={handleAdd} variant='contained'>Add Link</Button>
+          }
         </DialogActions>
       </Dialog>
 
       <Container maxWidth="md">
         <PageHeading heading="Links" />
         <Box sx={{ textAlign: "center"}}>
-          <Button onClick={() => handleOpenAdd()} variant='outlined'>Add Link</Button>
+          <Button onClick={() => handleOpenForm()} variant='outlined'>Add Link</Button>
         </Box>
       </Container>
 
