@@ -52,7 +52,7 @@ export default function About() {
         </Box>
         <Box sx={boxStyle}>
           <Typography variant="p" component="p" gutterBottom align='center'>
-            If you'd like to contribute, please get in touch via Twitter <a href="https://twitter.com/edinburghsff">@edinburghsff</a> or <a href="https://discord.gg/5EaXDTwrEY">Discord</a>.
+            If you'd like to contribute, please get in touch via Twitter <a href="https://twitter.com/edinburghsff">@edinburghsff</a> or <a href="https://discord.gg/fBYCKjz8dz">Discord</a>.
           </Typography>
         </Box>
         <Box sx={boxStyle}>

@@ -52,7 +52,7 @@ export default function Welcome() {
         <Paper elevation={3} style={styles.paper}>
           <Typography component="p" variant='h2'>Join our community</Typography>
           <Typography component="p">A friendly community for writers of all levels, whether just starting out or published.</Typography>
-          <Typography component="p"><a href="https://discord.gg/5EaXDTwrEY">Discord</a></Typography>
+          <Typography component="p"><a href="https://discord.gg/fBYCKjz8dz">Discord</a></Typography>
           <Typography component="p"><a rel="me" href="https://writing.exchange/@EdinburghSFF">Mastodon</a></Typography>
         </Paper>
 
