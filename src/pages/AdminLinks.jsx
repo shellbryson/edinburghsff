@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from 'react';
 
 import { doc, getDocs, addDoc, updateDoc, deleteDoc, collection, query, orderBy } from 'firebase/firestore';
-import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
-import { db, storage } from "../firebase";
+import { db } from "../firebase";
 
 import { useAuth } from '../context/AuthContext';
-
-import { v4 as uuid } from 'uuid';
 
 // MUI
 import Alert from '@mui/material/Alert';
@@ -15,9 +12,6 @@ import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import IconButton from '@mui/material/IconButton';
-import AddPhotoAlternateOutlinedIcon from '@mui/icons-material/AddPhotoAlternateOutlined';
-import LinearProgress from '@mui/material/LinearProgress';
 import Box from '@mui/material/Box';
 
 import FormGroup from '@mui/material/FormGroup';
@@ -40,6 +34,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 // Custom Components
 import PageHeading from '../components/PageHeading';
 import LinkList from '../components/LinksList';
+import UploadImage from '../components/UploadImage';
 
 export default function AdminLinks() {
 
@@ -53,18 +48,13 @@ export default function AdminLinks() {
   const [show, setShow] = useState(true);
   const [linkClassification, setLinkClassification] = useState('general');
   const [isUpdate, setIsUpdate] = useState(false);
-
+  const [imgUrl, setImgUrl] = useState(null);
   const [updateId, setUpdateId] = useState('');
-
   const [openAdd, setOpenAdd] = useState(false);
-
   const [error, setError] = useState('');
 
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
-
-  const [imgUrl, setImgUrl] = useState(null);
-  const [progresspercent, setProgresspercent] = useState(0);
 
   useEffect(() => {
     getLinks();
@@ -204,31 +194,8 @@ export default function AdminLinks() {
     }
   };
 
-  const handleFileUpload = (e) => {
-    e.preventDefault()
-    const file = e.target[0]?.files[0]
-
-    if (!file) return;
-
-    const filename = encodeURI(file.name);
-    const storageRef = ref(storage, `links/${uuid()}___${filename}`);
-    const uploadTask = uploadBytesResumable(storageRef, file);
-
-    uploadTask.on("state_changed",
-      (snapshot) => {
-        const progress =
-          Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
-        setProgresspercent(progress);
-      },
-      (error) => {
-        alert(error);
-      },
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          setImgUrl(downloadURL)
-        });
-      }
-    );
+  const handleFileUpload = (url) => {
+    setImgUrl(url)
   }
 
   return (
@@ -274,21 +241,7 @@ export default function AdminLinks() {
               </Select>
             </FormControl>
 
-            { progresspercent > 0 && progresspercent < 100 &&
-              <LinearProgress variant="determinate" value={progresspercent} />
-            }
-
-            <form onSubmit={handleFileUpload} className='form'>
-              <input type='file' accept=".png,.jpg,.svg,.gif" />
-              <IconButton type='submit'>
-                <AddPhotoAlternateOutlinedIcon />
-              </IconButton>
-            </form>
-
-            {
-              imgUrl &&
-              <img src={imgUrl} alt='uploaded file' style={{ width: "50%", height: "auto" }} />
-            }
+            <UploadImage imageUploadedCallback={handleFileUpload} imgUrl={imgUrl} />
 
             <FormGroup>
               <FormControlLabel onChange={(e) => setShow(e.target.checked)} control={<Checkbox checked />} label="Display on site" />
