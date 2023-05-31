@@ -79,9 +79,7 @@ export default function MapView() {
             apiKey={import.meta.env.VITE_GOOGLEMAPS_API_KEY}
             bootstrapURLKeys={{ key: import.meta.env.VITE_GOOGLEMAPS_API_KEY }}
             onGoogleApiLoaded={onGoogleApiLoaded}
-            loadingContent={<>
-              {displayLoader()}
-            </>}
+            loadingContent={<>{displayLoader()}</>}
             defaultCenter={defaultLocation.center}
             defaultZoom={defaultLocation.zoom}>
 
