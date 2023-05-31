@@ -93,7 +93,7 @@ export default function Menu() {
               <MapOutlinedIcon />
             </ListItemIcon>
             <ListItemText>
-              Map for writer
+              Map for writers
             </ListItemText>
           </ListItem>
           <ListItem onClick={()=>handleOnClick("/events")}>
