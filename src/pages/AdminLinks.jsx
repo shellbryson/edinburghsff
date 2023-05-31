@@ -41,7 +41,6 @@ export default function AdminLinks() {
   const { user } = useAuth();
 
   const [links, setLinks] = useState([])
-
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [url, setURL] = useState('');
@@ -60,9 +59,8 @@ export default function AdminLinks() {
     getLinks();
   }, [])
 
-  const q = query(collection(db, "links"), orderBy("title", "asc"));
-
   const getLinks = async () => {
+    const q = query(collection(db, "links"), orderBy("title", "asc"));
     const querySnapshot = await getDocs(q);
     const l = [];
     querySnapshot.forEach((doc) => {

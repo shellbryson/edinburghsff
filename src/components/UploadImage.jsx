@@ -8,12 +8,48 @@ import { v4 as uuid } from 'uuid';
 // MUI Components
 import Box from '@mui/material/Box';
 import LinearProgress from '@mui/material/LinearProgress';
+import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
+
 import AddPhotoAlternateOutlinedIcon from '@mui/icons-material/AddPhotoAlternateOutlined';
+import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
+
+const uploadImageFormStyle = {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  padding: '1rem',
+  backgroundColor: '#f5f5f5',
+  borderRadius: '0.5rem',
+  marginTop: '1rem',
+  marginBottom: '1rem',
+}
+
+const imagePreviewStyle = {
+  display: 'flex',
+  justifyContent: 'center',
+  marginTop: '1rem',
+  marginBottom: '1rem',
+}
+
+const toggleUploadStyle = {
+  display: 'flex',
+  justifyContent: 'center'
+}
+
+const imageStyle = {
+  display: 'block',
+  border: '1px solid #ccc',
+  padding: '1px',
+  width: "50%",
+  height: "auto"
+}
 
 const UploadImage = ({imageUploadedCallback, imgUrl}) => {
 
   const [progresspercent, setProgresspercent] = useState(0);
+  const [showImageField, setShowImageField] = useState(false);
 
   const handleFileUpload = (e) => {
     e.preventDefault()
@@ -42,6 +78,14 @@ const UploadImage = ({imageUploadedCallback, imgUrl}) => {
     );
   }
 
+  const handleShowImageField = () => {
+    setShowImageField(true);
+  }
+
+  const handleHideImageField = () => {
+    setShowImageField(false);
+  }
+
   return (
     <Box>
 
@@ -49,17 +93,37 @@ const UploadImage = ({imageUploadedCallback, imgUrl}) => {
         <LinearProgress variant="determinate" value={progresspercent} />
       }
 
-      <form onSubmit={handleFileUpload} className='form'>
-        <input type='file' accept=".png,.jpg,.svg,.gif" />
-        <IconButton type='submit'>
-          <AddPhotoAlternateOutlinedIcon />
-        </IconButton>
-      </form>
-
+      <Box style={uploadImageFormStyle}>
       {
         imgUrl &&
-        <img src={imgUrl} alt='uploaded file' style={{ width: "50%", height: "auto" }} />
+        <Box sx={imagePreviewStyle}>
+          <img src={imgUrl} alt='uploaded file' style={imageStyle} />
+        </Box>
       }
+
+      { showImageField &&
+          <form onSubmit={handleFileUpload} className='form'>
+            <input type='file' accept=".png,.jpg,.svg,.gif" />
+            <IconButton type='submit'>
+              <CloudUploadOutlinedIcon />
+            </IconButton>
+          </form>
+      }
+
+      <Box sx={toggleUploadStyle}>
+
+        { !showImageField &&
+          <Button variant="outlined" onClick={handleShowImageField} endIcon={<AddPhotoAlternateOutlinedIcon />}>
+            { imgUrl ? 'Replace image' : 'Add image'}
+          </Button>
+        }
+        { showImageField &&
+          <Button variant="outlined" onClick={handleHideImageField}>
+            Close
+          </Button>
+        }
+      </Box>
+      </Box>
     </Box>
   );
 };
