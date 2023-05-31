@@ -21,8 +21,13 @@ import LinearProgress from '@mui/material/LinearProgress';
 import Box from '@mui/material/Box';
 
 import FormGroup from '@mui/material/FormGroup';
+import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
+
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
 
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -46,7 +51,7 @@ export default function AdminLinks() {
   const [description, setDescription] = useState('');
   const [url, setURL] = useState('');
   const [show, setShow] = useState(true);
-  const [linkClassification, setLinkClassification] = useState('');
+  const [linkClassification, setLinkClassification] = useState('general');
   const [isUpdate, setIsUpdate] = useState(false);
 
   const [updateId, setUpdateId] = useState('');
@@ -101,26 +106,20 @@ export default function AdminLinks() {
   };
 
   const handleOpenUpdate = (data) => {
-
-    console.log("data", data);
-
     setTitle(data.title);
     setDescription(data.description);
     setURL(data.url);
     setImgUrl(data.image);
     setShow(data.show);
     setUpdateId(data.id);
+    setLinkClassification(data.type || 'general');
 
     setIsUpdate(true);
-
     setOpenAdd(true);
-
-    console.log("currentUser", user)
   };
 
   const handleAdd = async (e) => {
     setError('');
-    setImgUrl('');
 
     if (!title || !description || !url) {
       setError('Please fill out all fields');
@@ -136,6 +135,7 @@ export default function AdminLinks() {
         url: url,
         show: show,
         image: strippedImageUrl,
+        type: linkClassification,
         created: {
           email: user.email,
           uid: user.uid,
@@ -158,7 +158,6 @@ export default function AdminLinks() {
 
   const handleUpdate = async () => {
     setError('');
-    setImgUrl('');
 
     if (!title || !description || !url) {
       setError('Please fill out all fields');
@@ -176,6 +175,7 @@ export default function AdminLinks() {
         url: url,
         show: show,
         image: strippedImageUrl,
+        type: linkClassification || 'general',
         updated: {
           email: user.email,
           uid: user.uid,
@@ -190,6 +190,10 @@ export default function AdminLinks() {
       console.error("Error adding document: ", e);
     }
   };
+
+  const handleLinkTypeChange = (event) => {
+    setLinkClassification(event.target.value);
+  }
 
   const handleDelete = async (id) => {
     try {
@@ -250,6 +254,26 @@ export default function AdminLinks() {
             <TextField sx={{ width: '100%' }} value={url} required label="URL" onChange={(e) => setURL(e.target.value)} type='url' />
             <TextField sx={{ width: '100%' }} value={description} required multiline rows={8} label="Description" onChange={(e) => setDescription(e.target.value)}  />
 
+            <FormControl fullWidth>
+              <InputLabel id="link-type">Link type</InputLabel>
+              <Select
+                labelId="link-type"
+                id="link-type-select"
+                value={linkClassification || "general"}
+                label="Link type"
+                onChange={handleLinkTypeChange}
+              >
+                <MenuItem value={"author"}>Author site</MenuItem>
+                <MenuItem value={"convention"}>Convention</MenuItem>
+                <MenuItem value={"event"}>Event</MenuItem>
+                <MenuItem value={"general"}>General</MenuItem>
+                <MenuItem value={"publisher"}>Publisher</MenuItem>
+                <MenuItem value={"agent"}>Agent</MenuItem>
+                <MenuItem value={"editor"}>Editorial</MenuItem>
+                <MenuItem value={"resource"}>Writing resource</MenuItem>
+              </Select>
+            </FormControl>
+
             { progresspercent > 0 && progresspercent < 100 &&
               <LinearProgress variant="determinate" value={progresspercent} />
             }
@@ -263,7 +287,7 @@ export default function AdminLinks() {
 
             {
               imgUrl &&
-              <img src={imgUrl} alt='uploaded file' height={200} />
+              <img src={imgUrl} alt='uploaded file' style={{ width: "50%", height: "auto" }} />
             }
 
             <FormGroup>

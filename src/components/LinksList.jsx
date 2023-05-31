@@ -39,7 +39,7 @@ const MapList = ({ data, onDelete, onUpdate }) => {
         <TableHead>
           <TableRow>
             <TableCell>Title</TableCell>
-            <TableCell>Tags</TableCell>
+            <TableCell>Type</TableCell>
             <TableCell>Image</TableCell>
             <TableCell></TableCell>
           </TableRow>
@@ -53,7 +53,7 @@ const MapList = ({ data, onDelete, onUpdate }) => {
               <TableCell>{place.title}</TableCell>
               <TableCell>
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                  {place.tags && renderLocationTags(place.tags)}
+                  {place.type}
                 </Box>
               </TableCell>
               <TableCell><EventsListImage image={place?.image} alt={place?.title} /></TableCell>
