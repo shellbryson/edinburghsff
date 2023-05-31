@@ -62,6 +62,15 @@ export default function MapView() {
     zoom: 13
   }
 
+  const displayLoader = () => {
+
+    return (
+      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: "100%", minHeight: "300px" }}>
+        <CircularProgress />
+      </Box>
+    )
+  }
+
   return (
     <>
       { isLoaded &&
@@ -70,6 +79,9 @@ export default function MapView() {
             apiKey={import.meta.env.VITE_GOOGLEMAPS_API_KEY}
             bootstrapURLKeys={{ key: import.meta.env.VITE_GOOGLEMAPS_API_KEY }}
             onGoogleApiLoaded={onGoogleApiLoaded}
+            loadingContent={<>
+              {displayLoader()}
+            </>}
             defaultCenter={defaultLocation.center}
             defaultZoom={defaultLocation.zoom}>
 
@@ -85,10 +97,9 @@ export default function MapView() {
           </GoogleMapReact>
         </Box>
       }
-      { !isLoaded &&
-        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: "100%", minHeight: "300px" }}>
-        <CircularProgress />
-      </Box>
+      { !isLoaded && <>
+          {displayLoader()}
+        </>
       }
     </>
   )
