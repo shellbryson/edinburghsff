@@ -7,10 +7,10 @@ import GoogleMapReact from 'google-maps-react-markers';
 
 // MUI
 import Box from '@mui/material/Box';
-import CircularProgress from '@mui/material/CircularProgress';
 
 // Custom UI
 import MapPin from './MapPin';
+import Spinner from './Spinner';
 
 const styleMap={
   display: "block",
@@ -62,15 +62,6 @@ export default function MapView() {
     zoom: 13
   }
 
-  const displayLoader = () => {
-
-    return (
-      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: "100%", minHeight: "300px" }}>
-        <CircularProgress />
-      </Box>
-    )
-  }
-
   return (
     <>
       { isLoaded &&
@@ -95,10 +86,7 @@ export default function MapView() {
           </GoogleMapReact>
         </Box>
       }
-      { !isLoaded && <>
-          {displayLoader()}
-        </>
-      }
+      { !isLoaded && <Spinner />}
     </>
   )
 }

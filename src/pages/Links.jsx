@@ -7,13 +7,14 @@ import { db } from "../firebase";
 // MUI
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 
 // Custom Components
 import PageHeading from '../components/PageHeading';
 import LinkTiles from '../components/LinkTiles';
-import { Typography } from '@mui/material';
+import Spinner from '../components/Spinner';
 
-const classiciationsMenuStyle = {
+const classificationMenuStyle = {
   display: 'flex',
   flexWrap: 'wrap',
   justifyContent: 'center',
@@ -23,6 +24,7 @@ const classiciationsMenuStyle = {
 
 export default function AdminLinks() {
   const params = useParams();
+  const [isLoading, setIsLoading] = useState(false);
   const [links, setLinks] = useState([]);
   const [linkClassification, setLinkClassification] = useState([]);
   const defaultClassification = "conventions";
@@ -30,6 +32,7 @@ export default function AdminLinks() {
   useEffect(() => {
     getLinks(params.classification || defaultClassification);
     setLinkClassification(params.classification || defaultClassification);
+    setIsLoading(true);
   }, [params.classification])
 
   const getLinks = async (classification) => {
@@ -43,6 +46,7 @@ export default function AdminLinks() {
       });
     });
     setLinks(l);
+    setIsLoading(false);
   }
 
   const subtitle = (linkClassification) => {
@@ -58,7 +62,7 @@ export default function AdminLinks() {
         title = 'Event homepages';
         break;
       case 'magazines':
-        title = 'SF/F Magazines for writers and readers';
+        title = 'Science fiction and fantasy magazines for writers and readers';
         break;
       case 'publishers':
         title = 'Science Fiction and Fantasy publishers';
@@ -74,7 +78,7 @@ export default function AdminLinks() {
     <>
       <Container maxWidth="md">
         <PageHeading heading="Links" />
-        <Box style={classiciationsMenuStyle}>
+        <Box style={classificationMenuStyle}>
           <Link to="/links/conventions">Conventions</Link>
           <Link to="/links/authors">Authors</Link>
           <Link to="/links/events">Events</Link>
@@ -86,7 +90,9 @@ export default function AdminLinks() {
           {subtitle(linkClassification)}
         </Typography>
       </Container>
-      <LinkTiles data={links} classification={linkClassification} />
+      {isLoading && <Spinner />}
+      {!isLoading && links.length === 0 && <p>No links found.</p>}
+      {!isLoading && links.length > 0 && <LinkTiles data={links} classification={linkClassification} />}
     </>
   )
 }
