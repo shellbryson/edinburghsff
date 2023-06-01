@@ -15,6 +15,7 @@ import { Typography } from '@mui/material';
 
 const classiciationsMenuStyle = {
   display: 'flex',
+  flexWrap: 'wrap',
   justifyContent: 'center',
   gap: '1rem',
   marginBottom: '2rem'
