@@ -11,6 +11,7 @@ import Box from '@mui/material/Box';
 // Custom Components
 import PageHeading from '../components/PageHeading';
 import LinkTiles from '../components/LinkTiles';
+import { Typography } from '@mui/material';
 
 const classiciationsMenuStyle = {
   display: 'flex',
@@ -43,6 +44,31 @@ export default function AdminLinks() {
     setLinks(l);
   }
 
+  const subtitle = (linkClassification) => {
+    let title = '';
+    switch (linkClassification) {
+      case 'conventions':
+        title = 'Conventions and Festivals';
+        break;
+      case 'authors':
+        title = 'Writers and authors who are members of the community';
+        break;
+      case 'events':
+        title = 'Event homepages';
+        break;
+      case 'magazines':
+        title = 'SF/F Magazines for writers and readers';
+        break;
+      case 'publishers':
+        title = 'Science Fiction and Fantasy publishers';
+        break;
+      case 'resources':
+        title = 'Useful writing resources';
+        break;
+    }
+    return title;
+  }
+
   return (
     <>
       <Container maxWidth="md">
@@ -52,8 +78,12 @@ export default function AdminLinks() {
           <Link to="/links/authors">Authors</Link>
           <Link to="/links/events">Events</Link>
           <Link to="/links/magazines">Magazines</Link>
+          <Link to="/links/publishers">Publishers</Link>
           <Link to="/links/resources">Writing resources</Link>
         </Box>
+        <Typography variant="p" component="h2" gutterBottom align='center' sx={{ marginBottom: "2rem" }}>
+          {subtitle(linkClassification)}
+        </Typography>
       </Container>
       <LinkTiles data={links} classification={linkClassification} />
     </>
