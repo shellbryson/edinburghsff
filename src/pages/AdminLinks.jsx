@@ -228,14 +228,15 @@ export default function AdminLinks() {
                 label="Link type"
                 onChange={handleLinkTypeChange}
               >
-                <MenuItem value={"author"}>Author site</MenuItem>
-                <MenuItem value={"convention"}>Convention</MenuItem>
-                <MenuItem value={"event"}>Event</MenuItem>
+                <MenuItem value={"authors"}>Author sites</MenuItem>
+                <MenuItem value={"conventions"}>Conventions</MenuItem>
+                <MenuItem value={"events"}>Events</MenuItem>
                 <MenuItem value={"general"}>General</MenuItem>
-                <MenuItem value={"publisher"}>Publisher</MenuItem>
-                <MenuItem value={"agent"}>Agent</MenuItem>
-                <MenuItem value={"editor"}>Editorial</MenuItem>
-                <MenuItem value={"resource"}>Writing resource</MenuItem>
+                <MenuItem value={"publishers"}>Publishers</MenuItem>
+                <MenuItem value={"magazine"}>Magazines</MenuItem>
+                <MenuItem value={"agents"}>Agents</MenuItem>
+                <MenuItem value={"editors"}>Editors</MenuItem>
+                <MenuItem value={"resources"}>Writing resources</MenuItem>
               </Select>
             </FormControl>
 

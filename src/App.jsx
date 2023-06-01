@@ -89,6 +89,7 @@ function App() {
               <Route path="/" element={<PageLayout />}>
                 <Route index element={<Welcome />} />
                 <Route path="signin" element={<Signin />} />
+                <Route path="links/:classification" element={<Links />} />
                 <Route path="links" element={<Links />} />
                 <Route path="map" element={<Map />} />
                 <Route path="about" element={<About />} />
