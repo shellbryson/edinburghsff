@@ -84,7 +84,7 @@ export default function AdminLinks() {
           <Link to="/links/events">Events</Link>
           <Link to="/links/magazines">Magazines</Link>
           <Link to="/links/publishers">Publishers</Link>
-          <Link to="/links/resources">Writing resources</Link>
+          <Link to="/links/resources">Resources</Link>
         </Box>
         <Typography variant="p" component="h2" gutterBottom align='center' sx={{ marginBottom: "2rem" }}>
           {subtitle(linkClassification)}

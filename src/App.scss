@@ -30,6 +30,7 @@ body {
   font-family: $body-font;
   padding-bottom: 4rem;
   background-color: #fff;
+  overflow-x: hidden;
 }
 
 .sff {
@@ -43,6 +44,8 @@ body {
 
 a {
   color: $color-links;
+  max-width: 40vw;
+  overflow: hidden;
 }
 
 .sff-events-grid {

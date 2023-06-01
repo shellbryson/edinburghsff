@@ -42,7 +42,7 @@ export default function Welcome() {
         <Box sx={{ mb: "2rem", textAlign: "center" }}>
           <Typography component="h1" variant='h1'>Edinburgh SFF</Typography>
           <Typography component="p" variant='h2'>The Science Fiction &amp; Fantasy Writing community</Typography>
-          <Typography component="p">New writers, Critique and Events.</Typography>
+          <Typography component="p">New writers, critique and events.</Typography>
         </Box>
 
         <Box sx={{ mb: "2rem", textAlign: "center" }}>
