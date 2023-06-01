@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import 'dayjs/locale/en-gb';
 
+import ReactMarkdown from 'react-markdown'
+
 // MUI
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -126,6 +128,7 @@ const EventDetails = ({ selectedEvent, isOpen, onCloseCallback, isLoadingEvent }
             <Typography component="p" variant='p'> {currentEvent.eventLocation}</Typography>
           </Box>
           <Box style={styleEventDecsription}>
+            <ReactMarkdown children={currentEvent.description} />
             <Typography component="p" variant='p'>{currentEvent.description}</Typography>
             <Typography component="p" variant='p' sx={{ mt: 2 }}>More at: <Link to={currentEvent.url}>{cleanUrl(currentEvent.url)}</Link></Typography>
           </Box>

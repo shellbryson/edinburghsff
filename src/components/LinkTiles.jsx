@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
+import ReactMarkdown from 'react-markdown';
+
 // MUI
 import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
@@ -44,9 +46,7 @@ const LinkTiles = ({ data, onDelete, onUpdate, enableAdminActions }) => {
               <Typography component="p" variant='h2' gutterBottom>
                 {data.title}
               </Typography>
-              <Typography variant="p">
-                {data.description}
-              </Typography>
+              <ReactMarkdown children={data.description} />
               <Typography variant="p">
                 <a href={data.url} target='_blank' rel='noreferrer'>{data.url}</a>
               </Typography>

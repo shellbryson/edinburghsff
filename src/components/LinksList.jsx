@@ -18,20 +18,12 @@ import TableRow from '@mui/material/TableRow';
 // Custom UI
 import EventsListImage from './ListImage';
 
-const MapList = ({ data, onDelete, onUpdate }) => {
+const LinksList = ({ data, onDelete, onUpdate }) => {
   const [places, setPlaces] = useState([]);
 
   useEffect(() => {
     setPlaces(data);
   }, [data, onDelete, onUpdate])
-
-  const renderLocationTags = (tags) => {
-    if (!tags) return;
-    const tagArray = tags.split(',');
-    return tagArray.map((tag, i) => (
-      <Chip key={i} label={tag} />
-    ));
-  }
 
   return (
     <TableContainer component={Paper} sx={{ mt: 4 }}>
@@ -73,4 +65,4 @@ const MapList = ({ data, onDelete, onUpdate }) => {
   );
 };
 
-export default MapList;
+export default LinksList;
