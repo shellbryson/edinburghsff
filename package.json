@@ -15,6 +15,7 @@
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.13.2",
     "@mui/x-date-pickers": "^6.5.0",
+    "@vercel/analytics": "^1.0.1",
     "dayjs": "^1.11.7",
     "firebase": "^9.22.0",
     "google-maps-react-markers": "^1.2.3",
