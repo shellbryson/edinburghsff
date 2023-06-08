@@ -1,6 +1,8 @@
 import React, { lazy, Suspense } from 'react';
 import { Routes, Route, useNavigate } from "react-router-dom";
 
+import { Analytics } from '@vercel/analytics/react';
+
 import { ThemeProvider } from '@mui/material/styles';
 import { customTheme } from './theme/theme';
 
@@ -112,6 +114,8 @@ function App() {
           <BottomNavigationAction onClick={handleClickLinks} label="Links" icon={<AutoStoriesOutlinedIcon />} />
         </BottomNavigation>
       </Paper>
+
+      <Analytics />
 
     </ThemeProvider>
   )
