@@ -10,9 +10,12 @@ Added:
   - Changelogs
   - Readme
 
+Fixed:
+  - Restore loader for Maps that was removed in 1.2.1 due to crash
+
 ## [1.2.1] - 2023-06-02
 
-Fix:
+Fixed:
   - Maps crashing on load
 
 ## [1.2.0] - 2023-06-01
