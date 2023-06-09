@@ -10,6 +10,7 @@ Fixed:
     - combine add/update dialog
     - click anywhere in list to update
     - move delete to dialog
+    - bug that prevented magazines being listed
 
   - Maps Admin:
     - combine add/update dialog

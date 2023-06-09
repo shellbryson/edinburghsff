@@ -271,7 +271,7 @@ export default function AdminLinks() {
                 <MenuItem value={"events"}>Events</MenuItem>
                 <MenuItem value={"general"}>General</MenuItem>
                 <MenuItem value={"publishers"}>Publishers</MenuItem>
-                <MenuItem value={"magazine"}>Magazines</MenuItem>
+                <MenuItem value={"magazines"}>Magazines</MenuItem>
                 <MenuItem value={"agents"}>Agents</MenuItem>
                 <MenuItem value={"editors"}>Editors</MenuItem>
                 <MenuItem value={"resources"}>Writing resources</MenuItem>
