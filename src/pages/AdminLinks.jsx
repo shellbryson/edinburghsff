@@ -4,6 +4,7 @@ import { doc, getDocs, addDoc, updateDoc, deleteDoc, collection, query, orderBy 
 import { db } from "../firebase";
 
 import { useAuth } from '../context/AuthContext';
+import { useConfirm } from "material-ui-confirm";
 
 // MUI
 import Alert from '@mui/material/Alert';
@@ -28,6 +29,8 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 
+import DeleteIcon from '@mui/icons-material/Delete';
+
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
@@ -39,6 +42,7 @@ import UploadImage from '../components/UploadImage';
 export default function AdminLinks() {
 
   const { user } = useAuth();
+  const confirm = useConfirm();
 
   const [links, setLinks] = useState([])
   const [title, setTitle] = useState('');
@@ -77,6 +81,8 @@ export default function AdminLinks() {
   };
 
   const handleCloseForm = () => {
+    // Close the dialog
+    setOpenAdd(false);
 
     // Reset all fields
     setTitle('');
@@ -88,9 +94,6 @@ export default function AdminLinks() {
 
     // Reset to Add mode
     setIsUpdate(false);
-
-    // Close the dialog
-    setOpenAdd(false);
   };
 
   const handleOpenUpdate = (data) => {
@@ -183,13 +186,36 @@ export default function AdminLinks() {
     setLinkClassification(event.target.value);
   }
 
-  const handleDelete = async (id) => {
+  const performDelete = async (id) => {
     try {
       await deleteDoc(doc(db, "links", id));
+      handleCloseForm();
       getLinks();
     } catch (e) {
       console.error("Error adding document: ", e);
     }
+  };
+
+  const handleDelete = async (id) => {
+
+    const settings = {
+      description: "This action will permanently delete the selected Link",
+      confirmationText: "Delete Link",
+      confirmationButtonProps: {
+        variant: "contained"
+      },
+      cancellationButtonProps: {
+        variant: "outlined"
+      }
+    }
+
+    confirm(settings)
+    .then(() => {
+      performDelete(id)
+    })
+    .catch(() => {
+      /* ... */
+    });
   };
 
   const handleFileUpload = (url) => {
@@ -253,7 +279,10 @@ export default function AdminLinks() {
         <DialogActions>
           <Button onClick={handleCloseForm} variant='outlined'>Cancel</Button>
           { isUpdate ?
-            <Button onClick={handleUpdate} variant='contained'>Update Link</Button>
+            <>
+              <Button onClick={() => handleDelete(updateId)} variant="outlined" startIcon={<DeleteIcon />}>Delete</Button>
+              <Button onClick={handleUpdate} variant='contained'>Update Link</Button>
+            </>
             :
             <Button onClick={handleAdd} variant='contained'>Add Link</Button>
           }

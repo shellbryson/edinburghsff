@@ -3,10 +3,6 @@ import React, { useEffect, useState } from 'react';
 // MUI
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
-import IconButton from '@mui/material/IconButton';
-import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
-
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -18,21 +14,6 @@ import dayjs from 'dayjs';
 
 // Custom UI
 import ListImage from './ListImage';
-
-const styleCard={
-  display: "flex",
-  flexDirection: "column",
-  justifyContent: "space-between",
-}
-
-const styleContent={
-  height: "100%"
-}
-
-const styleActions={
-  justifyContent:"center",
-  borderTop: "1px solid #ccc"
-}
 
 const EventsList = ({ data, onDelete, onUpdate }) => {
   const [links, setLinks] = useState([]);
