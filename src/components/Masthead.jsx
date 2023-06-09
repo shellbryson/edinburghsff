@@ -32,16 +32,26 @@ const image1Style = {
   display: 'block',
   width: "65%",
   height: "auto",
+  animation: 'sff-masthead-drift-1 30s ease infinite'
 }
 
 const image2Style = {
   display: 'block',
+  width: "100%",
+  height: "auto",
+  objectFit: "cover",
+  animation: "sff-masthead-drift-2 30s ease infinite"
+}
+
+const image2WrapperStyle = {
+  display: 'block',
   position: "absolute",
   clipPath: 'polygon(35% 0, 100% 0, 100% 100%, 0 100%)',
-  width: "65%",
   height: "auto",
   right: "0",
   top: "0",
+  bottom: "0",
+  left: "38%",
 }
 
 const Masthead = () => {
@@ -49,7 +59,9 @@ const Masthead = () => {
   return (
     <Box className="sff-masthead" style={ mastheadContainerStyle }>
       <img src={MastheadImage1} alt="Masthead" style={image1Style} />
-      <img src={MastheadImage2} alt="Masthead" style={image2Style} />
+      <Box sx={image2WrapperStyle}>
+        <img src={MastheadImage2} alt="Masthead" style={image2Style} />
+      </Box>
       <Box className="sff-masthead__logo">
         <img src={Blob} alt="Masthead" style={image0Style} />
       </Box>

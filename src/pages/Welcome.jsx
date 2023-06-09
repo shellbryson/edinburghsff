@@ -37,11 +37,6 @@ export default function Welcome() {
       <Masthead />
       <Container disableGutters>
 
-
-        {/* <Box sx={{ mb: "2rem" }}>
-          <img src={MastheadImage} className="sff-masthead-img" alt="Edinburgh SFF banner image containing a space scene and mysterious forest" />
-        </Box> */}
-
         <Container maxWidth="md">
 
           <Box sx={{ mb: "2rem", textAlign: "center" }}>
