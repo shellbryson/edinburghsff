@@ -50,12 +50,12 @@ const EventsList = ({ data, onDelete, onUpdate }) => {
             <TableCell>Title</TableCell>
             <TableCell>Image</TableCell>
             <TableCell>Location</TableCell>
-            <TableCell></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {links.map((data, index) => (
             <TableRow
+              onClick={() => onUpdate(data)}
               key={index}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
@@ -63,14 +63,6 @@ const EventsList = ({ data, onDelete, onUpdate }) => {
               <TableCell>{data.title}</TableCell>
               <TableCell><ListImage image={data?.image} alt={data?.title} /></TableCell>
               <TableCell>{data.eventLocation}</TableCell>
-              <TableCell>
-                <IconButton size='small' onClick={() => onDelete(data.id)}>
-                  <DeleteOutlineOutlinedIcon />
-                </IconButton>
-                <IconButton size='small' onClick={() => onUpdate(data)}>
-                  <ModeEditOutlineOutlinedIcon />
-                </IconButton>
-              </TableCell>
             </TableRow>
           ))}
         </TableBody>

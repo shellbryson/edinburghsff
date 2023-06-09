@@ -2,7 +2,6 @@ import React from 'react';
 
 // MUI Components
 import Box from '@mui/material/Box';
-import CircularProgress from '@mui/material/CircularProgress';
 
 // Assets
 import Blob from '../assets/logo_smoking.png';
