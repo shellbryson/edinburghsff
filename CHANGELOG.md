@@ -7,6 +7,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 Fixed:
   - Map: improve rendering performance
+  - Map: wrong fonts
 
 ## [1.5.1] - 2023-06-09
 
