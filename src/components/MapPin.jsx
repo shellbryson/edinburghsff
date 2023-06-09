@@ -10,25 +10,6 @@ import MenuBookOutlinedIcon from '@mui/icons-material/MenuBookOutlined';
 import LocalCafeOutlinedIcon from '@mui/icons-material/LocalCafeOutlined';
 import LocalLibraryOutlinedIcon from '@mui/icons-material/LocalLibraryOutlined';
 
-const pinStyle = {
-  display: "flex",
-  alignItems: "center",
-}
-
-const iconStyle = {
-  display: "block",
-  width: "2rem",
-  height: "2rem",
-  fontSize: "2rem",
-  borderRadius: "50%",
-  backgroundColor: "rgba(255, 255, 255, 0.75)"
-}
-
-const pinLabelStyle = {
-  backgroundColor: "rgba(255, 255, 255, 0.75)",
-  padding: "0.5rem",
-}
-
 export default function MapPin({tags, title}) {
   let pinIcon;
   let tagArray;
@@ -36,22 +17,22 @@ export default function MapPin({tags, title}) {
   if (tags) {
     tagArray = tags.split(",");
     if (tagArray.includes("Venue")) {
-      pinIcon = <StarOutlinedIcon style={ iconStyle } />;
+      pinIcon = <StarOutlinedIcon />;
     } else if (tagArray.includes("Bookshop")) {
-      pinIcon = <MenuBookOutlinedIcon style={ iconStyle }/>;
+      pinIcon = <MenuBookOutlinedIcon />;
     } else if (tagArray.includes("Cafe")) {
-      pinIcon = <LocalCafeOutlinedIcon style={ iconStyle } />;
+      pinIcon = <LocalCafeOutlinedIcon />;
     } else if (tagArray.includes("Library")) {
-      pinIcon = <LocalLibraryOutlinedIcon style={ iconStyle } />;
+      pinIcon = <LocalLibraryOutlinedIcon />;
     } else {
-      pinIcon = <PushPinOutlinedIcon style={ iconStyle }/>;
+      pinIcon = <PushPinOutlinedIcon />;
     }
   }
 
   return (
-    <Box style={ pinStyle }>
-      <Box style={ iconStyle }>{pinIcon}</Box>
-      <Typography component="p" style={ pinLabelStyle }>{title}</Typography>
+    <Box className="sff-map-pin">
+      <Box className="sff-map-icon">{pinIcon}</Box>
+      <Typography component="p" className="sff-map-pin__label">{title}</Typography>
     </Box>
   );
 }

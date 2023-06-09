@@ -90,3 +90,30 @@ a {
     transform: scale(1.1) rotate(0);
   }
 }
+
+// We use a style for these to avoid injecting lots of JS-CSS for each element
+
+.sff-map-pin {
+  display: flex;
+  align-items: center;
+  background-color: "rgba(255, 255, 255, 0.75)";
+  padding: "0.5rem";
+  border-radius: "2px";
+
+  &__label {
+    background-color: rgba(255, 255, 255, 0.75);
+    padding: 1px 4px;
+    border-radius: 2px;
+  }
+}
+
+.sff-map-icon {
+  > svg {
+    display: block;
+    width: 2rem;
+    height: 2rem;
+    font-size: 2rem;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.75);
+  }
+}
