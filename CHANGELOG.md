@@ -1,7 +1,13 @@
-# Change Log - Fabric, the Shopify Theme
+# Change Log - Edinburgh SFF
 
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
+
+## [1.4.0] - 2023-06-09
+
+Added:
+  - Welcome: full width banner
+  - Welcome: animate banner
 
 ## [1.3.0] - 2023-06-08
 

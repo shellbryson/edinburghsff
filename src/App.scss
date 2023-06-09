@@ -66,3 +66,40 @@ a {
     }
   }
 }
+
+.sff-masthead {
+
+  > img {
+    &:nth-child(1) {
+      animation: sff-masthead-drift-1 30s ease infinite;
+    }
+
+    &:nth-child(2) {
+      animation: sff-masthead-drift-2 30s ease infinite;
+    }
+  }
+}
+
+@keyframes sff-masthead-drift-1 {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05) translateX(-50px);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes sff-masthead-drift-2 {
+  0% {
+    transform: scale(1) rotate(0);
+  }
+  50% {
+    transform: scale(1.05) translateX(50px) rotate(-2deg);
+  }
+  100% {
+    transform: scale(1) rotate(0);
+  }
+}

@@ -6,6 +6,7 @@ import { useAuth } from '../context/AuthContext';
 
 // Custom Components
 import MastheadImage from '../assets/masthead.png';
+import Masthead from '../components/Masthead.jsx';
 
 // MUI Components
 import Typography from '@mui/material/Typography';
@@ -31,33 +32,40 @@ export default function Welcome() {
   const { user } = useAuth();
 
   return (
-    <Container disableGutters>
 
-      <Box sx={{ mb: "2rem" }}>
-        <img src={MastheadImage} className="sff-masthead-img" alt="Edinburgh SFF banner image containing a space scene and mysterious forest" />
-      </Box>
+    <>
+      <Masthead />
+      <Container disableGutters>
 
-      <Container maxWidth="md">
 
-        <Box sx={{ mb: "2rem", textAlign: "center" }}>
-          <Typography component="h1" variant='h1'>Edinburgh SFF</Typography>
-          <Typography component="p" variant='h2'>The Science Fiction &amp; Fantasy Writing community</Typography>
-          <Typography component="p">New writers, critique and events.</Typography>
-        </Box>
+        {/* <Box sx={{ mb: "2rem" }}>
+          <img src={MastheadImage} className="sff-masthead-img" alt="Edinburgh SFF banner image containing a space scene and mysterious forest" />
+        </Box> */}
 
-        <Box sx={{ mb: "2rem", textAlign: "center" }}>
-          <Typography component="p">For the latest information and events, find us on Mastodon <a rel="me" href="https://writing.exchange/@EdinburghSFF">@EdinburghSFF@writing.exchange</a>, Twitter <a href="https://twitter.com/edinburghsff">@edinburghsff</a> or drop into our <a href="https://discord.gg/5EaXDTwrEY">Discord</a> for a chat.</Typography>
-        </Box>
+        <Container maxWidth="md">
 
-        <Paper elevation={3} style={styles.paper}>
-          <Typography component="p" variant='h2'>Join our community</Typography>
-          <Typography component="p">A friendly community for writers of all levels, whether just starting out or published.</Typography>
-          <Typography component="p"><a href="https://discord.gg/fBYCKjz8dz">Discord</a></Typography>
-          <Typography component="p"><a rel="me" href="https://writing.exchange/@EdinburghSFF">Mastodon</a></Typography>
-        </Paper>
+          <Box sx={{ mb: "2rem", textAlign: "center" }}>
+            <Typography component="h1" variant='h1'>Edinburgh SFF</Typography>
+            <Typography component="p" variant='h2'>The Science Fiction &amp; Fantasy Writing community</Typography>
+            <Typography component="p">New writers, critique and events.</Typography>
+          </Box>
+
+          <Box sx={{ mb: "2rem", textAlign: "center" }}>
+            <Typography component="p">For the latest information and events, find us on Mastodon <a rel="me" href="https://writing.exchange/@EdinburghSFF">@EdinburghSFF@writing.exchange</a>, Twitter <a href="https://twitter.com/edinburghsff">@edinburghsff</a> or drop into our <a href="https://discord.gg/5EaXDTwrEY">Discord</a> for a chat.</Typography>
+          </Box>
+
+          <Paper elevation={3} style={styles.paper}>
+            <Typography component="p" variant='h2'>Join our community</Typography>
+            <Typography component="p">A friendly community for writers of all levels, whether just starting out or published.</Typography>
+            <Typography component="p"><a href="https://discord.gg/fBYCKjz8dz">Discord</a></Typography>
+            <Typography component="p"><a rel="me" href="https://writing.exchange/@EdinburghSFF">Mastodon</a></Typography>
+          </Paper>
+
+        </Container>
 
       </Container>
 
-    </Container>
+    </>
+
   )
 }
