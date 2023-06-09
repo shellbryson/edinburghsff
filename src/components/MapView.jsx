@@ -23,7 +23,7 @@ const styleMap={
   position: "relative",
   marginTop: "2rem",
   width: "100%",
-  height: "80vh",
+  height: "60vh",
   overflow: "hidden",
 }
 
