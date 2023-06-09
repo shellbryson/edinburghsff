@@ -44,28 +44,33 @@ import UploadImage from '../components/UploadImage';
 export default function AdminEvents() {
 
   const { user } = useAuth();
-
-  const [events, setEvents] = useState([])
-
   const confirm = useConfirm();
 
+  // Data
+  const [events, setEvents] = useState([])
+
+  // Common
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [url, setURL] = useState('');
   const [show, setShow] = useState(true);
+  const [imgUrl, setImgUrl] = useState(null);
+
+  // Specific to events
   const [eventStart, setEventStart] = useState(dayjs(new Date()));
   const [eventEnd, setEventEnd] = useState(dayjs(new Date()));
   const [eventIsAllDay, setEventIsAllDay] = useState(false);
   const [eventLocation, setEventLocation] = useState('');
-  const [imgUrl, setImgUrl] = useState(null);
-  const [isUpdate, setIsUpdate] = useState(false);
 
+  // Update
+  const [isUpdate, setIsUpdate] = useState(false);
   const [updateId, setUpdateId] = useState('');
 
+  // UI state
   const [openAdd, setOpenAdd] = useState(false);
-
   const [error, setError] = useState('');
 
+  // Theme
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -95,12 +100,14 @@ export default function AdminEvents() {
     // Close the dialog
     setOpenAdd(false);
 
-    // Reset all fields
+    // Reset common fields
     setTitle('');
     setDescription('');
     setURL('');
     setImgUrl('');
     setShow(true);
+
+    // Reset Events fields
     setEventStart(dayjs(new Date()));
     setEventEnd(dayjs(new Date()));
     setEventIsAllDay(false);
@@ -127,7 +134,6 @@ export default function AdminEvents() {
     setEventLocation(data.eventLocation);
 
     setIsUpdate(true);
-
     setOpenAdd(true);
   };
 
@@ -213,7 +219,6 @@ export default function AdminEvents() {
 
   const handleUpdate = async () => {
     setError('');
-    setImgUrl('');
 
     if (
       !title ||
@@ -231,7 +236,6 @@ export default function AdminEvents() {
 
     try {
       const l = doc(db, "events", updateId);
-
       const data = {
         title: title,
         description: description,
@@ -278,7 +282,7 @@ export default function AdminEvents() {
           { isUpdate ?
             <Typography variant="h2" component="span">Update Event</Typography>
           :
-            <Typography variant="h2" component="span">Add New Event</Typography>
+            <Typography variant="h2" component="span">Add Event</Typography>
           }
         </DialogTitle>
         <DialogContent>

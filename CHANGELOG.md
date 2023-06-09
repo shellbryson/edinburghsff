@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.4.1] - 2023-06-09
+
+Fixed:
+  - Links Admin:
+    - combine add/update dialog
+    - click anywhere in list to update
+    - move delete to dialog
+
+  - Maps Admin:
+    - combine add/update dialog
+    - click anywhere in list to update
+    - move delete to dialog
+    - use image uploader
+
+  - Events Admin:
+    - combine add/update dialog
+    - click anywhere in list to update
+    - move delete to dialog
+    - use image uploader
+
 ## [1.4.0] - 2023-06-09
 
 Added:

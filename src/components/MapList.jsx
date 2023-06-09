@@ -4,9 +4,6 @@ import React, { useEffect, useState } from 'react';
 import Chip from '@mui/material/Chip';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
-import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
 
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -41,12 +38,12 @@ const MapList = ({ data, onDelete, onUpdate }) => {
             <TableCell>Title</TableCell>
             <TableCell>Tags</TableCell>
             <TableCell>Image</TableCell>
-            <TableCell></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {places.map((place, index) => (
             <TableRow
+              onClick={() => onUpdate(place)}
               key={index}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
@@ -57,14 +54,6 @@ const MapList = ({ data, onDelete, onUpdate }) => {
                 </Box>
               </TableCell>
               <TableCell><ListImage image={place?.image} alt={place?.title} /></TableCell>
-              <TableCell>
-                <IconButton size='small' onClick={() => onDelete(place.id)}>
-                  <DeleteOutlineOutlinedIcon />
-                </IconButton>
-                <IconButton size='small' onClick={() => onUpdate(place)}>
-                  <ModeEditOutlineOutlinedIcon />
-                </IconButton>
-              </TableCell>
             </TableRow>
           ))}
         </TableBody>

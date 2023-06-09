@@ -44,18 +44,28 @@ export default function AdminLinks() {
   const { user } = useAuth();
   const confirm = useConfirm();
 
+  // Data
   const [links, setLinks] = useState([])
+
+  // Common
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [url, setURL] = useState('');
   const [show, setShow] = useState(true);
-  const [linkClassification, setLinkClassification] = useState('general');
-  const [isUpdate, setIsUpdate] = useState(false);
   const [imgUrl, setImgUrl] = useState(null);
+
+  // Specific to Links
+  const [linkClassification, setLinkClassification] = useState('general');
+
+  // Update
+  const [isUpdate, setIsUpdate] = useState(false);
   const [updateId, setUpdateId] = useState('');
+
+  // UI state
   const [openAdd, setOpenAdd] = useState(false);
   const [error, setError] = useState('');
 
+  // Theme
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -84,13 +94,15 @@ export default function AdminLinks() {
     // Close the dialog
     setOpenAdd(false);
 
-    // Reset all fields
+    // Reset common fields
     setTitle('');
     setDescription('');
     setURL('');
-    setShow(true);
-    setLinkClassification('');
     setImgUrl('');
+    setShow(true);
+
+    // Reset Links fields
+    setLinkClassification('');
 
     // Reset to Add mode
     setIsUpdate(false);
@@ -182,10 +194,6 @@ export default function AdminLinks() {
     }
   };
 
-  const handleLinkTypeChange = (event) => {
-    setLinkClassification(event.target.value);
-  }
-
   const performDelete = async (id) => {
     try {
       await deleteDoc(doc(db, "links", id));
@@ -217,6 +225,10 @@ export default function AdminLinks() {
       /* ... */
     });
   };
+
+  const handleLinkTypeChange = (event) => {
+    setLinkClassification(event.target.value);
+  }
 
   const handleFileUpload = (url) => {
     setImgUrl(url)
