@@ -55,6 +55,9 @@ a {
   $color-steps: $grid-columns * $grid-rows;
 
   &__event {
+    transition: transform 0.2s ease-in-out;
+    border: 1px solid $color-body;
+
     @for $i from 1 through $color-steps {
       $reset-index: $i % $color-steps; // Cycle back to 0 when we reach the end of the color grid
       $color-percentage: percentage(calc($reset-index / $color-steps));
@@ -64,6 +67,12 @@ a {
         background-color: $interpolated-color;
       }
     }
+  }
+
+  &__event-title {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
   }
 }
 

@@ -50,6 +50,9 @@ const styleGridContent={
 }
 
 const styleEventTitle={
+  display: "-webkit-box",
+  overflow: "hidden",
+  lineClamp: 4,
   padding: 0
 }
 
@@ -59,7 +62,6 @@ const styleEventDate={
 }
 
 const EventsGrid = ({ data }) => {
-  const [events, setEvents] = useState([]);
   const [eventsCurrent, setEventsCurrent] = useState([]);
   const [eventsFuture, setEventsFuture] = useState([]);
   const [eventsPast, setEventsPast] = useState([]);
@@ -70,8 +72,6 @@ const EventsGrid = ({ data }) => {
   const params = useParams();
 
   useEffect(() => {
-    setEvents(data);
-
     splitEvents(data);
 
     if (params?.eventID) {
@@ -90,10 +90,8 @@ const EventsGrid = ({ data }) => {
     const ePast = [];
 
     events.forEach((event) => {
-      console.log(event)
-      let start = dayjs(event.eventStart.toDate());
-      let end = dayjs(event.eventEnd.toDate());
-
+      const start = dayjs(event.eventStart.toDate());
+      const end = dayjs(event.eventEnd.toDate());
 
       if (end.isBefore(today)) {
         ePast.push(event);
@@ -135,7 +133,7 @@ const EventsGrid = ({ data }) => {
               <EventsGridImage image={data?.image} alt={data?.title} />
               <Box style={styleGridContent}>
                 <Stack spacing={2}>
-                  <Typography variant='tile_heading' style={styleEventTitle}>
+                  <Typography variant='tile_heading' className='sff-events-grid__event-title' style={styleEventTitle}>
                     {data.title}
                   </Typography>
                   <Typography variant="p">
