@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.6.0] - 2023-06-14
+
+Add:
+  - Events: split events listings into future/current/past
+
+Fix:
+  - Events: dates not being displayed correctly, resulting in error
+
 ## [1.5.2] - 2023-06-09
 
 Fixed:

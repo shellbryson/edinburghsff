@@ -8,6 +8,7 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/en-gb';
 
 // MUI
+import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -17,11 +18,15 @@ import Link from '@mui/material/Link';
 import EventsGridImage from './EventsGridImage';
 import EventDetails from './EventDetails';
 
+const styleEventsSection={
+  marginTop: "3rem",
+}
+
 const styleGrid={
   display: "grid",
-  gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+  gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
   gap: "4px",
-  marginTop: "2rem"
+  marginBottom: "2rem",
 }
 
 const styleGridCell={
@@ -29,6 +34,7 @@ const styleGridCell={
   position: "relative",
   aspect: "1/1",
   cursor: "pointer",
+  maxWidth: "100%",
 }
 
 const styleGridContent={
@@ -54,6 +60,9 @@ const styleEventDate={
 
 const EventsGrid = ({ data }) => {
   const [events, setEvents] = useState([]);
+  const [eventsCurrent, setEventsCurrent] = useState([]);
+  const [eventsFuture, setEventsFuture] = useState([]);
+  const [eventsPast, setEventsPast] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [isLoadingEvent, setIsLoadingEvent] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState({});
@@ -63,6 +72,8 @@ const EventsGrid = ({ data }) => {
   useEffect(() => {
     setEvents(data);
 
+    splitEvents(data);
+
     if (params?.eventID) {
       setIsLoadingEvent(true);
       fetchEvent(params.eventID);
@@ -70,20 +81,74 @@ const EventsGrid = ({ data }) => {
     }
   }, [data, params?.eventID]);
 
-  const eventDate = (eventStartDate, eventEndDate, eventIsAllDay) => {
-    let displayDate = "";
+  const splitEvents = (events) => {
+    if (!events) return;
 
+    const today = dayjs();
+    const eCurrent = [];
+    const eFuture = [];
+    const ePast = [];
+
+    events.forEach((event) => {
+      console.log(event)
+      let start = dayjs(event.eventStart.toDate());
+      let end = dayjs(event.eventEnd.toDate());
+
+
+      if (end.isBefore(today)) {
+        ePast.push(event);
+      } else if (start.isAfter(today)) {
+        eFuture.push(event);
+      } else {
+        eCurrent.push(event);
+      }
+    });
+
+    setEventsCurrent(eCurrent);
+    setEventsPast(ePast);
+    setEventsFuture(eFuture);
+  }
+
+  const renderEventDate = (eventStartDate, eventEndDate, eventIsAllDay) => {
+    let displayDate = "";
     if (eventIsAllDay) {
-      const _startDate = dayjs(eventStartDate.toDate().toLocaleString(), 'DD/MM/YYYY, HH:mm:ss').format('DD/MM/YY');
-      const _endDate = dayjs(eventEndDate.toDate().toLocaleString(), 'DD/MM/YYYY, HH:mm:ss').format('DD/MM/YY');
+      const _startDate = dayjs(eventStartDate.toDate(), 'DD/MM/YYYY, HH:mm:ss').format('DD/MM/YY');
+      const _endDate = dayjs(eventEndDate.toDate(), 'DD/MM/YYYY, HH:mm:ss').format('DD/MM/YY');
       displayDate = _startDate === _endDate ? _startDate : `${_startDate} to ${_endDate}`;
     } else {
-      const _startDate = dayjs(eventStartDate.toDate().toLocaleString(), 'DD/MM/YYYY, HH:mm:ss').format('DD/MM/YY, HH:mm');
-      const _endDate = dayjs(eventEndDate.toDate().toLocaleString(), 'DD/MM/YYYY, HH:mm:ss').format('HH:mm');
+      const _startDate = dayjs(eventStartDate.toDate(), 'DD/MM/YYYY, HH:mm:ss').format('DD/MM/YY, HH:mm');
+      const _endDate = dayjs(eventEndDate.toDate(), 'DD/MM/YYYY, HH:mm:ss').format('HH:mm');
       displayDate = `${_startDate} to ${_endDate}`;
     }
-
     return <Typography component="p" style={styleEventDate}>{displayDate}</Typography>;
+  }
+
+  const renderSubGrid = (heading, arrayOfEvents) => {
+    if (arrayOfEvents.length === 0) return;
+
+    return(
+      <Box style={styleEventsSection} className="sff-events-section">
+        <Typography variant="h2" component="h2" sx={{ marginLeft: "1rem", textAlign: "center"}}>{heading}</Typography>
+        <Box style={styleGrid} className="sff-events-grid">
+          {arrayOfEvents.map((data, index) => (
+            <Link className="sff-events-grid__event" style={styleGridCell} key={index} href={`/events/${data.id}/${slugify(data.title)}`} onClick={(e) => {handleOpenEvent(e, data.id, data.title)}}>
+              <EventsGridImage image={data?.image} alt={data?.title} />
+              <Box style={styleGridContent}>
+                <Stack spacing={2}>
+                  <Typography variant='tile_heading' style={styleEventTitle}>
+                    {data.title}
+                  </Typography>
+                  <Typography variant="p">
+                    {data.descriptionShort}
+                  </Typography>
+                </Stack>
+                { renderEventDate(data?.eventStart, data?.eventEnd, data?.eventIsAllDay) }
+              </Box>
+            </Link>
+          ))}
+        </Box>
+      </Box>
+    )
   }
 
   const slugify = (str) => {
@@ -124,24 +189,11 @@ const EventsGrid = ({ data }) => {
   return (
     <>
       <EventDetails isOpen={isOpen} isLoadingEvent={isLoadingEvent} selectedEvent={selectedEvent} onCloseCallback={handleCloseEvent} />
-      <Box style={styleGrid} className="sff-events-grid">
-        {events.map((data, index) => (
-          <Link className="sff-events-grid__event" style={styleGridCell} key={index} href={`/events/${data.id}/${slugify(data.title)}`} onClick={(e) => {handleOpenEvent(e, data.id, data.title)}}>
-            <EventsGridImage image={data?.image} alt={data?.title} />
-            <Box style={styleGridContent}>
-              <Stack spacing={2}>
-                <Typography variant='tile_heading' style={styleEventTitle}>
-                  {data.title}
-                </Typography>
-                <Typography variant="p">
-                  {data.descriptionShort}
-                </Typography>
-              </Stack>
-              { eventDate(data?.eventStart, data?.eventEnd, data?.eventIsAllDay) }
-            </Box>
-          </Link>
-        ))}
-      </Box>
+      <Container maxWidth="md" disableGutters>
+        {renderSubGrid("Future events", eventsFuture)}
+        {renderSubGrid("Current events", eventsCurrent)}
+        {renderSubGrid("Past events", eventsPast)}
+      </Container>
     </>
   );
 };
