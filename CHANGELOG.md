@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.7.2] - 2023-06-15
+
+Fix:
+  - Events: if user hits back after opening an event, the event, the event popup is not hidden
+
 ## [1.7.1] - 2023-06-15
 
 Fix:

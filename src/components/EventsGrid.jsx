@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from "react-router-dom";
 
+import { slugify } from '../utils/utils';
+
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from "../firebase";
 
@@ -49,6 +51,8 @@ const EventsGrid = ({ data }) => {
       setIsLoadingEvent(true);
       fetchEvent(params.eventID);
       setIsOpen(true);
+    } else {
+      setIsOpen(false);
     }
   }, [data, params?.eventID]);
 
@@ -118,15 +122,6 @@ const EventsGrid = ({ data }) => {
         </Box>
       </Box>
     )
-  }
-
-  const slugify = (str) => {
-    return str
-      .toLowerCase()
-      .trim()
-      .replace(/[^\w\s-]/g, "")
-      .replace(/[\s_-]+/g, "-")
-      .replace(/^-+|-+$/g, "");
   }
 
   const fetchEvent = async (id) => {
