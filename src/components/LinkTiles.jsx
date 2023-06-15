@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 
 import ReactMarkdown from 'react-markdown';
 
+import {imageURL} from '../utils/utils';
+
 // MUI
 import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Container from '@mui/material/Container';
 
@@ -25,12 +25,7 @@ const styleContent={
   height: "100%"
 }
 
-const styleActions={
-  justifyContent:"center",
-  borderTop: "1px solid #ccc"
-}
-
-const LinkTiles = ({ data, onDelete, onUpdate, enableAdminActions }) => {
+const LinkTiles = ({ data, onDelete, onUpdate }) => {
   const [links, setLinks] = useState([]);
 
   useEffect(() => {
@@ -51,14 +46,8 @@ const LinkTiles = ({ data, onDelete, onUpdate, enableAdminActions }) => {
                 <a href={data.url} target='_blank' rel='noreferrer'>{data.url}</a>
               </Typography>
             </Stack>
-            <LinkTileImage image={data?.image} alt={data?.title} />
+            <LinkTileImage image={imageURL(data?.image, 'thumb')} alt={data?.title} />
           </CardContent>
-          { enableAdminActions &&
-            <CardActions style={styleActions}>
-              <Button size='small' onClick={() => onDelete(data.id)}>Delete</Button>
-              <Button size='small' onClick={() => onUpdate(data)}>Update</Button>
-            </CardActions>
-          }
         </Card>
       ))}
     </Container>
