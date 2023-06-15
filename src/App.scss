@@ -79,6 +79,24 @@ a {
     display: -webkit-box;
     -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  &__event-content {
+    display: flex;
+    position: absolute;
+    flex-direction: column;
+    height: calc(100% - 2rem);
+    aspect-ratio: 1/1;
+    z-index: 2;
+    inset: 1rem;
+    text-align: left;
+    color: #fff;
+  }
+
+  &__event-date {
+    padding: 0;
+    margin-top: auto;
   }
 }
 

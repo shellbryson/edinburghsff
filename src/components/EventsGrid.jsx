@@ -32,30 +32,6 @@ const styleGrid={
   zIndex: 1,
 }
 
-const styleGridContent={
-  display: "flex",
-  flexDirection: "column",
-  position: "absolute",
-  aspect: "1/1",
-  zIndex: 2,
-  inset: "1rem",
-  textAlign: "left",
-  color: "#fff",
-  height: "calc(100% - 2rem)",
-}
-
-const styleEventTitle={
-  display: "-webkit-box",
-  overflow: "hidden",
-  lineClamp: 4,
-  padding: 0
-}
-
-const styleEventDate={
-  padding: 0,
-  marginTop: "auto",
-}
-
 const EventsGrid = ({ data }) => {
   const [eventsCurrent, setEventsCurrent] = useState([]);
   const [eventsFuture, setEventsFuture] = useState([]);
@@ -113,7 +89,7 @@ const EventsGrid = ({ data }) => {
       const _endDate = dayjs(eventEndDate.toDate(), 'DD/MM/YYYY, HH:mm:ss').format('HH:mm');
       displayDate = `${_startDate} to ${_endDate}`;
     }
-    return <Typography component="p" style={styleEventDate}>{displayDate}</Typography>;
+    return <Box className="sff-events-grid__event-date"><Typography component="p">{displayDate}</Typography></Box>;
   }
 
   const renderSubGrid = (heading, arrayOfEvents) => {
@@ -126,9 +102,9 @@ const EventsGrid = ({ data }) => {
           {arrayOfEvents.map((data, index) => (
             <Link className="sff-events-grid__event" key={index} href={`/events/${data.id}/${slugify(data.title)}`} onClick={(e) => {handleOpenEvent(e, data.id, data.title)}}>
               <EventsGridImage image={data?.image} alt={data?.title} />
-              <Box style={styleGridContent}>
+              <Box className="sff-events-grid__event-content">
                 <Stack spacing={2}>
-                  <Typography variant='tile_heading' className='sff-events-grid__event-title' style={styleEventTitle}>
+                  <Typography variant='tile_heading' className='sff-events-grid__event-title'>
                     {data.title}
                   </Typography>
                   <Typography variant="p">
