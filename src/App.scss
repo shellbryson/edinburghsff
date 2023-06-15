@@ -55,6 +55,12 @@ a {
   $color-steps: $grid-columns * $grid-rows;
 
   &__event {
+    display: block;
+    position: relative;
+    aspect-ratio: 1/1;
+    cursor: pointer;
+    max-width: 100%;
+    z-index: 2;
     transition: transform 0.2s ease-in-out;
     border: 1px solid $color-body;
 

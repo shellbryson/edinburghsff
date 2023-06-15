@@ -20,21 +20,16 @@ import EventDetails from './EventDetails';
 
 const styleEventsSection={
   marginTop: "3rem",
+  position: "relative",
 }
 
 const styleGrid={
   display: "grid",
+  position: "relative",
   gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
   gap: "4px",
   marginBottom: "2rem",
-}
-
-const styleGridCell={
-  display: "block",
-  position: "relative",
-  aspect: "1/1",
-  cursor: "pointer",
-  maxWidth: "100%",
+  zIndex: 1,
 }
 
 const styleGridContent={
@@ -129,7 +124,7 @@ const EventsGrid = ({ data }) => {
         <Typography variant="h2" component="h2" sx={{ marginLeft: "1rem", textAlign: "center"}}>{heading}</Typography>
         <Box style={styleGrid} className="sff-events-grid">
           {arrayOfEvents.map((data, index) => (
-            <Link className="sff-events-grid__event" style={styleGridCell} key={index} href={`/events/${data.id}/${slugify(data.title)}`} onClick={(e) => {handleOpenEvent(e, data.id, data.title)}}>
+            <Link className="sff-events-grid__event" key={index} href={`/events/${data.id}/${slugify(data.title)}`} onClick={(e) => {handleOpenEvent(e, data.id, data.title)}}>
               <EventsGridImage image={data?.image} alt={data?.title} />
               <Box style={styleGridContent}>
                 <Stack spacing={2}>

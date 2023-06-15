@@ -25,12 +25,12 @@ const styleContent={
   height: "100%"
 }
 
-const LinkTiles = ({ data, onDelete, onUpdate }) => {
+const LinkTiles = ({ data }) => {
   const [links, setLinks] = useState([]);
 
   useEffect(() => {
     setLinks(data);
-  }, [data, onDelete, onUpdate])
+  }, [data])
 
   return (
     <Container maxWidth="md">

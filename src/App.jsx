@@ -107,7 +107,7 @@ function App() {
         </Box>
       </Box>
 
-      <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
+      <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 99 }} elevation={3}>
         <BottomNavigation showLabels>
           <BottomNavigationAction onClick={handleClickMap} label="Map" icon={<MapOutlinedIcon />} />
           <BottomNavigationAction onClick={handleClickEvents} label="Events" icon={<CalendarMonthOutlinedIcon />} />
