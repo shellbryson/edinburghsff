@@ -1,5 +1,8 @@
 import React from 'react';
 
+import {imageURL} from '../utils/utils';
+
+// MUI
 import Box from '@mui/material/Box';
 
 const eventImageContainerStyle = {
@@ -23,7 +26,7 @@ const EventsGridImage = ({ image, alt }) => {
   return (
     <Box style={eventImageContainerStyle}>
       {image &&
-        <img style={eventImageStyle} src={image} alt={alt} loading="lazy" />
+        <img style={eventImageStyle} src={imageURL(image, 'medium')} alt={alt} loading="lazy" />
       }
     </Box>
   );

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
+import {imageURL} from '../utils/utils';
+
 // MUI
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
@@ -44,7 +46,7 @@ const LinksList = ({ data, onDelete, onUpdate }) => {
                   {data.type}
                 </Box>
               </TableCell>
-              <TableCell><EventsListImage image={data?.image} alt={data?.title} /></TableCell>
+              <TableCell><EventsListImage image={imageURL(data?.image, 'icon')} alt={data?.title} /></TableCell>
             </TableRow>
           ))}
         </TableBody>

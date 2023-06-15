@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
+import {imageURL} from '../utils/utils';
+
 // MUI
 import Chip from '@mui/material/Chip';
 import Paper from '@mui/material/Paper';
@@ -53,7 +55,7 @@ const MapList = ({ data, onDelete, onUpdate }) => {
                   {place.tags && renderLocationTags(place.tags)}
                 </Box>
               </TableCell>
-              <TableCell><ListImage image={place?.image} alt={place?.title} /></TableCell>
+              <TableCell><ListImage image={imageURL(place?.image, 'icon')} alt={place?.title} /></TableCell>
             </TableRow>
           ))}
         </TableBody>

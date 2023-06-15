@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
+import {imageURL} from '../utils/utils';
+
 // MUI
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
@@ -42,7 +44,7 @@ const EventsList = ({ data, onDelete, onUpdate }) => {
             >
               <TableCell component="th" scope="row" ><Typography>{dayjs(data.eventStart.toDate().toLocaleString(), 'DD/MM/YYYY, HH:mm:ss').format('DD/MM/YYYY')}</Typography></TableCell>
               <TableCell>{data.title}</TableCell>
-              <TableCell><ListImage image={data?.image} alt={data?.title} /></TableCell>
+              <TableCell><ListImage image={imageURL(data?.image, 'icon')} alt={data?.title} /></TableCell>
               <TableCell>{data.eventLocation}</TableCell>
             </TableRow>
           ))}

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.7.0] - 2023-06-15
+
+Add:
+  - Images: implement Firebase function to generate resized images on upload
+    - icon: 32x32
+    - thumb: 100x100
+    - medium: 300x300
+    - large: 800x800
+  - Images: Lists now use 'icon' sized images
+  - Events: Use 'medium' sized images
+
 ## [1.6.0] - 2023-06-14
 
 Add:

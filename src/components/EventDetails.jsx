@@ -3,7 +3,9 @@ import React, { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import 'dayjs/locale/en-gb';
 
-import ReactMarkdown from 'react-markdown'
+import ReactMarkdown from 'react-markdown';
+
+import {imageURL} from '../utils/utils';
 
 // MUI
 import Typography from '@mui/material/Typography';
@@ -121,7 +123,7 @@ const EventDetails = ({ selectedEvent, isOpen, onCloseCallback, isLoadingEvent }
           </>
         }
         { !isLoadingEvent && <>
-          <EventsDetailsImage image={currentEvent?.image} alt={currentEvent?.title} />
+          <EventsDetailsImage image={imageURL(currentEvent?.image, 'medium')} alt={currentEvent?.title} />
           <Box style={styleEventMeta}>
             {eventDate()}
             <LocationOnOutlinedIcon />
