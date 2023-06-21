@@ -131,7 +131,6 @@ const EventDetails = ({ selectedEvent, isOpen, onCloseCallback, isLoadingEvent }
           </Box>
           <Box style={styleEventDecsription}>
             <ReactMarkdown children={currentEvent.description} />
-            <Typography component="p" variant='p'>{currentEvent.description}</Typography>
             <Typography component="p" variant='p' sx={{ mt: 2 }}>More at: <Link to={currentEvent.url}>{cleanUrl(currentEvent.url)}</Link></Typography>
           </Box>
         </>}

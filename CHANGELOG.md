@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.8.1] - 2023-06-22
+
+Fix:
+  - Events: Markdown description being doubled up
+
 ## [1.8.0] - 2023-06-21
 
 Add:
