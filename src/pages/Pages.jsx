@@ -103,6 +103,9 @@ export default function Pages() {
               <Typography component="p" variant='p' gutterBottom>
                 <Link to={`/pages/${data.slug}`}>{data.title}</Link>
               </Typography>
+              <Typography component="p" variant='p' gutterBottom>
+                {data.description}
+              </Typography>
             </Stack>
           </CardContent>
         </Card>
