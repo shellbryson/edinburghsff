@@ -224,10 +224,6 @@ export default function AdminPages() {
     });
   };
 
-  const handleLinkTypeChange = (event) => {
-    setLinkClassification(event.target.value);
-  }
-
   const handleFileUpload = (url) => {
     setImgUrl(url)
   }

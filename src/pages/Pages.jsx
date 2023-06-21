@@ -15,7 +15,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 
 // Custom Components
-import PageHeading from '../components/PageHeading';
+import Spinner from '../components/Spinner';
 
 const styleCard={
   display: "flex",
@@ -37,6 +37,7 @@ export default function Pages() {
   const params = useParams();
   const [page, setPage] = useState({});
   const [pages, setPages] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (params.pageSlug) {
@@ -47,7 +48,7 @@ export default function Pages() {
   }, [params.pageSlug])
 
   const getPage = async (s) => {
-    console.log('getPage')
+    setIsLoading(true);
 
     const q = query(collection(db, "pages"), where("slug", "==", s));
     const querySnapshot = await getDocs(q);
@@ -60,9 +61,12 @@ export default function Pages() {
     });
     setPage(l);
     setPages([]);
+    setIsLoading(false);
   }
 
   const getPages = async () => {
+    setIsLoading(true);
+
     const q = query(collection(db, "pages"), orderBy("title", "asc"));
     const querySnapshot = await getDocs(q);
     const l = [];
@@ -74,6 +78,7 @@ export default function Pages() {
     });
     setPage({});
     setPages(l);
+    setIsLoading(false);
   }
 
   const renderPage = () => {
@@ -81,7 +86,7 @@ export default function Pages() {
       return null;
     }
     const firstMatchingPage = page[0];
-    const r = <Box style={ stylePage }>
+    const r = <Box style={ stylePage } className="sff-page">
       <Typography variant="h1" component="h1" gutterBottom align='center'>
         {firstMatchingPage.title}
       </Typography>
@@ -117,8 +122,9 @@ export default function Pages() {
   return (
     <>
       <Container>
-        { renderPages() }
-        { renderPage() }
+        { isLoading && <Spinner />}
+        { !isLoading && renderPages() }
+        { !isLoading && renderPage() }
       </Container>
     </>
   )
