@@ -5,12 +5,13 @@ import { Link } from "react-router-dom";
 import { useAuth } from '../context/AuthContext';
 
 // Custom Components
-import MastheadImage from '../assets/masthead.png';
 import Masthead from '../components/Masthead.jsx';
 
 // MUI Components
 import Typography from '@mui/material/Typography';
+import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 
@@ -26,6 +27,13 @@ const styles = {
     backgroundColor: 'primary.main'
   },
 };
+
+const styleCommunity = {
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  textAlign: "center",
+}
 
 export default function Welcome() {
 
@@ -49,11 +57,17 @@ export default function Welcome() {
             <Typography component="p">For the latest information and events, find us on Mastodon <a rel="me" href="https://writing.exchange/@EdinburghSFF">@EdinburghSFF@writing.exchange</a>, Twitter <a href="https://twitter.com/edinburghsff">@edinburghsff</a> or drop into our <a href="https://discord.gg/5EaXDTwrEY">Discord</a> for a chat.</Typography>
           </Box>
 
-          <Paper elevation={3} style={styles.paper}>
-            <Typography component="p" variant='h2'>Join our community</Typography>
-            <Typography component="p">A friendly community for writers of all levels, whether just starting out or published.</Typography>
-            <Typography component="p"><a href="https://discord.gg/fBYCKjz8dz">Discord</a></Typography>
-            <Typography component="p"><a rel="me" href="https://writing.exchange/@EdinburghSFF">Mastodon</a></Typography>
+          <Paper elevation={1} style={styles.paper}>
+            <Box style={ styleCommunity }>
+              <Stack spacing={2}>
+                <Typography component="p" variant='h2'>Join our community</Typography>
+                <Typography component="p">A friendly community for writers of all levels, whether just starting out or published.</Typography>
+                <Typography component="p"><Link to='/pages/edinburgh-sff-discord'>Learn more about our Discord</Link></Typography>
+                <Box sx={{ display: 'flex', justifyContent: 'center', paddingTop: '1rem', textAlign: "center"}}>
+                  <Button href="https://discord.gg/fBYCKjz8dz" size='large' variant='outlined'>Discord</Button>
+                </Box>
+              </Stack>
+            </Box>
           </Paper>
 
         </Container>

@@ -48,6 +48,14 @@ a {
   overflow: hidden;
 }
 
+p {
+  line-height: 1.5;
+
+  & + p {
+    padding-top: 1rem;
+  }
+}
+
 .sff-events-grid {
 
   $grid-columns: 4;
@@ -159,12 +167,10 @@ a {
     text-align: center;
   }
 
-  p {
-    line-height: 1.5;
-  }
-
   p + h2,
   p + h3,
+  ol + h2,
+  ol + h3,
   ul + h2,
   ul + h3 {
     margin-top: 3rem;

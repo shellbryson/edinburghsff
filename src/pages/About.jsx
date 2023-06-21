@@ -30,6 +30,8 @@ const styleBadger = {
 
 const boxStyle={
   marginBottom: '2rem',
+  maxWidth: '80ch',
+  margin: '0 auto'
 }
 
 export default function About() {
@@ -44,23 +46,15 @@ export default function About() {
           <Typography variant="p" component="p" gutterBottom align='center'>
             Edinburgh SFF is an open group of writers of science fiction and fantasy. There are no membership fees or requirements, and everyone is welcome, whatever stage your writing is at.
           </Typography>
-        </Box>
-        <Box sx={boxStyle}>
           <Typography variant="p" component="p" gutterBottom align='center'>
             This site contains resources for SFF writers, primarily in Edinburgh, Scotland. We're a small group of writers, with an active Discord server where we share resources and chat about writing. We have regular meetups, and we're always looking for new members.
           </Typography>
-        </Box>
-        <Box sx={boxStyle}>
           <Typography variant="p" component="p" gutterBottom align='center'>
             If you'd like to contribute, please get in touch via Twitter <a href="https://twitter.com/edinburghsff">@edinburghsff</a> or <a href="https://discord.gg/fBYCKjz8dz">Discord</a>.
           </Typography>
-        </Box>
-        <Box sx={boxStyle}>
           <Typography variant="p" component="p" gutterBottom align='center'>
             This web app was hand-crafted in ReactJS, FireBase and Material UI.
           </Typography>
-        </Box>
-        <Box sx={boxStyle}>
           <Typography component="p" align='center'>Copyright &copy; ESFF { currentYear }</Typography>
           <Typography component="p" align='center'>Version { packageJson.version }</Typography>
         </Box>
