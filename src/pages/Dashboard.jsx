@@ -36,6 +36,7 @@ const Dashboard = () => {
             <Link to='/dashboard/events'>Edit events</Link>
             <Link to='/dashboard/map'>Edit map</Link>
             <Link to='/dashboard/links'>Edit links</Link>
+            <Link to='/dashboard/pages'>Edit pages</Link>
           </Stack>
         </Paper>
         <Stack spacing={2}>

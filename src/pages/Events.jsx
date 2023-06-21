@@ -11,7 +11,7 @@ import Typography from '@mui/material/Typography';
 import PageHeading from '../components/PageHeading';
 import EventsGrid from '../components/EventsGrid';
 
-export default function AdminLinks() {
+export default function Events() {
 
   const [events, setEvents] = useState([])
 

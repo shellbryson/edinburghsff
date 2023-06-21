@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.8.0] - 2023-06-21
+
+Add:
+  - Pages: Add page rendering
+  - Pages: Add page admin
+  - Pages: Add page routes
+
 ## [1.7.2] - 2023-06-15
 
 Fix:

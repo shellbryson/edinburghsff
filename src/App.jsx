@@ -34,11 +34,15 @@ const About = lazy(() => import('./pages/About'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 const Signin = lazy(() => import('./pages/Signin'));
 
+// Dynamic Pages
+const Pages = lazy(() => import('./pages/Pages'));
+
 // Admin Pages
 const Dashboard = lazy(() => import('./pages/Dashboard'));
 const AdminLinks = lazy(() => import('./pages/AdminLinks'));
 const AdminEvents = lazy(() => import('./pages/AdminEvents'));
 const AdminMap = lazy(() => import('./pages/AdminMap'));
+const AdminPages = lazy(() => import('./pages/AdminPages'));
 
 // Assets
 import './App.scss';
@@ -86,6 +90,7 @@ function App() {
                 <Route path='links' element={<AdminLinks />} />
                 <Route path='events' element={<AdminEvents />} />
                 <Route path='map' element={<AdminMap />} />
+                <Route path='pages' element={<AdminPages />} />
               </Route>
 
               <Route path="/" element={<PageLayout />}>
@@ -97,6 +102,8 @@ function App() {
                 <Route path="about" element={<About />} />
                 <Route path="events/:eventID/:eventTitle" element={<Events />} />
                 <Route path="events" element={<Events />} />
+                <Route path="pages/:pageSlug" element={<Pages />} />
+                <Route path="pages" element={<Pages />} />
                 <Route path="*" element={<NotFound />} />
               </Route>
             </Routes>

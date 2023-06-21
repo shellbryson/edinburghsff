@@ -19,6 +19,7 @@ import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined
 import AutoStoriesOutlinedIcon from '@mui/icons-material/AutoStoriesOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 
 // Context
 import { useAuth } from '../context/AuthContext';
@@ -112,6 +113,14 @@ export default function Menu() {
               Links
             </ListItemText>
           </ListItem>
+          <ListItem onClick={()=>handleOnClick("/pages")}>
+            <ListItemIcon>
+              <DescriptionOutlinedIcon />
+            </ListItemIcon>
+            <ListItemText>
+              Pages
+            </ListItemText>
+          </ListItem>
           <ListItem onClick={()=>handleOnClick("/about")}>
             <ListItemIcon>
               <InfoOutlinedIcon />
@@ -163,6 +172,14 @@ export default function Menu() {
                 </ListItemIcon>
                 <ListItemText>
                   Edit map
+                </ListItemText>
+              </ListItem>
+              <ListItem onClick={()=>handleOnClick("/dashboard/pages")}>
+                <ListItemIcon>
+                  <SettingsOutlinedIcon />
+                </ListItemIcon>
+                <ListItemText>
+                  Edit pages
                 </ListItemText>
               </ListItem>
             </>

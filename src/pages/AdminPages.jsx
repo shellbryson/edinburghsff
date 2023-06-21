@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
+import { slugify } from '../utils/utils';
+
 import { doc, getDocs, addDoc, updateDoc, deleteDoc, collection, query, orderBy } from 'firebase/firestore';
 import { db } from "../firebase";
 
@@ -16,13 +18,8 @@ import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 
 import FormGroup from '@mui/material/FormGroup';
-import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
 
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -36,10 +33,10 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 
 // Custom Components
 import PageHeading from '../components/PageHeading';
-import LinkList from '../components/LinksList';
+import PageList from '../components/PageList';
 import UploadImage from '../components/UploadImage';
 
-export default function AdminLinks() {
+export default function AdminPages() {
 
   const { user } = useAuth();
   const confirm = useConfirm();
@@ -50,12 +47,12 @@ export default function AdminLinks() {
   // Common
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [url, setURL] = useState('');
   const [show, setShow] = useState(true);
   const [imgUrl, setImgUrl] = useState(null);
 
   // Specific to Links
-  const [linkClassification, setLinkClassification] = useState('general');
+  const [slug, setSlug] = useState('');
+  const [content, setContent] = useState('');
 
   // Update
   const [isUpdate, setIsUpdate] = useState(false);
@@ -70,11 +67,11 @@ export default function AdminLinks() {
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
   useEffect(() => {
-    getLinks();
-  }, [])
+    getPages();
+  }, [slug])
 
-  const getLinks = async () => {
-    const q = query(collection(db, "links"), orderBy("title", "asc"));
+  const getPages = async () => {
+    const q = query(collection(db, "pages"), orderBy("title", "asc"));
     const querySnapshot = await getDocs(q);
     const l = [];
     querySnapshot.forEach((doc) => {
@@ -84,6 +81,11 @@ export default function AdminLinks() {
       });
     });
     setLinks(l);
+  }
+
+  const handleTitleChange = (title) => {
+    setTitle(title);
+    setSlug(slugify(title));
   }
 
   const handleOpenForm = () => {
@@ -97,12 +99,9 @@ export default function AdminLinks() {
     // Reset common fields
     setTitle('');
     setDescription('');
-    setURL('');
+    setContent('');
     setImgUrl('');
     setShow(true);
-
-    // Reset Links fields
-    setLinkClassification('');
 
     // Reset to Add mode
     setIsUpdate(false);
@@ -111,11 +110,11 @@ export default function AdminLinks() {
   const handleOpenUpdate = (data) => {
     setTitle(data.title);
     setDescription(data.description);
-    setURL(data.url);
+    setContent(data.content);
     setImgUrl(data.image);
     setShow(data.show);
     setUpdateId(data.id);
-    setLinkClassification(data.type || 'general');
+    setSlug(data.slug);
 
     setIsUpdate(true);
     setOpenAdd(true);
@@ -124,7 +123,7 @@ export default function AdminLinks() {
   const handleAdd = async (e) => {
     setError('');
 
-    if (!title || !description || !url) {
+    if (!title || !description || !content) {
       setError('Please fill out all fields');
       return;
     }
@@ -132,13 +131,13 @@ export default function AdminLinks() {
     const strippedImageUrl = imgUrl ? imgUrl.split('&')[0] : '';
 
     try {
-      await addDoc(collection(db, "links"), {
+      await addDoc(collection(db, "pages"), {
         title: title,
         description: description,
-        url: url,
+        content: content,
         show: show,
         image: strippedImageUrl,
-        type: linkClassification,
+        slug: slug,
         created: {
           email: user.email,
           uid: user.uid,
@@ -151,7 +150,7 @@ export default function AdminLinks() {
         }
       });
 
-      getLinks();
+      getPages();
       handleCloseForm();
 
     } catch (e) {
@@ -162,7 +161,7 @@ export default function AdminLinks() {
   const handleUpdate = async () => {
     setError('');
 
-    if (!title || !description || !url) {
+    if (!title || !description || !content) {
       setError('Please fill out all fields');
       return;
     }
@@ -170,15 +169,15 @@ export default function AdminLinks() {
     const strippedImageUrl = imgUrl ? imgUrl.split('&')[0] : '';
 
     try {
-      const l = doc(db, "links", updateId);
+      const l = doc(db, "pages", updateId);
 
       await updateDoc(l, {
         title: title,
         description: description,
-        url: url,
+        content: content,
         show: show,
         image: strippedImageUrl,
-        type: linkClassification || 'general',
+        slug: slug,
         updated: {
           email: user.email,
           uid: user.uid,
@@ -186,7 +185,7 @@ export default function AdminLinks() {
         }
       });
 
-      getLinks();
+      getPages();
       handleCloseForm();
 
     } catch (e) {
@@ -196,19 +195,18 @@ export default function AdminLinks() {
 
   const performDelete = async (id) => {
     try {
-      await deleteDoc(doc(db, "links", id));
+      await deleteDoc(doc(db, "pages", id));
       handleCloseForm();
-      getLinks();
+      getPages();
     } catch (e) {
       console.error("Error adding document: ", e);
     }
   };
 
   const handleDelete = async (id) => {
-
     const settings = {
-      description: "This action will permanently delete the selected Link",
-      confirmationText: "Delete Link",
+      description: "This action will permanently delete the selected Page",
+      confirmationText: "Delete Page",
       confirmationButtonProps: {
         variant: "contained"
       },
@@ -238,7 +236,7 @@ export default function AdminLinks() {
     <Container>
       <Dialog
         fullWidth
-        maxWidth="sm"
+        maxWidth="md"
         fullScreen={fullScreen}
         open={openAdd}
         onClose={handleCloseForm}
@@ -246,37 +244,17 @@ export default function AdminLinks() {
         aria-labelledby="add-dialog-title">
         <DialogTitle id="add-dialog-title">
           { isUpdate ?
-            <Typography variant="h2" component="span">Update Link</Typography>
+            <Typography variant="h2" component="span">Update Page</Typography>
           :
-            <Typography variant="h2" component="span">Add New Link</Typography>
+            <Typography variant="h2" component="span">Add New Page</Typography>
           }
         </DialogTitle>
         <DialogContent>
           <Stack spacing={2} sx={{ mt: 2}}>
-            <TextField sx={{ width: '100%' }} value={title} required label="Title" onChange={(e) => setTitle(e.target.value)} type='text' />
-            <TextField sx={{ width: '100%' }} value={url} required label="URL" onChange={(e) => setURL(e.target.value)} type='url' />
-            <TextField sx={{ width: '100%' }} value={description} required multiline rows={8} label="Description" onChange={(e) => setDescription(e.target.value)}  />
-
-            <FormControl fullWidth>
-              <InputLabel id="link-type">Link type</InputLabel>
-              <Select
-                labelId="link-type"
-                id="link-type-select"
-                value={linkClassification || "general"}
-                label="Link type"
-                onChange={handleLinkTypeChange}
-              >
-                <MenuItem value={"authors"}>Author sites</MenuItem>
-                <MenuItem value={"conventions"}>Conventions</MenuItem>
-                <MenuItem value={"events"}>Events</MenuItem>
-                <MenuItem value={"general"}>General</MenuItem>
-                <MenuItem value={"publishers"}>Publishers</MenuItem>
-                <MenuItem value={"magazines"}>Magazines</MenuItem>
-                <MenuItem value={"agents"}>Agents</MenuItem>
-                <MenuItem value={"editors"}>Editors</MenuItem>
-                <MenuItem value={"resources"}>Writing resources</MenuItem>
-              </Select>
-            </FormControl>
+            <TextField sx={{ width: '100%' }} value={title} required label="Title" onChange={(e) => handleTitleChange(e.target.value)} type='text' />
+            <TextField sx={{ width: '100%' }} value={slug} readOnly disabled label="Slug" type='text' />
+            <TextField sx={{ width: '100%' }} value={description} required multiline rows={2} label="Description" onChange={(e) => setDescription(e.target.value)}  />
+            <TextField sx={{ width: '100%' }} value={content} required multiline rows={16} label="Content" onChange={(e) => setContent(e.target.value)}  />
 
             <UploadImage imageUploadedCallback={handleFileUpload} imgUrl={imgUrl} />
 
@@ -293,22 +271,22 @@ export default function AdminLinks() {
           { isUpdate ?
             <>
               <Button onClick={() => handleDelete(updateId)} variant="outlined" startIcon={<DeleteIcon />}>Delete</Button>
-              <Button onClick={handleUpdate} variant='contained'>Update Link</Button>
+              <Button onClick={handleUpdate} variant='contained'>Update Page</Button>
             </>
             :
-            <Button onClick={handleAdd} variant='contained'>Add Link</Button>
+            <Button onClick={handleAdd} variant='contained'>Add Page</Button>
           }
         </DialogActions>
       </Dialog>
 
       <Container maxWidth="md">
-        <PageHeading heading="Links" />
+        <PageHeading heading="Pages" />
         <Box sx={{ textAlign: "center"}}>
-          <Button onClick={() => handleOpenForm()} variant='outlined'>Add Link</Button>
+          <Button onClick={() => handleOpenForm()} variant='outlined'>Add Page</Button>
         </Box>
       </Container>
 
-      <LinkList data={links} onDelete={handleDelete} onUpdate={handleOpenUpdate} />
+      <PageList data={links} onDelete={handleDelete} onUpdate={handleOpenUpdate} />
 
     </Container>
   )
