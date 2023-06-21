@@ -14,7 +14,7 @@ $body-font: 'Fira Code', monospace;
 #root {
   --font-body: $body-font;
   --font-body-weight: 400;
-  --font-body-bold-weight: 500;
+  --font-body-bold-weight: 600;
   --font-heading: $body-font;
   --color-body: $color-body;
   --color-body-faded: $color-body-faded;
@@ -159,8 +159,22 @@ a {
     text-align: center;
   }
 
+  p {
+    line-height: 1.5;
+  }
+
   p + h2,
-  p + h3 {
+  p + h3,
+  ul + h2,
+  ul + h3 {
     margin-top: 3rem;
+  }
+
+  code {
+    display: inline-block;
+    background-color: rgba(0,0,0,0.05);
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-weight: var(--font-body-bold-weight);
   }
 }
