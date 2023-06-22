@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.9.0] - 2023-06-23
+
+Add:
+  - Maps: Click on map marker to open map popup with venue details
+  - Maps Admin: Add support for venue facilities
+
 ## [1.8.1] - 2023-06-22
 
 Fix:

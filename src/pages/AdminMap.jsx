@@ -59,6 +59,17 @@ const locationTagsLookup = [
   'Place of interest'
 ];
 
+const facilitiesTagsLookup = [
+  'Alcohol',
+  'Coffee',
+  "Expensive",
+  'Food',
+  'Headphones',
+  "Inexpensive",
+  'Power',
+  'Wifi'
+];
+
 export default function AdminMap() {
 
   const { user } = useAuth();
@@ -78,6 +89,7 @@ export default function AdminMap() {
   const [locationLat, setLocationLat] = useState(0);
   const [locationLng, setLocationLng] = useState(0);
   const [locationTags, setLocationTags] = useState([]);
+  const [locationFacilities, setLocationFacilities] = useState([]);
 
   // Update
   const [isUpdate, setIsUpdate] = useState(false);
@@ -147,6 +159,12 @@ export default function AdminMap() {
       setLocationTags([]);
     }
 
+    if (data.facilities) {
+      setLocationFacilities(data.facilities.split(','));
+    } else {
+      setLocationFacilities([]);
+    }
+
     setIsUpdate(true);
     setOpenAdd(true);
   };
@@ -176,6 +194,7 @@ export default function AdminMap() {
         lat: locationLat,
         lng: locationLng,
         tags: locationTags.toString(),
+        facilities: locationFacilities.toString(),
         created: {
           email: user.email,
           uid: user.uid,
@@ -222,6 +241,7 @@ export default function AdminMap() {
         lat: locationLat,
         lng: locationLng,
         tags: locationTags.toString(),
+        facilities: locationFacilities.toString(),
         updated: {
           email: user.email,
           uid: user.uid,
@@ -275,6 +295,13 @@ export default function AdminMap() {
     setLocationTags(value);
   };
 
+  const handleFacilitiesChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setLocationFacilities(value);
+  };
+
   const handleFileUpload = (url) => {
     setImgUrl(url)
   }
@@ -320,6 +347,32 @@ export default function AdminMap() {
                 MenuProps={MenuProps}
               >
                 {locationTagsLookup.map((loc) => (
+                  <MenuItem key={loc} value={loc}>
+                    {loc}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+
+            <FormControl sx={{ m: 1 }}>
+              <InputLabel id="demo-multiple-chip-label">Facilities</InputLabel>
+              <Select
+                labelId="demo-multiple-chip-label"
+                id="demo-multiple-chip"
+                multiple
+                value={locationFacilities}
+                onChange={handleFacilitiesChange}
+                input={<OutlinedInput id="select-multiple-chip" label="Location tag" />}
+                renderValue={(selected) => (
+                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                    {selected.map((value) => (
+                      <Chip key={value} label={value} />
+                    ))}
+                  </Box>
+                )}
+                MenuProps={MenuProps}
+              >
+                {facilitiesTagsLookup.map((loc) => (
                   <MenuItem key={loc} value={loc}>
                     {loc}
                   </MenuItem>

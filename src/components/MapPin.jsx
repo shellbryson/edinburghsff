@@ -10,7 +10,7 @@ import MenuBookOutlinedIcon from '@mui/icons-material/MenuBookOutlined';
 import LocalCafeOutlinedIcon from '@mui/icons-material/LocalCafeOutlined';
 import LocalLibraryOutlinedIcon from '@mui/icons-material/LocalLibraryOutlined';
 
-export default function MapPin({tags, title}) {
+export default function MapPin({tags, title, data, onClickPin}) {
   let pinIcon;
   let tagArray;
 
@@ -30,7 +30,7 @@ export default function MapPin({tags, title}) {
   }
 
   return (
-    <Box className="sff-map-pin">
+    <Box className="sff-map-pin" onClick={() => onClickPin(data)}>
       <Box className="sff-map-icon">{pinIcon}</Box>
       <Typography component="p" className="sff-map-pin__label">{title}</Typography>
     </Box>
