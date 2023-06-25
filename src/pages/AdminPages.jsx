@@ -33,8 +33,19 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 
 // Custom Components
 import PageHeading from '../components/PageHeading';
-import PageList from '../components/PageList';
-import UploadImage from '../components/UploadImage';
+import List from '../components/admin/List';
+import UploadImage from '../components/admin/UploadImage';
+
+const tableStructure = {
+  headings: [
+    'Title',
+    'Slug'
+  ],
+  keys: [
+    'title',
+    'slug',
+  ]
+}
 
 export default function AdminPages() {
 
@@ -42,7 +53,7 @@ export default function AdminPages() {
   const confirm = useConfirm();
 
   // Data
-  const [links, setLinks] = useState([])
+  const [pages, setPages] = useState([])
 
   // Common
   const [title, setTitle] = useState('');
@@ -77,10 +88,11 @@ export default function AdminPages() {
     querySnapshot.forEach((doc) => {
       l.push({
         ...doc.data(),
-        id: doc.id
+        id: doc.id,
+        display: true,
       });
     });
-    setLinks(l);
+    setPages(l);
   }
 
   const handleTitleChange = (title) => {
@@ -277,12 +289,14 @@ export default function AdminPages() {
 
       <Container maxWidth="md">
         <PageHeading heading="Pages" />
-        <Box sx={{ textAlign: "center"}}>
-          <Button onClick={() => handleOpenForm()} variant='outlined'>Add Page</Button>
-        </Box>
       </Container>
 
-      <PageList data={links} onDelete={handleDelete} onUpdate={handleOpenUpdate} />
+      <List
+        tableStructure={tableStructure}
+        data={pages}
+        onOpenForm={handleOpenForm}
+        onDelete={handleDelete}
+        onUpdate={handleOpenUpdate} />
 
     </Container>
   )

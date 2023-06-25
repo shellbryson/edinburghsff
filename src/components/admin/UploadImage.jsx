@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
-import { storage } from "../firebase";
+import { storage } from "../../firebase";
 
 import { v4 as uuid } from 'uuid';
 

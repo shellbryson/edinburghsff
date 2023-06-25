@@ -38,8 +38,23 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 
 // Custom Components
 import PageHeading from '../components/PageHeading';
-import EventsList from '../components/EventsList';
-import UploadImage from '../components/UploadImage';
+import List from '../components/admin/List';
+import UploadImage from '../components/admin/UploadImage';
+
+const tableStructure = {
+  headings: [
+    'Date',
+    'Title',
+    'Image',
+    'Location'
+  ],
+  keys: [
+    'eventStart',
+    'title',
+    'image',
+    'eventLocation'
+  ]
+}
 
 export default function AdminEvents() {
 
@@ -84,9 +99,12 @@ export default function AdminEvents() {
     const querySnapshot = await getDocs(q);
     const l = [];
     querySnapshot.forEach((doc) => {
+      const c = doc.data();
+      c.eventStart = dayjs(c.eventStart.toDate().toLocaleString(), 'DD/MM/YYYY, HH:mm:ss').format('DD/MM/YYYY')
       l.push({
-        ...doc.data(),
-        id: doc.id
+        ...c,
+        id: doc.id,
+        display: true,
       });
     });
     setEvents(l);
@@ -325,12 +343,14 @@ export default function AdminEvents() {
 
       <Container maxWidth="md">
         <PageHeading heading="Events" />
-        <Box sx={{ textAlign: "center"}}>
-          <Button onClick={() => handleOpenForm()} variant='outlined'>Add Event</Button>
-        </Box>
       </Container>
 
-      <EventsList enableAdminActions={true} data={events} onDelete={handleDelete} onUpdate={handleOpenUpdate} />
+      <List
+        tableStructure={tableStructure}
+        data={events}
+        onOpenForm={handleOpenForm}
+        onDelete={handleDelete}
+        onUpdate={handleOpenUpdate} />
 
     </Container>
   )

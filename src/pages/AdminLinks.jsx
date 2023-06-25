@@ -13,7 +13,6 @@ import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import Box from '@mui/material/Box';
 
 import FormGroup from '@mui/material/FormGroup';
 import FormControl from '@mui/material/FormControl';
@@ -36,8 +35,21 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 
 // Custom Components
 import PageHeading from '../components/PageHeading';
-import LinkList from '../components/LinksList';
-import UploadImage from '../components/UploadImage';
+import List from '../components/admin/List';
+import UploadImage from '../components/admin/UploadImage';
+
+const tableStructure = {
+  headings: [
+    'Title',
+    'Type',
+    'Image',
+  ],
+  keys: [
+    'title',
+    'type',
+    'image'
+  ]
+}
 
 export default function AdminLinks() {
 
@@ -80,7 +92,8 @@ export default function AdminLinks() {
     querySnapshot.forEach((doc) => {
       l.push({
         ...doc.data(),
-        id: doc.id
+        id: doc.id,
+        display: true,
       });
     });
     setLinks(l);
@@ -303,12 +316,14 @@ export default function AdminLinks() {
 
       <Container maxWidth="md">
         <PageHeading heading="Links" />
-        <Box sx={{ textAlign: "center"}}>
-          <Button onClick={() => handleOpenForm()} variant='outlined'>Add Link</Button>
-        </Box>
       </Container>
 
-      <LinkList data={links} onDelete={handleDelete} onUpdate={handleOpenUpdate} />
+      <List
+        tableStructure={tableStructure}
+        data={links}
+        onOpenForm={handleOpenForm}
+        onDelete={handleDelete}
+        onUpdate={handleOpenUpdate} />
 
     </Container>
   )

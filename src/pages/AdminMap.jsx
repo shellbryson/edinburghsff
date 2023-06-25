@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
-import { doc, getDocs, addDoc, updateDoc, deleteDoc, collection, query, orderBy } from 'firebase/firestore';
+import { doc, getDocs, addDoc, updateDoc, deleteDoc, collection, orderBy, query } from 'firebase/firestore';
 import { db } from "../firebase";
 
 import { useAuth } from '../context/AuthContext';
@@ -37,8 +37,8 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 
 // Custom Components
 import PageHeading from '../components/PageHeading';
-import MapList from '../components/MapList';
-import UploadImage from '../components/UploadImage';
+import List from '../components/admin/List';
+import UploadImage from '../components/admin/UploadImage';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -70,6 +70,17 @@ const facilitiesTagsLookup = [
   'Wifi'
 ];
 
+const tableStructure = {
+  headings: [
+    'Title',
+    'Tags'
+  ],
+  keys: [
+    'title',
+    'tags'
+  ]
+}
+
 export default function AdminMap() {
 
   const { user } = useAuth();
@@ -77,6 +88,7 @@ export default function AdminMap() {
 
   // Data
   const [places, setPlaces] = useState([]);
+  const renderAfterCalled = useRef(false);
 
   // Common
   const [title, setTitle] = useState('');
@@ -104,20 +116,27 @@ export default function AdminMap() {
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
   useEffect(() => {
-    getLocations();
+    if (!renderAfterCalled.current) {
+      getLocations();
+    }
+    renderAfterCalled.current = true;
   }, []);
 
   const getLocations = async () => {
-    const q = query(collection(db, "locations"), orderBy("title", "asc"));
+    // Firebase provides no native way to search strings, so when searching we
+    // have get everything and filter it ourselves
+    const q = query(collection(db, "locations"), orderBy("title"));
+    const list = [];
     const querySnapshot = await getDocs(q);
-    const l = [];
     querySnapshot.forEach((doc) => {
-      l.push({
+      list.push({
         ...doc.data(),
-        id: doc.id
+        id: doc.id,
+        display: true,
       });
     });
-    setPlaces(l);
+
+    setPlaces(list);
   }
 
   const handleOpenForm = () => {
@@ -325,8 +344,16 @@ export default function AdminMap() {
         </DialogTitle>
         <DialogContent>
           <Stack spacing={2} sx={{ mt: 2}}>
-            <TextField sx={{ width: '100%' }} value={title} required label="Title" onChange={(e) => setTitle(e.target.value)} type='text' />
-            <TextField sx={{ width: '100%' }} value={url} required label="URL" onChange={(e) => setURL(e.target.value)} type='url' />
+
+            <TextField sx={{ width: '100%' }}
+              value={title} required label="Title"
+              onChange={(e) => setTitle(e.target.value)} type='text'
+            />
+
+            <TextField sx={{ width: '100%' }}
+              value={url} required label="URL"
+              onChange={(e) => setURL(e.target.value)} type='url'
+            />
 
             <FormControl sx={{ m: 1 }}>
               <InputLabel id="demo-multiple-chip-label">Location tags</InputLabel>
@@ -399,22 +426,24 @@ export default function AdminMap() {
           { isUpdate ?
             <>
               <Button onClick={() => handleDelete(updateId)} variant="outlined" startIcon={<DeleteIcon />}>Delete</Button>
-              <Button onClick={handleUpdate} variant='contained'>Update Location</Button>
+              <Button onClick={handleUpdate} variant='contained'>Update</Button>
             </>
             :
-            <Button onClick={handleAdd} variant='contained'>Add Location</Button>
+            <Button onClick={handleAdd} variant='contained'>Add</Button>
           }
         </DialogActions>
       </Dialog>
 
       <Container maxWidth="md">
         <PageHeading heading="Map" />
-        <Box sx={{ textAlign: "center"}}>
-          <Button onClick={() => handleOpenForm()} variant='outlined'>Add Location</Button>
-        </Box>
       </Container>
 
-      <MapList data={places} onDelete={handleDelete} onUpdate={handleOpenUpdate} />
+      <List
+        tableStructure={tableStructure}
+        data={places}
+        onOpenForm={handleOpenForm}
+        onDelete={handleDelete}
+        onUpdate={handleOpenUpdate} />
 
     </Container>
   )
