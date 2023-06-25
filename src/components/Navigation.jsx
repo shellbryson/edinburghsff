@@ -49,9 +49,9 @@ const Navigation = () => {
             <img style={{ height: 30 }} height="30" width="30" src={Logo} alt="Edinburgh SFF Logo" />
           </Link>
           <Box sx={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-            <Link to="/events">Events</Link>
-            <Link to="/links">Links</Link>
-            <Link to="/map">Map</Link>
+            <Link to="/events" className="sff-navigation-link">Events</Link>
+            <Link to="/links" className="sff-navigation-link">Links</Link>
+            <Link to="/map" className="sff-navigation-link">Map</Link>
           </Box>
           <IconButton
             id="basicButton"

@@ -58,6 +58,13 @@ p {
   }
 }
 
+.sff-navigation-link {
+  padding: 4px;
+  text-shadow: 0 0 7px #fff,
+  0 0 10px #fff,
+  0 0 21px #fff,
+}
+
 .sff-events-grid {
 
   $grid-columns: 4;
