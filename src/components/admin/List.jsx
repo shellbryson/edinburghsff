@@ -26,14 +26,14 @@ const styleActionBar = {
   alignItems: "center",
 }
 
-const List = ({ data, onDelete, onUpdate, onOpenForm, tableStructure }) => {
+const List = ({ data, onUpdate, onOpenForm, tableStructure }) => {
 
   const [items, setItems] = useState([]);
   const [filter, setFilter] = useState('');
 
   useEffect(() => {
     setItems(data);
-  }, [data, onDelete, onUpdate])
+  }, [data, onUpdate])
 
   const renderTags = (tags) => {
     if (!tags) return;
@@ -73,7 +73,6 @@ const List = ({ data, onDelete, onUpdate, onOpenForm, tableStructure }) => {
 
   const renderRow = (item) => {
     const r = [];
-    console.log(item);
     tableStructure.keys.forEach((_key, i) => {
       if (_key === 'tags') {
         r.push(<TableCell key={i}>{renderTags(item[_key])}</TableCell>);

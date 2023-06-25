@@ -61,7 +61,7 @@ export default function Menu() {
         aria-expanded={open ? 'true' : undefined}
         onClick={handleDrawerOpen}
         sx={{ ...(open && { display: 'none' }) }}
-        color="primary">
+        color="brand">
         <MenuIcon />
       </IconButton>
       <Drawer

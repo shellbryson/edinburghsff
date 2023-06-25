@@ -4,6 +4,8 @@ import { doc, getDocs, addDoc, updateDoc, deleteDoc, collection, query, orderBy 
 import { db } from "../firebase";
 
 import { useAuth } from '../context/AuthContext';
+import { useApp } from '../context/AppContext';
+
 import { useConfirm } from "material-ui-confirm";
 
 import dayjs from 'dayjs';
@@ -59,6 +61,8 @@ const tableStructure = {
 export default function AdminEvents() {
 
   const { user } = useAuth();
+  const { setIsLoading } = useApp();
+
   const confirm = useConfirm();
 
   // Data
@@ -96,18 +100,22 @@ export default function AdminEvents() {
   const q = query(collection(db, "events"), orderBy("eventStart", "desc"));
 
   const getEvents = async () => {
+    // Firebase provides no native way to search strings, so when searching we
+    // have get everything and filter it ourselves
+    setIsLoading(true);
     const querySnapshot = await getDocs(q);
-    const l = [];
+    const list = [];
     querySnapshot.forEach((doc) => {
       const c = doc.data();
       c.eventStart = dayjs(c.eventStart.toDate().toLocaleString(), 'DD/MM/YYYY, HH:mm:ss').format('DD/MM/YYYY')
-      l.push({
+      list.push({
         ...c,
         id: doc.id,
         display: true,
       });
     });
-    setEvents(l);
+    setEvents(list);
+    setIsLoading(false);
   }
 
   const handleOpenForm = () => {
@@ -170,6 +178,8 @@ export default function AdminEvents() {
       return;
     }
 
+    setIsLoading(true);
+
     const strippedImageUrl = imgUrl ? imgUrl.split('&')[0] : '';
 
     try {
@@ -199,16 +209,19 @@ export default function AdminEvents() {
       handleCloseForm();
 
     } catch (e) {
+      setIsLoading(false);
       console.error("Error adding document: ", e);
     }
   };
 
   const performDelete = async (id) => {
+    setIsLoading(true);
     try {
       await deleteDoc(doc(db, "events", id));
       handleCloseForm();
       getEvents();
     } catch (e) {
+      setIsLoading(false);
       console.error("Error adding document: ", e);
     }
   };
@@ -250,6 +263,8 @@ export default function AdminEvents() {
       return;
     }
 
+    setIsLoading(true);
+
     const strippedImageUrl = imgUrl ? imgUrl.split('&')[0] : '';
 
     try {
@@ -278,6 +293,7 @@ export default function AdminEvents() {
       handleCloseForm();
 
     } catch (e) {
+      setIsLoading(false);
       console.error("Error adding document: ", e);
     }
   };
@@ -296,7 +312,7 @@ export default function AdminEvents() {
         onClose={handleCloseForm}
         scroll="paper"
         aria-labelledby="add-dialog-title">
-        <DialogTitle id="add-dialog-title">
+        <DialogTitle id="add-dialog-title" align='center'>
           { isUpdate ?
             <Typography variant="h2" component="span">Update Event</Typography>
           :
@@ -333,10 +349,10 @@ export default function AdminEvents() {
           { isUpdate ?
             <>
               <Button onClick={() => handleDelete(updateId)} variant="outlined" startIcon={<DeleteIcon />}>Delete</Button>
-              <Button onClick={handleUpdate} variant='contained'>Update Event</Button>
+              <Button onClick={handleUpdate} variant='contained'>Update</Button>
             </>
             :
-            <Button onClick={handleAdd} variant='contained'>Add Event</Button>
+            <Button onClick={handleAdd} variant='contained'>Add</Button>
           }
         </DialogActions>
       </Dialog>
@@ -349,7 +365,6 @@ export default function AdminEvents() {
         tableStructure={tableStructure}
         data={events}
         onOpenForm={handleOpenForm}
-        onDelete={handleDelete}
         onUpdate={handleOpenUpdate} />
 
     </Container>

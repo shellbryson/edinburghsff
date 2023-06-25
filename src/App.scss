@@ -2,9 +2,10 @@
   EDINBURGH SFF
 */
 
+$color-brand: #b91819;
 $color-body: #003B4A;
 $color-body-faded: #c5d3d6;
-$color-links: rgb(255, 55, 0);
+$color-links: $color-brand;
 $color-grey: rgb(250 250 250);
 $color-grid-start: #bd6767;
 $color-grid-end: #6e67bd;
@@ -18,6 +19,7 @@ $body-font: 'Fira Code', monospace;
   --font-heading: $body-font;
   --color-body: $color-body;
   --color-body-faded: $color-body-faded;
+  --color-brand: $color-brand;
   --color-links: $color-links;
 }
 

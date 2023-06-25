@@ -6,6 +6,8 @@ import { doc, getDocs, addDoc, updateDoc, deleteDoc, collection, query, orderBy 
 import { db } from "../firebase";
 
 import { useAuth } from '../context/AuthContext';
+import { useApp } from '../context/AppContext';
+
 import { useConfirm } from "material-ui-confirm";
 
 // MUI
@@ -50,6 +52,8 @@ const tableStructure = {
 export default function AdminPages() {
 
   const { user } = useAuth();
+  const { setIsLoading } = useApp();
+
   const confirm = useConfirm();
 
   // Data
@@ -79,20 +83,24 @@ export default function AdminPages() {
 
   useEffect(() => {
     getPages();
-  }, [slug])
+  }, [])
 
   const getPages = async () => {
+    // Firebase provides no native way to search strings, so when searching we
+    // have get everything and filter it ourselves
+    setIsLoading(true);
     const q = query(collection(db, "pages"), orderBy("title", "asc"));
     const querySnapshot = await getDocs(q);
-    const l = [];
+    const list = [];
     querySnapshot.forEach((doc) => {
-      l.push({
+      list.push({
         ...doc.data(),
         id: doc.id,
         display: true,
       });
     });
-    setPages(l);
+    setPages(list);
+    setIsLoading(false);
   }
 
   const handleTitleChange = (title) => {
@@ -140,6 +148,8 @@ export default function AdminPages() {
       return;
     }
 
+    setIsLoading(true);
+
     const strippedImageUrl = imgUrl ? imgUrl.split('&')[0] : '';
 
     try {
@@ -166,6 +176,7 @@ export default function AdminPages() {
       handleCloseForm();
 
     } catch (e) {
+      setIsLoading(false);
       console.error("Error adding document: ", e);
     }
   };
@@ -177,6 +188,8 @@ export default function AdminPages() {
       setError('Please fill out all fields');
       return;
     }
+
+    setIsLoading(true);
 
     const strippedImageUrl = imgUrl ? imgUrl.split('&')[0] : '';
 
@@ -201,16 +214,19 @@ export default function AdminPages() {
       handleCloseForm();
 
     } catch (e) {
+      setIsLoading(false);
       console.error("Error adding document: ", e);
     }
   };
 
   const performDelete = async (id) => {
+    setIsLoading(true);
     try {
       await deleteDoc(doc(db, "pages", id));
       handleCloseForm();
       getPages();
     } catch (e) {
+      setIsLoading(false);
       console.error("Error adding document: ", e);
     }
   };
@@ -250,7 +266,7 @@ export default function AdminPages() {
         onClose={handleCloseForm}
         scroll="paper"
         aria-labelledby="add-dialog-title">
-        <DialogTitle id="add-dialog-title">
+        <DialogTitle id="add-dialog-title" align='center'>
           { isUpdate ?
             <Typography variant="h2" component="span">Update Page</Typography>
           :
@@ -279,10 +295,10 @@ export default function AdminPages() {
           { isUpdate ?
             <>
               <Button onClick={() => handleDelete(updateId)} variant="outlined" startIcon={<DeleteIcon />}>Delete</Button>
-              <Button onClick={handleUpdate} variant='contained'>Update Page</Button>
+              <Button onClick={handleUpdate} variant='contained'>Update</Button>
             </>
             :
-            <Button onClick={handleAdd} variant='contained'>Add Page</Button>
+            <Button onClick={handleAdd} variant='contained'>Add</Button>
           }
         </DialogActions>
       </Dialog>
@@ -295,7 +311,6 @@ export default function AdminPages() {
         tableStructure={tableStructure}
         data={pages}
         onOpenForm={handleOpenForm}
-        onDelete={handleDelete}
         onUpdate={handleOpenUpdate} />
 
     </Container>

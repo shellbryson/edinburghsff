@@ -25,6 +25,9 @@ export const customTheme = createTheme({
   },
   palette: {
     mode: 'light',
+    brand: {
+      main: '#b91819',
+    },
     primary: {
       main: '#007896',
     },

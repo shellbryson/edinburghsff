@@ -4,6 +4,8 @@ import { doc, getDocs, addDoc, updateDoc, deleteDoc, collection, query, orderBy 
 import { db } from "../firebase";
 
 import { useAuth } from '../context/AuthContext';
+import { useApp } from '../context/AppContext';
+
 import { useConfirm } from "material-ui-confirm";
 
 // MUI
@@ -54,6 +56,8 @@ const tableStructure = {
 export default function AdminLinks() {
 
   const { user } = useAuth();
+  const { setIsLoading } = useApp();
+
   const confirm = useConfirm();
 
   // Data
@@ -86,6 +90,7 @@ export default function AdminLinks() {
   }, [])
 
   const getLinks = async () => {
+    setIsLoading(true);
     const q = query(collection(db, "links"), orderBy("title", "asc"));
     const querySnapshot = await getDocs(q);
     const l = [];
@@ -97,6 +102,7 @@ export default function AdminLinks() {
       });
     });
     setLinks(l);
+    setIsLoading(false);
   }
 
   const handleOpenForm = () => {
@@ -142,6 +148,8 @@ export default function AdminLinks() {
       return;
     }
 
+    setIsLoading(true);
+
     const strippedImageUrl = imgUrl ? imgUrl.split('&')[0] : '';
 
     try {
@@ -168,6 +176,7 @@ export default function AdminLinks() {
       handleCloseForm();
 
     } catch (e) {
+      setIsLoading(false);
       console.error("Error adding document: ", e);
     }
   };
@@ -181,6 +190,7 @@ export default function AdminLinks() {
     }
 
     const strippedImageUrl = imgUrl ? imgUrl.split('&')[0] : '';
+    setIsLoading(true);
 
     try {
       const l = doc(db, "links", updateId);
@@ -203,16 +213,19 @@ export default function AdminLinks() {
       handleCloseForm();
 
     } catch (e) {
+      setIsLoading(false);
       console.error("Error adding document: ", e);
     }
   };
 
   const performDelete = async (id) => {
+    setIsLoading(true);
     try {
       await deleteDoc(doc(db, "links", id));
       handleCloseForm();
       getLinks();
     } catch (e) {
+      setIsLoading(false);
       console.error("Error adding document: ", e);
     }
   };
@@ -257,7 +270,7 @@ export default function AdminLinks() {
         onClose={handleCloseForm}
         scroll="paper"
         aria-labelledby="add-dialog-title">
-        <DialogTitle id="add-dialog-title">
+        <DialogTitle id="add-dialog-title" align='center'>
           { isUpdate ?
             <Typography variant="h2" component="span">Update Link</Typography>
           :
@@ -306,10 +319,10 @@ export default function AdminLinks() {
           { isUpdate ?
             <>
               <Button onClick={() => handleDelete(updateId)} variant="outlined" startIcon={<DeleteIcon />}>Delete</Button>
-              <Button onClick={handleUpdate} variant='contained'>Update Link</Button>
+              <Button onClick={handleUpdate} variant='contained'>Update</Button>
             </>
             :
-            <Button onClick={handleAdd} variant='contained'>Add Link</Button>
+            <Button onClick={handleAdd} variant='contained'>Add</Button>
           }
         </DialogActions>
       </Dialog>
@@ -322,7 +335,6 @@ export default function AdminLinks() {
         tableStructure={tableStructure}
         data={links}
         onOpenForm={handleOpenForm}
-        onDelete={handleDelete}
         onUpdate={handleOpenUpdate} />
 
     </Container>

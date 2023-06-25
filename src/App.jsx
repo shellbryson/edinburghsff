@@ -9,13 +9,7 @@ import { customTheme } from './theme/theme';
 import { ConfirmProvider } from "material-ui-confirm";
 
 // MUI Components
-import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
-import BottomNavigation from '@mui/material/BottomNavigation';
-import BottomNavigationAction from '@mui/material/BottomNavigationAction';
-import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
-import AutoStoriesOutlinedIcon from '@mui/icons-material/AutoStoriesOutlined';
-import MapOutlinedIcon from '@mui/icons-material/MapOutlined';
 import CircularProgress from '@mui/material/CircularProgress';
 
 // Custom Components
@@ -53,20 +47,6 @@ const logoStyle = {
 }
 
 function App() {
-
-  const navigate = useNavigate();
-
-  const handleClickMap = () => {
-    navigate("/map");
-  }
-
-  const handleClickEvents = () => {
-    navigate("/events");
-  }
-
-  const handleClickLinks = () => {
-    navigate("/links");
-  }
 
   const renderLoader = () => {
     return (
@@ -113,14 +93,6 @@ function App() {
           <img src={Logo} style={logoStyle} alt="Edinburgh SFF Logo" width="64" height="64" />
         </Box>
       </Box>
-
-      <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 99 }} elevation={3}>
-        <BottomNavigation showLabels>
-          <BottomNavigationAction onClick={handleClickMap} label="Map" icon={<MapOutlinedIcon />} />
-          <BottomNavigationAction onClick={handleClickEvents} label="Events" icon={<CalendarMonthOutlinedIcon />} />
-          <BottomNavigationAction onClick={handleClickLinks} label="Links" icon={<AutoStoriesOutlinedIcon />} />
-        </BottomNavigation>
-      </Paper>
 
       <Analytics />
 

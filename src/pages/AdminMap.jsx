@@ -4,6 +4,8 @@ import { doc, getDocs, addDoc, updateDoc, deleteDoc, collection, orderBy, query 
 import { db } from "../firebase";
 
 import { useAuth } from '../context/AuthContext';
+import { useApp } from '../context/AppContext';
+
 import { useConfirm } from "material-ui-confirm";
 
 // MUI
@@ -84,6 +86,8 @@ const tableStructure = {
 export default function AdminMap() {
 
   const { user } = useAuth();
+  const { setIsLoading } = useApp();
+
   const confirm = useConfirm();
 
   // Data
@@ -125,6 +129,7 @@ export default function AdminMap() {
   const getLocations = async () => {
     // Firebase provides no native way to search strings, so when searching we
     // have get everything and filter it ourselves
+    setIsLoading(true);
     const q = query(collection(db, "locations"), orderBy("title"));
     const list = [];
     const querySnapshot = await getDocs(q);
@@ -137,6 +142,7 @@ export default function AdminMap() {
     });
 
     setPlaces(list);
+    setIsLoading(false);
   }
 
   const handleOpenForm = () => {
@@ -201,6 +207,8 @@ export default function AdminMap() {
       return;
     }
 
+    setIsLoading(true);
+
     const strippedImageUrl = imgUrl ? imgUrl.split('&')[0] : '';
 
     try {
@@ -230,6 +238,7 @@ export default function AdminMap() {
       handleCloseForm();
 
     } catch (e) {
+      setIsLoading(false);
       console.error("Error adding document: ", e);
     }
   };
@@ -246,6 +255,8 @@ export default function AdminMap() {
       setError('Please fill out all fields');
       return;
     }
+
+    setIsLoading(true);
 
     const strippedImageUrl = imgUrl ? imgUrl.split('&')[0] : '';
 
@@ -272,21 +283,23 @@ export default function AdminMap() {
       handleCloseForm();
 
     } catch (e) {
+      setIsLoading(false);
       console.error("Error adding document: ", e);
     }
   };
 
   const performDelete = async (id) => {
+    setIsLoading(true);
     try {
       await deleteDoc(doc(db, "locations", id));
       getLocations();
     } catch (e) {
+      setIsLoading(false);
       console.error("Error deleting document: ", e);
     }
   };
 
   const handleDelete = async (id) => {
-
     const settings = {
       description: "This action will permanently delete the selected Location",
       confirmationText: "Delete Location",
@@ -335,7 +348,7 @@ export default function AdminMap() {
         onClose={handleCloseForm}
         scroll="paper"
         aria-labelledby="add-dialog-title">
-        <DialogTitle id="add-dialog-title">
+        <DialogTitle id="add-dialog-title" align='center'>
           { isUpdate ?
             <Typography variant="h2" component="span">Update Location</Typography>
           :
@@ -442,7 +455,6 @@ export default function AdminMap() {
         tableStructure={tableStructure}
         data={places}
         onOpenForm={handleOpenForm}
-        onDelete={handleDelete}
         onUpdate={handleOpenUpdate} />
 
     </Container>
