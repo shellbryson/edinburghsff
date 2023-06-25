@@ -65,9 +65,9 @@ const styleMap={
 
 const iconStyle = {
   display: "block",
-  width: "2rem",
-  height: "2rem",
-  fontSize: "2rem",
+  width: "1.5rem",
+  height: "1.5rem",
+  fontSize: "1.5rem",
   borderRadius: "50%",
   backgroundColor: "rgba(255, 255, 255, 0.75)"
 }
@@ -171,7 +171,6 @@ export default function MapView() {
         <DialogContent>
           <Box style={styleEventDecsription}>
             <ReactMarkdown children={pinDescription} />
-            {/* <Typography component="p" variant='p' sx={{ mt: 2 }}>More at: <Link to={currentEvent.url}>{cleanUrl(currentEvent.url)}</Link></Typography> */}
           </Box>
           <Box style={styleFacilities}>
             { pinFacilities.map((facility, index) => (
@@ -191,19 +190,19 @@ export default function MapView() {
         <>
           <Box sx={styleFilter}>
             <IconButton aria-label="Venues" onClick={() => filterMap('Venue')}>
-              <StarOutlinedIcon style={ iconStyle } />
+              <StarOutlinedIcon style={ iconStyle } color="brand" />
             </IconButton>
             <IconButton aria-label="Bookshops" onClick={() => filterMap('Bookshop')}>
-              <MenuBookOutlinedIcon style={ iconStyle } />
+              <MenuBookOutlinedIcon style={ iconStyle } color="brand" />
             </IconButton>
             <IconButton aria-label="Cafes" onClick={() => filterMap('Cafe')}>
-              <LocalCafeOutlinedIcon style={ iconStyle } />
+              <LocalCafeOutlinedIcon style={ iconStyle } color="brand" />
             </IconButton>
             <IconButton aria-label="Libraries" onClick={() => filterMap('Library')}>
-              <LocalLibraryOutlinedIcon style={ iconStyle } />
+              <LocalLibraryOutlinedIcon style={ iconStyle } color="brand" />
             </IconButton>
             <IconButton aria-label="All" onClick={() => filterMap()}>
-              <PushPinOutlinedIcon style={ iconStyle } />
+              <PushPinOutlinedIcon style={ iconStyle } color="brand" />
             </IconButton>
           </Box>
           <Box style={styleMap}>

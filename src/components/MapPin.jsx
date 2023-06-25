@@ -17,15 +17,15 @@ export default function MapPin({tags, title, data, onClickPin}) {
   if (tags) {
     tagArray = tags.split(",");
     if (tagArray.includes("Venue")) {
-      pinIcon = <StarOutlinedIcon />;
+      pinIcon = <StarOutlinedIcon color="brand" />;
     } else if (tagArray.includes("Bookshop")) {
-      pinIcon = <MenuBookOutlinedIcon />;
+      pinIcon = <MenuBookOutlinedIcon color="brand" />;
     } else if (tagArray.includes("Cafe")) {
-      pinIcon = <LocalCafeOutlinedIcon />;
+      pinIcon = <LocalCafeOutlinedIcon color="brand" />;
     } else if (tagArray.includes("Library")) {
-      pinIcon = <LocalLibraryOutlinedIcon />;
+      pinIcon = <LocalLibraryOutlinedIcon color="brand" />;
     } else {
-      pinIcon = <PushPinOutlinedIcon />;
+      pinIcon = <PushPinOutlinedIcon color="brand" />;
     }
   }
 

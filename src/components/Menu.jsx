@@ -8,7 +8,6 @@ import ListItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
 import Drawer from '@mui/material/Drawer';
 import Divider from '@mui/material/Divider';
 import CloseIcon from '@mui/icons-material/Close';
@@ -24,10 +23,12 @@ import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 // Context
 import { useAuth } from '../context/AuthContext';
 
-export default function Menu() {
+export default function Menu({
+  handleDrawerClose,
+  open
+}) {
 
   const { user } = useAuth();
-  const [open, setOpen] = useState(false);
   const navigate = useNavigate();
 
   const DrawerHeader = styled('div')(({ theme }) => ({
@@ -39,31 +40,13 @@ export default function Menu() {
     justifyContent: 'flex-end',
   }));
 
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
-
   const handleOnClick = (url) => {
     navigate(url);
-    setOpen(false);
+    handleDrawerClose();
   }
 
   return (
     <>
-      <IconButton
-        id="basicButton"
-        aria-controls="basicMenu"
-        aria-haspopup="true"
-        aria-expanded={open ? 'true' : undefined}
-        onClick={handleDrawerOpen}
-        sx={{ ...(open && { display: 'none' }) }}
-        color="brand">
-        <MenuIcon />
-      </IconButton>
       <Drawer
         sx={{
           width: '320',
@@ -75,7 +58,7 @@ export default function Menu() {
         anchor="right"
         open={open}>
         <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
+          <IconButton onClick={handleDrawerClose} color="brand">
             <CloseIcon />
           </IconButton>
         </DrawerHeader>
@@ -83,7 +66,7 @@ export default function Menu() {
         <List>
           <ListItem onClick={()=>handleOnClick("/")}>
             <ListItemIcon>
-              <HomeOutlinedIcon />
+              <HomeOutlinedIcon color="brand" />
             </ListItemIcon>
             <ListItemText>
               Home
@@ -91,7 +74,7 @@ export default function Menu() {
           </ListItem>
           <ListItem onClick={()=>handleOnClick("/map")}>
             <ListItemIcon>
-              <MapOutlinedIcon />
+              <MapOutlinedIcon color="brand" />
             </ListItemIcon>
             <ListItemText>
               Map for writers
@@ -99,7 +82,7 @@ export default function Menu() {
           </ListItem>
           <ListItem onClick={()=>handleOnClick("/events")}>
             <ListItemIcon>
-              <CalendarMonthOutlinedIcon />
+              <CalendarMonthOutlinedIcon color="brand" />
             </ListItemIcon>
             <ListItemText>
               Events
@@ -107,7 +90,7 @@ export default function Menu() {
           </ListItem>
           <ListItem onClick={()=>handleOnClick("/links")}>
             <ListItemIcon>
-              <AutoStoriesOutlinedIcon />
+              <AutoStoriesOutlinedIcon color="brand" />
             </ListItemIcon>
             <ListItemText>
               Links
@@ -115,7 +98,7 @@ export default function Menu() {
           </ListItem>
           <ListItem onClick={()=>handleOnClick("/pages")}>
             <ListItemIcon>
-              <DescriptionOutlinedIcon />
+              <DescriptionOutlinedIcon color="brand" />
             </ListItemIcon>
             <ListItemText>
               Pages
@@ -123,7 +106,7 @@ export default function Menu() {
           </ListItem>
           <ListItem onClick={()=>handleOnClick("/about")}>
             <ListItemIcon>
-              <InfoOutlinedIcon />
+              <InfoOutlinedIcon color="brand" />
             </ListItemIcon>
             <ListItemText>
               About
@@ -144,42 +127,10 @@ export default function Menu() {
             <>
               <ListItem onClick={()=>handleOnClick("/dashboard")}>
                 <ListItemIcon>
-                  <SettingsOutlinedIcon />
+                  <SettingsOutlinedIcon color="brand" />
                 </ListItemIcon>
                 <ListItemText>
-                  Dashboard
-                </ListItemText>
-              </ListItem>
-              <ListItem onClick={()=>handleOnClick("/dashboard/events")}>
-                <ListItemIcon>
-                  <SettingsOutlinedIcon />
-                </ListItemIcon>
-                <ListItemText>
-                  Edit events
-                </ListItemText>
-              </ListItem>
-              <ListItem onClick={()=>handleOnClick("/dashboard/links")}>
-                <ListItemIcon>
-                  <SettingsOutlinedIcon />
-                </ListItemIcon>
-                <ListItemText>
-                  Edit links
-                </ListItemText>
-              </ListItem>
-              <ListItem onClick={()=>handleOnClick("/dashboard/map")}>
-                <ListItemIcon>
-                  <SettingsOutlinedIcon />
-                </ListItemIcon>
-                <ListItemText>
-                  Edit map
-                </ListItemText>
-              </ListItem>
-              <ListItem onClick={()=>handleOnClick("/dashboard/pages")}>
-                <ListItemIcon>
-                  <SettingsOutlinedIcon />
-                </ListItemIcon>
-                <ListItemText>
-                  Edit pages
+                  Admin Dashboard
                 </ListItemText>
               </ListItem>
             </>

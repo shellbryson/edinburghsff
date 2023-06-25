@@ -79,7 +79,7 @@ const List = ({ data, onUpdate, onOpenForm, tableStructure }) => {
       } else if (_key === 'title') {
         r.push(<TableCell key={i} sx={{width: '40%'}}>{item[_key]}</TableCell>)
       } else if (_key === 'image') {
-        r.push(<TableCell sx={{width: '2rem'}}><EventsListImage image={imageURL(item[_key], 'icon')} alt='*' /></TableCell>)
+        r.push(<TableCell key={i} sx={{width: '2rem'}}><EventsListImage image={imageURL(item[_key], 'icon')} alt='*' /></TableCell>)
       } else {
         r.push(<TableCell key={i}>{item[_key]}</TableCell>)
       }

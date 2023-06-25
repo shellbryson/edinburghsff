@@ -7,9 +7,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 App:
   - Improve: Remove bottom app menu
-  - Improve: No longer hide top menu
+  - Improve: Don't hide top menu
   - Add: Primary menu at top
-  -
 
 Brand:
   - Fix: Links are not brand color
@@ -21,6 +20,7 @@ Page Admin:
 Admin:
   - Fix: Inconsistent titles on add/update dialogs
   - Fix: Display global loader when performing actions
+  - Fix: Index warning
 
 ## [1.10.0] - 2023-06-25
 

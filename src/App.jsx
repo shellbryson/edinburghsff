@@ -1,5 +1,5 @@
 import React, { lazy, Suspense } from 'react';
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
 import { Analytics } from '@vercel/analytics/react';
 
@@ -61,7 +61,7 @@ function App() {
 
       <Navigation />
 
-      <Box sx={{ marginTop: "4rem"}}>
+      <Box sx={{ marginTop: "5rem"}}>
         <ConfirmProvider>
           <Suspense fallback={renderLoader()}>
             <Routes>

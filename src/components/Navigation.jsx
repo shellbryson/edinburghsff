@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { useApp } from '../context/AppContext';
@@ -7,6 +7,9 @@ import { useApp } from '../context/AppContext';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import LinearProgress from '@mui/material/LinearProgress';
+import MenuIcon from '@mui/icons-material/Menu';
+import IconButton from '@mui/material/IconButton';
+
 
 // Custom Components
 import Menu from './Menu';
@@ -23,26 +26,49 @@ const appBarStyle = {
 const Navigation = () => {
 
   const { isLoading } = useApp();
+  const [open, setOpen] = useState(false);
+
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
 
   return (
-    <AppBar color="secondary" elevation={0} style={appBarStyle}>
-        <Box sx={{ width: '100%', height: "4px" }}>
+    <>
+      <AppBar color="secondary" elevation={0} style={appBarStyle}>
+        <Box sx={{ width: '100%', height: "4px"  }}>
           { isLoading &&
             <LinearProgress />
           }
         </Box>
-      <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
-        <Link to="/">
-          <img style={{ height: 30 }} height="30" width="30" src={Logo} alt="Edinburgh SFF Logo" />
-        </Link>
-        <Box sx={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-          <Link to="/events">Events</Link>
-          <Link to="/links">Links</Link>
-          <Link to="/map">Map</Link>
-        </Box>
-        <Menu />
-      </Toolbar>
-    </AppBar>
+        <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
+          <Link to="/">
+            <img style={{ height: 30 }} height="30" width="30" src={Logo} alt="Edinburgh SFF Logo" />
+          </Link>
+          <Box sx={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+            <Link to="/events">Events</Link>
+            <Link to="/links">Links</Link>
+            <Link to="/map">Map</Link>
+          </Box>
+          <IconButton
+            id="basicButton"
+            aria-controls="basicMenu"
+            aria-haspopup="true"
+            aria-expanded={open ? 'true' : undefined}
+            onClick={handleDrawerOpen}
+            color="brand">
+            <MenuIcon />
+          </IconButton>
+        </Toolbar>
+        <Menu
+          handleDrawerClose={handleDrawerClose}
+          open={open}
+        />
+      </AppBar>
+    </>
   );
 };
 
