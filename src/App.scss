@@ -139,27 +139,31 @@ p {
 .sff-map-pin {
   display: flex;
   align-items: center;
-  background-color: "rgba(255, 255, 255, 0.75)";
-  padding: "0.5rem";
-  border-radius: "2px";
 
   &__label {
-    background-color: rgba(255, 255, 255, 0.75);
-    padding: 1px 4px;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 1px 2px;
     border-radius: 2px;
     font-family: $body-font !important;
     font-size: 0.75rem !important;
+    line-height: 0.75rem !important;
   }
 }
 
 .sff-map-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  font-size: 1.5rem;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.8);
+
   > svg {
     display: block;
-    width: 2rem;
-    height: 2rem;
-    font-size: 2rem;
-    border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.75);
+    width: 1rem;
+    height: 1rem;
   }
 }
 
