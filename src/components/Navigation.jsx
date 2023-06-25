@@ -19,8 +19,7 @@ import Logo from '../assets/logo.svg';
 import { Box } from '@mui/material';
 
 const appBarStyle = {
-  backdropFilter: "blur(10px)",
-  backgroundColor: "rgba(255, 255, 255, 0.5)",
+  backgroundColor: "rgb(255, 255, 255)",
 }
 
 const Navigation = () => {
