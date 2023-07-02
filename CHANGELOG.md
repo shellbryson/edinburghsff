@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.12.0] - 2023-06-25
+
+Sign In:
+  - Add: Password reset dialog
+  - Add: Display message if sign in fails
+
 ## [1.11.0] - 2023-06-25
 
 App:
