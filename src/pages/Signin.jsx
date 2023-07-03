@@ -84,8 +84,7 @@ export default function Signin() {
     });
   }
 
-  return (
-  <>
+  return (<>
     <Dialog
       fullWidth
       maxWidth="sm"
@@ -99,12 +98,9 @@ export default function Signin() {
       </DialogTitle>
       <DialogContent>
         <Stack spacing={2} sx={{ mt: 2}}>
-          { passwordResetSent && (
-            <>
-              <Alert severity="success">Password reset email sent.</Alert>
-            </>
-          )}
-          { !passwordResetSent && (
+          { passwordResetSent ? (
+            <Alert severity="success">Password reset email sent.</Alert>
+          ) : (
             <>
               <Typography variant="body1" component="span">Enter your email address and we'll send you a link to reset your password.</Typography>
               <TextField sx={{ width: '100%' }} required value={emailReset} label="email" onChange={(e) => setEmailReset(e.target.value)} type='email' />
@@ -113,20 +109,15 @@ export default function Signin() {
           )}
         </Stack>
       </DialogContent>
-      { passwordResetSent && (
-        <>
-          <DialogActions>
-            <Button onClick={handleCloseDialog} variant='outlined'>Close</Button>
-          </DialogActions>
-        </>
-      )}
-      { !passwordResetSent && (
-        <>
-          <DialogActions>
-            <Button onClick={handleCloseDialog} variant='outlined'>Cancel</Button>
-            <Button onClick={handResetPassword} variant='contained'>Reset</Button>
-          </DialogActions>
-        </>
+      { passwordResetSent ? (
+        <DialogActions>
+          <Button onClick={handleCloseDialog} variant='outlined'>Close</Button>
+        </DialogActions>
+      ) : (
+        <DialogActions>
+          <Button onClick={handleCloseDialog} variant='outlined'>Cancel</Button>
+          <Button onClick={handResetPassword} variant='contained'>Reset</Button>
+        </DialogActions>
       )}
     </Dialog>
     <Container disableGutters maxWidth="md">
@@ -150,13 +141,10 @@ export default function Signin() {
           </form>
 
           { error && (
-            <>
-              <Alert severity="warning">{error}</Alert>
-            </>
+            <Alert severity="warning">{error}</Alert>
           )}
         </Paper>
       </Container>
     </Container>
-  </>
-  )
+  </>)
 }
