@@ -1,7 +1,7 @@
 {
   "name": "edinburghsff",
   "private": true,
-  "version": "1.12.0",
+  "version": "1.13.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -19,6 +19,7 @@
     "dayjs": "^1.11.7",
     "firebase": "^9.22.0",
     "google-maps-react-markers": "^1.2.3",
+    "hoofd": "^1.7.0",
     "material-ui-confirm": "^3.0.9",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

@@ -6,6 +6,7 @@ import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 
 // Custom Components
+import Masthead from '../components/Masthead';
 import PageHeading from '../components/PageHeading';
 
 // Extras
@@ -40,6 +41,7 @@ export default function About() {
 
   return (
     <>
+      <Masthead />
       <Container>
         <PageHeading heading="About" />
         <Box sx={boxStyle}>

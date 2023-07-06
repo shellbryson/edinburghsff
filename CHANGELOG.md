@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.13.0] - 2023-06-25
+
+App:
+  - Add: Page title & meta support
+
+Pages:
+  - Add: URL field, hide slugs
+
 ## [1.12.0] - 2023-06-25
 
 Sign In:

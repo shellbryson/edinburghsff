@@ -1975,6 +1975,11 @@ hoist-non-react-statics@^3.3.1:
   dependencies:
     react-is "^16.7.0"
 
+hoofd@^1.7.0:
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/hoofd/-/hoofd-1.7.0.tgz#1e3016aadf31a2283b51602f01fd7cce3c692fbc"
+  integrity sha512-kh9gSPIqB/xk4lK8q4dEkjPL2mXhrUoTiJqIMfMokOEFV3ZJVounxtuRXxvz9oHIsIUnPNjmmyRsC0ydKkPDOg==
+
 http-parser-js@>=0.5.1:
   version "0.5.8"
   resolved "https://registry.npmjs.org/http-parser-js/-/http-parser-js-0.5.8.tgz"

@@ -4,6 +4,8 @@ import { useParams, Link } from "react-router-dom";
 import { getDocs, collection, query, orderBy, where } from 'firebase/firestore';
 import { db } from "../firebase";
 
+import { useHead } from 'hoofd';
+
 // MUI
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
@@ -28,6 +30,12 @@ export default function AdminLinks() {
   const [links, setLinks] = useState([]);
   const [linkClassification, setLinkClassification] = useState([]);
   const defaultClassification = "conventions";
+
+  useHead({
+    title: "Links - Edinburgh SFF",
+    language: 'en',
+    metas: [{ name: 'description', content: "Links for writers" }],
+  });
 
   useEffect(() => {
     getLinks(params.classification || defaultClassification);

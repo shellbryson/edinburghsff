@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from "react-router-dom";
 
+import { useHead } from 'hoofd';
+
 import ReactMarkdown from 'react-markdown';
 
 import { getDocs, collection, query, orderBy, where  } from 'firebase/firestore';
@@ -38,6 +40,14 @@ export default function Pages() {
   const [page, setPage] = useState({});
   const [pages, setPages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const defaultPageTitle = "Edinburgh SFF"
+  const defaultPageDescription = "Edinburgh Science Fiction and Fantasy writing community. New writers, events and community."
+
+  useHead({
+    title: `${page[0]?.title} - Edinburgh SFF` || defaultPageTitle,
+    language: 'en',
+    metas: [{ name: 'description', content: page[0]?.description || defaultPageDescription }],
+  });
 
   useEffect(() => {
     if (params.pageSlug) {
@@ -50,7 +60,7 @@ export default function Pages() {
   const getPage = async (s) => {
     setIsLoading(true);
 
-    const q = query(collection(db, "pages"), where("slug", "==", s));
+    const q = query(collection(db, "pages"), where("url", "==", s));
     const querySnapshot = await getDocs(q);
     const l = [];
     querySnapshot.forEach((doc) => {
@@ -59,6 +69,7 @@ export default function Pages() {
         id: doc.id
       });
     });
+
     setPage(l);
     setPages([]);
     setIsLoading(false);
@@ -106,7 +117,7 @@ export default function Pages() {
           <CardContent style={styleContent}>
             <Stack spacing={2}>
               <Typography component="p" variant='p' gutterBottom>
-                <Link to={`/pages/${data.slug}`}>{data.title}</Link>
+                <Link to={`/pages/${data.url}`}>{data.title}</Link>
               </Typography>
               <Typography component="p" variant='p' gutterBottom>
                 {data.description}

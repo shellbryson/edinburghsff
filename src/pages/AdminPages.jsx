@@ -17,7 +17,6 @@ import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import Box from '@mui/material/Box';
 
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -41,11 +40,11 @@ import UploadImage from '../components/admin/UploadImage';
 const tableStructure = {
   headings: [
     'Title',
-    'Slug'
+    'URL'
   ],
   keys: [
     'title',
-    'slug',
+    'url'
   ]
 }
 
@@ -65,8 +64,9 @@ export default function AdminPages() {
   const [show, setShow] = useState(true);
   const [imgUrl, setImgUrl] = useState(null);
 
-  // Specific to Links
+  // Specific to Pages
   const [slug, setSlug] = useState('');
+  const [url, setURL] = useState('');
   const [content, setContent] = useState('');
 
   // Update
@@ -123,6 +123,8 @@ export default function AdminPages() {
     setImgUrl('');
     setShow(true);
 
+    setURL('');
+
     // Reset to Add mode
     setIsUpdate(false);
   };
@@ -135,6 +137,7 @@ export default function AdminPages() {
     setShow(data.show);
     setUpdateId(data.id);
     setSlug(data.slug);
+    setURL(data.url || '');
 
     setIsUpdate(true);
     setOpenAdd(true);
@@ -160,6 +163,7 @@ export default function AdminPages() {
         show: show,
         image: strippedImageUrl,
         slug: slug,
+        url: url,
         created: {
           email: user.email,
           uid: user.uid,
@@ -203,6 +207,7 @@ export default function AdminPages() {
         show: show,
         image: strippedImageUrl,
         slug: slug,
+        url: url,
         updated: {
           email: user.email,
           uid: user.uid,
@@ -276,8 +281,9 @@ export default function AdminPages() {
         <DialogContent>
           <Stack spacing={2} sx={{ mt: 2}}>
             <TextField sx={{ width: '100%' }} value={title} required label="Title" onChange={(e) => handleTitleChange(e.target.value)} type='text' />
+            <TextField sx={{ width: '100%' }} value={url} required label="URL" onChange={(e) => setURL(e.target.value)} type='text' />
             <TextField sx={{ width: '100%' }} value={slug} readOnly disabled label="Slug" type='text' />
-            <TextField sx={{ width: '100%' }} value={description} required multiline rows={2} label="Description" onChange={(e) => setDescription(e.target.value)}  />
+            <TextField sx={{ width: '100%' }} value={description} required multiline rows={2} label="Description" onChange={(e) => setDescription(e.target.value)} />
             <TextField sx={{ width: '100%' }} value={content} required multiline rows={16} label="Content" onChange={(e) => setContent(e.target.value)}  />
 
             <UploadImage imageUploadedCallback={handleFileUpload} imgUrl={imgUrl} />
