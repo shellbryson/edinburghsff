@@ -20,6 +20,7 @@ import { Box } from '@mui/material';
 
 const appBarStyle = {
   backgroundColor: "rgb(255, 255, 255)",
+  position: "relative",
 }
 
 const Navigation = () => {

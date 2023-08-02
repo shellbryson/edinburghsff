@@ -61,7 +61,7 @@ function App() {
 
       <Navigation />
 
-      <Box sx={{ marginTop: "4.5rem"}}>
+      <Box>
         <ConfirmProvider>
           <Suspense fallback={renderLoader()}>
             <Routes>
