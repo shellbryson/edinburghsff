@@ -32,9 +32,7 @@ export default function Welcome() {
       flexDirection: "column",
       position: "relative",
       width: "100vw",
-      height: "100vh",
-      maxHeight: "1400px",
-      maxWidth: "100%",
+      height: "100vh"
     },
     logo: {
       position: "relative",
@@ -51,6 +49,7 @@ export default function Welcome() {
     sections: {
       position: "relative",
       marginTop: "1rem",
+      marginBottom: "2rem",
       marginRight: "1rem",
       paddingTop: "2rem",
       paddingRight: "1rem",
