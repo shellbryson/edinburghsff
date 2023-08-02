@@ -10,12 +10,10 @@ import MastheadImage2 from '../assets/masthead_nebula.jpg';
 const styles = {
   container: {
     display: 'block',
-    position: "relative",
     width: "100vw",
     height: "100%",
     top: "0",
-    left: "0",
-    backgroundColor: "#023b46"
+    left: "0"
   },
   image1Wrapper: {
     display: 'block',
