@@ -32,7 +32,8 @@ export default function Welcome() {
       flexDirection: "column",
       position: "relative",
       width: "100vw",
-      height: "100vh"
+      height: "100vh",
+      maxWidth: "100%",
     },
     logo: {
       position: "relative",
