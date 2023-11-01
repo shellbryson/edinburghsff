@@ -112,7 +112,7 @@ export default function Welcome() {
             </Box>
             <Box style={ styles.section }>
               <Typography component="h2" variant='h2'>Find us</Typography>
-              <Typography component="p">Chat on <a href="https://discord.gg/5EaXDTwrEY">Discord</a></Typography>
+              <Typography component="p">Chat on <a href="https://discord.gg/fBYCKjz8dz">Discord</a></Typography>
               <Typography component="p">BlueSky - <a href="https://bsky.app/profile/EdinburghSFF.bsky.social"> @edinburghsff.bsky.social</a></Typography>
               <Typography component="p">Mastondon - <a rel="me" href="https://writing.exchange/@EdinburghSFF"> @EdinburghSFF@writing.exchange</a></Typography>
               <Typography component="p">Twitter/X - <a href="https://twitter.com/edinburghsff">@edinburghsff</a></Typography>
