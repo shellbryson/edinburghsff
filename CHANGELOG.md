@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.0.0] - 2024-04-??
+
+Map:
+  - Add: Landing page now a map
+  - Fix: Make map full screen
+
+Build:
+  - Update: bump all dependencies to latest
+
 ## [1.13.2] - 2023-11-01
 
 Home:
