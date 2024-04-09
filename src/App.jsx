@@ -74,7 +74,7 @@ function App() {
               </Route>
 
               <Route path="/" element={<PageLayout />}>
-                <Route index element={<Welcome />} />
+                <Route index element={<Map />} />
                 <Route path="signin" element={<Signin />} />
                 <Route path="links/:classification" element={<Links />} />
                 <Route path="links" element={<Links />} />

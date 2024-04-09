@@ -19,7 +19,7 @@ import Logo from '../assets/logo.svg';
 import { Box } from '@mui/material';
 
 const appBarStyle = {
-  backgroundColor: "rgb(255, 255, 255)",
+  backgroundColor: "rgba(255, 255, 255, 0.5)",
   position: "relative",
 }
 

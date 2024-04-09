@@ -20,12 +20,6 @@ export default function Map() {
 
   return (
     <>
-      <Container>
-        <PageHeading heading="Map" />
-        <Typography variant="p" component="p" gutterBottom align='center'>
-          Writer-friendly cafes, bookshops and venues
-        </Typography>
-      </Container>
       <MapView />
     </>
   )
