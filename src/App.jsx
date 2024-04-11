@@ -12,8 +12,12 @@ import { ConfirmProvider } from "material-ui-confirm";
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 
+import useMediaQuery from '@mui/material/useMediaQuery';
+import useTheme from '@mui/material/styles/useTheme';
+
 // Custom Components
 import Navigation from './components/Navigation';
+import MainPanel from './components/MainPanel';
 
 // Layouts
 import PageLayout from './layouts/PageLayout';
@@ -40,13 +44,21 @@ const AdminPages = lazy(() => import('./pages/AdminPages'));
 
 // Assets
 import './App.scss';
-import Logo from './assets/logo.svg';
 
-const logoStyle = {
-  filter: "grayscale() opacity(0.3)",
+const layoutStyle = {
+  display: "flex",
+  flexDirection: "column",
+  position: "absolute",
+  height: "100vh",
+  width: "100vw",
+  backgroundColor: "rgba(255, 255, 255, 0.5)",
+  position: "relative",
 }
 
 function App() {
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const renderLoader = () => {
     return (
@@ -59,38 +71,44 @@ function App() {
   return (
     <ThemeProvider theme={customTheme}>
 
-      <Navigation />
+      <Box style={layoutStyle}>
 
-      <Box>
-        <ConfirmProvider>
-          <Suspense fallback={renderLoader()}>
-            <Routes>
-              <Route path="/dashboard" element={<AdminLayout />}>
-                <Route index element={<Dashboard />} />
-                <Route path='links' element={<AdminLinks />} />
-                <Route path='events' element={<AdminEvents />} />
-                <Route path='map' element={<AdminMap />} />
-                <Route path='pages' element={<AdminPages />} />
-              </Route>
+        { isMobile &&
+          <Navigation />
+        }
 
-              <Route path="/" element={<PageLayout />}>
-                <Route index element={<Map />} />
-                <Route path="signin" element={<Signin />} />
-                <Route path="links/:classification" element={<Links />} />
-                <Route path="links" element={<Links />} />
-                <Route path="map" element={<Map />} />
-                <Route path="about" element={<About />} />
-                <Route path="events/:eventID/:eventTitle" element={<Events />} />
-                <Route path="events" element={<Events />} />
-                <Route path="pages/:pageSlug" element={<Pages />} />
-                <Route path="pages" element={<Pages />} />
-                <Route path="*" element={<NotFound />} />
-              </Route>
-            </Routes>
-          </Suspense>
-        </ConfirmProvider>
-        <Box sx={{ display: "flex", alignContent: "center", justifyContent: "center", margin: "4rem"}}>
-          <img src={Logo} style={logoStyle} alt="Edinburgh SFF Logo" width="64" height="64" />
+        { !isMobile &&
+          <MainPanel />
+        }
+
+        <Box>
+          <ConfirmProvider>
+            <Suspense fallback={renderLoader()}>
+              <Routes>
+                <Route path="/dashboard" element={<AdminLayout />}>
+                  <Route index element={<Dashboard />} />
+                  <Route path='links' element={<AdminLinks />} />
+                  <Route path='events' element={<AdminEvents />} />
+                  <Route path='map' element={<AdminMap />} />
+                  <Route path='pages' element={<AdminPages />} />
+                </Route>
+
+                <Route path="/" element={<PageLayout />}>
+                  <Route index element={<Map />} />
+                  <Route path="signin" element={<Signin />} />
+                  <Route path="links/:classification" element={<Links />} />
+                  <Route path="links" element={<Links />} />
+                  <Route path="map" element={<Map />} />
+                  <Route path="about" element={<About />} />
+                  <Route path="events/:eventID/:eventTitle" element={<Events />} />
+                  <Route path="events" element={<Events />} />
+                  <Route path="pages/:pageSlug" element={<Pages />} />
+                  <Route path="pages" element={<Pages />} />
+                  <Route path="*" element={<NotFound />} />
+                </Route>
+              </Routes>
+            </Suspense>
+          </ConfirmProvider>
         </Box>
       </Box>
 

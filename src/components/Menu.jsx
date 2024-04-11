@@ -1,24 +1,14 @@
 import React from 'react';
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 // MUI
 import { styled } from '@mui/material/styles';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/MenuItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
 import IconButton from '@mui/material/IconButton';
 import Drawer from '@mui/material/Drawer';
-import Divider from '@mui/material/Divider';
 import CloseIcon from '@mui/icons-material/Close';
 
-import MapOutlinedIcon from '@mui/icons-material/MapOutlined';
-import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
-import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
-import AutoStoriesOutlinedIcon from '@mui/icons-material/AutoStoriesOutlined';
-import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
+// Custom UI
+import MainPanelContent from './MainPanelContent';
 
 // Context
 import { useAuth } from '../context/AuthContext';
@@ -55,88 +45,16 @@ export default function Menu({
             width: 320,
           },
         }}
-        anchor="right"
+        anchor="left"
         open={open}>
-        <DrawerHeader>
+        <DrawerHeader style={{ backgroundColor: "black"}}>
           <IconButton onClick={handleDrawerClose} color="brand">
             <CloseIcon />
           </IconButton>
         </DrawerHeader>
 
-        <List>
-          <ListItem onClick={()=>handleOnClick("/")}>
-            <ListItemIcon>
-              <HomeOutlinedIcon color="brand" />
-            </ListItemIcon>
-            <ListItemText>
-              Home
-            </ListItemText>
-          </ListItem>
-          <ListItem onClick={()=>handleOnClick("/map")}>
-            <ListItemIcon>
-              <MapOutlinedIcon color="brand" />
-            </ListItemIcon>
-            <ListItemText>
-              Map for writers
-            </ListItemText>
-          </ListItem>
-          <ListItem onClick={()=>handleOnClick("/events")}>
-            <ListItemIcon>
-              <CalendarMonthOutlinedIcon color="brand" />
-            </ListItemIcon>
-            <ListItemText>
-              Events
-            </ListItemText>
-          </ListItem>
-          <ListItem onClick={()=>handleOnClick("/links")}>
-            <ListItemIcon>
-              <AutoStoriesOutlinedIcon color="brand" />
-            </ListItemIcon>
-            <ListItemText>
-              Links
-            </ListItemText>
-          </ListItem>
-          <ListItem onClick={()=>handleOnClick("/pages")}>
-            <ListItemIcon>
-              <DescriptionOutlinedIcon color="brand" />
-            </ListItemIcon>
-            <ListItemText>
-              Pages
-            </ListItemText>
-          </ListItem>
-          <ListItem onClick={()=>handleOnClick("/about")}>
-            <ListItemIcon>
-              <InfoOutlinedIcon color="brand" />
-            </ListItemIcon>
-            <ListItemText>
-              About
-            </ListItemText>
-          </ListItem>
+        <MainPanelContent onHandleClick={handleOnClick} />
 
-          <Divider />
-
-          {!user &&
-          <ListItem>
-            <ListItemText>
-              <Link to="/signin" onClick={handleDrawerClose}>Sign in</Link>
-            </ListItemText>
-          </ListItem>
-          }
-
-          {user &&
-            <>
-              <ListItem onClick={()=>handleOnClick("/dashboard")}>
-                <ListItemIcon>
-                  <SettingsOutlinedIcon color="brand" />
-                </ListItemIcon>
-                <ListItemText>
-                  Admin Dashboard
-                </ListItemText>
-              </ListItem>
-            </>
-          }
-
-        </List>
       </Drawer>
     </>
   );

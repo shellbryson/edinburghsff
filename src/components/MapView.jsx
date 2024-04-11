@@ -31,60 +31,65 @@ import MapPin from './MapPin';
 import Spinner from './Spinner';
 import EventsDetailsImage from './EventsDetailsImage';
 
-
 // Theme helpers
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
-const styleEventTitle={
-  textAlign: "center"
-}
 
-const styleFacilities={
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  gap: "1rem",
-}
-
-const styleEventDecsription={
-  backgroundColor: "#f5f5f5",
-  padding: "1rem",
-  marginBottom: "1rem",
-  marginTop: "1rem"
-}
-
-const styleMap={
-  display: "block",
-  position: "absolute",
-  top: "0",
-  left: "0",
-  width: "100vw",
-  height: "100vh",
-  overflow: "hidden",
-}
-
-const iconStyle = {
-  display: "block",
-  width: "1.5rem",
-  height: "1.5rem",
-  fontSize: "1.5rem",
-  borderRadius: "50%",
-  backgroundColor: "rgba(255, 255, 255, 0.75)"
-}
-
-const styleFilter = {
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  gap: "1rem",
-  marginTop: "2rem",
-}
 
 export default function MapView() {
 
   const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
+  const styleEventTitle={
+    textAlign: "center"
+  }
+
+  const styleFacilities={
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: "1rem",
+  }
+
+  const styleEventDecsription={
+    backgroundColor: "#f5f5f5",
+    padding: "1rem",
+    marginBottom: "1rem",
+    marginTop: "1rem"
+  }
+
+  const styleMap={
+    display: "block",
+    position: "relative",
+    top: "0",
+    left: "0",
+    width: "100vw",
+    height: isMobile ? "calc(100vh - 56px)" : "100vh",
+    overflow: "hidden",
+  }
+
+  const iconStyle = {
+    display: "block",
+    width: "1.5rem",
+    height: "1.5rem",
+    fontSize: "1.5rem",
+    borderRadius: "50%",
+    backgroundColor: "rgba(255, 255, 255, 0.75)"
+  }
+
+  const styleFilter = {
+    display: "flex",
+    position: "absolute",
+    bottom: "1rem",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: "1rem",
+    marginTop: "2rem",
+    zIndex: 1000,
+    backgroundColor: "rgb(0, 0, 0)",
+  }
 
   const [locations, setLocations] = useState([]);
   const [filteredLocations, setFilteredLocations] = useState([]);
@@ -116,7 +121,7 @@ export default function MapView() {
     setIsLoaded(true)
   }
 
-  const onGoogleApiLoaded = ({ map, maps }) => {
+  const onGoogleApiLoaded = ({ map }) => {
     mapRef.current = map
     setMapReady(true)
   }
@@ -157,11 +162,11 @@ export default function MapView() {
   }
 
   return (
-    <>
+    <Box sx={{ display: "flex", justifyContent: "center" }}>
       <Dialog
         fullWidth
         maxWidth="sm"
-        fullScreen={fullScreen}
+        fullScreen={isMobile}
         open={isOpenDialog}
         onClose={handleCloseDetails}
         scroll="paper"
@@ -209,8 +214,11 @@ export default function MapView() {
           <Box style={styleMap}>
             <GoogleMapReact
               apiKey={import.meta.env.VITE_GOOGLEMAPS_API_KEY}
-              bootstrapURLKeys={{ key: import.meta.env.VITE_GOOGLEMAPS_API_KEY }}
               onGoogleApiLoaded={onGoogleApiLoaded}
+              options={{
+                mapTypeControl: false,
+                mapId: import.meta.env.VITE_GOOGLEMAPS_MAP_ID
+              }}
               loadingContent={<Spinner />}
               defaultCenter={defaultLocation.center}
               defaultZoom={defaultLocation.zoom}>
@@ -231,7 +239,7 @@ export default function MapView() {
         </>
       }
       { !isLoaded && <Spinner />}
-    </>
+    </Box>
   )
 }
 
