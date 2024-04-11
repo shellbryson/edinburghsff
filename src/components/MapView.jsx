@@ -75,8 +75,6 @@ export default function MapView() {
     width: "1.5rem",
     height: "1.5rem",
     fontSize: "1.5rem",
-    borderRadius: "50%",
-    backgroundColor: "rgba(255, 255, 255, 0.75)"
   }
 
   const styleFilter = {
@@ -216,6 +214,7 @@ export default function MapView() {
               apiKey={import.meta.env.VITE_GOOGLEMAPS_API_KEY}
               onGoogleApiLoaded={onGoogleApiLoaded}
               options={{
+                fullscreenControl: false,
                 mapTypeControl: false,
                 mapId: import.meta.env.VITE_GOOGLEMAPS_MAP_ID
               }}
