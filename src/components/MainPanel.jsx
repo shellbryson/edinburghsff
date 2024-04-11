@@ -8,6 +8,7 @@ import { useTheme } from '@mui/material/styles';
 
 // Custom UI
 import MainPanelContent from './MainPanelContent';
+import Logo from './Logo';
 
 export default function MainPanel() {
 
@@ -34,7 +35,7 @@ export default function MainPanel() {
 
   return (
     <Box style={stylePanel}>
-      <h1>ESFF</h1>
+      <Typography><Logo /></Typography>
 
       <MainPanelContent />
     </Box>

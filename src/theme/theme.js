@@ -3,7 +3,7 @@ import { createTheme } from '@mui/material/styles';
 export const customTheme = createTheme({
   typography: {
     fontFamily: 'var(--font-body)',
-    color: '#003B4A',
+    color: '#ffffff',
     h1: {
       fontSize: 32,
       textTransform: 'uppercase',
