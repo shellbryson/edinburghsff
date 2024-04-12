@@ -20,7 +20,6 @@ import Map from './components/Map';
 import MainPanel from './components/MainPanel';
 
 // Layouts
-// import PageLayout from './layouts/PageLayout';
 import AdminLayout from './layouts/AdminLayout';
 
 // Regular Pages
@@ -73,13 +72,6 @@ function App() {
           <ConfirmProvider>
             <Suspense fallback={renderLoader()}>
               <Routes>
-                <Route path="/dashboard" element={<AdminLayout />}>
-                  <Route index element={<Dashboard />} />
-                  <Route path='links' element={<AdminLinks />} />
-                  <Route path='events' element={<AdminEvents />} />
-                  <Route path='map' element={<AdminMap />} />
-                  <Route path='pages' element={<AdminPages />} />
-                </Route>
                 <Route path="/" element={<MainPanel />}>
                   <Route path="welcome" element={<Welcome />} />
                   <Route path="signin" element={<Signin />} />
@@ -90,6 +82,13 @@ function App() {
                   <Route path="events" element={<Events />} />
                   <Route path="pages/:pageSlug" element={<Pages />} />
                   <Route path="pages" element={<Pages />} />
+                  <Route path="admin" element={<AdminLayout />}>
+                    <Route index element={<Dashboard />} />
+                    <Route path='links' element={<AdminLinks />} />
+                    <Route path='events' element={<AdminEvents />} />
+                    <Route path='map' element={<AdminMap />} />
+                    <Route path='pages' element={<AdminPages />} />
+                  </Route>
                   <Route path="*" element={<NotFound />} />
                 </Route>
               </Routes>

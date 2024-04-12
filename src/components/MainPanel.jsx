@@ -8,6 +8,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 
 // Custom UI
+import PageLayout from '../layouts/PageLayout';
 import Navigation from './Navigation';
 
 // Icons
@@ -64,22 +65,8 @@ export default function MainPanel(props) {
     color: "rgb(255, 255, 255)",
   }
 
-  const stylePage={
-    display: "block",
-    maxWidth: "calc(100vw - 10px)",
-    overflow: "auto",
-  }
-
   const handleExpanderClick = () => {
     setIsExpanded(!isExpanded);
-  }
-
-  const handlePageOpen = () => {
-    setIsExploded(!isExploded);
-  }
-
-  const handlePageClose = () => {
-    setIsExploded(false);
   }
 
   return (
@@ -95,10 +82,8 @@ export default function MainPanel(props) {
         }
       </Box>
       <Box style={stylePanelInterior}>
-        <Box style={stylePanelInteriorContent} onClick={() => handlePageOpen()}>
-          <Box style={stylePage}>
-            <Outlet />
-          </Box>
+        <Box style={stylePanelInteriorContent}>
+          <PageLayout />
           <Typography variant="p" color="primary">
             Edinburgh SFF
           </Typography>
