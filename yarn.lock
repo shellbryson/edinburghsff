@@ -1536,6 +1536,11 @@ cross-spawn@^7.0.2:
     shebang-command "^2.0.0"
     which "^2.0.1"
 
+css.gg@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/css.gg/-/css.gg-2.1.1.tgz#62b2e242633c1cdf9de9840f2cf343ce03f6548e"
+  integrity sha512-OJrjd4+CdjrLvrVB+EFctAnk7eeM+zc8aKfVlO5BfNBgSqcC9wMHQTZ7ALcCiZGpE62kVVhwQ3Mvl1u6RkVFvQ==
+
 csstype@^3.0.2, csstype@^3.1.3:
   version "3.1.3"
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.1.3.tgz#d80ff294d114fb0e6ac500fbf85b60137d7eff81"

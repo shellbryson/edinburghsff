@@ -16,7 +16,6 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import useTheme from '@mui/material/styles/useTheme';
 
 // Custom Components
-import Navigation from './components/Navigation';
 import MainPanel from './components/MainPanel';
 
 // Layouts
@@ -46,12 +45,10 @@ const AdminPages = lazy(() => import('./pages/AdminPages'));
 import './App.scss';
 
 const layoutStyle = {
-  display: "flex",
-  flexDirection: "column",
   position: "absolute",
   height: "100vh",
   width: "100vw",
-  backgroundColor: "rgba(255, 255, 255, 0.5)",
+  backgroundColor: "rgb(0, 0, 0)",
   position: "relative",
 }
 
@@ -70,17 +67,8 @@ function App() {
 
   return (
     <ThemeProvider theme={customTheme}>
-
       <Box style={layoutStyle}>
-
-        { isMobile &&
-          <Navigation />
-        }
-
-        { !isMobile &&
-          <MainPanel />
-        }
-
+        <MainPanel />
         <Box>
           <ConfirmProvider>
             <Suspense fallback={renderLoader()}>
@@ -92,13 +80,11 @@ function App() {
                   <Route path='map' element={<AdminMap />} />
                   <Route path='pages' element={<AdminPages />} />
                 </Route>
-
                 <Route path="/" element={<PageLayout />}>
                   <Route index element={<Map />} />
                   <Route path="signin" element={<Signin />} />
                   <Route path="links/:classification" element={<Links />} />
                   <Route path="links" element={<Links />} />
-                  <Route path="map" element={<Map />} />
                   <Route path="about" element={<About />} />
                   <Route path="events/:eventID/:eventTitle" element={<Events />} />
                   <Route path="events" element={<Events />} />

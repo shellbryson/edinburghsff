@@ -16,6 +16,7 @@
     "@mui/material": "^5.15.15",
     "@mui/x-date-pickers": "^7.1.1",
     "@vercel/analytics": "^1.2.2",
+    "css.gg": "^2.1.1",
     "dayjs": "^1.11.10",
     "firebase": "^10.10.0",
     "google-maps-react-markers": "^2.0.8",
