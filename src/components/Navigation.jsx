@@ -1,82 +1,106 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
+import { Link, useNavigate } from "react-router-dom";
 
-import { useApp } from '../context/AppContext';
+// MUI
+import Box from '@mui/material/Box';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/MenuItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Divider from '@mui/material/Divider';
 
-// MUI Components
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import LinearProgress from '@mui/material/LinearProgress';
-import MenuIcon from '@mui/icons-material/Menu';
-import IconButton from '@mui/material/IconButton';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import useTheme from '@mui/material/styles/useTheme';
+import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
+import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
+import AutoStoriesOutlinedIcon from '@mui/icons-material/AutoStoriesOutlined';
+import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 
-// Custom Components
-import Menu from './Menu';
+// Context
+import { useAuth } from '../context/AuthContext';
 
-// Assets
-import Logo from '../assets/logo.svg';
-import { Box } from '@mui/material';
+export default function Navigation() {
 
-const appBarStyle = {
-  backgroundColor: "rgb(0, 0, 0)",
-  position: "relative",
-}
+  const stylePanel={
+    backgroundColor: "rgb(0, 0, 0)",
+    height: "100%",
+  }
 
-const Navigation = () => {
-
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-
-  const { isLoading } = useApp();
-  const [open, setOpen] = useState(false);
-
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const handleOnClick = (url) => {
+    navigate(url);
+    //handleDrawerClose();
+  }
 
   return (
-    <AppBar color="secondary" elevation={0} style={appBarStyle}>
-      <Box sx={{ width: '100%', height: "4px"  }}>
-        { isLoading &&
-          <LinearProgress />
+    <Box style={ stylePanel }>
+      <List>
+        <ListItem onClick={()=>handleOnClick("/")}>
+          <ListItemIcon>
+            <HomeOutlinedIcon color="brand" />
+          </ListItemIcon>
+          <ListItemText>
+            Home
+          </ListItemText>
+        </ListItem>
+        <ListItem onClick={()=>handleOnClick("/events")}>
+          <ListItemIcon>
+            <CalendarMonthOutlinedIcon color="brand" />
+          </ListItemIcon>
+          <ListItemText>
+            Events
+          </ListItemText>
+        </ListItem>
+        <ListItem onClick={()=>handleOnClick("/links")}>
+          <ListItemIcon>
+            <AutoStoriesOutlinedIcon color="brand" />
+          </ListItemIcon>
+          <ListItemText>
+            Links
+          </ListItemText>
+        </ListItem>
+        <ListItem onClick={()=>handleOnClick("/pages")}>
+          <ListItemIcon>
+            <DescriptionOutlinedIcon color="brand" />
+          </ListItemIcon>
+          <ListItemText>
+            Pages
+          </ListItemText>
+        </ListItem>
+        <ListItem onClick={()=>handleOnClick("/about")}>
+          <ListItemIcon>
+            <InfoOutlinedIcon color="brand" />
+          </ListItemIcon>
+          <ListItemText>
+            About
+          </ListItemText>
+        </ListItem>
+
+        <Divider />
+
+        {!user &&
+        <ListItem>
+          <ListItemText>
+            <Link to="/signin" onClick={handleDrawerClose}>Sign in</Link>
+          </ListItemText>
+        </ListItem>
         }
-      </Box>
-      <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
-        { isMobile &&
+
+        {user &&
           <>
-            <div style={{ display:"flex", alignItems:"middle"}}>
-              <IconButton
-                id="basicButton"
-                aria-controls="basicMenu"
-                aria-haspopup="true"
-                aria-expanded={open ? 'true' : undefined}
-                onClick={handleDrawerOpen}
-                color="brand">
-                <MenuIcon />
-              </IconButton>
-              <Link to="/">
-                <img style={{ height: 30 }} height="30" width="30" src={Logo} alt="Edinburgh SFF Logo" />
-              </Link>
-            </div>
-            <Box sx={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-              <Link to="/events" className="sff-navigation-link">Events</Link>
-              <Link to="/links" className="sff-navigation-link">Links</Link>
-            </Box>
+            <ListItem onClick={()=>handleOnClick("/dashboard")}>
+              <ListItemIcon>
+                <SettingsOutlinedIcon color="brand" />
+              </ListItemIcon>
+              <ListItemText>
+                Admin Dashboard
+              </ListItemText>
+            </ListItem>
           </>
         }
-      </Toolbar>
-      <Menu
-        handleDrawerClose={handleDrawerClose}
-        open={open}
-      />
-    </AppBar>
-  );
-};
 
-export default Navigation;
+      </List>
+    </Box>
+  );
+}

@@ -16,15 +16,15 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import useTheme from '@mui/material/styles/useTheme';
 
 // Custom Components
+import Map from './components/Map';
 import MainPanel from './components/MainPanel';
 
 // Layouts
-import PageLayout from './layouts/PageLayout';
+// import PageLayout from './layouts/PageLayout';
 import AdminLayout from './layouts/AdminLayout';
 
 // Regular Pages
 const Welcome = lazy(() => import('./pages/Welcome'));
-const Map = lazy(() => import('./pages/Map'));
 const Links = lazy(() => import('./pages/Links'));
 const Events = lazy(() => import('./pages/Events'));
 const About = lazy(() => import('./pages/About'));
@@ -68,7 +68,7 @@ function App() {
   return (
     <ThemeProvider theme={customTheme}>
       <Box style={layoutStyle}>
-        <MainPanel />
+        <Map />
         <Box>
           <ConfirmProvider>
             <Suspense fallback={renderLoader()}>
@@ -80,8 +80,8 @@ function App() {
                   <Route path='map' element={<AdminMap />} />
                   <Route path='pages' element={<AdminPages />} />
                 </Route>
-                <Route path="/" element={<PageLayout />}>
-                  <Route index element={<Map />} />
+                <Route path="/" element={<MainPanel />}>
+                  <Route path="welcome" element={<Welcome />} />
                   <Route path="signin" element={<Signin />} />
                   <Route path="links/:classification" element={<Links />} />
                   <Route path="links" element={<Links />} />
@@ -97,9 +97,7 @@ function App() {
           </ConfirmProvider>
         </Box>
       </Box>
-
       <Analytics />
-
     </ThemeProvider>
   )
 }

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Outlet,  useLocation } from "react-router-dom";
 
 // MUI
 import Typography from '@mui/material/Typography';
@@ -7,30 +8,29 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 
 // Custom UI
-import MainPanelContent from './MainPanelContent';
-import Logo from './Logo';
+import Navigation from './Navigation';
 
 // Icons
 import 'css.gg/icons/scss/chevron-left.scss'
 import 'css.gg/icons/scss/chevron-right.scss'
 import 'css.gg/icons/scss/menu.scss'
 
-export default function MainPanel() {
+export default function MainPanel(props) {
 
+  const location = useLocation();
   const [isExploded, setIsExploded] = useState(false);
   const [isExpanded, setIsExpanded] = useState(true);
+
+  useEffect(() => {
+    location.pathname === '/' ? setIsExploded(false) : setIsExploded(true);
+  }, [location]);
 
   // Theme
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.up('sm'));
 
   const stylePanel={
-    display: "flex",
-    flexDirection: "column",
     position: "absolute",
-    justifyContent: "center",
-    alignItems: "center",
-    gap: "1rem",
     left: "0",
     top: "0",
     bottom: "0",
@@ -39,14 +39,16 @@ export default function MainPanel() {
   }
 
   const stylePanelInterior={
-    transition: "width 200ms",
-    width: isExpanded ? "300px" : "10px",
+    transition: "width 200ms, max-width 200ms",
+    minWidth: "10px",
+    width: isExploded ? "100vw" : (isExpanded ? "300px" : "10px"),
     overflow: "hidden"
   }
 
   const stylePanelInteriorContent={
     display: isExpanded ? "block" : "none",
-    width: "300px",
+    transition: "width 200ms",
+    width: isExploded ? "100vw" : "300px",
   }
 
   const styleExpander={
@@ -55,11 +57,17 @@ export default function MainPanel() {
     alignItems: "center",
     position: "absolute",
     top: "1rem",
-    right: isExpanded ? "-2rem" : "-3rem",
+    right: isExpanded ? "calc(-2rem + 1px)" : "calc(-3rem + 1px)",
     width: isExpanded ? "2rem" : "3rem",
     height: "3rem",
     backgroundColor: "rgb(0, 0, 0)",
     color: "rgb(255, 255, 255)",
+  }
+
+  const stylePage={
+    display: "block",
+    maxWidth: "calc(100vw - 10px)",
+    overflow: "auto",
   }
 
   const handleExpanderClick = () => {
@@ -67,7 +75,7 @@ export default function MainPanel() {
   }
 
   const handlePageOpen = () => {
-    setIsExploded(true);
+    setIsExploded(!isExploded);
   }
 
   const handlePageClose = () => {
@@ -87,15 +95,17 @@ export default function MainPanel() {
         }
       </Box>
       <Box style={stylePanelInterior}>
-        <Box style={stylePanelInteriorContent}>
-          <Logo />
+        <Box style={stylePanelInteriorContent} onClick={() => handlePageOpen()}>
+          <Box style={stylePage}>
+            <Outlet />
+          </Box>
           <Typography variant="p" color="primary">
             Edinburgh SFF
           </Typography>
           <Typography variant="p" color="primary">
             The writing community
           </Typography>
-          <MainPanelContent />
+          <Navigation />
         </Box>
       </Box>
     </Box>

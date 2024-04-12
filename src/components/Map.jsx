@@ -25,13 +25,15 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 
 // Custom UI
-import MapPin from '../components/MapPin';
-import Spinner from '../components/Spinner';
-import EventsDetailsImage from '../components/EventsDetailsImage';
+import MapPin from './MapPin';
+import Spinner from './Spinner';
+import EventsDetailsImage from './EventsDetailsImage';
+import Logo from './Logo';
 
 // Theme helpers
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import zIndex from '@mui/material/styles/zIndex';
 
 export default function Map() {
 
@@ -71,6 +73,16 @@ export default function Map() {
     width: "1.5rem",
     height: "1.5rem",
     fontSize: "1.5rem",
+  }
+
+  const styleLogo = {
+    display: "flex",
+    position: "absolute",
+    top: "0",
+    right: "0",
+    alignItems: "center",
+    justifyContent: "center",
+    zIndex: 1000,
   }
 
   const styleFilter = {
@@ -194,7 +206,10 @@ export default function Map() {
 
       { isLoaded &&
         <>
-          <Box sx={styleFilter}>
+          <Box style={styleLogo}>
+            <Logo />
+          </Box>
+          <Box style={styleFilter}>
             <IconButton aria-label="Venues" onClick={() => filterMap('Venue')}>
               <StarOutlinedIcon style={ iconStyle } color="brand" />
             </IconButton>
