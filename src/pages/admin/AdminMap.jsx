@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useRef } from 'react';
 
 import { doc, getDocs, addDoc, updateDoc, deleteDoc, collection, orderBy, query } from 'firebase/firestore';
-import { db } from "../firebase";
+import { db } from "../../firebase";
 
-import { useAuth } from '../context/AuthContext';
-import { useApp } from '../context/AppContext';
+import { useAuth } from '../../context/AuthContext';
+import { useApp } from '../../context/AppContext';
 
 import { useConfirm } from "material-ui-confirm";
 
@@ -38,9 +38,9 @@ import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 // Custom Components
-import PageHeading from '../components/PageHeading';
-import List from '../components/admin/List';
-import UploadImage from '../components/admin/UploadImage';
+import PageHeading from '../../components/PageHeading';
+import List from '../../components/admin/List';
+import UploadImage from '../../components/admin/UploadImage';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;

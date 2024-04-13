@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { getDocs, collection, query, orderBy, limit  } from 'firebase/firestore';
-import { db } from "../firebase";
+import { db } from "../../firebase";
 
 import { useHead } from 'hoofd';
 
@@ -10,8 +10,8 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 
 // Custom Components
-import PageHeading from '../components/PageHeading';
-import EventsGrid from '../components/EventsGrid';
+import PageHeading from '../../components/PageHeading';
+import EventsGrid from '../../components/EventsGrid';
 
 export default function Events() {
 

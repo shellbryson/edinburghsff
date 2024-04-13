@@ -6,7 +6,7 @@ import { useHead } from 'hoofd';
 import ReactMarkdown from 'react-markdown';
 
 import { getDocs, collection, query, orderBy, where  } from 'firebase/firestore';
-import { db } from "../firebase";
+import { db } from "../../firebase";
 
 // MUI
 import Container from '@mui/material/Container';
@@ -17,7 +17,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 
 // Custom Components
-import Spinner from '../components/Spinner';
+import Spinner from '../../components/Spinner';
 
 const styleCard={
   display: "flex",

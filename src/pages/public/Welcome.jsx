@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from "react-router-dom";
 
 // Custom Components
-import Background from '../components/Background.jsx';
+import Background from '../../components/Background.jsx';
 
 // MUI Components
 import Typography from '@mui/material/Typography';

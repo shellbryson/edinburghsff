@@ -30,70 +30,10 @@ export default function Footer({isExploded}) {
         Edinburgh SFF
       </Typography>
       <Typography component="p" variant="p" color="primary">
-        The writing community
+        Hub
       </Typography>
       <Typography component="p" variant="p" color="primary">
-        An established and growing community of Science Fiction and Fantasy writers, packed full of resource, writing chat and day to day help. A friendly community for writers of all levels, whether just starting out or published.
-      </Typography>
-      <Typography component="p" variant="p" color="primary">
-        fdsfdsfdsfsf
-      </Typography>
-      <Typography component="p" variant="p" color="primary">
-        fdsfdsfdsfsf
-      </Typography>
-      <Typography component="p" variant="p" color="primary">
-        fdsfdsfdsfsf
-      </Typography>
-      <Typography component="p" variant="p" color="primary">
-        fdsfdsfdsfsf
-      </Typography>
-      <Typography component="p" variant="p" color="primary">
-        fdsfdsfdsfsf
-      </Typography>
-      <Typography component="p" variant="p" color="primary">
-        fdsfdsfdsfsf
-      </Typography>
-      <Typography component="p" variant="p" color="primary">
-        fdsfdsfdsfsf
-      </Typography>
-      <Typography component="p" variant="p" color="primary">
-        fdsfdsfdsfsf
-      </Typography>
-      <Typography component="p" variant="p" color="primary">
-        fdsfdsfdsfsf
-      </Typography>
-      <Typography component="p" variant="p" color="primary">
-        fdsfdsfdsfsf
-      </Typography>
-      <Typography component="p" variant="p" color="primary">
-        fdsfdsfdsfsf
-      </Typography>
-      <Typography component="p" variant="p" color="primary">
-        fdsfdsfdsfsf
-      </Typography>
-      <Typography component="p" variant="p" color="primary">
-        fdsfdsfdsfsf
-      </Typography>
-      <Typography component="p" variant="p" color="primary">
-        fdsfdsfdsfsf
-      </Typography>
-      <Typography component="p" variant="p" color="primary">
-        fdsfdsfdsfsf
-      </Typography>
-      <Typography component="p" variant="p" color="primary">
-        fdsfdsfdsfsf
-      </Typography>
-      <Typography component="p" variant="p" color="primary">
-        fdsfdsfdsfsf
-      </Typography>
-      <Typography component="p" variant="p" color="primary">
-        fdsfdsfdsfsf
-      </Typography>
-      <Typography component="p" variant="p" color="primary">
-        fdsfdsfdsfsf
-      </Typography>
-      <Typography component="p" variant="p" color="primary">
-        fdsfdsfdsfsf
+        Edinburgh SFF is a vibrant community of Science Fiction and Fantasy writers in Scotland.
       </Typography>
     </Box>
   );

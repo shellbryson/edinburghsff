@@ -6,11 +6,11 @@ import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 
 // Custom Components
-import Masthead from '../components/Masthead';
-import PageHeading from '../components/PageHeading';
+import Masthead from '../../components/Masthead';
+import PageHeading from '../../components/PageHeading';
 
 // Extras
-import packageJson from '../../package.json';
+import packageJson from '../../../package.json';
 
 // Assets
 import Badger from '../assets/Badger.png';

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 
-import { slugify } from '../utils/utils';
+import { slugify } from '../../utils/utils';
 
 import { doc, getDocs, addDoc, updateDoc, deleteDoc, collection, query, orderBy } from 'firebase/firestore';
-import { db } from "../firebase";
+import { db } from "../../firebase";
 
-import { useAuth } from '../context/AuthContext';
-import { useApp } from '../context/AppContext';
+import { useAuth } from '../../context/AuthContext';
+import { useApp } from '../../context/AppContext';
 
 import { useConfirm } from "material-ui-confirm";
 
@@ -33,9 +33,9 @@ import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 // Custom Components
-import PageHeading from '../components/PageHeading';
-import List from '../components/admin/List';
-import UploadImage from '../components/admin/UploadImage';
+import PageHeading from '../../components/PageHeading';
+import List from '../../components/admin/List';
+import UploadImage from '../../components/admin/UploadImage';
 
 const tableStructure = {
   headings: [

@@ -20,22 +20,22 @@ import MainPanel from './components/MainPanel';
 import AdminLayout from './layouts/AdminLayout';
 
 // Regular Pages
-const Welcome = lazy(() => import('./pages/Welcome'));
-const Links = lazy(() => import('./pages/Links'));
-const Events = lazy(() => import('./pages/Events'));
-const About = lazy(() => import('./pages/About'));
-const NotFound = lazy(() => import('./pages/NotFound'));
-const Signin = lazy(() => import('./pages/Signin'));
+const Welcome = lazy(() => import('./pages/public/Welcome'));
+const Links = lazy(() => import('./pages/public/Links'));
+const Events = lazy(() => import('./pages/public/Events'));
+const About = lazy(() => import('./pages/public/About'));
+const NotFound = lazy(() => import('./pages/public/NotFound'));
+const Signin = lazy(() => import('./pages/public/Signin'));
 
 // Dynamic Pages
-const Pages = lazy(() => import('./pages/Pages'));
+const Pages = lazy(() => import('./pages/public/Pages'));
 
 // Admin Pages
-const Dashboard = lazy(() => import('./pages/Dashboard'));
-const AdminLinks = lazy(() => import('./pages/AdminLinks'));
-const AdminEvents = lazy(() => import('./pages/AdminEvents'));
-const AdminMap = lazy(() => import('./pages/AdminMap'));
-const AdminPages = lazy(() => import('./pages/AdminPages'));
+const Dashboard = lazy(() => import('./pages/admin/Dashboard'));
+const AdminLinks = lazy(() => import('./pages/admin/AdminLinks'));
+const AdminEvents = lazy(() => import('./pages/admin/AdminEvents'));
+const AdminMap = lazy(() => import('./pages/admin/AdminMap'));
+const AdminPages = lazy(() => import('./pages/admin/AdminPages'));
 
 // Assets
 import './App.scss';

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link } from "react-router-dom";
 
 import { getDocs, collection, query, orderBy, where } from 'firebase/firestore';
-import { db } from "../firebase";
+import { db } from "../../firebase";
 
 import { useHead } from 'hoofd';
 
@@ -12,9 +12,9 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
 // Custom Components
-import PageHeading from '../components/PageHeading';
-import LinkTiles from '../components/LinkTiles';
-import Spinner from '../components/Spinner';
+import PageHeading from '../../components/PageHeading';
+import LinkTiles from '../../components/LinkTiles';
+import Spinner from '../../components/Spinner';
 
 const classificationMenuStyle = {
   display: 'flex',

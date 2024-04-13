@@ -14,6 +14,9 @@ import DialogTitle from '@mui/material/DialogTitle';
 // Custom UI
 import EventsDetailsImage from './EventsDetailsImage';
 
+// Helpers
+import { imageURL } from '../utils/utils';
+
 // Theme helpers
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';

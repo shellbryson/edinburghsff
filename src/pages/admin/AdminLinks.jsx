@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from 'react';
 
 import { doc, getDocs, addDoc, updateDoc, deleteDoc, collection, query, orderBy } from 'firebase/firestore';
-import { db } from "../firebase";
+import { db } from "../../firebase";
 
-import { useAuth } from '../context/AuthContext';
-import { useApp } from '../context/AppContext';
+import { useAuth } from '../../context/AuthContext';
+import { useApp } from '../../context/AppContext';
 
 import { useConfirm } from "material-ui-confirm";
-
-import dayjs from 'dayjs';
-import 'dayjs/locale/en-gb';
 
 // MUI
 import Alert from '@mui/material/Alert';
@@ -20,8 +17,13 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 
 import FormGroup from '@mui/material/FormGroup';
+import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
+
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
 
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -30,34 +32,28 @@ import DialogTitle from '@mui/material/DialogTitle';
 
 import DeleteIcon from '@mui/icons-material/Delete';
 
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
-
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 // Custom Components
-import PageHeading from '../components/PageHeading';
-import List from '../components/admin/List';
-import UploadImage from '../components/admin/UploadImage';
+import PageHeading from '../../components/PageHeading';
+import List from '../../components/admin/List';
+import UploadImage from '../../components/admin/UploadImage';
 
 const tableStructure = {
   headings: [
-    'Date',
     'Title',
+    'Type',
     'Image',
-    'Location'
   ],
   keys: [
-    'eventStart',
     'title',
-    'image',
-    'eventLocation'
+    'type',
+    'image'
   ]
 }
 
-export default function AdminEvents() {
+export default function AdminLinks() {
 
   const { user } = useAuth();
   const { setIsLoading } = useApp();
@@ -65,7 +61,7 @@ export default function AdminEvents() {
   const confirm = useConfirm();
 
   // Data
-  const [events, setEvents] = useState([])
+  const [links, setLinks] = useState([])
 
   // Common
   const [title, setTitle] = useState('');
@@ -74,11 +70,8 @@ export default function AdminEvents() {
   const [show, setShow] = useState(true);
   const [imgUrl, setImgUrl] = useState(null);
 
-  // Specific to events
-  const [eventStart, setEventStart] = useState(dayjs(new Date()));
-  const [eventEnd, setEventEnd] = useState(dayjs(new Date()));
-  const [eventIsAllDay, setEventIsAllDay] = useState(false);
-  const [eventLocation, setEventLocation] = useState('');
+  // Specific to Links
+  const [linkClassification, setLinkClassification] = useState('general');
 
   // Update
   const [isUpdate, setIsUpdate] = useState(false);
@@ -93,27 +86,22 @@ export default function AdminEvents() {
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
   useEffect(() => {
-    getEvents();
-  }, []);
+    getLinks();
+  }, [])
 
-  const q = query(collection(db, "events"), orderBy("eventStart", "desc"));
-
-  const getEvents = async () => {
-    // Firebase provides no native way to search strings, so when searching we
-    // have get everything and filter it ourselves
+  const getLinks = async () => {
     setIsLoading(true);
+    const q = query(collection(db, "links"), orderBy("title", "asc"));
     const querySnapshot = await getDocs(q);
-    const list = [];
+    const l = [];
     querySnapshot.forEach((doc) => {
-      const c = doc.data();
-      c.eventStart = dayjs(c.eventStart.toDate().toLocaleString(), 'DD/MM/YYYY, HH:mm:ss').format('DD/MM/YYYY')
-      list.push({
-        ...c,
+      l.push({
+        ...doc.data(),
         id: doc.id,
         display: true,
       });
     });
-    setEvents(list);
+    setLinks(l);
     setIsLoading(false);
   }
 
@@ -132,31 +120,21 @@ export default function AdminEvents() {
     setImgUrl('');
     setShow(true);
 
-    // Reset Events fields
-    setEventStart(dayjs(new Date()));
-    setEventEnd(dayjs(new Date()));
-    setEventIsAllDay(false);
-    setEventLocation('');
+    // Reset Links fields
+    setLinkClassification('');
 
     // Reset to Add mode
     setIsUpdate(false);
   };
 
   const handleOpenUpdate = (data) => {
-
-    const start = new Date(data.eventStart.seconds * 1000 + data.eventStart.nanoseconds / 1000000);
-    const end = new Date(data.eventEnd.seconds * 1000 + data.eventEnd.nanoseconds / 1000000);
-
     setTitle(data.title);
     setDescription(data.description);
     setURL(data.url);
     setImgUrl(data.image);
     setShow(data.show);
     setUpdateId(data.id);
-    setEventStart(dayjs(start));
-    setEventEnd(dayjs(end));
-    setEventIsAllDay(data.eventIsAllDay || false);
-    setEventLocation(data.eventLocation);
+    setLinkClassification(data.type || 'general');
 
     setIsUpdate(true);
     setOpenAdd(true);
@@ -165,14 +143,7 @@ export default function AdminEvents() {
   const handleAdd = async (e) => {
     setError('');
 
-    if (
-      !title ||
-      !description ||
-      !url ||
-      !eventStart ||
-      !eventEnd ||
-      !eventLocation
-    ) {
+    if (!title || !description || !url) {
       setError('Please fill out all fields');
       return;
     }
@@ -182,16 +153,13 @@ export default function AdminEvents() {
     const strippedImageUrl = imgUrl ? imgUrl.split('&')[0] : '';
 
     try {
-      const docRef = await addDoc(collection(db, "events"), {
+      await addDoc(collection(db, "links"), {
         title: title,
         description: description,
         url: url,
         show: show,
         image: strippedImageUrl,
-        eventStart: eventStart.$d,
-        eventEnd: eventEnd.$d,
-        eventIsAllDay: eventIsAllDay,
-        eventLocation: eventLocation,
+        type: linkClassification,
         created: {
           email: user.email,
           uid: user.uid,
@@ -204,7 +172,44 @@ export default function AdminEvents() {
         }
       });
 
-      getEvents();
+      getLinks();
+      handleCloseForm();
+
+    } catch (e) {
+      setIsLoading(false);
+      console.error("Error adding document: ", e);
+    }
+  };
+
+  const handleUpdate = async () => {
+    setError('');
+
+    if (!title || !description || !url) {
+      setError('Please fill out all fields');
+      return;
+    }
+
+    const strippedImageUrl = imgUrl ? imgUrl.split('&')[0] : '';
+    setIsLoading(true);
+
+    try {
+      const l = doc(db, "links", updateId);
+
+      await updateDoc(l, {
+        title: title,
+        description: description,
+        url: url,
+        show: show,
+        image: strippedImageUrl,
+        type: linkClassification || 'general',
+        updated: {
+          email: user.email,
+          uid: user.uid,
+          timestamp: new Date()
+        }
+      });
+
+      getLinks();
       handleCloseForm();
 
     } catch (e) {
@@ -216,9 +221,9 @@ export default function AdminEvents() {
   const performDelete = async (id) => {
     setIsLoading(true);
     try {
-      await deleteDoc(doc(db, "events", id));
+      await deleteDoc(doc(db, "links", id));
       handleCloseForm();
-      getEvents();
+      getLinks();
     } catch (e) {
       setIsLoading(false);
       console.error("Error adding document: ", e);
@@ -228,8 +233,8 @@ export default function AdminEvents() {
   const handleDelete = async (id) => {
 
     const settings = {
-      description: "This action will permanently delete the selected Event",
-      confirmationText: "Delete Event",
+      description: "This action will permanently delete the selected Link",
+      confirmationText: "Delete Link",
       confirmationButtonProps: {
         variant: "contained"
       },
@@ -247,62 +252,16 @@ export default function AdminEvents() {
     });
   };
 
-  const handleUpdate = async () => {
-    setError('');
-
-    if (
-      !title ||
-      !description ||
-      !url ||
-      !eventStart ||
-      !eventEnd ||
-      !eventLocation
-    ) {
-      setError('Please fill out all fields');
-      return;
-    }
-
-    setIsLoading(true);
-
-    const strippedImageUrl = imgUrl ? imgUrl.split('&')[0] : '';
-
-    try {
-      const l = doc(db, "events", updateId);
-      const data = {
-        title: title,
-        description: description,
-        show: show,
-        image: strippedImageUrl,
-        eventStart: eventStart.$d,
-        eventEnd: eventEnd.$d,
-        eventIsAllDay: eventIsAllDay,
-        eventLocation: eventLocation,
-        updated: {
-          email: user.email,
-          uid: user.uid,
-          timestamp: new Date()
-        }
-      }
-
-      console.log("SFF update event with:", data)
-
-      await updateDoc(l, data);
-
-      getEvents();
-      handleCloseForm();
-
-    } catch (e) {
-      setIsLoading(false);
-      console.error("Error adding document: ", e);
-    }
-  };
+  const handleLinkTypeChange = (event) => {
+    setLinkClassification(event.target.value);
+  }
 
   const handleFileUpload = (url) => {
     setImgUrl(url)
   }
 
   return (
-    <Container disableGutters maxWidth="md">
+    <Container>
       <Dialog
         fullWidth
         maxWidth="sm"
@@ -313,30 +272,42 @@ export default function AdminEvents() {
         aria-labelledby="add-dialog-title">
         <DialogTitle id="add-dialog-title" align='center'>
           { isUpdate ?
-            <Typography variant="h2" component="span">Update Event</Typography>
+            <Typography variant="h2" component="span">Update Link</Typography>
           :
-            <Typography variant="h2" component="span">Add Event</Typography>
+            <Typography variant="h2" component="span">Add New Link</Typography>
           }
         </DialogTitle>
         <DialogContent>
           <Stack spacing={2} sx={{ mt: 2}}>
-            <TextField sx={{ width: '100%' }} required value={title} label="Title" onChange={(e) => setTitle(e.target.value)} type='text' />
-            <TextField sx={{ width: '100%' }} required value={url} label="URL" onChange={(e) => setURL(e.target.value)} type='url' />
-            <TextField sx={{ width: '100%' }} required value={description} multiline rows={8} label="Description" onChange={(e) => setDescription(e.target.value)}  />
-            <TextField sx={{ width: '100%' }} required value={eventLocation} label="Location" onChange={(e) => setEventLocation(e.target.value)} type='text' />
+            <TextField sx={{ width: '100%' }} value={title} required label="Title" onChange={(e) => setTitle(e.target.value)} type='text' />
+            <TextField sx={{ width: '100%' }} value={url} required label="URL" onChange={(e) => setURL(e.target.value)} type='url' />
+            <TextField sx={{ width: '100%' }} value={description} required multiline rows={8} label="Description" onChange={(e) => setDescription(e.target.value)}  />
 
-            <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-gb">
-              <DateTimePicker label="Event start" value={eventStart} onChange={(newValue) => setEventStart(newValue)} />
-              <DateTimePicker label="Event end" value={eventEnd} onChange={(newValue) => setEventEnd(newValue)}/>
-              <FormGroup>
-                <FormControlLabel onChange={(e) => setEventIsAllDay(e.target.checked)} control={<Checkbox checked={eventIsAllDay} />} label="All day" />
-              </FormGroup>
-            </LocalizationProvider>
+            <FormControl fullWidth>
+              <InputLabel id="link-type">Link type</InputLabel>
+              <Select
+                labelId="link-type"
+                id="link-type-select"
+                value={linkClassification || "general"}
+                label="Link type"
+                onChange={handleLinkTypeChange}
+              >
+                <MenuItem value={"authors"}>Author sites</MenuItem>
+                <MenuItem value={"conventions"}>Conventions</MenuItem>
+                <MenuItem value={"events"}>Events</MenuItem>
+                <MenuItem value={"general"}>General</MenuItem>
+                <MenuItem value={"publishers"}>Publishers</MenuItem>
+                <MenuItem value={"magazines"}>Magazines</MenuItem>
+                <MenuItem value={"agents"}>Agents</MenuItem>
+                <MenuItem value={"editors"}>Editors</MenuItem>
+                <MenuItem value={"resources"}>Writing resources</MenuItem>
+              </Select>
+            </FormControl>
 
             <UploadImage imageUploadedCallback={handleFileUpload} imgUrl={imgUrl} />
 
             <FormGroup>
-              <FormControlLabel onChange={(e) => setShow(e.target.checked)} control={<Checkbox />} label="Show in Event Grid" />
+              <FormControlLabel onChange={(e) => setShow(e.target.checked)} control={<Checkbox checked />} label="Display on site" />
             </FormGroup>
 
             { error && <Alert severity="warning">{error}</Alert> }
@@ -357,12 +328,12 @@ export default function AdminEvents() {
       </Dialog>
 
       <Container maxWidth="md">
-        <PageHeading heading="Events" />
+        <PageHeading heading="Links" />
       </Container>
 
       <List
         tableStructure={tableStructure}
-        data={events}
+        data={links}
         onOpenForm={handleOpenForm}
         onUpdate={handleOpenUpdate} />
 

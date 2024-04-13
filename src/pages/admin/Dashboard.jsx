@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../../context/AuthContext';
 
 // MUI Components
 import Container from '@mui/material/Container';
@@ -10,7 +10,7 @@ import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 
 // Custom Components
-import PageHeading from '../components/PageHeading';
+import PageHeading from '../../components/PageHeading';
 
 const Dashboard = () => {
   const { user, logout } = useAuth();
@@ -33,10 +33,10 @@ const Dashboard = () => {
         <Paper sx={{ padding: 2, mb: 2 }} elevation={3}>
           <Stack spacing={2}>
             <Typography component="h2">Tools</Typography>
-            <Link to='/dashboard/events'>Edit events</Link>
-            <Link to='/dashboard/map'>Edit map</Link>
-            <Link to='/dashboard/links'>Edit links</Link>
-            <Link to='/dashboard/pages'>Edit pages</Link>
+            <Link to='/admin/events'>Edit events</Link>
+            <Link to='/admin/map'>Edit map</Link>
+            <Link to='/admin/links'>Edit links</Link>
+            <Link to='/admin/pages'>Edit pages</Link>
           </Stack>
         </Paper>
         <Stack spacing={2}>
