@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Outlet,  useLocation } from "react-router-dom";
 
 // MUI
-import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
@@ -10,6 +9,8 @@ import { useTheme } from '@mui/material/styles';
 // Custom UI
 import PageLayout from '../layouts/PageLayout';
 import Navigation from './Navigation';
+import Footer from './Footer';
+import Welcome from './Welcome';
 
 // Icons
 import 'css.gg/icons/scss/chevron-left.scss'
@@ -46,7 +47,6 @@ export default function MainPanel(props) {
     minWidth: "10px",
     width: isExploded ? "100vw" : (isExpanded ? "300px" : "10px"),
     overflow: "hidden",
-    border: "1px dotted rgb(0, 255, 0)",
     height: "100vh",
   }
 
@@ -55,7 +55,6 @@ export default function MainPanel(props) {
     flexDirection: "column",
     transition: "width 200ms",
     width: isExploded ? "100vw" : "300px",
-    border: "1px solid rgb(255, 0, 0)",
     height: "100%",
   }
 
@@ -92,14 +91,8 @@ export default function MainPanel(props) {
         <Box style={stylePanelContent} className="sff-panel__content">
           <Navigation isExploded={isExploded}/>
           <PageLayout />
-          {!isExploded && <>
-          <Typography variant="p" color="primary">
-            Edinburgh SFF
-          </Typography>
-          <Typography variant="p" color="primary">
-            The writing community
-          </Typography>
-          </>}
+          {!isExploded && <Welcome />}
+          <Footer isExploded={isExploded} />
         </Box>
       </Box>
     </Box>
