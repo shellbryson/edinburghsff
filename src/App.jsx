@@ -12,9 +12,6 @@ import { ConfirmProvider } from "material-ui-confirm";
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 
-import useMediaQuery from '@mui/material/useMediaQuery';
-import useTheme from '@mui/material/styles/useTheme';
-
 // Custom Components
 import Map from './components/Map';
 import MainPanel from './components/MainPanel';
@@ -43,7 +40,7 @@ const AdminPages = lazy(() => import('./pages/AdminPages'));
 // Assets
 import './App.scss';
 
-const layoutStyle = {
+const styleLayout = {
   position: "absolute",
   height: "100vh",
   width: "100vw",
@@ -51,50 +48,51 @@ const layoutStyle = {
   position: "relative",
 }
 
+const styleLoader = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: "100%",
+  minHeight: "300px"
+}
+
 function App() {
-
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-
   const renderLoader = () => {
     return (
-      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: "100%", minHeight: "300px" }}>
+      <Box style={styleLoader}>
         <CircularProgress />
       </Box>
     )
   }
-
   return (
     <ThemeProvider theme={customTheme}>
-      <Box style={layoutStyle} className="sff">
+      <Box style={styleLayout} className="sff">
         <Map />
-        <Box>
-          <ConfirmProvider>
-            <Suspense fallback={renderLoader()}>
-              <Routes>
-                <Route path="/" element={<MainPanel />}>
-                  <Route path="welcome" element={<Welcome />} />
-                  <Route path="signin" element={<Signin />} />
-                  <Route path="links/:classification" element={<Links />} />
-                  <Route path="links" element={<Links />} />
-                  <Route path="about" element={<About />} />
-                  <Route path="events/:eventID/:eventTitle" element={<Events />} />
-                  <Route path="events" element={<Events />} />
-                  <Route path="pages/:pageSlug" element={<Pages />} />
-                  <Route path="pages" element={<Pages />} />
-                  <Route path="admin" element={<AdminLayout />}>
-                    <Route index element={<Dashboard />} />
-                    <Route path='links' element={<AdminLinks />} />
-                    <Route path='events' element={<AdminEvents />} />
-                    <Route path='map' element={<AdminMap />} />
-                    <Route path='pages' element={<AdminPages />} />
-                  </Route>
-                  <Route path="*" element={<NotFound />} />
+        <ConfirmProvider>
+          <Suspense fallback={renderLoader()}>
+            <Routes>
+              <Route path="/" element={<MainPanel />}>
+                <Route path="welcome" element={<Welcome />} />
+                <Route path="signin" element={<Signin />} />
+                <Route path="links/:classification" element={<Links />} />
+                <Route path="links" element={<Links />} />
+                <Route path="about" element={<About />} />
+                <Route path="events/:eventID/:eventTitle" element={<Events />} />
+                <Route path="events" element={<Events />} />
+                <Route path="pages/:pageSlug" element={<Pages />} />
+                <Route path="pages" element={<Pages />} />
+                <Route path="admin" element={<AdminLayout />}>
+                  <Route index element={<Dashboard />} />
+                  <Route path='links' element={<AdminLinks />} />
+                  <Route path='events' element={<AdminEvents />} />
+                  <Route path='map' element={<AdminMap />} />
+                  <Route path='pages' element={<AdminPages />} />
                 </Route>
-              </Routes>
-            </Suspense>
-          </ConfirmProvider>
-        </Box>
+                <Route path="*" element={<NotFound />} />
+              </Route>
+            </Routes>
+          </Suspense>
+        </ConfirmProvider>
       </Box>
       <Analytics />
     </ThemeProvider>
