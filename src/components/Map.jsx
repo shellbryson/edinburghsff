@@ -174,7 +174,7 @@ export default function Map() {
   }
 
   return (
-    <Box sx={{ display: "flex", justifyContent: "center" }}>
+    <>
       <Dialog
         fullWidth
         maxWidth="sm"
@@ -206,10 +206,10 @@ export default function Map() {
 
       { isLoaded &&
         <>
-          <Box style={styleLogo}>
+          <Box style={styleLogo} className="sff-logo">
             <Logo />
           </Box>
-          <Box style={styleFilter}>
+          <Box style={styleFilter} className="sff-filters">
             <IconButton aria-label="Venues" onClick={() => filterMap('Venue')}>
               <StarOutlinedIcon style={ iconStyle } color="brand" />
             </IconButton>
@@ -226,7 +226,7 @@ export default function Map() {
               <PushPinOutlinedIcon style={ iconStyle } color="brand" />
             </IconButton>
           </Box>
-          <Box style={styleMap}>
+          <Box style={styleMap} className="sff-map">
             <GoogleMapReact
               apiKey={import.meta.env.VITE_GOOGLEMAPS_API_KEY}
               onGoogleApiLoaded={onGoogleApiLoaded}
@@ -255,7 +255,7 @@ export default function Map() {
         </>
       }
       { !isLoaded && <Spinner />}
-    </Box>
+    </>
   )
 }
 

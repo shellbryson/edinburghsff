@@ -66,7 +66,7 @@ function App() {
 
   return (
     <ThemeProvider theme={customTheme}>
-      <Box style={layoutStyle}>
+      <Box style={layoutStyle} className="sff">
         <Map />
         <Box>
           <ConfirmProvider>
