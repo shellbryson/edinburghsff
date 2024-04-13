@@ -12,7 +12,7 @@ const stylePage={
 
 const PageLayout = () => {
   return (
-    <Box style={stylePage}>
+    <Box style={stylePage} className="sff-page-layout">
       <Outlet />
     </Box>
   );

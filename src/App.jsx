@@ -41,6 +41,9 @@ const AdminPages = lazy(() => import('./pages/AdminPages'));
 import './App.scss';
 
 const styleLayout = {
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
   position: "absolute",
   height: "100vh",
   width: "100vw",

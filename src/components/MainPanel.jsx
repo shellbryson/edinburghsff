@@ -31,6 +31,8 @@ export default function MainPanel(props) {
   const mobile = useMediaQuery(theme.breakpoints.up('sm'));
 
   const stylePanel={
+    display: "flex",
+    flexDirection: "column",
     position: "absolute",
     left: "0",
     top: "0",
@@ -43,13 +45,18 @@ export default function MainPanel(props) {
     transition: "width 200ms, max-width 200ms",
     minWidth: "10px",
     width: isExploded ? "100vw" : (isExpanded ? "300px" : "10px"),
-    overflow: "hidden"
+    overflow: "hidden",
+    border: "1px dotted rgb(0, 255, 0)",
+    height: "100vh",
   }
 
   const stylePanelContent={
-    display: isExpanded ? "block" : "none",
+    display: isExpanded ? "flex" : "none",
+    flexDirection: "column",
     transition: "width 200ms",
     width: isExploded ? "100vw" : "300px",
+    border: "1px solid rgb(255, 0, 0)",
+    height: "100%",
   }
 
   const styleExpander={
@@ -83,14 +90,16 @@ export default function MainPanel(props) {
       </Box>
       <Box style={stylePanelInterior} className="sff-panel__interior">
         <Box style={stylePanelContent} className="sff-panel__content">
-          <Navigation />
+          <Navigation isExploded={isExploded}/>
           <PageLayout />
+          {!isExploded && <>
           <Typography variant="p" color="primary">
             Edinburgh SFF
           </Typography>
           <Typography variant="p" color="primary">
             The writing community
           </Typography>
+          </>}
         </Box>
       </Box>
     </Box>
