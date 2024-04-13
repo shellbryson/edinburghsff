@@ -1,5 +1,8 @@
 import React from 'react';
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+
+// Context
+import { useApp } from '../context/AppContext';
 
 // MUI
 import Box from '@mui/material/Box';
@@ -10,8 +13,9 @@ import { useAuth } from '../context/AuthContext';
 // Resources
 import 'css.gg/icons/scss/chevron-left.scss'
 
-export default function Footer({isExploded}) {
+export default function Footer() {
 
+  const { isExploded } = useApp();
   const { user } = useAuth();
 
   const styleFooter={

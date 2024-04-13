@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Outlet,  useLocation } from "react-router-dom";
 
+// Context
+import { useApp } from '../context/AppContext';
+
 // MUI
 import Box from '@mui/material/Box';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -17,11 +20,15 @@ import 'css.gg/icons/scss/chevron-left.scss'
 import 'css.gg/icons/scss/chevron-right.scss'
 import 'css.gg/icons/scss/menu.scss'
 
-export default function MainPanel(props) {
+export default function MainPanel() {
 
   const location = useLocation();
-  const [isExploded, setIsExploded] = useState(false);
-  const [isExpanded, setIsExpanded] = useState(true);
+  const {
+    isExploded,
+    setIsExploded,
+    isExpanded,
+    setIsExpanded
+  } = useApp();
 
   useEffect(() => {
     location.pathname === '/' ? setIsExploded(false) : setIsExploded(true);
@@ -39,7 +46,7 @@ export default function MainPanel(props) {
     top: "0",
     bottom: "0",
     backgroundColor: "rgb(0, 0, 0)",
-    zIndex: 10000,
+    zIndex: 1000,
   }
 
   const stylePanelInterior={
@@ -69,6 +76,7 @@ export default function MainPanel(props) {
     height: "3rem",
     backgroundColor: "rgb(0, 0, 0)",
     color: "rgb(255, 255, 255)",
+    cursor: "pointer",
   }
 
   const handleExpanderClick = () => {
@@ -89,10 +97,10 @@ export default function MainPanel(props) {
       </Box>
       <Box style={stylePanelInterior} className="sff-panel__interior">
         <Box style={stylePanelContent} className="sff-panel__content">
-          <Navigation isExploded={isExploded}/>
+          <Navigation />
           <PageLayout />
           {!isExploded && <Welcome />}
-          <Footer isExploded={isExploded} />
+          <Footer />
         </Box>
       </Box>
     </Box>

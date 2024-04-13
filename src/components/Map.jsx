@@ -12,12 +12,6 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Chip from '@mui/material/Chip';
-import IconButton from '@mui/material/IconButton';
-import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
-import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
-import MenuBookOutlinedIcon from '@mui/icons-material/MenuBookOutlined';
-import LocalCafeOutlinedIcon from '@mui/icons-material/LocalCafeOutlined';
-import LocalLibraryOutlinedIcon from '@mui/icons-material/LocalLibraryOutlined';
 
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -27,13 +21,13 @@ import DialogTitle from '@mui/material/DialogTitle';
 // Custom UI
 import MapPin from './MapPin';
 import Spinner from './Spinner';
+import Filter from './Filter';
 import EventsDetailsImage from './EventsDetailsImage';
 import Logo from './Logo';
 
 // Theme helpers
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import zIndex from '@mui/material/styles/zIndex';
 
 export default function Map() {
 
@@ -68,13 +62,6 @@ export default function Map() {
     overflow: "hidden",
   }
 
-  const iconStyle = {
-    display: "block",
-    width: "1.5rem",
-    height: "1.5rem",
-    fontSize: "1.5rem",
-  }
-
   const styleLogo = {
     display: "flex",
     position: "absolute",
@@ -83,18 +70,6 @@ export default function Map() {
     alignItems: "center",
     justifyContent: "center",
     zIndex: 1000,
-  }
-
-  const styleFilter = {
-    display: "flex",
-    position: "absolute",
-    bottom: "1rem",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: "1rem",
-    marginTop: "2rem",
-    zIndex: 1000,
-    backgroundColor: "rgb(0, 0, 0)",
   }
 
   useHead({
@@ -168,7 +143,7 @@ export default function Map() {
     zoom: 13
   }
 
-  const filterMap = (tag) => {
+  const handleFilterMap = (tag) => {
     const filtered = tag ? locations.filter(entry => entry.tags.includes(tag)) : locations;
     setFilteredLocations(filtered);
   }
@@ -209,23 +184,7 @@ export default function Map() {
           <Box style={styleLogo} className="sff-logo">
             <Logo />
           </Box>
-          <Box style={styleFilter} className="sff-filters">
-            <IconButton aria-label="Venues" onClick={() => filterMap('Venue')}>
-              <StarOutlinedIcon style={ iconStyle } color="brand" />
-            </IconButton>
-            <IconButton aria-label="Bookshops" onClick={() => filterMap('Bookshop')}>
-              <MenuBookOutlinedIcon style={ iconStyle } color="brand" />
-            </IconButton>
-            <IconButton aria-label="Cafes" onClick={() => filterMap('Cafe')}>
-              <LocalCafeOutlinedIcon style={ iconStyle } color="brand" />
-            </IconButton>
-            <IconButton aria-label="Libraries" onClick={() => filterMap('Library')}>
-              <LocalLibraryOutlinedIcon style={ iconStyle } color="brand" />
-            </IconButton>
-            <IconButton aria-label="All" onClick={() => filterMap()}>
-              <PushPinOutlinedIcon style={ iconStyle } color="brand" />
-            </IconButton>
-          </Box>
+          <Filter onFilterMap={handleFilterMap} />
           <Box style={styleMap} className="sff-map">
             <GoogleMapReact
               apiKey={import.meta.env.VITE_GOOGLEMAPS_API_KEY}

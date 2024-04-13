@@ -36,26 +36,24 @@ export default function Menu({
   }
 
   return (
-    <>
-      <Drawer
-        sx={{
-          width: '320',
-          flexShrink: 0,
-          '& .MuiDrawer-paper': {
-            width: 320,
-          },
-        }}
-        anchor="left"
-        open={open}>
-        <DrawerHeader style={{ backgroundColor: "black"}}>
-          <IconButton onClick={handleDrawerClose} color="brand">
-            <CloseIcon />
-          </IconButton>
-        </DrawerHeader>
+    <Drawer
+      sx={{
+        width: '320',
+        flexShrink: 0,
+        '& .MuiDrawer-paper': {
+          width: 320,
+        },
+      }}
+      anchor="left"
+      open={open}>
+      <DrawerHeader style={{ backgroundColor: "black"}}>
+        <IconButton onClick={handleDrawerClose} color="brand">
+          <CloseIcon />
+        </IconButton>
+      </DrawerHeader>
 
-        <MainPanelContent onHandleClick={handleOnClick} />
+      <MainPanelContent onHandleClick={handleOnClick} />
 
-      </Drawer>
-    </>
+    </Drawer>
   );
 }

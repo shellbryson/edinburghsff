@@ -1,6 +1,9 @@
 import React from 'react';
 import { Link, useNavigate } from "react-router-dom";
 
+// Context
+import { useApp } from '../context/AppContext';
+
 // MUI
 import Box from '@mui/material/Box';
 
@@ -10,7 +13,9 @@ import { useAuth } from '../context/AuthContext';
 // Resources
 import 'css.gg/icons/scss/chevron-left.scss'
 
-export default function Navigation({isExploded}) {
+export default function Navigation() {
+
+  const { isExploded } = useApp();
 
   const styleNavigation={
     display: "flex",
@@ -45,19 +50,8 @@ export default function Navigation({isExploded}) {
         </Box>
       }
       <Box style={styleNavigation} className="sff-navigation">
-        {/* <Link to='/'>Home</Link> */}
         <Link to='/events'>Events</Link>
         <Link to='/links'>Resources</Link>
-        {/* <Link to='/pages'>Pages</Link>
-        <Link to='/about'>About</Link>
-        {!user &&
-        <Link to='/signin'>Sign in</Link>
-        }
-        {user && <>
-          <Link to='/admin'>Admin</Link>
-          <Link to='/signout'>Sign out</Link>
-        </>
-        } */}
       </Box>
     </>
   );
