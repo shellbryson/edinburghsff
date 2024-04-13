@@ -77,6 +77,7 @@ export default function MainPanel() {
     backgroundColor: "rgb(0, 0, 0)",
     color: "rgb(255, 255, 255)",
     cursor: "pointer",
+    clipPath: "polygon(0% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 0% 100%)"
   }
 
   const handleExpanderClick = () => {

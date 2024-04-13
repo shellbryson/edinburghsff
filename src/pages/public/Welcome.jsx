@@ -15,8 +15,6 @@ import Paper from '@mui/material/Paper';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
-import Logo from '../assets/logo.svg';
-
 export default function Welcome() {
 
   // Theme

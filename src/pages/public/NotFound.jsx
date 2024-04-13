@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useAuth } from '../../context/AuthContext';
 
-import MastheadImage from '../assets/masthead.png';
+import MastheadImage from '../../assets/masthead.png';
 
 export default function NotFound() {
 
