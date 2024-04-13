@@ -46,7 +46,7 @@ export default function MainPanel(props) {
     overflow: "hidden"
   }
 
-  const stylePanelInteriorContent={
+  const stylePanelContent={
     display: isExpanded ? "block" : "none",
     transition: "width 200ms",
     width: isExploded ? "100vw" : "300px",
@@ -70,8 +70,8 @@ export default function MainPanel(props) {
   }
 
   return (
-    <Box style={stylePanel}>
-      <Box style={styleExpander} onClick={() => handleExpanderClick()}>
+    <Box style={stylePanel} className="sff-panel">
+      <Box style={styleExpander} onClick={() => handleExpanderClick()}  className="sff-panel__expander">
         {isExpanded ?
           <i className="gg-chevron-left"></i>
         :
@@ -81,8 +81,9 @@ export default function MainPanel(props) {
           </>
         }
       </Box>
-      <Box style={stylePanelInterior}>
-        <Box style={stylePanelInteriorContent}>
+      <Box style={stylePanelInterior} className="sff-panel__interior">
+        <Box style={stylePanelContent} className="sff-panel__content">
+          <Navigation />
           <PageLayout />
           <Typography variant="p" color="primary">
             Edinburgh SFF
@@ -90,7 +91,6 @@ export default function MainPanel(props) {
           <Typography variant="p" color="primary">
             The writing community
           </Typography>
-          <Navigation />
         </Box>
       </Box>
     </Box>
