@@ -13,6 +13,7 @@ import MapModal from './MapModal';
 import Spinner from './Spinner';
 import Filter from './Filter';
 import Logo from './Logo';
+import { Opacity } from '@mui/icons-material';
 
 export default function Map() {
 
@@ -20,26 +21,6 @@ export default function Map() {
     fullscreenControl: false,
     mapTypeControl: false,
     mapId: import.meta.env.VITE_GOOGLEMAPS_MAP_ID
-  }
-
-  const styleMap={
-    display: "block",
-    position: "relative",
-    top: "0",
-    left: "0",
-    width: "100vw",
-    height: "100vh",
-    overflow: "hidden",
-  }
-
-  const styleLogo = {
-    display: "flex",
-    position: "absolute",
-    top: "0",
-    right: "0",
-    alignItems: "center",
-    justifyContent: "center",
-    zIndex: 1000,
   }
 
   useHead({
@@ -61,6 +42,28 @@ export default function Map() {
   const [pinFacilities, setPinFacilities] = useState([]);
   const [pinDescription, setPinDescription] = useState('');
   const [pinImage, setPinImage] = useState('');
+
+  const styleMap={
+    display: "block",
+    position: "relative",
+    top: "0",
+    left: "0",
+    width: "100vw",
+    height: "100vh",
+    overflow: "hidden",
+    opacity: mapReady ? 1 : 0,
+    transition: "opacity 2000ms",
+  }
+
+  const styleLogo = {
+    display: "flex",
+    position: "absolute",
+    top: "0",
+    right: "0",
+    alignItems: "center",
+    justifyContent: "center",
+    zIndex: 1000,
+  }
 
   const getLocations = async () => {
     const q = query(collection(db, "locations"));
@@ -121,18 +124,6 @@ export default function Map() {
   return (
     isLoaded ?
       <>
-        <MapModal
-          isOpenDialog={isOpenDialog}
-          handleCloseDetails={handleCloseDetails}
-          pinTitle={pinTitle}
-          pinDescription={pinDescription}
-          pinFacilities={pinFacilities}
-          pinImage={pinImage}
-        />
-        <Box style={styleLogo} className="sff-logo">
-          <Logo />
-        </Box>
-        <Filter onFilterMap={handleFilterMap} />
         <Box style={styleMap} className="sff-map">
           <GoogleMapReact
             apiKey={import.meta.env.VITE_GOOGLEMAPS_API_KEY}
@@ -154,6 +145,18 @@ export default function Map() {
             ))}
           </GoogleMapReact>
         </Box>
+        <Box style={styleLogo} className="sff-logo">
+          <Logo />
+        </Box>
+        <Filter onFilterMap={handleFilterMap} />
+        <MapModal
+          isOpenDialog={isOpenDialog}
+          handleCloseDetails={handleCloseDetails}
+          pinTitle={pinTitle}
+          pinDescription={pinDescription}
+          pinFacilities={pinFacilities}
+          pinImage={pinImage}
+        />
       </>
     : <Spinner />
   )
