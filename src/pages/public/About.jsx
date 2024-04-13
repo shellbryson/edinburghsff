@@ -13,7 +13,7 @@ import PageHeading from '../../components/PageHeading';
 import packageJson from '../../../package.json';
 
 // Assets
-import Badger from '../assets/Badger.png';
+import Badger from '../../assets/Badger.png';
 
 const styleBadgerBox = {
   display: 'flex',
