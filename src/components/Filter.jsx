@@ -12,7 +12,7 @@ import 'css.gg/icons/scss/chevron-left.scss'
 // MUI Icons
 import IconButton from '@mui/material/IconButton';
 import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
-import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
+import FestivalIcon from '@mui/icons-material/Festival';
 import MenuBookOutlinedIcon from '@mui/icons-material/MenuBookOutlined';
 import LocalCafeOutlinedIcon from '@mui/icons-material/LocalCafeOutlined';
 import LocalLibraryOutlinedIcon from '@mui/icons-material/LocalLibraryOutlined';
@@ -44,7 +44,7 @@ export default function Filter({onFilterMap}) {
   return (
     <Box style={styleFilter} className="sff-filters">
       <IconButton aria-label="Venues" onClick={() => onFilterMap('Venue')}>
-        <StarOutlinedIcon style={ styleIcon } color="brand" />
+        <FestivalIcon style={ styleIcon } color="brand" />
       </IconButton>
       <IconButton aria-label="Bookshops" onClick={() => onFilterMap('Bookshop')}>
         <MenuBookOutlinedIcon style={ styleIcon } color="brand" />

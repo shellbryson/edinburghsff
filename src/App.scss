@@ -165,32 +165,7 @@ p {
   }
 }
 
-// We use a style for these to avoid injecting lots of JS-CSS for each element
-
-.sff-map-pin {
-
-
-  &__label {
-    display: none;
-    background-color: rgba(255, 255, 255, 0.8);
-    padding: 1px 2px;
-    border-radius: 2px;
-    font-family: $body-font !important;
-    font-size: 0.75rem !important;
-    line-height: 0.75rem !important;
-  }
-}
-
 .sff-map-icon {
-  display: flex;
-  position: absolute;
-  width: 2rem;
-  height: 2rem;
-  font-size: 1rem;
-  background-color: rgba(0, 0, 0, 0.8);
-  top: 0;
-  align-items: center;
-  justify-content: center;
 
   &::after {
     content: "";
@@ -201,7 +176,7 @@ p {
     height: 0;
     border-left: 16px solid transparent;
     border-right: 16px solid transparent;
-    border-top: 16px solid rgba(0, 0, 0, 0.8);
+    border-top: 16px solid currentColor;
     clear: both;
   }
 
