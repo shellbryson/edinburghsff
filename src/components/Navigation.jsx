@@ -21,7 +21,8 @@ export default function Navigation() {
     display: "flex",
     position: "relative",
     justifyContent: "center",
-    gap: "1rem"
+    gap: "1rem",
+    padding: "0.5rem 0",
   }
 
   const styleIcon={

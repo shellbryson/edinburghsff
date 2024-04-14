@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 // Context
 import { useApp } from '../context/AppContext';
@@ -8,7 +8,9 @@ import Box from '@mui/material/Box';
 import Typeography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
 
-export default function PointsOfInterest({onFocusPin}) {
+import PinDropIcon from '@mui/icons-material/PinDrop';
+
+export default function PointsOfInterest() {
 
   const {
     mapLocations,
@@ -19,6 +21,13 @@ export default function PointsOfInterest({onFocusPin}) {
 
   const theme = useTheme();
 
+  const places = [
+    {
+      id: "vjXUjeOoA0hBIFq4Bvfk",
+      title: "Cymera Festival"
+    }
+  ]
+
   const stylePointsOfInterest={
     display: "flex",
     position: "relative",
@@ -26,25 +35,25 @@ export default function PointsOfInterest({onFocusPin}) {
     gap: "1rem",
     marginTop: "1rem",
     border: `1px solid ${theme.palette.primary.main}`,
+    padding: "0.5rem"
   }
 
-  useEffect(() => {
-    console.log(mapLocations);
-  }, [mapLocations]);
-
-  const handleClickClear = () => {
-    const locations = mapLocations.map(location => {
-      location.focus = false;
-      return location;
-    });
-    setMapLocations(locations);
-    setFocusMapPin("");
+  const stylePlace={
+    display: "flex",
+    position: "relative",
+    gap: "0.5rem",
+    cursor: "pointer",
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: "100%",
   }
 
   const handleClickPointOfInterest = (id) => {
     const locations = mapLocations.map(location => {
       if (location.id === id) {
-        location.focus = true;
+        location.focus = !location.focus;
+      } else {
+        location.focus = false;
       }
       return location;
     });
@@ -53,10 +62,14 @@ export default function PointsOfInterest({onFocusPin}) {
   }
 
   return (
-    <Box style={stylePointsOfInterest} className="sff-panel__interesting">
-      <Typeography component="h2">Points of Interest</Typeography>
-      <p onClick={() => handleClickPointOfInterest("vjXUjeOoA0hBIFq4Bvfk")}>Cymera Festival</p>
-      <p onClick={() => handleClickClear()}>Clear</p>
+    <Box style={stylePointsOfInterest} className="sff-interesting">
+      <Typeography component="p" variant="title_small">Places of Interest</Typeography>
+      {places.map((place, index) => (
+        <Box key={index} style={stylePlace} className="sff-interesting__place">
+          <Typeography component="p" key={index} onClick={() => handleClickPointOfInterest(place.id)}>{place.title}</Typeography>
+          <PinDropIcon />
+        </Box>
+      ))}
     </Box>
   );
 }

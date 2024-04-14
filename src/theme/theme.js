@@ -21,7 +21,23 @@ export const customTheme = createTheme({
     },
     p_small: {
       fontSize: 12,
-    }
+    },
+    title_small: {
+      position: 'relative',
+      textTransform: 'uppercase',
+      fontSize: 14,
+      fontWeight: 'bold',
+      borderBottom: '1px solid currentColor',
+      '&::after': {
+        content: '""',
+        display: 'block',
+        width: '4px',
+        height: '2px',
+        backgroundColor: 'currentColor',
+        right: "100%",
+        paddingTop: "1px"
+      },
+    },
   },
   palette: {
     mode: 'light',

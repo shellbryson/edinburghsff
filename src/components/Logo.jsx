@@ -7,9 +7,12 @@ import Box from '@mui/material/Box';
 import LogoAsset from '../assets/logo.svg';
 
 const logoStyle = {
-  width: "3rem",
-  height: "3rem",
-  margin: "1rem"
+  borderRadius: "50%",
+  width: "calc(3rem - 8px)",
+  height: "calc(3rem - 8px)",
+  margin: "1rem",
+  padding: "4px",
+  backgroundColor: "black",
 }
 
 const Logo = () => {
