@@ -21,6 +21,8 @@ const eventImageStyle = {
 
 const EventsDetailsImage = ({ image, alt }) => {
 
+  console.log("EventsDetailsImage", image, alt);
+
   return (
     <Box style={eventImageContainerStyle}>
       {image &&

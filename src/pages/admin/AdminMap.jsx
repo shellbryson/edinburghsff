@@ -41,6 +41,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import PageHeading from '../../components/PageHeading';
 import List from '../../components/admin/List';
 import UploadImage from '../../components/admin/UploadImage';
+import { set } from 'firebase/database';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -64,13 +65,24 @@ const locationTagsLookup = [
 const facilitiesTagsLookup = [
   'Alcohol',
   'Coffee',
-  "Expensive",
   'Food',
-  'Headphones',
-  "Inexpensive",
   'Power',
-  'Wifi'
+  'Wifi',
+  "Pet",
+  "Writers"
 ];
+
+const facilityPriceLookup = [
+  'Expensive',
+  'Medium',
+  'Low'
+]
+
+const facilityNoiseLookup = [
+  'Loud',
+  'Medium',
+  'Low'
+]
 
 const tableStructure = {
   headings: [
@@ -106,6 +118,9 @@ export default function AdminMap() {
   const [locationLng, setLocationLng] = useState(0);
   const [locationTags, setLocationTags] = useState([]);
   const [locationFacilities, setLocationFacilities] = useState([]);
+
+  const [locationNoiseLevel, setNoiseLevel] = useState('Medium');
+  const [locationPriceLevel, setPriceLevel] = useState('Medium');
 
   // Update
   const [isUpdate, setIsUpdate] = useState(false);
@@ -164,6 +179,9 @@ export default function AdminMap() {
     setLocationLat('');
     setLocationLng('');
 
+    setNoiseLevel('Medium');
+    setPriceLevel('Medium');
+
     // Reset to Add mode
     setIsUpdate(false);
   };
@@ -177,6 +195,9 @@ export default function AdminMap() {
     setUpdateId(data.id);
     setLocationLat(data.lat);
     setLocationLng(data.lng);
+
+    setNoiseLevel(data.noise);
+    setPriceLevel(data.price);
 
     if (data.tags) {
       setLocationTags(data.tags.split(','));
@@ -193,6 +214,14 @@ export default function AdminMap() {
     setIsUpdate(true);
     setOpenAdd(true);
   };
+
+  const handleNoiseLevelChange = (event) => {
+    setNoiseLevel(event.target.value);
+  }
+
+  const handlePriceLevelChange = (event) => {
+    setPriceLevel(event.target.value);
+  }
 
   const handleAdd = async (e) => {
     setError('');
@@ -222,6 +251,8 @@ export default function AdminMap() {
         lng: locationLng,
         tags: locationTags.toString(),
         facilities: locationFacilities.toString(),
+        price: locationPriceLevel,
+        noise: locationNoiseLevel,
         created: {
           email: user.email,
           uid: user.uid,
@@ -266,12 +297,15 @@ export default function AdminMap() {
       await updateDoc(l, {
         title: title,
         description: description,
+        url: url,
         show: show || false,
         image: strippedImageUrl,
         lat: locationLat,
         lng: locationLng,
         tags: locationTags.toString(),
         facilities: locationFacilities.toString(),
+        price: locationPriceLevel,
+        noise: locationNoiseLevel,
         updated: {
           email: user.email,
           uid: user.uid,
@@ -417,6 +451,36 @@ export default function AdminMap() {
                     {loc}
                   </MenuItem>
                 ))}
+              </Select>
+            </FormControl>
+
+            <FormControl fullWidth>
+              <InputLabel>Noise</InputLabel>
+              <Select
+                labelId="noise-level"
+                id="noise-level-select"
+                value={locationNoiseLevel || "medium"}
+                label="Noise level"
+                onChange={handleNoiseLevelChange}
+              >
+                <MenuItem value={"Loud"}>Loud</MenuItem>
+                <MenuItem value={"Medium"}>Medium</MenuItem>
+                <MenuItem value={"Low"}>Low</MenuItem>
+              </Select>
+            </FormControl>
+
+            <FormControl fullWidth>
+              <InputLabel>Price</InputLabel>
+              <Select
+                labelId="price-level"
+                id="price-level-select"
+                value={locationPriceLevel || "medium"}
+                label="Price level"
+                onChange={handlePriceLevelChange}
+              >
+                <MenuItem value={"Loud"}>High</MenuItem>
+                <MenuItem value={"Medium"}>Medium</MenuItem>
+                <MenuItem value={"Low"}>Low</MenuItem>
               </Select>
             </FormControl>
 

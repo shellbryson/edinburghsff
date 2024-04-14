@@ -37,12 +37,8 @@ export default function Map() {
   const [isOpenDialog, setIsOpenDialog] = useState(false);
 
   const mapRef = useRef(null)
-  const [mapReady, setMapReady] = useState(false)
-
-  const [pinTitle, setPinTitle] = useState('');
-  const [pinFacilities, setPinFacilities] = useState([]);
-  const [pinDescription, setPinDescription] = useState('');
-  const [pinImage, setPinImage] = useState('');
+  const [mapReady, setMapReady] = useState(false);
+  const [pinData, setPinData] = useState({});
 
   const mapOptions = {
     fullscreenControl: false,
@@ -121,20 +117,13 @@ export default function Map() {
   }
 
   const onClickPin = (data) => {
-    setPinTitle(data.title);
-    setPinDescription(data.description);
-    setPinImage(data.image);
-    if (data.facilities) {
-      setPinFacilities(data.facilities.split(','));
-    }
+    console.log(data);
+    setPinData(data);
     setIsOpenDialog(true);
   }
 
   const handleCloseDetails = () => {
-    setPinTitle('');
-    setPinDescription('');
-    setPinImage('');
-    setPinFacilities([]);
+    setPinData({});
     setIsOpenDialog(false);
   };
 
@@ -174,12 +163,9 @@ export default function Map() {
         </Box>
         <Filter onFilterMap={handleFilterMap} />
         <MapModal
+          pinData={pinData}
           isOpenDialog={isOpenDialog}
           handleCloseDetails={handleCloseDetails}
-          pinTitle={pinTitle}
-          pinDescription={pinDescription}
-          pinFacilities={pinFacilities}
-          pinImage={pinImage}
         />
       </>
     : <Spinner />
