@@ -1,18 +1,17 @@
 import React from 'react';
-import { Link, useNavigate } from "react-router-dom";
 
 // MUI
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
 
-// Context
-import { useAuth } from '../context/AuthContext';
+// Customer UI
+import PointsOfInterest from './PointsOfInterest';
 
 // Resources
 import 'css.gg/icons/scss/chevron-left.scss'
 
-export default function Footer({isExploded}) {
+export default function Welcome() {
 
   const theme = useTheme();
 
@@ -22,19 +21,21 @@ export default function Footer({isExploded}) {
     overflow: "auto",
     padding: "1rem",
     maxWidth: "calc(300px - 2rem)",
+    color: theme.palette.brand.main,
   }
 
   return (
     <Box style={styleWelcome} className="sff-welcome">
-      <Typography component="p" variant="p" color={theme.palette.brand.main}>
+      <Typography component="p">
         Edinburgh SFF
       </Typography>
-      <Typography component="p" variant="p" color="primary">
+      <Typography component="p">
         Hub
       </Typography>
-      <Typography component="p" variant="p" color="primary">
+      <Typography component="p">
         Edinburgh SFF is a vibrant community of Science Fiction and Fantasy writers in Scotland.
       </Typography>
+      <PointsOfInterest />
     </Box>
   );
 }

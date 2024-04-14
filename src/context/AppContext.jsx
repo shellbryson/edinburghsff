@@ -8,6 +8,8 @@ export const AppContextProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isExpanded, setIsExpanded] = useState(true);
   const [isExploded, setIsExploded] = useState(false);
+  const [mapLocations, setMapLocations] = useState([]);
+  const [focusMapPin, setFocusMapPin] = useState("");
 
   return (
     <AppContext.Provider value={{
@@ -17,6 +19,10 @@ export const AppContextProvider = ({ children }) => {
       setIsExpanded,
       isExploded,
       setIsExploded,
+      mapLocations,
+      setMapLocations,
+      focusMapPin,
+      setFocusMapPin,
     }}>
       {children}
     </AppContext.Provider>

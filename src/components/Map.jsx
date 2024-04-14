@@ -4,6 +4,9 @@ import { db } from "../firebase";
 import GoogleMapReact from 'google-maps-react-markers';
 import { useHead } from 'hoofd';
 
+// Context
+import { useApp } from '../context/AppContext';
+
 // MUI
 import Box from '@mui/material/Box';
 
@@ -13,15 +16,15 @@ import MapModal from './MapModal';
 import Spinner from './Spinner';
 import Filter from './Filter';
 import Logo from './Logo';
-import { Opacity } from '@mui/icons-material';
 
 export default function Map() {
 
-  const mapOptions = {
-    fullscreenControl: false,
-    mapTypeControl: false,
-    mapId: import.meta.env.VITE_GOOGLEMAPS_MAP_ID
-  }
+  const {
+    mapLocations,
+    setMapLocations,
+    focusMapPin,
+    setFocusMapPin,
+  } = useApp();
 
   useHead({
     title: "Edinburgh SFF",
@@ -29,7 +32,6 @@ export default function Map() {
     metas: [{ name: 'description', content: "Writer-friendly cafes, bookshops and venues" }],
   });
 
-  const [locations, setLocations] = useState([]);
   const [filteredLocations, setFilteredLocations] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -42,6 +44,20 @@ export default function Map() {
   const [pinFacilities, setPinFacilities] = useState([]);
   const [pinDescription, setPinDescription] = useState('');
   const [pinImage, setPinImage] = useState('');
+
+  const mapOptions = {
+    fullscreenControl: false,
+    mapTypeControl: false,
+    mapId: import.meta.env.VITE_GOOGLEMAPS_MAP_ID
+  }
+
+  const defaultLocation = {
+    center: {
+      lat: 55.9579741,
+      lng: -3.1966372,
+    },
+    zoom: 13
+  }
 
   const styleMap={
     display: "block",
@@ -73,10 +89,11 @@ export default function Map() {
       l.push({
         ...doc.data(),
         id: doc.id,
-        hidden: false
+        hidden: false,
+        focus: false
       });
     });
-    setLocations(l);
+    setMapLocations(l);
     setFilteredLocations(l);
     setIsLoaded(true)
   }
@@ -84,6 +101,19 @@ export default function Map() {
   useEffect(() => {
     getLocations();
   }, [])
+
+  useEffect(() => {
+    const thisPin = mapLocations.find(location => location.id === focusMapPin);
+    if (!thisPin) return;
+    centerMapOnPin(thisPin);
+  }, [focusMapPin]);
+
+  const centerMapOnPin = (pin) => {
+    mapRef.current.panTo({
+      lat: parseFloat(pin.lat), lng: parseFloat(pin.lng)
+    });
+    mapRef.current.setZoom(16);
+  }
 
   const onGoogleApiLoaded = ({ map }) => {
     mapRef.current = map
@@ -108,16 +138,8 @@ export default function Map() {
     setIsOpenDialog(false);
   };
 
-  const defaultLocation = {
-    center: {
-      lat: 55.9579741,
-      lng: -3.1966372,
-    },
-    zoom: 13
-  }
-
   const handleFilterMap = (tag) => {
-    const filtered = tag ? locations.filter(entry => entry.tags.includes(tag)) : locations;
+    const filtered = tag ? mapLocations.filter(entry => entry.tags.includes(tag)) : mapLocations;
     setFilteredLocations(filtered);
   }
 
@@ -131,7 +153,8 @@ export default function Map() {
             options={mapOptions}
             loadingContent={<Spinner />}
             defaultCenter={defaultLocation.center}
-            defaultZoom={defaultLocation.zoom}>
+            defaultZoom={defaultLocation.zoom}
+            >
             {filteredLocations.map((place) => (
               <MapPin
                 onClickPin={onClickPin}
@@ -141,6 +164,7 @@ export default function Map() {
                 data={place}
                 lat={parseFloat(place.lat)}
                 lng={parseFloat(place.lng)}
+                focus={place.focus}
               />
             ))}
           </GoogleMapReact>

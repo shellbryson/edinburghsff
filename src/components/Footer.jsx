@@ -3,12 +3,10 @@ import { Link } from "react-router-dom";
 
 // Context
 import { useApp } from '../context/AppContext';
+import { useAuth } from '../context/AuthContext';
 
 // MUI
 import Box from '@mui/material/Box';
-
-// Context
-import { useAuth } from '../context/AuthContext';
 
 // Resources
 import 'css.gg/icons/scss/chevron-left.scss'

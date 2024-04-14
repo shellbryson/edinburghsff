@@ -48,15 +48,15 @@ const styleLayout = {
   height: "100vh",
   width: "100vw",
   backgroundColor: "rgb(0, 0, 0)",
-  position: "relative",
 }
 
 const styleLoader = {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  width: "100%",
-  minHeight: "300px"
+  flexDirection: 'column',
+  width: "100vw",
+  height: "100%"
 }
 
 function App() {
