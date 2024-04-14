@@ -98,22 +98,21 @@ export default function Map() {
     setIsLoaded(true)
   }
 
+  const centerMapOnPin = (pin) => {
+    if (pin) {
+      mapRef.current.panTo({
+        lat: parseFloat(pin.lat), lng: parseFloat(pin.lng)
+      });
+      mapRef.current.setZoom(16);
+    }
+  }
+
   useEffect(() => {
     getLocations();
   }, [])
 
-  useEffect(() => {
-    const thisPin = mapLocations.find(location => location.id === focusMapPin);
-    if (!thisPin) return;
-    centerMapOnPin(thisPin);
-  }, [focusMapPin]);
-
-  const centerMapOnPin = (pin) => {
-    mapRef.current.panTo({
-      lat: parseFloat(pin.lat), lng: parseFloat(pin.lng)
-    });
-    mapRef.current.setZoom(16);
-  }
+  const thisPin = mapLocations.find(location => location.id === focusMapPin);
+  centerMapOnPin(thisPin);
 
   const onGoogleApiLoaded = ({ map }) => {
     mapRef.current = map
