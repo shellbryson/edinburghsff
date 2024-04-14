@@ -22,8 +22,7 @@ export default function Map() {
   const {
     mapLocations,
     setMapLocations,
-    focusMapPin,
-    setFocusMapPin,
+    focusMapPin
   } = useApp();
 
   useHead({
@@ -112,7 +111,9 @@ export default function Map() {
   }, [])
 
   const thisPin = mapLocations.find(location => location.id === focusMapPin);
-  centerMapOnPin(thisPin);
+  if (thisPin) {
+    centerMapOnPin(thisPin);
+  }
 
   const onGoogleApiLoaded = ({ map }) => {
     mapRef.current = map
