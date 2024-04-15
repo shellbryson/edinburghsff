@@ -99,7 +99,7 @@ const List = ({ data, onUpdate, onOpenForm, tableStructure }) => {
         />
         <Button onClick={() => onOpenForm()} variant='outlined'>Add</Button>
       </Box>
-      <TableContainer component={Paper} sx={{ mt: 4 }}>
+      <TableContainer component={Paper} sx={{ mt: 4, mb: 4 }}>
         <Table sx={{ minWidth: 500 }} aria-label="List of events">
           <TableHead>
             <TableRow>
@@ -108,9 +108,7 @@ const List = ({ data, onUpdate, onOpenForm, tableStructure }) => {
           </TableHead>
           <TableBody>
           {items.map((item, index) => {
-            if (!item.display) {
-              return null; // Skip rendering if display is false
-            }
+            if (!item.display) return null;
             return (
               <TableRow
                 onClick={() => onUpdate(item)}
