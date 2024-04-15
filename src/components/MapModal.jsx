@@ -5,7 +5,6 @@ import ReactMarkdown from 'react-markdown';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Chip from '@mui/material/Chip';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -35,19 +34,18 @@ import { imageURL } from '../utils/utils';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
-
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
     padding: theme.spacing(2),
-    backgroundColor: '#383838', // black background
-    color: '#fff', // white text
+    backgroundColor: '#383838',
+    color: '#fff',
   },
   '& .MuiDialogActions-root': {
     padding: theme.spacing(1),
   },
   '& .MuiPaper-root': {
-    backgroundColor: '#383838', // black background
-    color: '#fff', // white text
+    backgroundColor: '#383838',
+    color: '#fff',
   },
 }));
 

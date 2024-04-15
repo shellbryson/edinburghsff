@@ -22,6 +22,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
+import Grid from '@mui/material/Grid';
 
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -41,7 +42,6 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import PageHeading from '../../components/PageHeading';
 import List from '../../components/admin/List';
 import UploadImage from '../../components/admin/UploadImage';
-import { set } from 'firebase/database';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -71,18 +71,6 @@ const facilitiesTagsLookup = [
   "Pet",
   "Writers"
 ];
-
-const facilityPriceLookup = [
-  'Expensive',
-  'Medium',
-  'Low'
-]
-
-const facilityNoiseLookup = [
-  'Loud',
-  'Medium',
-  'Low'
-]
 
 const tableStructure = {
   headings: [
@@ -119,8 +107,8 @@ export default function AdminMap() {
   const [locationTags, setLocationTags] = useState([]);
   const [locationFacilities, setLocationFacilities] = useState([]);
 
-  const [locationNoiseLevel, setNoiseLevel] = useState('Medium');
-  const [locationPriceLevel, setPriceLevel] = useState('Medium');
+  const [locationNoiseLevel, setNoiseLevel] = useState(5);
+  const [locationPriceLevel, setPriceLevel] = useState(5);
 
   // Update
   const [isUpdate, setIsUpdate] = useState(false);
@@ -454,35 +442,30 @@ export default function AdminMap() {
               </Select>
             </FormControl>
 
-            <FormControl fullWidth>
-              <InputLabel>Noise</InputLabel>
-              <Select
-                labelId="noise-level"
-                id="noise-level-select"
-                value={locationNoiseLevel || "medium"}
-                label="Noise level"
-                onChange={handleNoiseLevelChange}
-              >
-                <MenuItem value={"Loud"}>Loud</MenuItem>
-                <MenuItem value={"Medium"}>Medium</MenuItem>
-                <MenuItem value={"Low"}>Low</MenuItem>
-              </Select>
-            </FormControl>
+            <Grid container spacing={1}>
 
-            <FormControl fullWidth>
-              <InputLabel>Price</InputLabel>
-              <Select
-                labelId="price-level"
-                id="price-level-select"
-                value={locationPriceLevel || "medium"}
-                label="Price level"
-                onChange={handlePriceLevelChange}
-              >
-                <MenuItem value={"Loud"}>High</MenuItem>
-                <MenuItem value={"Medium"}>Medium</MenuItem>
-                <MenuItem value={"Low"}>Low</MenuItem>
-              </Select>
-            </FormControl>
+              <Grid item xs={6}>
+                <FormControl fullWidth>
+                  <TextField
+                    label="Noise level"
+                    type="number"
+                    value={locationNoiseLevel || 5}
+                    onChange={handleNoiseLevelChange}
+                  />
+                </FormControl>
+              </Grid>
+
+              <Grid item xs={6}>
+                <FormControl fullWidth>
+                  <TextField
+                    label="Price level"
+                    type="number"
+                    value={locationPriceLevel || 5}
+                    onChange={handlePriceLevelChange}
+                  />
+                </FormControl>
+              </Grid>
+            </Grid>
 
             <TextField sx={{ width: '100%' }} value={description} multiline rows={8} label="Description" onChange={(e) => setDescription(e.target.value)}  />
             <TextField sx={{ width: '100%' }} value={locationLat} required label="Lat" onChange={(e) => setLocationLat(e.target.value)} type='text' />
