@@ -6,8 +6,6 @@ import { useApp } from '../context/AppContext';
 
 // MUI
 import Box from '@mui/material/Box';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { useTheme } from '@mui/material/styles';
 
 // Custom UI
 import PageLayout from '../layouts/PageLayout';
@@ -33,10 +31,6 @@ export default function MainPanel() {
   useEffect(() => {
     location.pathname === '/' ? setIsExploded(false) : setIsExploded(true);
   }, [location]);
-
-  // Theme
-  const theme = useTheme();
-  const mobile = useMediaQuery(theme.breakpoints.up('sm'));
 
   const stylePanel={
     display: "flex",
@@ -86,21 +80,22 @@ export default function MainPanel() {
 
   return (
     <Box style={stylePanel} className="sff-panel">
-      <Box style={styleExpander} onClick={() => handleExpanderClick()}  className="sff-panel__expander">
-        {isExpanded ?
-          <i className="gg-chevron-left"></i>
-        :
-          <>
-            <i className="gg-menu"></i>
-            <i className="gg-chevron-right"></i>
-          </>
-        }
-      </Box>
+      {!isExploded &&
+        <Box style={styleExpander} onClick={() => handleExpanderClick()}  className="sff-panel__expander">
+          {isExpanded ?
+            <i className="gg-chevron-left"></i>
+          :
+            <>
+              <i className="gg-menu"></i>
+              <i className="gg-chevron-right"></i>
+            </>
+          }
+        </Box>
+      }
       <Box style={stylePanelInterior} className="sff-panel__interior">
         <Box style={stylePanelContent} className="sff-panel__content">
           <Navigation />
-          <PageLayout />
-          {!isExploded && <Welcome />}
+          { isExploded ? <PageLayout /> : <Welcome /> }
           <Footer />
         </Box>
       </Box>
