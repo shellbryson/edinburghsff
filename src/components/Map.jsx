@@ -33,7 +33,6 @@ export default function Map() {
     metas: [{ name: 'description', content: "Writer-friendly cafes, bookshops and venues" }],
   });
 
-  const [isShowingFilters, setIsShowingFilters] = useState(true);
   const [filteredLocations, setFilteredLocations] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -164,7 +163,7 @@ export default function Map() {
         <Box style={styleLogo} className="sff-logo">
           <Logo />
         </Box>
-        {isShowingFilters && <Filter onFilterMap={handleFilterMap} />}
+        {!isExploded && <Filter onFilterMap={handleFilterMap} />}
         <MapModal
           pinData={pinData}
           isOpenDialog={isOpenDialog}

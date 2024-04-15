@@ -36,18 +36,20 @@ export default function MainPanel() {
     display: "flex",
     flexDirection: "column",
     position: "absolute",
+    transition: "clip-path 200ms",
     left: "0",
     top: "0",
     bottom: "0",
     backgroundColor: "rgb(0, 0, 0)",
     zIndex: 1000,
+    clipPath: isExploded ? "polygon(0% 0%, 97% 0%, 100% 3%, 100% 100%, 100% 100%, 0% 100%)" : "none"
   }
 
   const stylePanelInterior={
     transition: "width 200ms, max-width 200ms",
     minWidth: "10px",
     maxWidth: "700px",
-    width: isExploded ? "100vw" : (isExpanded ? "300px" : "10px"),
+    width: isExploded ? "calc(100vw - 1rem)" : (isExpanded ? "300px" : "10px"),
     overflow: "hidden",
     height: "100vh",
   }
