@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import { getDocs, collection, query } from 'firebase/firestore';
 import { db } from "../firebase";
 import GoogleMapReact from 'google-maps-react-markers';
@@ -22,7 +22,9 @@ export default function Map() {
   const {
     mapLocations,
     setMapLocations,
-    focusMapPin
+    focusMapPin,
+    isExpanded,
+    isExploded,
   } = useApp();
 
   useHead({
@@ -31,6 +33,7 @@ export default function Map() {
     metas: [{ name: 'description', content: "Writer-friendly cafes, bookshops and venues" }],
   });
 
+  const [isShowingFilters, setIsShowingFilters] = useState(true);
   const [filteredLocations, setFilteredLocations] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -161,7 +164,7 @@ export default function Map() {
         <Box style={styleLogo} className="sff-logo">
           <Logo />
         </Box>
-        <Filter onFilterMap={handleFilterMap} />
+        {isShowingFilters && <Filter onFilterMap={handleFilterMap} />}
         <MapModal
           pinData={pinData}
           isOpenDialog={isOpenDialog}

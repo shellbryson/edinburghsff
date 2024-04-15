@@ -46,6 +46,7 @@ export default function MainPanel() {
   const stylePanelInterior={
     transition: "width 200ms, max-width 200ms",
     minWidth: "10px",
+    maxWidth: "700px",
     width: isExploded ? "100vw" : (isExpanded ? "300px" : "10px"),
     overflow: "hidden",
     height: "100vh",
@@ -55,7 +56,7 @@ export default function MainPanel() {
     display: isExpanded ? "flex" : "none",
     flexDirection: "column",
     transition: "width 200ms",
-    width: isExploded ? "100vw" : "300px",
+    width: isExploded ? "100%" : "300px",
     height: "100%",
   }
 
@@ -78,6 +79,8 @@ export default function MainPanel() {
     setIsExpanded(!isExpanded);
   }
 
+  const isChildOfAdmin = location.pathname.startsWith('/admin');
+
   return (
     <Box style={stylePanel} className="sff-panel">
       {!isExploded &&
@@ -96,7 +99,7 @@ export default function MainPanel() {
         <Box style={stylePanelContent} className="sff-panel__content">
           <Navigation />
           { isExploded ? <PageLayout /> : <Welcome /> }
-          <Footer />
+          { !isChildOfAdmin && <Footer />}
         </Box>
       </Box>
     </Box>

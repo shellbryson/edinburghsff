@@ -22,7 +22,6 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
-import Grid from '@mui/material/Grid';
 
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -117,6 +116,7 @@ export default function AdminMap() {
   // UI state
   const [openAdd, setOpenAdd] = useState(false);
   const [error, setError] = useState('');
+  const [isDirty, setIsDirty] = useState(false);
 
   // Theme
   const theme = useTheme();
@@ -167,8 +167,8 @@ export default function AdminMap() {
     setLocationLat('');
     setLocationLng('');
 
-    setNoiseLevel('Medium');
-    setPriceLevel('Medium');
+    setNoiseLevel(5);
+    setPriceLevel(5);
 
     // Reset to Add mode
     setIsUpdate(false);
@@ -346,6 +346,9 @@ export default function AdminMap() {
     const {
       target: { value },
     } = event;
+
+    if (locationTags !== value) setIsDirty(true);
+
     setLocationTags(value);
   };
 
@@ -353,6 +356,9 @@ export default function AdminMap() {
     const {
       target: { value },
     } = event;
+
+    if (locationFacilities !== value) setIsDirty(true);
+
     setLocationFacilities(value);
   };
 
@@ -442,30 +448,26 @@ export default function AdminMap() {
               </Select>
             </FormControl>
 
-            <Grid container spacing={1}>
+            <Box sx={{ display: 'flex', flexDirection: 'row', gap: "1rem" }}>
 
-              <Grid item xs={6}>
-                <FormControl fullWidth>
-                  <TextField
-                    label="Noise level"
-                    type="number"
-                    value={locationNoiseLevel || 5}
-                    onChange={handleNoiseLevelChange}
-                  />
-                </FormControl>
-              </Grid>
+              <FormControl fullWidth>
+                <TextField
+                  label="Noise level"
+                  type="number"
+                  value={locationNoiseLevel || 5}
+                  onChange={handleNoiseLevelChange}
+                />
+              </FormControl>
 
-              <Grid item xs={6}>
-                <FormControl fullWidth>
-                  <TextField
-                    label="Price level"
-                    type="number"
-                    value={locationPriceLevel || 5}
-                    onChange={handlePriceLevelChange}
-                  />
-                </FormControl>
-              </Grid>
-            </Grid>
+              <FormControl fullWidth>
+                <TextField
+                  label="Price level"
+                  type="number"
+                  value={locationPriceLevel || 5}
+                  onChange={handlePriceLevelChange}
+                />
+              </FormControl>
+            </Box>
 
             <TextField sx={{ width: '100%' }} value={description} multiline rows={8} label="Description" onChange={(e) => setDescription(e.target.value)}  />
             <TextField sx={{ width: '100%' }} value={locationLat} required label="Lat" onChange={(e) => setLocationLat(e.target.value)} type='text' />
@@ -482,6 +484,7 @@ export default function AdminMap() {
           </Stack>
         </DialogContent>
         <DialogActions>
+          { isDirty && <Typography>Unsaved</Typography> }
           <Button onClick={handleCloseForm} variant='outlined'>Cancel</Button>
           { isUpdate ?
             <>
@@ -495,7 +498,7 @@ export default function AdminMap() {
       </Dialog>
 
       <Container maxWidth="md">
-        <PageHeading heading="Map" />
+        <PageHeading heading="Locations" />
       </Container>
 
       <List

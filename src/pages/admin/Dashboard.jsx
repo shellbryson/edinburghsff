@@ -29,23 +29,15 @@ const Dashboard = () => {
   return (
     <Container>
       <PageHeading heading="Dashboard" />
-      <Container maxWidth="sm">
-        <Paper sx={{ padding: 2, mb: 2 }} elevation={3}>
-          <Stack spacing={2}>
-            <Typography component="h2">Tools</Typography>
-            <Link to='/admin/events'>Edit events</Link>
-            <Link to='/admin/map'>Edit map</Link>
-            <Link to='/admin/links'>Edit links</Link>
-            <Link to='/admin/pages'>Edit pages</Link>
-          </Stack>
-        </Paper>
+      <Paper sx={{padding: "1rem"}}>
+        <Typography component="h2">Tools</Typography>
         <Stack spacing={2}>
           <Typography  sx={{ mt: 6, mb: 2}} component="p" variant='p'>Signed in as {user && user.email}</Typography>
           <Button variant='outlined' onClick={handleLogout}>
             Sign out
           </Button>
         </Stack>
-      </Container>
+      </Paper>
     </Container>
   );
 };

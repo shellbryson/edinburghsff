@@ -6,6 +6,8 @@ import Typography from '@mui/material/Typography';
 
 const headingStyle = {
   textAlign: "center",
+  color: "#fff",
+  marginTop: "1rem",
 }
 
 const PageHeading = ({ heading }) => {

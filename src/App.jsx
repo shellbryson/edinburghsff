@@ -34,7 +34,7 @@ const Pages = lazy(() => import('./pages/public/Pages'));
 const Dashboard = lazy(() => import('./pages/admin/Dashboard'));
 const AdminLinks = lazy(() => import('./pages/admin/AdminLinks'));
 const AdminEvents = lazy(() => import('./pages/admin/AdminEvents'));
-const AdminMap = lazy(() => import('./pages/admin/AdminMap'));
+const AdminLocations = lazy(() => import('./pages/admin/AdminLocations'));
 const AdminPages = lazy(() => import('./pages/admin/AdminPages'));
 
 // Assets
@@ -88,7 +88,7 @@ function App() {
                   <Route index element={<Dashboard />} />
                   <Route path='links' element={<AdminLinks />} />
                   <Route path='events' element={<AdminEvents />} />
-                  <Route path='map' element={<AdminMap />} />
+                  <Route path='locations' element={<AdminLocations />} />
                   <Route path='pages' element={<AdminPages />} />
                 </Route>
                 <Route path="*" element={<NotFound />} />

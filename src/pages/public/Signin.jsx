@@ -53,9 +53,8 @@ export default function Signin() {
 
     try {
       await signIn(email, password)
-      navigate('/dashboard')
+      navigate('/admin')
     } catch (e) {
-      console.log(e.message);
       setError("Couldn't sign in. Please check your email and password.")
     }
   };

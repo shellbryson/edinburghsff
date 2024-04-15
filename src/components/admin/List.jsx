@@ -24,6 +24,7 @@ const styleActionBar = {
   gap: "0.5rem",
   justifyContent: "center",
   alignItems: "center",
+  paddingTop: "1rem",
 }
 
 const List = ({ data, onUpdate, onOpenForm, tableStructure }) => {
@@ -88,9 +89,14 @@ const List = ({ data, onUpdate, onOpenForm, tableStructure }) => {
   }
 
   return (
-    <>
+    <Paper>
       <Box style={styleActionBar}>
-        <TextField value={filter} label="Filter" size="small" onChange={(e) => handleFilter(e.target.value)}  />
+        <TextField
+          value={filter}
+          label="Filter"
+          size="small"
+          onChange={(e) => handleFilter(e.target.value)}
+        />
         <Button onClick={() => onOpenForm()} variant='outlined'>Add</Button>
       </Box>
       <TableContainer component={Paper} sx={{ mt: 4 }}>
@@ -118,7 +124,7 @@ const List = ({ data, onUpdate, onOpenForm, tableStructure }) => {
           </TableBody>
         </Table>
       </TableContainer>
-    </>
+    </Paper>
   );
 };
 
