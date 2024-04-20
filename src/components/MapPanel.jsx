@@ -11,14 +11,14 @@ import Box from '@mui/material/Box';
 import PageLayout from '../layouts/PageLayout';
 import Navigation from './Navigation';
 import Footer from './Footer';
-import Welcome from './Welcome';
+import Intro from './Intro';
 
 // Icons
 import 'css.gg/icons/scss/chevron-left.scss'
 import 'css.gg/icons/scss/chevron-right.scss'
 import 'css.gg/icons/scss/menu.scss'
 
-export default function MainPanel() {
+export default function MapPanel() {
 
   const location = useLocation();
   const {
@@ -100,7 +100,7 @@ export default function MainPanel() {
       <Box style={stylePanelInterior} className="sff-panel__interior">
         <Box style={stylePanelContent} className="sff-panel__content">
           <Navigation />
-          { isExploded ? <PageLayout /> : <Welcome /> }
+          { isExploded ? <PageLayout /> : <Intro /> }
           { !isChildOfAdmin && <Footer />}
         </Box>
       </Box>

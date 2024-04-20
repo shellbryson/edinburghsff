@@ -11,7 +11,7 @@ import PointsOfInterest from './PointsOfInterest';
 // Resources
 import 'css.gg/icons/scss/chevron-left.scss'
 
-export default function Welcome() {
+export default function Intro() {
 
   const theme = useTheme();
 

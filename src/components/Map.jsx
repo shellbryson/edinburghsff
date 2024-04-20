@@ -12,7 +12,7 @@ import { useApp } from '../context/AppContext';
 import Box from '@mui/material/Box';
 
 // Custom UI
-import MainPanel from './MainPanel';
+import MapPanel from './MapPanel';
 import MapPin from './MapPin';
 import MapModal from './MapModal';
 import Spinner from './Spinner';
@@ -185,7 +185,7 @@ export default function Map() {
           isOpenDialog={isOpenDialog}
           handleCloseDetails={handleCloseDetails}
         />
-        <MainPanel />
+        <MapPanel />
       </>
     : <Spinner />
   )

@@ -14,7 +14,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 // Custom Components
 import Map from './components/Map';
-import MainPanel from './components/MainPanel';
+import MainPanel from './components/MapPanel';
 
 // Layouts
 import AdminLayout from './layouts/AdminLayout';
