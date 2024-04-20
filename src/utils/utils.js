@@ -1,3 +1,6 @@
+import { doc, getDocs, getDoc, addDoc, updateDoc, deleteDoc, collection, orderBy, query } from 'firebase/firestore';
+import { db } from "../firebase";
+
 export function imageURL(filename, size) {
   if (!filename) return null;
 
@@ -31,4 +34,18 @@ export function slugify(str) {
     .replace(/[^\w\s-]/g, "")
     .replace(/[\s_-]+/g, "-")
     .replace(/^-+|-+$/g, "");
+}
+
+export async function fetchDocument(collectionName, documentId, callback) {
+  console.log("Fetching Location:", collectionName, documentId);
+
+  const docRef = doc(db, collectionName, documentId);
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) {
+    console.log("Got Location:", docSnap.data());
+    callback(docSnap.data());
+  } else {
+    console.log("No such document!", collectionName, documentId);
+  }
 }

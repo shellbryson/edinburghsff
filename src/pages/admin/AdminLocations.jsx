@@ -42,6 +42,8 @@ import PageHeading from '../../components/PageHeading';
 import List from '../../components/admin/List';
 import UploadImage from '../../components/admin/UploadImage';
 
+import { fetchDocument } from '../../utils/utils';
+
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -136,8 +138,6 @@ export default function AdminMap() {
   }, []);
 
   const getLocations = async () => {
-    // Firebase provides no native way to search strings, so when searching we
-    // have get everything and filter it ourselves
     setIsLoading(true);
     const q = query(collection(db, "locations"), orderBy("title"));
     const list = [];
@@ -180,7 +180,7 @@ export default function AdminMap() {
     setIsUpdate(false);
   };
 
-  const handleOpenUpdate = (data) => {
+  const onFetchDocument = (data) => {
     setTitle(data.title);
     setDescription(data.description);
     setURL(data.url);
@@ -207,6 +207,11 @@ export default function AdminMap() {
 
     setIsUpdate(true);
     setOpenAdd(true);
+  }
+
+  const handleOpenUpdate = (data) => {
+    setIsLoading(true);
+    fetchDocument('locations', data.id, onFetchDocument);
   };
 
   const handleNoiseLevelChange = (val) => {
