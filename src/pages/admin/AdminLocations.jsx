@@ -184,8 +184,8 @@ export default function AdminMap() {
     setLocationLat(data.lat);
     setLocationLng(data.lng);
 
-    setNoiseLevel(data.noise);
-    setPriceLevel(data.price);
+    setNoiseLevel(data.noise || 5);
+    setPriceLevel(data.price || 5);
 
     if (data.tags) {
       setLocationTags(data.tags.split(','));
@@ -203,12 +203,14 @@ export default function AdminMap() {
     setOpenAdd(true);
   };
 
-  const handleNoiseLevelChange = (event) => {
-    setNoiseLevel(event.target.value);
+  const handleNoiseLevelChange = (val) => {
+    if (val !== locationNoiseLevel) setIsDirty(true);
+    setNoiseLevel(val);
   }
 
-  const handlePriceLevelChange = (event) => {
-    setPriceLevel(event.target.value);
+  const handlePriceLevelChange = (val) => {
+    if (val !== locationPriceLevel) setIsDirty(true);
+    setPriceLevel(val);
   }
 
   const handleAdd = async (e) => {
@@ -282,7 +284,7 @@ export default function AdminMap() {
     try {
       const l = doc(db, "locations", updateId);
 
-      await updateDoc(l, {
+      const data = {
         title: title,
         description: description,
         url: url,
@@ -299,10 +301,13 @@ export default function AdminMap() {
           uid: user.uid,
           timestamp: new Date()
         }
-      });
+      }
 
-      getLocations();
-      handleCloseForm();
+      console.log("Update data", data);
+
+      await updateDoc(l, data);
+
+      setIsDirty(false);
 
     } catch (e) {
       setIsLoading(false);
@@ -360,6 +365,13 @@ export default function AdminMap() {
     if (locationFacilities !== value) setIsDirty(true);
 
     setLocationFacilities(value);
+  };
+
+  const handleChangeDescription = (text) => {
+    if (text !== description) {
+      setIsDirty(true);
+    }
+    setDescription(text);
   };
 
   const handleFileUpload = (url) => {
@@ -455,7 +467,7 @@ export default function AdminMap() {
                   label="Noise level"
                   type="number"
                   value={locationNoiseLevel || 5}
-                  onChange={handleNoiseLevelChange}
+                  onChange={(e) => handleNoiseLevelChange(e.target.value)}
                 />
               </FormControl>
 
@@ -464,12 +476,12 @@ export default function AdminMap() {
                   label="Price level"
                   type="number"
                   value={locationPriceLevel || 5}
-                  onChange={handlePriceLevelChange}
+                  onChange={(e) => handlePriceLevelChange(e.target.value)}
                 />
               </FormControl>
             </Box>
 
-            <TextField sx={{ width: '100%' }} value={description} multiline rows={8} label="Description" onChange={(e) => setDescription(e.target.value)}  />
+            <TextField sx={{ width: '100%' }} value={description} multiline rows={8} label="Description" onChange={(e) => handleChangeDescription(e.target.value)}  />
             <TextField sx={{ width: '100%' }} value={locationLat} required label="Lat" onChange={(e) => setLocationLat(e.target.value)} type='text' />
             <TextField sx={{ width: '100%' }} value={locationLng} required label="Lng" onChange={(e) => setLocationLng(e.target.value)} type='text' />
 
