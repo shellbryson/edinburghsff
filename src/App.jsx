@@ -70,11 +70,10 @@ function App() {
   return (
     <ThemeProvider theme={customTheme}>
       <Box style={styleLayout} className="sff">
-        <Map />
         <ConfirmProvider>
           <Suspense fallback={renderLoader()}>
             <Routes>
-              <Route path="/" element={<MainPanel />}>
+              <Route path="/" element={<Map />}>
                 <Route path="welcome" element={<Welcome />} />
                 <Route path="signin" element={<Signin />} />
                 <Route path="links/:classification" element={<Links />} />

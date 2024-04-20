@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { useParams, useNavigate } from "react-router-dom";
 import { getDocs, collection, query } from 'firebase/firestore';
 import { db } from "../firebase";
 import GoogleMapReact from 'google-maps-react-markers';
@@ -11,11 +12,14 @@ import { useApp } from '../context/AppContext';
 import Box from '@mui/material/Box';
 
 // Custom UI
+import MainPanel from './MainPanel';
 import MapPin from './MapPin';
 import MapModal from './MapModal';
 import Spinner from './Spinner';
 import Filter from './Filter';
 import Logo from './Logo';
+
+import { slugify } from '../utils/utils';
 
 export default function Map() {
 
@@ -24,8 +28,13 @@ export default function Map() {
     setMapLocations,
     focusMapPin,
     isExpanded,
+    setIsExpanded,
     isExploded,
+    setIsExploded
   } = useApp();
+
+  const params = useParams();
+  const navigate = useNavigate();
 
   useHead({
     title: "Edinburgh SFF",
@@ -106,7 +115,13 @@ export default function Map() {
 
   useEffect(() => {
     getLocations();
-  }, [])
+  }, []);
+
+  // useEffect(() => {
+  //   getLinks(params.classification || defaultClassification);
+  //   // setLinkClassification(params.classification || defaultClassification);
+  //   // setIsLoading(true);
+  // }, [params.placeID])
 
   const thisPin = mapLocations.find(location => location.id === focusMapPin);
   if (thisPin) {
@@ -121,7 +136,8 @@ export default function Map() {
   const onClickPin = (data) => {
     console.log(data);
     setPinData(data);
-    setIsOpenDialog(true);
+    setIsOpenDialog(true)
+
   }
 
   const handleCloseDetails = () => {
@@ -169,6 +185,7 @@ export default function Map() {
           isOpenDialog={isOpenDialog}
           handleCloseDetails={handleCloseDetails}
         />
+        <MainPanel />
       </>
     : <Spinner />
   )
