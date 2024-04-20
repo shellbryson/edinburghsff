@@ -106,13 +106,13 @@ export default function AdminEvents() {
       const c = doc.data();
       list.push({
         ...c,
-        start: dayjs(c.eventStart.toDate().toLocaleString(), 'DD/MM/YYYY, HH:mm').format('DD/MM/YY HH:mm'),
-        end: dayjs(c.eventEnd.toDate().toLocaleString(), 'DD/MM/YYYY, HH:mm').format('DD/MM/YY HH:mm'),
+        // these two dates are used by the List
+        start: c.eventStart.toDate().toLocaleString(),
+        end: c.eventEnd.toDate().toLocaleString(),
         id: doc.id,
         display: true,
       });
     });
-
     setEvents(list);
     setIsLoading(false);
   }
