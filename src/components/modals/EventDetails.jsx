@@ -5,7 +5,7 @@ import 'dayjs/locale/en-gb';
 
 import ReactMarkdown from 'react-markdown';
 
-import {imageURL} from '../utils/utils';
+import {imageURL} from '../../utils/utils';
 
 // MUI
 import Typography from '@mui/material/Typography';
@@ -23,31 +23,33 @@ import LaunchOutlinedIcon from '@mui/icons-material/LaunchOutlined';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import EventAvailableOutlinedIcon from '@mui/icons-material/EventAvailableOutlined';
 
+import { styled } from '@mui/material/styles';
+import CloseIcon from '@mui/icons-material/Close';
+
 // Custom UI
-import EventsDetailsImage from './EventsDetailsImage';
+import EventsDetailsImage from '../EventsDetailsImage';
+
+// MUI Icons
+import IconButton from '@mui/material/IconButton';
 
 // Theme helpers
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
-const styleEventTitle={
-  textAlign: "center"
-}
-
-const styleEventDate={
-  marginBottom: "1rem"
-}
-
-const styleEventMeta={
-  textAlign: "center"
-}
-
-const styleEventDecsription={
-  backgroundColor: "#f5f5f5",
-  padding: "1rem",
-  marginBottom: "1rem",
-  marginTop: "1rem"
-}
+const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+  '& .MuiDialogContent-root': {
+    padding: theme.spacing(2),
+    backgroundColor: '#383838',
+    color: '#fff',
+  },
+  '& .MuiDialogActions-root': {
+    padding: theme.spacing(1),
+  },
+  '& .MuiPaper-root': {
+    backgroundColor: '#383838',
+    color: '#fff',
+  },
+}));
 
 const EventDetails = ({ selectedEvent, isOpen, onCloseCallback, isLoadingEvent }) => {
 
@@ -55,10 +57,34 @@ const EventDetails = ({ selectedEvent, isOpen, onCloseCallback, isLoadingEvent }
   const [currentEvent, setCurrentEvent] = useState({});
 
   const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
+  const styleEventTitle={
+    textAlign: "center"
+  }
+
+  const styleEventDate={
+    marginBottom: "1rem"
+  }
+
+  const styleEventMeta={
+    textAlign: "center"
+  }
+
+  const styleEventDecsription={
+    backgroundColor: "#f5f5f5",
+    padding: "1rem",
+    marginBottom: "1rem",
+    marginTop: "1rem"
+  }
+
+  const styleDescription={
+    paddingLeft: "1rem",
+    paddingRight: "1rem",
+    marginTop: "1rem"
+  }
 
   useEffect(() => {
-    console.log("ESFF EventDetails:", selectedEvent);
     setCurrentEvent(selectedEvent);
     setIsOpenDialog(isOpen);
   }, [selectedEvent, isOpen, isLoadingEvent]);
@@ -103,10 +129,10 @@ const EventDetails = ({ selectedEvent, isOpen, onCloseCallback, isLoadingEvent }
   };
 
   return (
-    <Dialog
+    <BootstrapDialog
       fullWidth
       maxWidth="sm"
-      fullScreen={fullScreen}
+      fullScreen={isMobile}
       open={isOpenDialog}
       onClose={handleCloseDetails}
       scroll="paper"
@@ -114,7 +140,19 @@ const EventDetails = ({ selectedEvent, isOpen, onCloseCallback, isLoadingEvent }
       <DialogTitle id="add-dialog-title" sx={styleEventTitle}>
         <Typography variant="h2" component="span">{currentEvent.title}</Typography>
       </DialogTitle>
-      <DialogContent>
+      <IconButton
+        aria-label="close"
+        onClick={handleCloseDetails}
+        sx={{
+          position: 'absolute',
+          right: 8,
+          top: 8,
+          color: (theme) => theme.palette.grey[500],
+        }}
+      >
+        <CloseIcon />
+      </IconButton>
+      <DialogContent dividers>
         { isLoadingEvent &&
           <>
             <Box sx={{ display: 'flex', flexDirection: "column", alignItems: "center", justifyContent: "center", height: "200px" }}>
@@ -123,25 +161,24 @@ const EventDetails = ({ selectedEvent, isOpen, onCloseCallback, isLoadingEvent }
           </>
         }
         { !isLoadingEvent && <>
+          { currentEvent?.image && (
           <EventsDetailsImage image={imageURL(currentEvent?.image, 'medium')} alt={currentEvent?.title} />
+          )}
           <Box style={styleEventMeta}>
             {eventDate()}
             <LocationOnOutlinedIcon />
             <Typography component="p" variant='p'> {currentEvent.eventLocation}</Typography>
           </Box>
-          <Box style={styleEventDecsription}>
+          <Box style={styleDescription}>
             <ReactMarkdown children={currentEvent.description} />
-            <Typography component="p" variant='p' sx={{ mt: 2 }}>More at: <Link to={currentEvent.url}>{cleanUrl(currentEvent.url)}</Link></Typography>
+            <Button onClick={handleView} color='brand' endIcon={<LaunchOutlinedIcon />}>Go to Event site</Button>
           </Box>
         </>}
       </DialogContent>
       <DialogActions>
-        { !isLoadingEvent &&
-          <Button onClick={handleView} variant='outlined' endIcon={<LaunchOutlinedIcon />}>Go to Event site</Button>
-        }
-        <Button onClick={handleCloseDetails} variant='contained'>Close</Button>
+        <Button onClick={handleCloseDetails} color='brand'>Close</Button>
       </DialogActions>
-    </Dialog>
+    </BootstrapDialog>
   );
 };
 

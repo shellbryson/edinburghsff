@@ -23,12 +23,11 @@ import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
 // MUI Icons
 import IconButton from '@mui/material/IconButton';
 
-
 // Custom UI
-import EventsDetailsImage from './EventsDetailsImage';
+import EventsDetailsImage from '../EventsDetailsImage';
 
 // Helpers
-import { imageURL } from '../utils/utils';
+import { imageURL } from '../../utils/utils';
 
 // Theme helpers
 import { useTheme } from '@mui/material/styles';

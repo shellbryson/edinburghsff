@@ -65,7 +65,7 @@ export default function PlacesOfInterest() {
   }
 
   return (
-    <Box style={stylePointsOfInterest} className="sff-interesting">
+    <Box style={stylePointsOfInterest} className="sff-panel-interesting">
       <Typeography component="p" variant="title_small">Places of Interest</Typeography>
       {places.map((place, index) => (
         <Box key={index} style={stylePlace} className="sff-interesting__place">

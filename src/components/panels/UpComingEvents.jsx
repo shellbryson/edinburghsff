@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 import { getDocs, collection, query, orderBy, limit  } from 'firebase/firestore';
 import { db } from "../../firebase";
@@ -7,6 +7,8 @@ import { db } from "../../firebase";
 // MUI
 import Box from '@mui/material/Box';
 import Typeography from '@mui/material/Typography';
+import Link from '@mui/material/Link';
+
 import { useTheme } from '@mui/material/styles';
 
 import EventIcon from '@mui/icons-material/Event';
@@ -15,8 +17,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import dayjs from 'dayjs';
 import 'dayjs/locale/en-gb';
 
-// Custom UI
-import EventDetails from '../EventDetails';
+import { slugify } from '../../utils/utils';
 
 export default function UpComingEvents() {
 
@@ -24,9 +25,6 @@ export default function UpComingEvents() {
   const navigate = useNavigate();
 
   const [events, setEvents] = useState([]);
-  const [isOpen, setIsOpen] = useState(false);
-  const [isLoadingEvent, setIsLoadingEvent] = useState(false);
-  const [selectedEvent, setSelectedEvent] = useState({});
 
   const styleEvents={
     display: "flex",
@@ -84,33 +82,27 @@ export default function UpComingEvents() {
     setEvents(l);
   }
 
-  const handleClickEvent = (id) => {
-    console.log("Event Clicked", id);
-  }
-
   const handleClickExpand = () => {
     navigate("/events");
   }
 
-  const handleCloseEvent = () => {
-    setIsOpen(false);
-    setSelectedEvent({});
+  const handleClickEvent = (id, title) => {
+    navigate(`/events/${id}/${slugify(title)}`);
   };
 
   return (
-    <Box style={styleEvents} className="sff-interesting">
+    <Box style={styleEvents} className="sff-panel-events">
       <Typeography component="p" variant="title_small">Events</Typeography>
       {events.map((event, index) => (
-        <Box key={index} style={styleEvent} className="sff-interesting__place">
-          <Typeography component="p" key={index} onClick={() => handleClickEvent(event.id)}>{event.title}</Typeography>
+        <Box key={index} style={styleEvent} className="sff-panel-events__event">
+          <Typeography component="a" onClick={() => handleClickEvent(event.id, event.title)}>{event.title}</Typeography>
           <EventIcon />
         </Box>
       ))}
       <Box style={styleMore} className="sff-interesting__place">
-        <Typeography component="p" onClick={() => handleClickExpand()}>Expand events</Typeography>
+        <Typeography component="a" onClick={() => handleClickExpand()}>Expand events</Typeography>
         <ChevronRightIcon />
       </Box>
-      <EventDetails isOpen={isOpen} isLoadingEvent={isLoadingEvent} selectedEvent={selectedEvent} onCloseCallback={handleCloseEvent} />
     </Box>
   );
 }

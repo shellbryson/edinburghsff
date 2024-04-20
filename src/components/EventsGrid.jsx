@@ -18,7 +18,7 @@ import Link from '@mui/material/Link';
 
 // Custom UI
 import EventsGridImage from './EventsGridImage';
-import EventDetails from './EventDetails';
+import EventDetails from './modals/EventDetails';
 
 const styleEventsSection={
   marginTop: "3rem",

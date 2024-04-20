@@ -14,7 +14,7 @@ import Box from '@mui/material/Box';
 // Custom UI
 import MapPanel from './MapPanel';
 import MapPin from './MapPin';
-import MapModal from './MapModal';
+import MapModal from './modals/MapModal';
 import Spinner from './Spinner';
 import Filter from './Filter';
 import Logo from './Logo';
