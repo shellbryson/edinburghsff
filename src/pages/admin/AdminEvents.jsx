@@ -50,7 +50,7 @@ const tableStructure = {
     'Location'
   ],
   keys: [
-    'eventStart',
+    'start',
     'title',
     'image',
     'eventLocation'
@@ -99,20 +99,20 @@ export default function AdminEvents() {
   const q = query(collection(db, "events"), orderBy("eventStart", "desc"));
 
   const getEvents = async () => {
-    // Firebase provides no native way to search strings, so when searching we
-    // have get everything and filter it ourselves
     setIsLoading(true);
     const querySnapshot = await getDocs(q);
     const list = [];
     querySnapshot.forEach((doc) => {
       const c = doc.data();
-      c.eventStart = dayjs(c.eventStart.toDate().toLocaleString(), 'DD/MM/YYYY, HH:mm:ss').format('DD/MM/YYYY')
       list.push({
         ...c,
+        start: dayjs(c.eventStart.toDate().toLocaleString(), 'DD/MM/YYYY, HH:mm').format('DD/MM/YY HH:mm'),
+        end: dayjs(c.eventEnd.toDate().toLocaleString(), 'DD/MM/YYYY, HH:mm').format('DD/MM/YY HH:mm'),
         id: doc.id,
         display: true,
       });
     });
+
     setEvents(list);
     setIsLoading(false);
   }
@@ -143,18 +143,14 @@ export default function AdminEvents() {
   };
 
   const handleOpenUpdate = (data) => {
-
-    const start = new Date(data.eventStart.seconds * 1000 + data.eventStart.nanoseconds / 1000000);
-    const end = new Date(data.eventEnd.seconds * 1000 + data.eventEnd.nanoseconds / 1000000);
-
     setTitle(data.title);
     setDescription(data.description);
     setURL(data.url);
     setImgUrl(data.image);
     setShow(data.show);
     setUpdateId(data.id);
-    setEventStart(dayjs(start));
-    setEventEnd(dayjs(end));
+    setEventStart(dayjs(data.eventStart.toDate()));
+    setEventEnd(dayjs(data.eventEnd.toDate()));
     setEventIsAllDay(data.eventIsAllDay || false);
     setEventLocation(data.eventLocation);
 
