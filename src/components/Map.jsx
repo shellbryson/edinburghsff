@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useParams, useNavigate, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { getDocs, collection, query } from 'firebase/firestore';
 import { db } from "../firebase";
 import GoogleMapReact from 'google-maps-react-markers';
@@ -32,9 +32,6 @@ export default function Map() {
     isExploded,
     setIsExploded
   } = useApp();
-
-  const params = useParams();
-  const navigate = useNavigate();
 
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -111,7 +108,7 @@ export default function Map() {
       mapRef.current.panTo({
         lat: parseFloat(pin.lat), lng: parseFloat(pin.lng)
       });
-      mapRef.current.setZoom(16);
+      mapRef.current.setZoom(18);
     }
   }
 

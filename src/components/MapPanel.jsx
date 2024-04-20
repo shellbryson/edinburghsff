@@ -11,7 +11,7 @@ import Box from '@mui/material/Box';
 import PageLayout from '../layouts/PageLayout';
 import Navigation from './Navigation';
 import Footer from './Footer';
-import Intro from './Intro';
+import Home from './Home';
 
 // Icons
 import 'css.gg/icons/scss/chevron-left.scss'
@@ -100,7 +100,7 @@ export default function MapPanel() {
       <Box style={stylePanelInterior} className="sff-panel__interior">
         <Box style={stylePanelContent} className="sff-panel__content">
           <Navigation />
-          { isExploded ? <PageLayout /> : <Intro /> }
+          { isExploded ? <PageLayout /> : <Home /> }
           { !isChildOfAdmin && <Footer />}
         </Box>
       </Box>

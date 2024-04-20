@@ -6,12 +6,13 @@ import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
 
 // Customer UI
-import PointsOfInterest from './PointsOfInterest';
+import PlacesOfInterest from './panels/PlacesOfInterest';
+import UpComingEvents from './panels/UpComingEvents';
 
 // Resources
 import 'css.gg/icons/scss/chevron-left.scss'
 
-export default function Intro() {
+export default function Home() {
 
   const theme = useTheme();
 
@@ -35,7 +36,8 @@ export default function Intro() {
       <Typography component="p">
         Edinburgh SFF is a vibrant community of Science Fiction and Fantasy writers in Scotland.
       </Typography>
-      <PointsOfInterest />
+      <PlacesOfInterest />
+      <UpComingEvents />
     </Box>
   );
 }

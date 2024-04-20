@@ -2,7 +2,7 @@ import React from 'react';
 import { useSearchParams } from "react-router-dom";
 
 // Context
-import { useApp } from '../context/AppContext';
+import { useApp } from '../../context/AppContext';
 
 // MUI
 import Box from '@mui/material/Box';
@@ -11,7 +11,7 @@ import { useTheme } from '@mui/material/styles';
 
 import PinDropIcon from '@mui/icons-material/PinDrop';
 
-export default function PointsOfInterest() {
+export default function PlacesOfInterest() {
 
   const {
     mapLocations,
