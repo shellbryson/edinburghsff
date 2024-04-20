@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { getDocs, collection, query } from 'firebase/firestore';
 import { db } from "../firebase";
 import GoogleMapReact from 'google-maps-react-markers';
@@ -35,6 +35,8 @@ export default function Map() {
 
   const params = useParams();
   const navigate = useNavigate();
+
+  const [searchParams, setSearchParams] = useSearchParams();
 
   useHead({
     title: "Edinburgh SFF",
@@ -101,7 +103,7 @@ export default function Map() {
     });
     setMapLocations(l);
     setFilteredLocations(l);
-    setIsLoaded(true)
+    setIsLoaded(true);
   }
 
   const centerMapOnPin = (pin) => {
@@ -117,11 +119,15 @@ export default function Map() {
     getLocations();
   }, []);
 
-  // useEffect(() => {
-  //   getLinks(params.classification || defaultClassification);
-  //   // setLinkClassification(params.classification || defaultClassification);
-  //   // setIsLoading(true);
-  // }, [params.placeID])
+  useEffect(() => {
+    if (searchParams.get('placeID')) {
+      const place = mapLocations.find(l => l.id === searchParams.get('placeID'));
+      if (place) {
+        setPinData(place);
+        setIsOpenDialog(true);
+      }
+    }
+  }, [mapLocations]);
 
   const thisPin = mapLocations.find(location => location.id === focusMapPin);
   if (thisPin) {
@@ -134,13 +140,13 @@ export default function Map() {
   }
 
   const onClickPin = (data) => {
-    console.log(data);
     setPinData(data);
     setIsOpenDialog(true)
-
+    setSearchParams({ placeID: data.id, placeSlug: slugify(data.title) });
   }
 
   const handleCloseDetails = () => {
+    setSearchParams({});
     setPinData({});
     setIsOpenDialog(false);
   };

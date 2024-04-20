@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSearchParams } from "react-router-dom";
 
 // Context
 import { useApp } from '../context/AppContext';
@@ -20,6 +21,7 @@ export default function PointsOfInterest() {
   } = useApp();
 
   const theme = useTheme();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const places = [
     {
@@ -57,6 +59,7 @@ export default function PointsOfInterest() {
       }
       return location;
     });
+    setSearchParams({});
     setMapLocations(locations);
     setFocusMapPin(id);
   }
