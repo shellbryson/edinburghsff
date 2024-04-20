@@ -122,6 +122,12 @@ export default function AdminMap() {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
+  const styleDirty = {
+    textTransform: 'uppercase',
+    color: "red",
+    marginRight: "1rem"
+  }
+
   useEffect(() => {
     if (!renderAfterCalled.current) {
       getLocations();
@@ -184,8 +190,8 @@ export default function AdminMap() {
     setLocationLat(data.lat);
     setLocationLng(data.lng);
 
-    setNoiseLevel(data.noise || 5);
-    setPriceLevel(data.price || 5);
+    setNoiseLevel(data.noise || 0);
+    setPriceLevel(data.price || 0);
 
     if (data.tags) {
       setLocationTags(data.tags.split(','));
@@ -303,7 +309,7 @@ export default function AdminMap() {
         }
       }
 
-      console.log("Update data", data);
+      console.log("Update", data);
 
       await updateDoc(l, data);
 
@@ -368,14 +374,23 @@ export default function AdminMap() {
   };
 
   const handleChangeDescription = (text) => {
-    if (text !== description) {
-      setIsDirty(true);
-    }
+    if (text !== description) setIsDirty(true);
     setDescription(text);
   };
 
   const handleFileUpload = (url) => {
+    if (url !== imgUrl) setIsDirty(true);
     setImgUrl(url)
+  }
+
+  const handleChangeTitle = (text) => {
+    if (text !== title) setIsDirty(true);
+    setTitle(text)
+  }
+
+  const handleChangeUrl = (text) => {
+    if (text !== url) setIsDirty(true);
+    setURL(text)
   }
 
   return (
@@ -400,12 +415,12 @@ export default function AdminMap() {
 
             <TextField sx={{ width: '100%' }}
               value={title} required label="Title"
-              onChange={(e) => setTitle(e.target.value)} type='text'
+              onChange={(e) => handleChangeTitle(e.target.value)} type='text'
             />
 
             <TextField sx={{ width: '100%' }}
               value={url} required label="URL"
-              onChange={(e) => setURL(e.target.value)} type='url'
+              onChange={(e) => handleChangeUrl(e.target.value)} type='url'
             />
 
             <FormControl sx={{ m: 1 }}>
@@ -496,12 +511,12 @@ export default function AdminMap() {
           </Stack>
         </DialogContent>
         <DialogActions>
-          { isDirty && <Typography>Unsaved</Typography> }
+          { isDirty && <Typography sx={styleDirty} variant='p_small'>Unsaved changes</Typography> }
           <Button onClick={handleCloseForm} variant='outlined'>Cancel</Button>
           { isUpdate ?
             <>
               <Button onClick={() => handleDelete(updateId)} variant="outlined" startIcon={<DeleteIcon />}>Delete</Button>
-              <Button onClick={handleUpdate} variant='contained'>Update</Button>
+              <Button onClick={handleUpdate} variant='contained'>Save</Button>
             </>
             :
             <Button onClick={handleAdd} variant='contained'>Add</Button>
