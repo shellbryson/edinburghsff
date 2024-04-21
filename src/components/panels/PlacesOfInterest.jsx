@@ -54,8 +54,10 @@ export default function PlacesOfInterest() {
     const locations = mapLocations.map(location => {
       if (location.id === id) {
         location.focus = !location.focus;
+        location.showLabel = !location.showLabel;
       } else {
         location.focus = false;
+        location.showLabel = false;
       }
       return location;
     });

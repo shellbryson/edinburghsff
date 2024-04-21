@@ -106,12 +106,11 @@ export default function Map() {
   }
 
   const centerMapOnPin = (pin) => {
-    if (pin) {
-      mapRef.current.panTo({
-        lat: parseFloat(pin.lat), lng: parseFloat(pin.lng)
-      });
-      mapRef.current.setZoom(18);
-    }
+    if (!pin) return;
+    mapRef.current.panTo({
+      lat: parseFloat(pin.lat), lng: parseFloat(pin.lng)
+    });
+    mapRef.current.setZoom(18);
   }
 
   useEffect(() => {
@@ -125,17 +124,17 @@ export default function Map() {
   useEffect(() => {
     if (searchParams.get('placeID')) {
       const place = mapLocations.find(l => l.id === searchParams.get('placeID'));
-      if (place) {
-        setPinData(place);
-        setIsOpenDialog(true);
-      }
+      if (!place) return;
+      setPinData(place);
+      setIsOpenDialog(true);
     }
   }, [mapLocations]);
 
-  const thisPin = mapLocations.find(location => location.id === focusMapPin);
-  if (thisPin) {
+  useEffect(() => {
+    const thisPin = mapLocations.find(location => location.id === focusMapPin);
+    if (!thisPin) return;
     centerMapOnPin(thisPin);
-  }
+  }, [focusMapPin]);
 
   const onGoogleApiLoaded = ({ map }) => {
     mapRef.current = map
