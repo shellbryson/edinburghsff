@@ -20,12 +20,12 @@ export const customTheme = createTheme({
       fontSize: 16,
     },
     p_small: {
-      fontSize: 12,
+      fontSize: 13,
     },
     title_small: {
       position: 'relative',
       textTransform: 'uppercase',
-      fontSize: 14,
+      fontSize: 13,
       fontWeight: 'bold',
       borderBottom: '1px solid currentColor',
       '&::after': {

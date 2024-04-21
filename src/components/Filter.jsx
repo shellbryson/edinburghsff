@@ -6,11 +6,11 @@ import { useApp } from '../context/AppContext';
 // MUI
 import Box from '@mui/material/Box';
 import { useTheme } from '@mui/material/styles';
-import Divider from '@mui/material/Divider';
+import Typography from '@mui/material/Typography';
 
 // MUI Icons
 import IconButton from '@mui/material/IconButton';
-import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
+import PlaceIcon from '@mui/icons-material/Place';
 import FestivalIcon from '@mui/icons-material/Festival';
 import MenuBookOutlinedIcon from '@mui/icons-material/MenuBookOutlined';
 import LocalCafeOutlinedIcon from '@mui/icons-material/LocalCafeOutlined';
@@ -33,7 +33,6 @@ export default function Filter({onFilterMap}) {
     flexDirection: "column",
     position: "absolute",
     bottom: "1rem",
-    alignItems: "center",
     justifyContent: "center",
     gap: "4px",
     zIndex: 1000,
@@ -74,6 +73,7 @@ export default function Filter({onFilterMap}) {
   }
 
   const handleToggleSearch = () => {
+    setActiveFilter("All");
     setIsShowingSearch(!isShowingSearch);
   }
 
@@ -88,6 +88,9 @@ export default function Filter({onFilterMap}) {
       { isShowingSearch && <Box style={styleFilterSearch} className="sff-filters__search">
         <MapSearch />
       </Box>}
+      <Box>
+        <Typography variant='title_small' sx={{ color: theme.palette.primary.main, textAlign: "left" }}>{activeFilter}</Typography>
+      </Box>
       <Box style={styleFilterIcons} className="sff-filters__icons">
         <IconButton className="sff-filters__button" aria-label="Venues" onClick={() => handleFilterMap('Venue')} style={ activeFilter === "Venue" ? styleIconActive : styleIconInactive }>
           <FestivalIcon />
@@ -102,7 +105,7 @@ export default function Filter({onFilterMap}) {
           <LocalLibraryOutlinedIcon />
         </IconButton>
         <IconButton className="sff-filters__button" aria-label="All" onClick={() => handleFilterMap()} style={ activeFilter === "All" ? styleIconActive : styleIconInactive }>
-          <PushPinOutlinedIcon />
+          <PlaceIcon />
         </IconButton>
         <IconButton className="sff-filters__button" aria-label="Show search" onClick={() => handleToggleSearch()} style={ isShowingSearch ? styleIconActive : styleIconInactive } >
           <SearchIcon />
