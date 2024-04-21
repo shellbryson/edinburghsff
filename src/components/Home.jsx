@@ -8,11 +8,12 @@ import { useTheme } from '@mui/material/styles';
 // Customer UI
 import PlacesOfInterest from './panels/PlacesOfInterest';
 import UpComingEvents from './panels/UpComingEvents';
+import SearchPanel from './panels/SearchPanel';
 
 // Resources
 import 'css.gg/icons/scss/chevron-left.scss'
 
-export default function Home() {
+export default function Home({onSearchMap}) {
 
   const theme = useTheme();
 
@@ -38,6 +39,7 @@ export default function Home() {
       </Typography>
       <PlacesOfInterest />
       <UpComingEvents />
+      <SearchPanel onSearchMap={onSearchMap}/>
     </Box>
   );
 }

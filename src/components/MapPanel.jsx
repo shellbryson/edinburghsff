@@ -18,7 +18,7 @@ import 'css.gg/icons/scss/chevron-left.scss'
 import 'css.gg/icons/scss/chevron-right.scss'
 import 'css.gg/icons/scss/menu.scss'
 
-export default function MapPanel() {
+export default function MapPanel({onSearchMap}) {
 
   const location = useLocation();
   const {

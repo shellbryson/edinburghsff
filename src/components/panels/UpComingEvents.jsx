@@ -7,7 +7,6 @@ import { db } from "../../firebase";
 // MUI
 import Box from '@mui/material/Box';
 import Typeography from '@mui/material/Typography';
-import Link from '@mui/material/Link';
 
 import { useTheme } from '@mui/material/styles';
 

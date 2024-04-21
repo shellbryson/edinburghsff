@@ -30,7 +30,9 @@ export default function Map() {
     isExpanded,
     setIsExpanded,
     isExploded,
-    setIsExploded
+    setIsExploded,
+    mapSearchText,
+    setMapSearchText
   } = useApp();
 
   const [searchParams, setSearchParams] = useSearchParams();
@@ -117,6 +119,10 @@ export default function Map() {
   }, []);
 
   useEffect(() => {
+    handleOnSearchMap();
+  }, [mapSearchText]);
+
+  useEffect(() => {
     if (searchParams.get('placeID')) {
       const place = mapLocations.find(l => l.id === searchParams.get('placeID'));
       if (place) {
@@ -153,6 +159,15 @@ export default function Map() {
     setFilteredLocations(filtered);
   }
 
+  const handleOnSearchMap = () => {
+    const filtered = mapLocations.filter(entry => entry.title.toLowerCase().includes(mapSearchText.toLowerCase()));
+    if (mapSearchText === "") {
+      setFilteredLocations(mapLocations);
+    } else {
+      setFilteredLocations(filtered);
+    }
+  }
+
   return (
     isLoaded ?
       <>
@@ -182,13 +197,13 @@ export default function Map() {
         <Box style={styleLogo} className="sff-logo">
           <Logo />
         </Box>
-        {!isExploded && <Filter onFilterMap={handleFilterMap} />}
+        {!isExploded && <Filter onFilterMap={handleFilterMap} onSearchMap={ handleOnSearchMap } />}
         <MapModal
           pinData={pinData}
           isOpenDialog={isOpenDialog}
           handleCloseDetails={handleCloseDetails}
         />
-        <MapPanel />
+        <MapPanel onSearchMap={ handleOnSearchMap }/>
       </>
     : <Spinner />
   )

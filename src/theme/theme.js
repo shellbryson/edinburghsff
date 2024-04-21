@@ -45,7 +45,7 @@ export const customTheme = createTheme({
       main: '#fded07',
     },
     primary: {
-      main: '#007896',
+      main: '#fded07',
     },
     primary_dark: {
       main: '#003B4A',
