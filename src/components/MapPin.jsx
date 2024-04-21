@@ -59,15 +59,15 @@ export default function MapPin({tags, title, data, onClickPin}) {
   if (tags) {
     tagArray = tags.split(",");
     if (tagArray.includes("Venue")) {
-      pinIcon = <FestivalIcon color="brand" />;
+      pinIcon = <FestivalIcon color="primary" />;
     } else if (tagArray.includes("Bookshop")) {
-      pinIcon = <MenuBookOutlinedIcon color="brand" />;
+      pinIcon = <MenuBookOutlinedIcon color="primary" />;
     } else if (tagArray.includes("Cafe")) {
-      pinIcon = <LocalCafeOutlinedIcon color="brand" />;
+      pinIcon = <LocalCafeOutlinedIcon color="primary" />;
     } else if (tagArray.includes("Library")) {
-      pinIcon = <LocalLibraryOutlinedIcon color="brand" />;
+      pinIcon = <LocalLibraryOutlinedIcon color="primary" />;
     } else {
-      pinIcon = <PushPinOutlinedIcon color="brand" />;
+      pinIcon = <PushPinOutlinedIcon color="primary" />;
     }
   }
 
