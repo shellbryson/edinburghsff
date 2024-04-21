@@ -53,7 +53,7 @@ export default function MapSearch() {
           inputProps={{ 'aria-label': 'Search map' }}
           value={mapSearchText} onChange={(e) => handleSearchChange(e.target.value)}
         />
-        <IconButton type="button" sx={{ p: '10px', color: '#fff' }} aria-label="search">
+        <IconButton type="button" sx={{ p: '10px', color: theme.palette.primary.main }} aria-label="search">
           <SearchIcon />
         </IconButton>
       </Paper>

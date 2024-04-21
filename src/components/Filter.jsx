@@ -5,9 +5,8 @@ import { useApp } from '../context/AppContext';
 
 // MUI
 import Box from '@mui/material/Box';
-
-// Icons
-import 'css.gg/icons/scss/chevron-left.scss'
+import { useTheme } from '@mui/material/styles';
+import Divider from '@mui/material/Divider';
 
 // MUI Icons
 import IconButton from '@mui/material/IconButton';
@@ -23,7 +22,11 @@ import MapSearch from './MapSearch';
 
 export default function Filter({onFilterMap}) {
 
+  const theme = useTheme();
+
   const { isExpanded, isShowingSearch, setIsShowingSearch } = useApp();
+
+  const [activeFilter, setActiveFilter] = useState('All');
 
   const styleFilter = {
     display: "flex",
@@ -36,7 +39,6 @@ export default function Filter({onFilterMap}) {
     zIndex: 1000,
     marginLeft: isExpanded ? "300px" : "0",
     backgroundColor: "rgb(0, 0, 0)",
-    transition: "margin-left 200ms",
     padding: "0.5rem",
   }
 
@@ -49,19 +51,36 @@ export default function Filter({onFilterMap}) {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    gap: "1rem",
     backgroundColor: "rgb(0, 0, 0)",
+    gap: "4px",
   }
 
-  const styleIcon = {
-    display: "block",
-    width: "1.5rem",
-    height: "1.5rem",
-    fontSize: "1.5rem",
+  const styleIconInactive = {
+    display: "flex",
+    alignItems: "center",
+    backgroundColor: "rgb(0, 0, 0)",
+    color: theme.palette.primary.main,
+    borderRadius: "0",
+    padding: "0.5rem",
+  }
+
+  const styleIconActive = {
+    display: "flex",
+    alignItems: "center",
+    backgroundColor: theme.palette.primary.main,
+    color: "#000",
+    borderRadius: "0",
+    padding: "0.5rem",
   }
 
   const handleToggleSearch = () => {
     setIsShowingSearch(!isShowingSearch);
+  }
+
+  const handleFilterMap = (type) => {
+    const filter = type ? type : 'All';
+    setActiveFilter(filter);
+    onFilterMap(type);
   }
 
   return (
@@ -70,23 +89,23 @@ export default function Filter({onFilterMap}) {
         <MapSearch />
       </Box>}
       <Box style={styleFilterIcons} className="sff-filters__icons">
-        <IconButton aria-label="Venues" onClick={() => onFilterMap('Venue')}>
-          <FestivalIcon style={ styleIcon } color="brand" />
+        <IconButton className="sff-filters__button" aria-label="Venues" onClick={() => handleFilterMap('Venue')} style={ activeFilter === "Venue" ? styleIconActive : styleIconInactive }>
+          <FestivalIcon />
         </IconButton>
-        <IconButton aria-label="Bookshops" onClick={() => onFilterMap('Bookshop')}>
-          <MenuBookOutlinedIcon style={ styleIcon } color="brand" />
+        <IconButton className="sff-filters__button" aria-label="Bookshops" onClick={() => handleFilterMap('Bookshop')} style={ activeFilter === "Bookshop" ? styleIconActive : styleIconInactive }>
+          <MenuBookOutlinedIcon />
         </IconButton>
-        <IconButton aria-label="Cafes" onClick={() => onFilterMap('Cafe')}>
-          <LocalCafeOutlinedIcon style={ styleIcon } color="brand" />
+        <IconButton className="sff-filters__button" aria-label="Cafes" onClick={() => handleFilterMap('Cafe')} style={ activeFilter === "Cafe" ? styleIconActive : styleIconInactive }>
+          <LocalCafeOutlinedIcon />
         </IconButton>
-        <IconButton aria-label="Libraries" onClick={() => onFilterMap('Library')}>
-          <LocalLibraryOutlinedIcon style={ styleIcon } color="brand" />
+        <IconButton className="sff-filters__button" aria-label="Libraries" onClick={() => handleFilterMap('Library')} style={ activeFilter === "Library" ? styleIconActive : styleIconInactive }>
+          <LocalLibraryOutlinedIcon />
         </IconButton>
-        <IconButton aria-label="All" onClick={() => onFilterMap()}>
-          <PushPinOutlinedIcon style={ styleIcon } color="brand" />
+        <IconButton className="sff-filters__button" aria-label="All" onClick={() => handleFilterMap()} style={ activeFilter === "All" ? styleIconActive : styleIconInactive }>
+          <PushPinOutlinedIcon />
         </IconButton>
-        <IconButton aria-label="All" onClick={() => handleToggleSearch()}>
-          <SearchIcon style={ styleIcon } color="brand" />
+        <IconButton className="sff-filters__button" aria-label="Show search" onClick={() => handleToggleSearch()} style={ isShowingSearch ? styleIconActive : styleIconInactive } >
+          <SearchIcon />
         </IconButton>
       </Box>
     </Box>
