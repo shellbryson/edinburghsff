@@ -46,15 +46,13 @@ export const customTheme = createTheme({
     },
     primary: {
       main: '#fded07',
-    },
-    primary_dark: {
-      main: '#003B4A',
+      dark: '#003B4A',
     },
     secondary: {
       main: '#EEF0EE',
     },
     warning: {
-      main: '#FDE6D8'
+      main: '#c51d1d'
     }
   },
   components: {

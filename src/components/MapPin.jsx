@@ -31,8 +31,8 @@ export default function MapPin({tags, title, data, onClickPin}) {
     width: "2rem",
     height: "2rem",
     fontSize: "1rem",
-    color: data.focus ? "#ff0000" : "currentColor",
-    backgroundColor: data.focus ? "#ff0000" : "currentColor",
+    color: data.focus ? theme.palette.warning.main : "currentColor",
+    backgroundColor: data.focus ? theme.palette.warning.main : "currentColor",
     top: "0",
     alignItems: "center",
     justifyContent: "center"
@@ -43,15 +43,14 @@ export default function MapPin({tags, title, data, onClickPin}) {
     position: "absolute",
     fontSize: "0.5rem",
     color: theme.palette.brand.main,
-    backgroundColor: "#ff0000",
+    backgroundColor: theme.palette.warning.main,
     top: "0",
     left: "2rem",
     alignItems: "center",
     justifyContent: "center",
     whiteSpace: "nowrap",
-    padding: "4px 0.5rem",
+    padding: "4px 1rem 4px 0",
     clipPath: "polygon(0 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%)"
-
   }
 
   let pinIcon;
