@@ -9,15 +9,13 @@ const spinnerContainerStyle = {
   alignItems: 'center',
   justifyContent: 'center',
   width: "100%",
-  minHeight: "300px"
+  minHeight: "100%"
 }
 
-const Spinner = () => {
+export default function Spinner() {
   return (
     <Box style={spinnerContainerStyle}>
       <CircularProgress />
     </Box>
   );
 };
-
-export default Spinner;

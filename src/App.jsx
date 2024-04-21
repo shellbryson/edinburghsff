@@ -10,11 +10,10 @@ import { ConfirmProvider } from "material-ui-confirm";
 
 // MUI Components
 import Box from '@mui/material/Box';
-import CircularProgress from '@mui/material/CircularProgress';
 
 // Custom Components
 import Map from './components/Map';
-import MainPanel from './components/MapPanel';
+import Spinner from './components/Spinner';
 
 // Layouts
 import AdminLayout from './layouts/AdminLayout';
@@ -50,28 +49,12 @@ const styleLayout = {
   backgroundColor: "rgb(0, 0, 0)",
 }
 
-const styleLoader = {
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  flexDirection: 'column',
-  width: "100vw",
-  height: "100%"
-}
-
 function App() {
-  const renderLoader = () => {
-    return (
-      <Box style={styleLoader}>
-        <CircularProgress />
-      </Box>
-    )
-  }
   return (
     <ThemeProvider theme={customTheme}>
       <Box style={styleLayout} className="sff">
         <ConfirmProvider>
-          <Suspense fallback={renderLoader()}>
+          <Suspense fallback={<Spinner />}>
             <Routes>
               <Route path="/" element={<Map />}>
                 <Route path="welcome" element={<Welcome />} />
