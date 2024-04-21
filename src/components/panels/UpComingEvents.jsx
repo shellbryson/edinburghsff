@@ -31,7 +31,7 @@ export default function UpComingEvents() {
     flexDirection: "column",
     gap: "0.5rem",
     marginTop: "1rem",
-    border: `1px solid ${theme.palette.primary.main}`,
+    border: `1px solid ${theme.palette.primary.dark}`,
     padding: "0.5rem"
   }
 

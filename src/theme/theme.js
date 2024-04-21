@@ -59,7 +59,7 @@ export const customTheme = createTheme({
     },
     primary: {
       main: '#fded07',
-      dark: '#003B4A',
+      dark: '#6d6710',
     },
     secondary: {
       main: '#05d7f2',

@@ -18,7 +18,7 @@ export default function SearchPanel() {
     flexDirection: "column",
     gap: "1rem",
     marginTop: "1rem",
-    border: `1px solid ${theme.palette.brand.main}`,
+    border: `1px solid ${theme.palette.primary.dark}`,
     padding: "0.5rem"
   }
 
