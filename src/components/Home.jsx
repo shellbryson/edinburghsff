@@ -11,6 +11,7 @@ import UpComingEvents from './panels/UpComingEvents';
 import SearchPanel from './panels/SearchPanel';
 import Logo from './Logo';
 import Background from './Background';
+import Footer from './Footer';
 
 // Resources
 import 'css.gg/icons/scss/chevron-left.scss'
@@ -66,6 +67,7 @@ export default function Home({onSearchMap}) {
       <PlacesOfInterest />
       <UpComingEvents />
       <SearchPanel onSearchMap={onSearchMap}/>
+      <Footer />
     </Box>
   );
 }

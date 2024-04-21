@@ -10,7 +10,6 @@ import Box from '@mui/material/Box';
 // Custom UI
 import PageLayout from '../layouts/PageLayout';
 import Navigation from './Navigation';
-import Footer from './Footer';
 import Home from './Home';
 
 // Icons
@@ -101,7 +100,6 @@ export default function MapPanel({onSearchMap}) {
         <Box style={stylePanelContent} className="sff-panel__content">
           <Navigation />
           { isExploded ? <PageLayout /> : <Home /> }
-          { !isChildOfAdmin && <Footer />}
         </Box>
       </Box>
     </Box>
