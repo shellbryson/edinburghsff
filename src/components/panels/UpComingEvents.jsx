@@ -29,7 +29,7 @@ export default function UpComingEvents() {
     display: "flex",
     position: "relative",
     flexDirection: "column",
-    gap: "1rem",
+    gap: "0.5rem",
     marginTop: "1rem",
     border: `1px solid ${theme.palette.primary.main}`,
     padding: "0.5rem"
@@ -45,12 +45,19 @@ export default function UpComingEvents() {
     width: "100%",
   }
 
+  const styleLink={
+    whiteSpace: "nowrap",
+    maxWidth: "90%",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+  }
+
   const styleMore={
     display: "flex",
     position: "relative",
     gap: "0.5rem",
     cursor: "pointer",
-    alignItems: "center",
+    alignItems: "top",
     justifyContent: "space-between",
     width: "100%",
   }
@@ -91,10 +98,10 @@ export default function UpComingEvents() {
 
   return (
     <Box style={styleEvents} className="sff-panel-events">
-      <Typeography component="p" variant="title_small">Events</Typeography>
+      <Typeography component="h2" variant="h_small">Events</Typeography>
       {events.map((event, index) => (
         <Box key={index} style={styleEvent} className="sff-panel-events__event">
-          <Typeography component="a" onClick={() => handleClickEvent(event.id, event.title)}>{event.title}</Typeography>
+          <Typeography style={styleLink} component="a" variant="a_white" onClick={() => handleClickEvent(event.id, event.title)}>{event.title}</Typeography>
           <EventIcon />
         </Box>
       ))}

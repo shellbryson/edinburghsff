@@ -5,16 +5,19 @@ export const customTheme = createTheme({
     fontFamily: 'var(--font-body)',
     color: '#ffffff',
     h1: {
-      fontSize: 32,
-      textTransform: 'uppercase',
+      fontSize: 24,
       paddingBottom: '2rem'
     },
     h2: {
-      fontSize: 24,
+      fontSize: 18,
       paddingBottom: '1.5rem'
     },
     tile_heading: {
       fontSize: 24,
+    },
+    a_white: {
+      fontSize: 16,
+      color: '#ffffff',
     },
     p: {
       fontSize: 16,
@@ -22,7 +25,7 @@ export const customTheme = createTheme({
     p_small: {
       fontSize: 13,
     },
-    title_small: {
+    h_small: {
       position: 'relative',
       textTransform: 'uppercase',
       fontSize: 13,
@@ -38,6 +41,16 @@ export const customTheme = createTheme({
         paddingTop: "1px"
       },
     },
+    h_medium: {
+      fontSize: 18,
+      textTransform: 'uppercase',
+      paddingBottom: '1.5rem'
+    },
+    h_large: {
+      fontSize: 24,
+      textTransform: 'uppercase',
+      paddingBottom: '2rem'
+    },
   },
   palette: {
     mode: 'light',
@@ -49,7 +62,7 @@ export const customTheme = createTheme({
       dark: '#003B4A',
     },
     secondary: {
-      main: '#EEF0EE',
+      main: '#05d7f2',
     },
     warning: {
       main: '#c51d1d'

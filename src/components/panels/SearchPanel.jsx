@@ -24,7 +24,7 @@ export default function SearchPanel() {
 
   return (
     <Box style={styleBox} className="sff-panel-search">
-      <Typeography component="p" variant="title_small">Search</Typeography>
+      <Typeography component="h2" variant="h_small">Search</Typeography>
       <MapSearch />
     </Box>
   );

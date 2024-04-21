@@ -50,6 +50,13 @@ export default function PlacesOfInterest() {
     width: "100%",
   }
 
+  const styleLink={
+    whiteSpace: "nowrap",
+    maxWidth: "90%",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+  }
+
   const handleClickPointOfInterest = (id) => {
     const locations = mapLocations.map(location => {
       if (location.id === id) {
@@ -68,10 +75,10 @@ export default function PlacesOfInterest() {
 
   return (
     <Box style={stylePointsOfInterest} className="sff-panel-interesting">
-      <Typeography component="p" variant="title_small">Places of Interest</Typeography>
+      <Typeography component="h2" variant="h_small">Places of Interest</Typeography>
       {places.map((place, index) => (
         <Box key={index} style={stylePlace} className="sff-interesting__place">
-          <Typeography component="p" key={index} onClick={() => handleClickPointOfInterest(place.id)}>{place.title}</Typeography>
+          <Typeography style={styleLink} component="a" variant="a_white" key={index} onClick={() => handleClickPointOfInterest(place.id)}>{place.title}</Typeography>
           <PinDropIcon />
         </Box>
       ))}

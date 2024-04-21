@@ -89,7 +89,7 @@ export default function Filter({onFilterMap}) {
         <MapSearch />
       </Box>}
       <Box>
-        <Typography variant='title_small' sx={{ color: theme.palette.primary.main, textAlign: "left" }}>{activeFilter}</Typography>
+        <Typography variant='h_small' sx={{ color: theme.palette.primary.main, textAlign: "left" }}>{activeFilter}</Typography>
       </Box>
       <Box style={styleFilterIcons} className="sff-filters__icons">
         <IconButton className="sff-filters__button" aria-label="Venues" onClick={() => handleFilterMap('Venue')} style={ activeFilter === "Venue" ? styleIconActive : styleIconInactive }>
