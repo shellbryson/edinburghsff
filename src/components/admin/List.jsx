@@ -21,7 +21,7 @@ import EventsListImage from './ListImage';
 
 import {imageURL} from '../../utils/utils';
 
-export default function AdminMap({ data, onUpdate, onOpenForm, tableStructure }) {
+export default function List({ data, onUpdate, onOpenForm, tableStructure }) {
 
   const [items, setItems] = useState([]);
   const [filter, setFilter] = useState('');
