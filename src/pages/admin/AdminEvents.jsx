@@ -148,6 +148,7 @@ export default function AdminEvents() {
 
     // Reset to Add mode
     setIsUpdate(false);
+    setIsDirty(false);
   };
 
   const handleOpenUpdate = (data) => {
@@ -300,7 +301,33 @@ export default function AdminEvents() {
   };
 
   const handleFileUpload = (url) => {
+    if (url !== imgUrl) setIsDirty(true);
     setImgUrl(url)
+  }
+
+  const handleChangeDescription = (text) => {
+    if (text !== description) setIsDirty(true);
+    setDescription(text);
+  };
+
+  const handleChangeTitle = (text) => {
+    if (text !== title) setIsDirty(true);
+    setTitle(text);
+  }
+
+  const handleChangeUrl = (text) => {
+    if (text !== url) setIsDirty(true);
+    setURL(text);
+  }
+
+  const handleChangeEventStart = (d) => {
+    if (d !== eventStart) setIsDirty(true);
+    setEventStart(d);
+  }
+
+  const handleChangeEventEnd = (d) => {
+    if (d !== eventStart) setIsDirty(true);
+    setEventEnd(d);
   }
 
   return (
@@ -325,17 +352,17 @@ export default function AdminEvents() {
 
             <TextField sx={{ width: '100%' }}
               color="form"
-              required value={title} label="Title" onChange={(e) => setTitle(e.target.value)} type='text'
+              required value={title} label="Title" onChange={(e) => handleChangeTitle(e.target.value)} type='text'
             />
 
             <TextField sx={{ width: '100%' }}
               color="form"
-              required value={url} label="URL" onChange={(e) => setURL(e.target.value)} type='url'
+              required value={url} label="URL" onChange={(e) => handleChangeUrl(e.target.value)} type='url'
             />
 
             <TextField sx={{ width: '100%' }}
               color="form"
-              required value={description} multiline rows={8} label="Description" onChange={(e) => setDescription(e.target.value)}
+              required value={description} multiline rows={8} label="Description" onChange={(e) => handleChangeDescription(e.target.value)}
             />
 
             <TextField sx={{ width: '100%' }}
@@ -344,12 +371,12 @@ export default function AdminEvents() {
             />
 
             <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-gb">
-              <DateTimePicker showTodayButton label="Event start" value={eventStart} onChange={(newValue) => setEventStart(newValue)}
+              <DateTimePicker color="form" label="Event start" value={eventStart} onChange={(newValue) => handleChangeEventStart(newValue)}
                 renderInput={(params) => (
                   <TextField {...params} color="form" />
                 )}
               />
-              <DateTimePicker showTodayButtoncolor="form" label="Event end" value={eventEnd} onChange={(newValue) => setEventEnd(newValue)}
+              <DateTimePicker color="form" label="Event end" value={eventEnd} onChange={(newValue) => handleChangeEventEnd(newValue)}
                 renderInput={(params) => (
                   <TextField {...params} color="form" />
                 )}
