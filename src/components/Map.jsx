@@ -121,7 +121,7 @@ export default function Map() {
 
   useEffect(() => {
     if (searchParams.get('placeID')) {
-      const place = mapLocations.find(l => l.id === searchParams.get('placeID'));
+      const place = mapLocations.find(location => location.id === searchParams.get('placeID'));
       if (!place) return;
       setPinData(place);
       setIsOpenDialog(true);
@@ -134,7 +134,7 @@ export default function Map() {
     centerMapOnPin(thisPin);
   }, [focusMapPin]);
 
-  const onGoogleApiLoaded = ({ map }) => {
+  const onGoogleApiLoaded = ({map}) => {
     mapRef.current = map
     setMapReady(true)
   }
