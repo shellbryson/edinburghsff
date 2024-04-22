@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useSearchParams } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { getDocs, collection, query } from 'firebase/firestore';
 import { db } from "../firebase";
 import GoogleMapReact from 'google-maps-react-markers';
@@ -36,7 +36,10 @@ export default function Map() {
     setMapSearchText
   } = useApp();
 
-  const [searchParams, setSearchParams] = useSearchParams();
+  const params = useParams();
+  const navigate = useNavigate();
+  const mapRef = useRef(null);
+  const location = useLocation();
 
   useHead({
     title: "Edinburgh SFF",
@@ -46,10 +49,8 @@ export default function Map() {
 
   const [filteredLocations, setFilteredLocations] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
-
   const [isOpenDialog, setIsOpenDialog] = useState(false);
 
-  const mapRef = useRef(null)
   const [mapReady, setMapReady] = useState(false);
   const [pinData, setPinData] = useState({});
 
@@ -120,19 +121,22 @@ export default function Map() {
   }, [mapSearchText]);
 
   useEffect(() => {
-    if (searchParams.get('placeID')) {
-      const place = mapLocations.find(location => location.id === searchParams.get('placeID'));
-      if (!place) return;
-      setPinData(place);
-      setIsOpenDialog(true);
-    }
-  }, [mapLocations]);
-
-  useEffect(() => {
     const thisPin = mapLocations.find(location => location.id === focusMapPin);
     if (!thisPin) return;
     centerMapOnPin(thisPin);
   }, [focusMapPin]);
+
+  useEffect(() => {
+    // Runs every time the URL changes or the mapLocations updates
+    if (location.pathname === '/') { setIsOpenDialog(false); return; }
+    if (!params.id || !mapLocations.length) return;
+
+    const place = mapLocations.find(location => location.id === params.id);
+    if (place) {
+      setPinData(place);
+      setIsOpenDialog(true);
+    }
+  }, [mapLocations, params.id])
 
   const onGoogleApiLoaded = ({map}) => {
     mapRef.current = map;
@@ -142,13 +146,14 @@ export default function Map() {
   const onClickPin = (data) => {
     setPinData(data);
     setIsOpenDialog(true)
-    setSearchParams({ placeID: data.id, placeSlug: slugify(data.title) });
+    navigate(`/places/${data.id}/${slugify(data.title)}`);
   }
 
   const handleCloseDetails = () => {
     setSearchParams({});
     setPinData({});
     setIsOpenDialog(false);
+    navigate(`/`);
   };
 
   const handleFilterMap = (tag) => {

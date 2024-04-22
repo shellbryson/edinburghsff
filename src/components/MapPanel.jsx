@@ -28,7 +28,7 @@ export default function MapPanel() {
   } = useApp();
 
   useEffect(() => {
-    location.pathname === '/' ? setIsExploded(false) : setIsExploded(true);
+    location.pathname === '/' || location.pathname.includes("/places") ? setIsExploded(false) : setIsExploded(true);
   }, [location]);
 
   const styles = {

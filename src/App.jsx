@@ -11,7 +11,7 @@ import { ConfirmProvider } from "material-ui-confirm";
 // MUI Components
 import Box from '@mui/material/Box';
 
-// Custom Components
+// Custom UI
 import Map from './components/Map';
 import Spinner from './components/Spinner';
 
@@ -56,6 +56,7 @@ function App() {
         <ConfirmProvider>
           <Suspense fallback={<Spinner />}>
             <Routes>
+              <Route path="/places/:id/:place" element={<Map />} />
               <Route path="/" element={<Map />}>
                 <Route path="welcome" element={<Welcome />} />
                 <Route path="signin" element={<Signin />} />
