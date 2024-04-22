@@ -340,7 +340,7 @@ export default function AdminEvents() {
           </Stack>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseForm} variant='outlined'>Cancel</Button>
+          <Button onClick={handleCloseForm} variant='outlined'>Close</Button>
           { isUpdate ?
             <>
               <Button onClick={() => handleDelete(updateId)} variant="outlined" startIcon={<DeleteIcon />}>Delete</Button>

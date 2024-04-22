@@ -128,15 +128,20 @@ export default function Map() {
 
   useEffect(() => {
     // Runs every time the URL changes or the mapLocations updates
-    if (location.pathname === '/') { setIsOpenDialog(false); return; }
-    if (!params.id || !mapLocations.length) return;
+    if (location.pathname === '/') {
+      setIsOpenDialog(false);
+      return;
+    }
+    if (!params.id || !mapLocations.length) {
+      return;
+    }
 
-    const place = mapLocations.find(location => location.id === params.id);
+    const place = mapLocations.find(location => location.id === slugify(params.place));
     if (place) {
       setPinData(place);
       setIsOpenDialog(true);
     }
-  }, [mapLocations, params.id])
+  }, [mapLocations, params.id]);
 
   const onGoogleApiLoaded = ({map}) => {
     mapRef.current = map;
@@ -146,11 +151,10 @@ export default function Map() {
   const onClickPin = (data) => {
     setPinData(data);
     setIsOpenDialog(true)
-    navigate(`/places/${data.id}/${slugify(data.title)}`);
+    navigate(`/places/${slugify(data.title)}`);
   }
 
   const handleCloseDetails = () => {
-    setSearchParams({});
     setPinData({});
     setIsOpenDialog(false);
     navigate(`/`);

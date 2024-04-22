@@ -180,7 +180,7 @@ export default function AdminMap() {
     setIsUpdate(false);
   };
 
-  const onFetchDocument = (data) => {
+  const handleOpenUpdate = (data) => {
     setTitle(data.title);
     setDescription(data.description);
     setURL(data.url);
@@ -207,11 +207,6 @@ export default function AdminMap() {
 
     setIsUpdate(true);
     setOpenAdd(true);
-  }
-
-  const handleOpenUpdate = (data) => {
-    setIsLoading(true);
-    fetchDocument('locations', data.id, onFetchDocument);
   };
 
   const handleNoiseLevelChange = (val) => {
@@ -294,7 +289,6 @@ export default function AdminMap() {
 
     try {
       const l = doc(db, "locations", updateId);
-
       const data = {
         title: title,
         description: description,
@@ -313,8 +307,6 @@ export default function AdminMap() {
           timestamp: new Date()
         }
       }
-
-      console.log("Update", data);
 
       await updateDoc(l, data);
 

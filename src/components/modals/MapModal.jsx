@@ -11,6 +11,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { styled } from '@mui/material/styles';
 
+// Icons
 import CloseIcon from '@mui/icons-material/Close';
 import LocalCafeIcon from '@mui/icons-material/LocalCafe';
 import SportsBarIcon from '@mui/icons-material/SportsBar';
@@ -19,8 +20,6 @@ import WifiIcon from '@mui/icons-material/Wifi';
 import PowerIcon from '@mui/icons-material/Power';
 import PetsIcon from '@mui/icons-material/Pets';
 import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
-
-// MUI Icons
 import IconButton from '@mui/material/IconButton';
 
 // Custom UI

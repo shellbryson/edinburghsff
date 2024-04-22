@@ -56,7 +56,7 @@ function App() {
         <ConfirmProvider>
           <Suspense fallback={<Spinner />}>
             <Routes>
-              <Route path="/places/:id/:place" element={<Map />} />
+              <Route path="/places/:place" element={<Map />} />
               <Route path="/" element={<Map />}>
                 <Route path="welcome" element={<Welcome />} />
                 <Route path="signin" element={<Signin />} />
