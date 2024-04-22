@@ -14,23 +14,28 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
+// Icons
+import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
+
 // Custom UI
 import EventsListImage from './ListImage';
 
 import {imageURL} from '../../utils/utils';
 
-const styleActionBar = {
-  display: "flex",
-  gap: "0.5rem",
-  justifyContent: "center",
-  alignItems: "center",
-  paddingTop: "1rem",
-}
-
 const List = ({ data, onUpdate, onOpenForm, tableStructure }) => {
 
   const [items, setItems] = useState([]);
   const [filter, setFilter] = useState('');
+
+  const style = {
+    actionbar: {
+      display: "flex",
+      gap: "0.5rem",
+      justifyContent: "space-between",
+      alignItems: "center",
+      padding: "1rem"
+    }
+  }
 
   useEffect(() => {
     setItems(data);
@@ -90,14 +95,15 @@ const List = ({ data, onUpdate, onOpenForm, tableStructure }) => {
 
   return (
     <Paper>
-      <Box style={styleActionBar}>
+      <Box style={style.actionbar}>
         <TextField
+          color="form"
           value={filter}
           label="Filter"
           size="small"
           onChange={(e) => handleFilter(e.target.value)}
         />
-        <Button onClick={() => onOpenForm()} variant='outlined'>Add</Button>
+        <Button onClick={() => onOpenForm()} variant='outlined' color="form" startIcon={<LibraryAddIcon />}>Add</Button>
       </Box>
       <TableContainer component={Paper} sx={{ mt: 4, mb: 4 }}>
         <Table sx={{ minWidth: 500 }} aria-label="List of events">

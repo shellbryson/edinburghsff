@@ -1,12 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react';
-
 import { doc, getDocs, addDoc, updateDoc, deleteDoc, collection, orderBy, query } from 'firebase/firestore';
 import { db } from "../../firebase";
+import { useConfirm } from "material-ui-confirm";
 
+// Contexts
 import { useAuth } from '../../context/AuthContext';
 import { useApp } from '../../context/AppContext';
-
-import { useConfirm } from "material-ui-confirm";
 
 // MUI
 import Alert from '@mui/material/Alert';
@@ -22,27 +21,25 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
-
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-
-import DeleteIcon from '@mui/icons-material/Delete';
-
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
-// Custom Components
+
+// Icons
+import DeleteIcon from '@mui/icons-material/Delete';
+
+
+// Custom UI
 import PageHeading from '../../components/PageHeading';
 import List from '../../components/admin/List';
 import UploadImage from '../../components/admin/UploadImage';
-
-import { fetchDocument } from '../../utils/utils';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -116,7 +113,7 @@ export default function AdminMap() {
   const [updateId, setUpdateId] = useState('');
 
   // UI state
-  const [openAdd, setOpenAdd] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [error, setError] = useState('');
   const [isDirty, setIsDirty] = useState(false);
 
@@ -124,10 +121,12 @@ export default function AdminMap() {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
-  const styleDirty = {
-    textTransform: 'uppercase',
-    color: "red",
-    marginRight: "1rem"
+  const style = {
+    dirty: {
+      textTransform: 'uppercase',
+      color: "red",
+      marginRight: "1rem"
+    }
   }
 
   useEffect(() => {
@@ -155,12 +154,12 @@ export default function AdminMap() {
   }
 
   const handleOpenForm = () => {
-    setOpenAdd(true);
+    setIsDialogOpen(true);
   };
 
   const handleCloseForm = () => {
     // Close the dialog
-    setOpenAdd(false);
+    setIsDialogOpen(false);
 
     // Reset common fields
     setTitle('');
@@ -206,7 +205,7 @@ export default function AdminMap() {
     }
 
     setIsUpdate(true);
-    setOpenAdd(true);
+    setIsDialogOpen(true);
   };
 
   const handleNoiseLevelChange = (val) => {
@@ -323,6 +322,7 @@ export default function AdminMap() {
     try {
       await deleteDoc(doc(db, "locations", id));
       getLocations();
+      setIsDialogOpen(false);
     } catch (e) {
       setIsLoading(false);
       console.error("Error deleting document: ", e);
@@ -396,7 +396,7 @@ export default function AdminMap() {
         fullWidth
         maxWidth="sm"
         fullScreen={fullScreen}
-        open={openAdd}
+        open={isDialogOpen}
         onClose={handleCloseForm}
         scroll="paper"
         aria-labelledby="add-dialog-title">
@@ -411,24 +411,27 @@ export default function AdminMap() {
           <Stack spacing={2} sx={{ mt: 2}}>
 
             <TextField sx={{ width: '100%' }}
+              color="form"
               value={title} required label="Title"
               onChange={(e) => handleChangeTitle(e.target.value)} type='text'
             />
 
             <TextField sx={{ width: '100%' }}
+              color="form"
               value={url} required label="URL"
               onChange={(e) => handleChangeUrl(e.target.value)} type='url'
             />
 
             <FormControl sx={{ m: 1 }}>
-              <InputLabel id="demo-multiple-chip-label">Location tags</InputLabel>
+              <InputLabel color="form" id="demo-multiple-chip-label">Location tags</InputLabel>
               <Select
+                color="form"
                 labelId="demo-multiple-chip-label"
                 id="demo-multiple-chip"
                 multiple
                 value={locationTags}
                 onChange={handleLocationTagsChange}
-                input={<OutlinedInput id="select-multiple-chip" label="Location tag" />}
+                input={<OutlinedInput id="select-multiple-chip" label="Location tag" color="form" />}
                 renderValue={(selected) => (
                   <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
                     {selected.map((value) => (
@@ -447,14 +450,15 @@ export default function AdminMap() {
             </FormControl>
 
             <FormControl sx={{ m: 1 }}>
-              <InputLabel id="demo-multiple-chip-label">Facilities</InputLabel>
+              <InputLabel color="form" id="demo-multiple-chip-label">Facilities</InputLabel>
               <Select
+                color="form"
                 labelId="demo-multiple-chip-label"
                 id="demo-multiple-chip"
                 multiple
                 value={locationFacilities}
                 onChange={handleFacilitiesChange}
-                input={<OutlinedInput id="select-multiple-chip" label="Location tag" />}
+                input={<OutlinedInput color="form" id="select-multiple-chip" label="Location tag" />}
                 renderValue={(selected) => (
                   <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
                     {selected.map((value) => (
@@ -476,6 +480,7 @@ export default function AdminMap() {
 
               <FormControl fullWidth>
                 <TextField
+                  color="form"
                   label="Noise level"
                   type="number"
                   value={locationNoiseLevel || 5}
@@ -485,6 +490,7 @@ export default function AdminMap() {
 
               <FormControl fullWidth>
                 <TextField
+                  color="form"
                   label="Price level"
                   type="number"
                   value={locationPriceLevel || 5}
@@ -493,14 +499,14 @@ export default function AdminMap() {
               </FormControl>
             </Box>
 
-            <TextField sx={{ width: '100%' }} value={description} multiline rows={8} label="Description" onChange={(e) => handleChangeDescription(e.target.value)}  />
-            <TextField sx={{ width: '100%' }} value={locationLat} required label="Lat" onChange={(e) => setLocationLat(e.target.value)} type='text' />
-            <TextField sx={{ width: '100%' }} value={locationLng} required label="Lng" onChange={(e) => setLocationLng(e.target.value)} type='text' />
+            <TextField sx={{ width: '100%' }} color="form" value={description} multiline rows={8} label="Description" onChange={(e) => handleChangeDescription(e.target.value)}  />
+            <TextField sx={{ width: '100%' }} color="form" value={locationLat} required label="Lat" onChange={(e) => setLocationLat(e.target.value)} type='text' />
+            <TextField sx={{ width: '100%' }} color="form" value={locationLng} required label="Lng" onChange={(e) => setLocationLng(e.target.value)} type='text' />
 
             <UploadImage imageUploadedCallback={handleFileUpload} imgUrl={imgUrl} />
 
             <FormGroup>
-              <FormControlLabel onChange={(e) => setShow(e.target.checked)} control={<Checkbox />} label="Show on Map" />
+              <FormControlLabel onChange={(e) => setShow(e.target.checked)} control={<Checkbox color="form" />} label="Show on Map" />
             </FormGroup>
 
             { error && <Alert severity="warning">{error}</Alert> }
@@ -508,16 +514,11 @@ export default function AdminMap() {
           </Stack>
         </DialogContent>
         <DialogActions>
-          { isDirty && <Typography sx={styleDirty} variant='p_small'>Unsaved changes</Typography> }
-          <Button onClick={handleCloseForm} variant='outlined'>Cancel</Button>
-          { isUpdate ?
-            <>
-              <Button onClick={() => handleDelete(updateId)} variant="outlined" startIcon={<DeleteIcon />}>Delete</Button>
-              <Button onClick={handleUpdate} variant='contained'>Save</Button>
-            </>
-            :
-            <Button onClick={handleAdd} variant='contained'>Add</Button>
-          }
+          { isDirty && <Typography sx={style.dirty} variant='p_small'>Unsaved changes</Typography> }
+          { isUpdate && <Button onClick={() => handleDelete(updateId)} variant="outlined" color="warning" startIcon={<DeleteIcon />}>Delete</Button> }
+          <Button onClick={handleCloseForm} variant='outlined' color="form">Close</Button>
+          { isUpdate && <Button onClick={handleUpdate} variant='contained' color='form'>Save</Button> }
+          { !isUpdate && <Button onClick={handleAdd} variant='contained' color='form'>Add</Button> }
         </DialogActions>
       </Dialog>
 

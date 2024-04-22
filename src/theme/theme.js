@@ -1,4 +1,5 @@
 import { createTheme } from '@mui/material/styles';
+import { dark } from '@mui/material/styles/createPalette';
 
 export const customTheme = createTheme({
   typography: {
@@ -66,6 +67,12 @@ export const customTheme = createTheme({
     },
     warning: {
       main: '#c51d1d'
+    },
+    form: {
+      main: '#262626',
+      light: '#3c3c3c',
+      dark: '#000',
+      contrastText: '#fff',
     }
   },
   components: {

@@ -113,12 +113,12 @@ const UploadImage = ({imageUploadedCallback, imgUrl}) => {
       <Box sx={toggleUploadStyle}>
 
         { !showImageField &&
-          <Button variant="outlined" onClick={handleShowImageField} endIcon={<AddPhotoAlternateOutlinedIcon />}>
+          <Button variant="outlined" color="form" onClick={handleShowImageField} endIcon={<AddPhotoAlternateOutlinedIcon />}>
             { imgUrl ? 'Replace image' : 'Add image'}
           </Button>
         }
         { showImageField &&
-          <Button variant="outlined" onClick={handleHideImageField}>
+          <Button variant="outlined" color="form" onClick={handleHideImageField}>
             Close
           </Button>
         }
