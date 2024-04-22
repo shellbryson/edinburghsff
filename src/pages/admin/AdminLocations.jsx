@@ -202,16 +202,6 @@ export default function AdminMap() {
     setIsDialogOpen(true);
   };
 
-  const handleNoiseLevelChange = (val) => {
-    if (val !== locationNoiseLevel) setIsDirty(true);
-    setNoiseLevel(val);
-  }
-
-  const handlePriceLevelChange = (val) => {
-    if (val !== locationPriceLevel) setIsDirty(true);
-    setPriceLevel(val);
-  }
-
   const handleAdd = async (e) => {
     setError('');
 
@@ -344,6 +334,20 @@ export default function AdminMap() {
       /* ... */
     });
   };
+
+  const handleNoiseLevelChange = (val) => {
+    if (val !== locationNoiseLevel) setIsDirty(true);
+    if (val <= 1) val = 1;
+    if (val >= 10) val = 10;
+    setNoiseLevel(val);
+  }
+
+  const handlePriceLevelChange = (val) => {
+    if (val !== locationPriceLevel) setIsDirty(true);
+    if (val <= 1) val = 1;
+    if (val >= 10) val = 10;
+    setPriceLevel(val);
+  }
 
   const handleLocationTagsChange = (event) => {
     const {target:{value}} = event;
