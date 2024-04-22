@@ -127,7 +127,6 @@ export default function Map() {
   }, [focusMapPin]);
 
   useEffect(() => {
-    // Runs every time the URL changes or the mapLocations updates
     if (location.pathname === '/') {
       setIsOpenDialog(false);
       return;

@@ -88,7 +88,6 @@ export default function AdminMap() {
 
   // Data
   const [places, setPlaces] = useState([]);
-  const renderAfterCalled = useRef(false);
 
   // Common
   const [title, setTitle] = useState('');
@@ -128,10 +127,7 @@ export default function AdminMap() {
   }
 
   useEffect(() => {
-    if (!renderAfterCalled.current) {
-      getLocations();
-    }
-    renderAfterCalled.current = true;
+    getLocations();
   }, []);
 
   const getLocations = async () => {
@@ -146,7 +142,6 @@ export default function AdminMap() {
         display: true,
       });
     });
-
     setPlaces(list);
     setIsLoading(false);
   }
@@ -309,6 +304,7 @@ export default function AdminMap() {
       await updateDoc(l, data);
 
       setIsDirty(false);
+      getLocations();
 
     } catch (e) {
       setIsLoading(false);

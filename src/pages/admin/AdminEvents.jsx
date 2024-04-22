@@ -87,19 +87,27 @@ export default function AdminEvents() {
   // UI state
   const [openAdd, setOpenAdd] = useState(false);
   const [error, setError] = useState('');
+  const [isDirty, setIsDirty] = useState(false);
 
   // Theme
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
+  const style = {
+    dirty: {
+      textTransform: 'uppercase',
+      color: "red",
+      marginRight: "1rem"
+    }
+  }
+
   useEffect(() => {
     getEvents();
   }, []);
 
-  const q = query(collection(db, "events"), orderBy("eventStart", "desc"));
-
   const getEvents = async () => {
     setIsLoading(true);
+    const q = query(collection(db, "events"), orderBy("eventStart", "desc"));
     const querySnapshot = await getDocs(q);
     const list = [];
     querySnapshot.forEach((doc) => {
@@ -280,12 +288,10 @@ export default function AdminEvents() {
         }
       }
 
-      console.log("SFF update event with:", data)
-
       await updateDoc(l, data);
 
+      setIsDirty(false);
       getEvents();
-      handleCloseForm();
 
     } catch (e) {
       setIsLoading(false);
@@ -316,23 +322,47 @@ export default function AdminEvents() {
         </DialogTitle>
         <DialogContent>
           <Stack spacing={2} sx={{ mt: 2}}>
-            <TextField sx={{ width: '100%' }} required value={title} label="Title" onChange={(e) => setTitle(e.target.value)} type='text' />
-            <TextField sx={{ width: '100%' }} required value={url} label="URL" onChange={(e) => setURL(e.target.value)} type='url' />
-            <TextField sx={{ width: '100%' }} required value={description} multiline rows={8} label="Description" onChange={(e) => setDescription(e.target.value)}  />
-            <TextField sx={{ width: '100%' }} required value={eventLocation} label="Location" onChange={(e) => setEventLocation(e.target.value)} type='text' />
+
+            <TextField sx={{ width: '100%' }}
+              color="form"
+              required value={title} label="Title" onChange={(e) => setTitle(e.target.value)} type='text'
+            />
+
+            <TextField sx={{ width: '100%' }}
+              color="form"
+              required value={url} label="URL" onChange={(e) => setURL(e.target.value)} type='url'
+            />
+
+            <TextField sx={{ width: '100%' }}
+              color="form"
+              required value={description} multiline rows={8} label="Description" onChange={(e) => setDescription(e.target.value)}
+            />
+
+            <TextField sx={{ width: '100%' }}
+              color="form"
+              required value={eventLocation} label="Location" onChange={(e) => setEventLocation(e.target.value)} type='text'
+            />
 
             <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-gb">
-              <DateTimePicker label="Event start" value={eventStart} onChange={(newValue) => setEventStart(newValue)} />
-              <DateTimePicker label="Event end" value={eventEnd} onChange={(newValue) => setEventEnd(newValue)}/>
-              <FormGroup>
-                <FormControlLabel onChange={(e) => setEventIsAllDay(e.target.checked)} control={<Checkbox checked={eventIsAllDay} />} label="All day" />
+              <DateTimePicker showTodayButton label="Event start" value={eventStart} onChange={(newValue) => setEventStart(newValue)}
+                renderInput={(params) => (
+                  <TextField {...params} color="form" />
+                )}
+              />
+              <DateTimePicker showTodayButtoncolor="form" label="Event end" value={eventEnd} onChange={(newValue) => setEventEnd(newValue)}
+                renderInput={(params) => (
+                  <TextField {...params} color="form" />
+                )}
+              />
+              <FormGroup color="form">
+                <FormControlLabel color="form" onChange={(e) => setEventIsAllDay(e.target.checked)} control={<Checkbox color="form" checked={eventIsAllDay} />} label="All day" />
               </FormGroup>
             </LocalizationProvider>
 
             <UploadImage imageUploadedCallback={handleFileUpload} imgUrl={imgUrl} />
 
             <FormGroup>
-              <FormControlLabel onChange={(e) => setShow(e.target.checked)} control={<Checkbox />} label="Show in Event Grid" />
+              <FormControlLabel onChange={(e) => setShow(e.target.checked)} control={<Checkbox color="form" />} label="Show in Event Grid" />
             </FormGroup>
 
             { error && <Alert severity="warning">{error}</Alert> }
@@ -340,15 +370,11 @@ export default function AdminEvents() {
           </Stack>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseForm} variant='outlined'>Close</Button>
-          { isUpdate ?
-            <>
-              <Button onClick={() => handleDelete(updateId)} variant="outlined" startIcon={<DeleteIcon />}>Delete</Button>
-              <Button onClick={handleUpdate} variant='contained'>Update</Button>
-            </>
-            :
-            <Button onClick={handleAdd} variant='contained'>Add</Button>
-          }
+          { isDirty && <Typography sx={style.dirty} variant='p_small'>Unsaved changes</Typography> }
+          { isUpdate && <Button onClick={() => handleDelete(updateId)} variant="outlined" color="warning" startIcon={<DeleteIcon />}>Delete</Button> }
+          <Button onClick={handleCloseForm} variant='outlined' color="form">Close</Button>
+          { isUpdate && <Button onClick={handleUpdate} variant='contained' color='form'>Save</Button> }
+          { !isUpdate && <Button onClick={handleAdd} variant='contained' color='form'>Add</Button> }
         </DialogActions>
       </Dialog>
 
