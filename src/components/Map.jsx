@@ -135,8 +135,8 @@ export default function Map() {
   }, [focusMapPin]);
 
   const onGoogleApiLoaded = ({map}) => {
-    mapRef.current = map
-    setMapReady(true)
+    mapRef.current = map;
+    setMapReady(true);
   }
 
   const onClickPin = (data) => {
@@ -177,16 +177,13 @@ export default function Map() {
             defaultCenter={defaultLocation.center}
             defaultZoom={defaultLocation.zoom}
             >
-            {filteredLocations.map((place) => (
+            {filteredLocations.map((place, i) => (
               <MapPin
                 onClickPin={onClickPin}
-                key={place.id}
-                tags={place.tags}
-                title={place.title}
+                key={i}
                 data={place}
                 lat={parseFloat(place.lat)}
                 lng={parseFloat(place.lng)}
-                focus={place.focus}
               />
             ))}
           </GoogleMapReact>
