@@ -132,16 +132,16 @@ export default function Map() {
       setIsOpenDialog(false);
       return;
     }
-    if (!params.id || !mapLocations.length) {
+    if (!params.place || !mapLocations.length) {
       return;
     }
 
-    const place = mapLocations.find(location => location.id === slugify(params.place));
+    const place = mapLocations.find(location => slugify(location.title) === params.place);
     if (place) {
       setPinData(place);
       setIsOpenDialog(true);
     }
-  }, [mapLocations, params.id]);
+  }, [mapLocations, params.place]);
 
   const onGoogleApiLoaded = ({map}) => {
     mapRef.current = map;
