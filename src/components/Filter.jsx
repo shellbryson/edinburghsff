@@ -58,7 +58,7 @@ export default function Filter({onFilterMap}) {
     display: "flex",
     alignItems: "center",
     backgroundColor: "rgb(0, 0, 0)",
-    color: theme.palette.primary.main,
+    color: theme.palette.brand.main,
     borderRadius: "0",
     padding: "0.5rem",
   }
@@ -66,7 +66,7 @@ export default function Filter({onFilterMap}) {
   const styleIconActive = {
     display: "flex",
     alignItems: "center",
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: theme.palette.brand.main,
     color: "#000",
     borderRadius: "0",
     padding: "0.5rem",
@@ -89,7 +89,7 @@ export default function Filter({onFilterMap}) {
         <MapSearch />
       </Box>}
       <Box>
-        <Typography variant='h_small' sx={{ color: theme.palette.primary.main, textAlign: "left" }}>{activeFilter}</Typography>
+        <Typography variant='h_small' sx={{ color: theme.palette.brand.main, textAlign: "left" }}>{activeFilter}</Typography>
       </Box>
       <Box style={styleFilterIcons} className="sff-filters__icons">
         <IconButton className="sff-filters__button" aria-label="Venues" onClick={() => handleFilterMap('Venue')} style={ activeFilter === "Venue" ? styleIconActive : styleIconInactive }>

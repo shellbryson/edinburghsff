@@ -1,5 +1,4 @@
 import { createTheme } from '@mui/material/styles';
-import { dark } from '@mui/material/styles/createPalette';
 
 export const customTheme = createTheme({
   typography: {
@@ -11,7 +10,15 @@ export const customTheme = createTheme({
     },
     h2: {
       fontSize: 18,
-      paddingBottom: '1.5rem'
+      paddingBottom: '1.2rem'
+    },
+    h3: {
+      fontSize: 16,
+      paddingBottom: '1.2rem'
+    },
+    h4: {
+      fontSize: 16,
+      paddingBottom: '1.2rem'
     },
     tile_heading: {
       fontSize: 24,
@@ -57,10 +64,12 @@ export const customTheme = createTheme({
     mode: 'light',
     brand: {
       main: '#fded07',
+      dark: '#6d6710',
     },
     primary: {
-      main: '#fded07',
-      dark: '#6d6710',
+      main: '#262626',
+      dark: '#000',
+      light: '#3c3c3c',
     },
     secondary: {
       main: '#05d7f2',

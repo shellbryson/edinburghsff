@@ -59,15 +59,15 @@ export default function MapPin({data, onClickPin}) {
     let icon;
     const tagArray = data.tags.split(",");
     if (tagArray.includes("Venue")) {
-      icon = <FestivalIcon color="primary" />;
+      icon = <FestivalIcon color="brand" />;
     } else if (tagArray.includes("Bookshop")) {
-      icon = <MenuBookOutlinedIcon color="primary" />;
+      icon = <MenuBookOutlinedIcon color="brand" />;
     } else if (tagArray.includes("Cafe")) {
-      icon = <LocalCafeOutlinedIcon color="primary" />;
+      icon = <LocalCafeOutlinedIcon color="brand" />;
     } else if (tagArray.includes("Library")) {
-      icon = <LocalLibraryOutlinedIcon color="primary" />;
+      icon = <LocalLibraryOutlinedIcon color="brand" />;
     } else {
-      icon = <PushPinOutlinedIcon color="primary" />;
+      icon = <PushPinOutlinedIcon color="brand" />;
     }
     setIcon(icon);
   }, [data.id]);

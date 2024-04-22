@@ -398,27 +398,24 @@ export default function AdminMap() {
           <Stack spacing={2} sx={{ mt: 2}}>
 
             <TextField sx={{ width: '100%' }}
-              color="form"
               value={title} required label="Title"
               onChange={(e) => handleChangeTitle(e.target.value)} type='text'
             />
 
             <TextField sx={{ width: '100%' }}
-              color="form"
               value={url} required label="URL"
               onChange={(e) => handleChangeUrl(e.target.value)} type='url'
             />
 
             <FormControl sx={{ m: 1 }}>
-              <InputLabel color="form" id="demo-multiple-chip-label">Location tags</InputLabel>
+              <InputLabel  id="demo-multiple-chip-label">Location tags</InputLabel>
               <Select
-                color="form"
                 labelId="demo-multiple-chip-label"
                 id="demo-multiple-chip"
                 multiple
                 value={locationTags}
                 onChange={handleLocationTagsChange}
-                input={<OutlinedInput id="select-multiple-chip" label="Location tag" color="form" />}
+                input={<OutlinedInput id="select-multiple-chip" label="Location tag"  />}
                 renderValue={(selected) => (
                   <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
                     {selected.map((value) => (
@@ -437,15 +434,14 @@ export default function AdminMap() {
             </FormControl>
 
             <FormControl sx={{ m: 1 }}>
-              <InputLabel color="form" id="demo-multiple-chip-label">Facilities</InputLabel>
+              <InputLabel  id="demo-multiple-chip-label">Facilities</InputLabel>
               <Select
-                color="form"
                 labelId="demo-multiple-chip-label"
                 id="demo-multiple-chip"
                 multiple
                 value={locationFacilities}
                 onChange={handleFacilitiesChange}
-                input={<OutlinedInput color="form" id="select-multiple-chip" label="Location tag" />}
+                input={<OutlinedInput  id="select-multiple-chip" label="Location tag" />}
                 renderValue={(selected) => (
                   <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
                     {selected.map((value) => (
@@ -467,7 +463,6 @@ export default function AdminMap() {
 
               <FormControl fullWidth>
                 <TextField
-                  color="form"
                   label="Noise level"
                   type="number"
                   value={locationNoiseLevel || 5}
@@ -477,7 +472,6 @@ export default function AdminMap() {
 
               <FormControl fullWidth>
                 <TextField
-                  color="form"
                   label="Price level"
                   type="number"
                   value={locationPriceLevel || 5}
@@ -486,14 +480,14 @@ export default function AdminMap() {
               </FormControl>
             </Box>
 
-            <TextField sx={{ width: '100%' }} color="form" value={description} multiline rows={8} label="Description" onChange={(e) => handleChangeDescription(e.target.value)}  />
-            <TextField sx={{ width: '100%' }} color="form" value={locationLat} required label="Lat" onChange={(e) => setLocationLat(e.target.value)} type='text' />
-            <TextField sx={{ width: '100%' }} color="form" value={locationLng} required label="Lng" onChange={(e) => setLocationLng(e.target.value)} type='text' />
+            <TextField sx={{ width: '100%' }} value={description} multiline rows={8} label="Description" onChange={(e) => handleChangeDescription(e.target.value)}  />
+            <TextField sx={{ width: '100%' }} value={locationLat} required label="Lat" onChange={(e) => setLocationLat(e.target.value)} type='text' />
+            <TextField sx={{ width: '100%' }} value={locationLng} required label="Lng" onChange={(e) => setLocationLng(e.target.value)} type='text' />
 
             <UploadImage imageUploadedCallback={handleFileUpload} imgUrl={imgUrl} />
 
             <FormGroup>
-              <FormControlLabel onChange={(e) => setShow(e.target.checked)} control={<Checkbox color="form" />} label="Show on Map" />
+              <FormControlLabel onChange={(e) => setShow(e.target.checked)} control={<Checkbox  />} label="Show on Map" />
             </FormGroup>
 
             { error && <Alert severity="warning">{error}</Alert> }
@@ -503,9 +497,9 @@ export default function AdminMap() {
         <DialogActions>
           { isDirty && <Typography sx={style.dirty} variant='p_small'>Unsaved changes</Typography> }
           { isUpdate && <Button onClick={() => handleDelete(updateId)} variant="outlined" color="warning" startIcon={<DeleteIcon />}>Delete</Button> }
-          <Button onClick={handleCloseForm} variant='outlined' color="form">Close</Button>
-          { isUpdate && <Button onClick={handleUpdate} variant='contained' color='form'>Save</Button> }
-          { !isUpdate && <Button onClick={handleAdd} variant='contained' color='form'>Add</Button> }
+          <Button onClick={handleCloseForm} variant='outlined'>Close</Button>
+          { isUpdate && <Button onClick={handleUpdate} variant='contained'>Save</Button> }
+          { !isUpdate && <Button onClick={handleAdd} variant='contained'>Add</Button> }
         </DialogActions>
       </Dialog>
 

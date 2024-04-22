@@ -32,7 +32,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import { MobileDateTimePicker } from '@mui/x-date-pickers/MobileDateTimePicker';
 
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -351,38 +351,38 @@ export default function AdminEvents() {
           <Stack spacing={2} sx={{ mt: 2}}>
 
             <TextField sx={{ width: '100%' }}
-              color="form"
-              required value={title} label="Title" onChange={(e) => handleChangeTitle(e.target.value)} type='text'
+              required value={title} label="Title"
+              onChange={(e) => handleChangeTitle(e.target.value)} type='text'
             />
 
             <TextField sx={{ width: '100%' }}
-              color="form"
-              required value={url} label="URL" onChange={(e) => handleChangeUrl(e.target.value)} type='url'
+              required value={url} label="URL"
+              onChange={(e) => handleChangeUrl(e.target.value)} type='url'
             />
 
             <TextField sx={{ width: '100%' }}
-              color="form"
-              required value={description} multiline rows={8} label="Description" onChange={(e) => handleChangeDescription(e.target.value)}
+              required value={description} multiline rows={8} label="Description"
+              onChange={(e) => handleChangeDescription(e.target.value)}
             />
 
             <TextField sx={{ width: '100%' }}
-              color="form"
-              required value={eventLocation} label="Location" onChange={(e) => setEventLocation(e.target.value)} type='text'
+              required value={eventLocation} label="Location"
+              onChange={(e) => setEventLocation(e.target.value)} type='text'
             />
 
             <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-gb">
-              <DateTimePicker color="form" label="Event start" value={eventStart} onChange={(newValue) => handleChangeEventStart(newValue)}
+              <MobileDateTimePicker label="Event start" value={eventStart} onChange={(newValue) => handleChangeEventStart(newValue)}
                 renderInput={(params) => (
-                  <TextField {...params} color="form" />
+                  <TextField {...params} />
                 )}
               />
-              <DateTimePicker color="form" label="Event end" value={eventEnd} onChange={(newValue) => handleChangeEventEnd(newValue)}
+              <MobileDateTimePicker label="Event end" value={eventEnd} onChange={(newValue) => handleChangeEventEnd(newValue)}
                 renderInput={(params) => (
-                  <TextField {...params} color="form" />
+                  <TextField {...params} />
                 )}
               />
-              <FormGroup color="form">
-                <FormControlLabel color="form" onChange={(e) => setEventIsAllDay(e.target.checked)} control={<Checkbox color="form" checked={eventIsAllDay} />} label="All day" />
+              <FormGroup>
+                <FormControlLabel onChange={(e) => setEventIsAllDay(e.target.checked)} control={<Checkbox color="form" checked={eventIsAllDay} />} label="All day" />
               </FormGroup>
             </LocalizationProvider>
 
@@ -399,9 +399,9 @@ export default function AdminEvents() {
         <DialogActions>
           { isDirty && <Typography sx={style.dirty} variant='p_small'>Unsaved changes</Typography> }
           { isUpdate && <Button onClick={() => handleDelete(updateId)} variant="outlined" color="warning" startIcon={<DeleteIcon />}>Delete</Button> }
-          <Button onClick={handleCloseForm} variant='outlined' color="form">Close</Button>
-          { isUpdate && <Button onClick={handleUpdate} variant='contained' color='form'>Save</Button> }
-          { !isUpdate && <Button onClick={handleAdd} variant='contained' color='form'>Add</Button> }
+          <Button onClick={handleCloseForm} variant='outlined'>Close</Button>
+          { isUpdate && <Button onClick={handleUpdate} variant='contained'>Save</Button> }
+          { !isUpdate && <Button onClick={handleAdd} variant='contained'>Add</Button> }
         </DialogActions>
       </Dialog>
 
