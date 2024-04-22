@@ -6,7 +6,6 @@ import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -22,7 +21,7 @@ import EventsListImage from './ListImage';
 
 import {imageURL} from '../../utils/utils';
 
-const List = ({ data, onUpdate, onOpenForm, tableStructure }) => {
+export default function AdminMap({ data, onUpdate, onOpenForm, tableStructure }) {
 
   const [items, setItems] = useState([]);
   const [filter, setFilter] = useState('');
@@ -119,7 +118,7 @@ const List = ({ data, onUpdate, onOpenForm, tableStructure }) => {
               <TableRow
                 onClick={() => onUpdate(item)}
                 key={index}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                sx={{ cursor: "pointer", '&:last-child td, &:last-child th': { border: 0 } }}
               >
                 {renderRow(item)}
               </TableRow>
@@ -131,5 +130,3 @@ const List = ({ data, onUpdate, onOpenForm, tableStructure }) => {
     </Paper>
   );
 };
-
-export default List;

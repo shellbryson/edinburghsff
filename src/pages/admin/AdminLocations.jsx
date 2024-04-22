@@ -31,10 +31,8 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
-
 // Icons
 import DeleteIcon from '@mui/icons-material/Delete';
-
 
 // Custom UI
 import PageHeading from '../../components/PageHeading';
@@ -177,6 +175,7 @@ export default function AdminMap() {
 
     // Reset to Add mode
     setIsUpdate(false);
+    setIsDirty(false);
   };
 
   const handleOpenUpdate = (data) => {
@@ -322,7 +321,7 @@ export default function AdminMap() {
     try {
       await deleteDoc(doc(db, "locations", id));
       getLocations();
-      setIsDialogOpen(false);
+      handleCloseForm();
     } catch (e) {
       setIsLoading(false);
       console.error("Error deleting document: ", e);
@@ -351,22 +350,14 @@ export default function AdminMap() {
   };
 
   const handleLocationTagsChange = (event) => {
-    const {
-      target: { value },
-    } = event;
-
+    const {target:{value}} = event;
     if (locationTags !== value) setIsDirty(true);
-
     setLocationTags(value);
   };
 
   const handleFacilitiesChange = (event) => {
-    const {
-      target: { value },
-    } = event;
-
+    const {target:{value}} = event;
     if (locationFacilities !== value) setIsDirty(true);
-
     setLocationFacilities(value);
   };
 
@@ -377,17 +368,17 @@ export default function AdminMap() {
 
   const handleFileUpload = (url) => {
     if (url !== imgUrl) setIsDirty(true);
-    setImgUrl(url)
+    setImgUrl(url);
   }
 
   const handleChangeTitle = (text) => {
     if (text !== title) setIsDirty(true);
-    setTitle(text)
+    setTitle(text);
   }
 
   const handleChangeUrl = (text) => {
     if (text !== url) setIsDirty(true);
-    setURL(text)
+    setURL(text);
   }
 
   return (
