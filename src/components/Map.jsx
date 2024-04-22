@@ -5,7 +5,7 @@ import { db } from "../firebase";
 import GoogleMapReact from 'google-maps-react-markers';
 import { useHead } from 'hoofd';
 
-// Context
+// Contexts
 import { useApp } from '../context/AppContext';
 
 // MUI
@@ -19,6 +19,7 @@ import Spinner from './Spinner';
 import Filter from './Filter';
 import Logo from './Logo';
 
+// Helpers
 import { slugify } from '../utils/utils';
 
 export default function Map() {
@@ -40,7 +41,7 @@ export default function Map() {
   useHead({
     title: "Edinburgh SFF",
     language: 'en',
-    metas: [{ name: 'description', content: "Writer-friendly cafes, bookshops and venues" }],
+    metas: [{ name: 'description', content: "The writers hub. Writer-friendly cafes, bookshops and venues" }],
   });
 
   const [filteredLocations, setFilteredLocations] = useState([]);
@@ -66,42 +67,39 @@ export default function Map() {
     zoom: 13
   }
 
-  const styleMap={
-    display: "block",
-    position: "relative",
-    top: "0",
-    left: "0",
-    width: "100vw",
-    height: "100vh",
-    overflow: "hidden",
-    opacity: mapReady ? 1 : 0,
-    transition: "opacity 2000ms",
-  }
-
-  const styleLogo = {
-    display: "flex",
-    position: "absolute",
-    top: "0",
-    right: "0",
-    alignItems: "center",
-    justifyContent: "center",
-    zIndex: 1000,
+  const style = {
+    map: {
+      display: "block",
+      position: "relative",
+      top: "0",
+      left: "0",
+      width: "100vw",
+      height: "100vh",
+      overflow: "hidden",
+      opacity: mapReady ? 1 : 0,
+      transition: "opacity 2000ms",
+    },
+    logo: {
+      display: "flex",
+      position: "absolute",
+      top: "0",
+      right: "0",
+      alignItems: "center",
+      justifyContent: "center",
+      zIndex: 1000,
+    }
   }
 
   const getLocations = async () => {
-    const q = query(collection(db, "locations"));
-    const querySnapshot = await getDocs(q);
-    const l = [];
-    querySnapshot.forEach((doc) => {
-      l.push({
-        ...doc.data(),
-        id: doc.id,
-        hidden: false,
-        focus: false
-      });
-    });
-    setMapLocations(l);
-    setFilteredLocations(l);
+    const data = await getDocs(query(collection(db, "locations")));
+    const docs = data.docs.map((doc) => ({
+      ...doc.data(),
+      id: doc.id,
+      hidden: false,
+      focus: false
+    }));
+    setMapLocations(docs);
+    setFilteredLocations(docs);
     setIsLoaded(true);
   }
 
@@ -170,7 +168,7 @@ export default function Map() {
   return (
     isLoaded ?
       <>
-        <Box style={styleMap} className="sff-map">
+        <Box style={style.map} className="sff-map">
           <GoogleMapReact
             apiKey={import.meta.env.VITE_GOOGLEMAPS_API_KEY}
             onGoogleApiLoaded={onGoogleApiLoaded}
@@ -193,16 +191,16 @@ export default function Map() {
             ))}
           </GoogleMapReact>
         </Box>
-        <Box style={styleLogo} className="sff-logo">
+        <Box style={style.logo} className="sff-logo">
           <Logo />
         </Box>
-        {!isExploded && <Filter onFilterMap={handleFilterMap} onSearchMap={ handleOnSearchMap } />}
+        {!isExploded && <Filter onFilterMap={handleFilterMap} onSearchMap={handleOnSearchMap} />}
         <MapModal
           pinData={pinData}
           isOpenDialog={isOpenDialog}
           handleCloseDetails={handleCloseDetails}
         />
-        <MapPanel onSearchMap={ handleOnSearchMap }/>
+        <MapPanel onSearchMap={handleOnSearchMap}/>
       </>
     : <Spinner />
   )
