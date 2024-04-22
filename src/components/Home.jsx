@@ -13,9 +13,6 @@ import Logo from './Logo';
 import Background from './Background';
 import Footer from './Footer';
 
-// Resources
-import 'css.gg/icons/scss/chevron-left.scss'
-
 export default function Home({onSearchMap}) {
 
   const theme = useTheme();

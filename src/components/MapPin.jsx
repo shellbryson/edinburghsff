@@ -3,14 +3,14 @@ import React, { useEffect, useState } from 'react';
 // MUI
 import Box from '@mui/material/Box';
 import { Typography } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 
+// Icons
 import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
 import FestivalIcon from '@mui/icons-material/Festival';
 import MenuBookOutlinedIcon from '@mui/icons-material/MenuBookOutlined';
 import LocalCafeOutlinedIcon from '@mui/icons-material/LocalCafeOutlined';
 import LocalLibraryOutlinedIcon from '@mui/icons-material/LocalLibraryOutlined';
-
-import { useTheme } from '@mui/material/styles';
 
 export default function MapPin({data, onClickPin}) {
 
