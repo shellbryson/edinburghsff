@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import dayjs from 'dayjs';
+import 'dayjs/locale/en-gb';
 
 import { getDocs, collection, query, orderBy, limit  } from 'firebase/firestore';
 import { db } from "../../firebase";
@@ -7,16 +9,14 @@ import { db } from "../../firebase";
 // MUI
 import Box from '@mui/material/Box';
 import Typeography from '@mui/material/Typography';
-
 import { useTheme } from '@mui/material/styles';
 
+// Icons
 import EventIcon from '@mui/icons-material/Event';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
-import dayjs from 'dayjs';
-import 'dayjs/locale/en-gb';
-
-import { slugify } from '../../utils/utils';
+// Custom UI
+import EventDetails from '../modals/EventDetails';
 
 export default function UpComingEvents() {
 
@@ -24,6 +24,9 @@ export default function UpComingEvents() {
   const navigate = useNavigate();
 
   const [events, setEvents] = useState([]);
+  const [selectedEvent, setSelectedEvent] = useState({});
+  const [isOpen, setIsOpen] = useState(false);
+  const [isLoadingEvent, setIsLoadingEvent] = useState(false);
 
   const styleEvents={
     display: "flex",
@@ -92,16 +95,22 @@ export default function UpComingEvents() {
     navigate("/events");
   }
 
-  const handleClickEvent = (id, title) => {
-    navigate(`/events/${id}/${slugify(title)}`);
+  const handleClickEvent = (event) => {
+    setSelectedEvent(event);
+    setIsOpen(true);
   };
+
+  const handleCloseEvent = () => {
+    setSelectedEvent({});
+    setIsOpen(false);
+  }
 
   return (
     <Box style={styleEvents} className="sff-panel-events">
       <Typeography component="h2" variant="h_small">Events</Typeography>
       {events.map((event, index) => (
         <Box key={index} style={styleEvent} className="sff-panel-events__event">
-          <Typeography style={styleLink} component="a" variant="a_white" onClick={() => handleClickEvent(event.id, event.title)}>{event.title}</Typeography>
+          <Typeography style={styleLink} component="a" variant="a_white" onClick={() => handleClickEvent(event)}>{event.title}</Typeography>
           <EventIcon />
         </Box>
       ))}
@@ -109,6 +118,11 @@ export default function UpComingEvents() {
         <Typeography component="a" onClick={() => handleClickExpand()}>Expand events</Typeography>
         <ChevronRightIcon />
       </Box>
+      <EventDetails
+        isOpen={isOpen}
+        isLoadingEvent={isLoadingEvent}
+        selectedEvent={selectedEvent}
+        onCloseCallback={handleCloseEvent} />
     </Box>
   );
 }
