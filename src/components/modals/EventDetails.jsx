@@ -38,15 +38,15 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
     padding: theme.spacing(2),
-    backgroundColor: '#383838',
-    color: '#fff',
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.primary.contrastText,
   },
   '& .MuiDialogActions-root': {
     padding: theme.spacing(1),
   },
   '& .MuiPaper-root': {
-    backgroundColor: '#383838',
-    color: '#fff',
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.primary.contrastText,
   },
 }));
 
@@ -69,7 +69,6 @@ const EventDetails = ({ selectedEvent, isOpen, onCloseCallback, isLoadingEvent }
       textAlign: "center"
     },
     description: {
-      backgroundColor: "#f5f5f5",
       padding: "1rem",
       marginBottom: "1rem",
       marginTop: "1rem"
@@ -87,19 +86,19 @@ const EventDetails = ({ selectedEvent, isOpen, onCloseCallback, isLoadingEvent }
     let displayDate = "";
 
     if (currentEvent.eventIsAllDay) {
-      const _startDate = dayjs(currentEvent.eventStart.toDate().toLocaleString(), 'DD/MM/YYYY, HH:mm:ss').format('DD/MM/YYYY');
-      const _endDate = dayjs(currentEvent.eventEnd.toDate().toLocaleString(), 'DD/MM/YYYY, HH:mm:ss').format('DD/MM/YYYY');
+      const _startDate = dayjs(currentEvent.eventStart.toDate()).format('DD/MM/YYYY');
+      const _endDate = dayjs(currentEvent.eventEnd.toDate()).format('DD/MM/YYYY');
       displayDate = _startDate === _endDate ? _startDate : `${_startDate} to ${_endDate}`;
     } else {
-      const _startDate = dayjs(currentEvent.eventStart.toDate().toLocaleString(), 'DD/MM/YYYY, HH:mm:ss').format('DD/MM/YYYY, HH:mm');
-      const _endDate = dayjs(currentEvent.eventEnd.toDate().toLocaleString(), 'DD/MM/YYYY, HH:mm:ss').format('HH:mm');
+      const _startDate = dayjs(currentEvent.eventStart.toDate().format('DD/MM/YYYY, HH:mm'));
+      const _endDate = dayjs(currentEvent.eventEnd.toDate().format('HH:mm'));
       displayDate = `${_startDate} to ${_endDate}`;
     }
 
     return <>
       <EventAvailableOutlinedIcon />
       <Typography component="p" style={style.date}>
-        When: {displayDate}
+        {displayDate}
       </Typography>
     </>;
   }
@@ -158,7 +157,7 @@ const EventDetails = ({ selectedEvent, isOpen, onCloseCallback, isLoadingEvent }
             <LocationOnOutlinedIcon />
             <Typography component="p" variant='p'> {currentEvent.eventLocation}</Typography>
           </Box>
-          <Box style={style.description}>
+          <Box style={style.description} className="sff-event-details__description">
             <ReactMarkdown children={currentEvent.description} />
             <Button onClick={handleView} color='brand' endIcon={<LaunchOutlinedIcon />}>Go to Event site</Button>
           </Box>

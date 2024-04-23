@@ -96,7 +96,7 @@ export default function AdminEvents() {
   const style = {
     dirty: {
       textTransform: 'uppercase',
-      color: "red",
+      color: theme.palette.warning.main,
       marginRight: "1rem"
     }
   }
@@ -382,14 +382,14 @@ export default function AdminEvents() {
                 )}
               />
               <FormGroup>
-                <FormControlLabel onChange={(e) => setEventIsAllDay(e.target.checked)} control={<Checkbox color="form" checked={eventIsAllDay} />} label="All day" />
+                <FormControlLabel onChange={(e) => setEventIsAllDay(e.target.checked)} control={<Checkbox checked={eventIsAllDay} />} label="All day" />
               </FormGroup>
             </LocalizationProvider>
 
             <UploadImage imageUploadedCallback={handleFileUpload} imgUrl={imgUrl} />
 
             <FormGroup>
-              <FormControlLabel onChange={(e) => setShow(e.target.checked)} control={<Checkbox color="form" />} label="Show in Event Grid" />
+              <FormControlLabel onChange={(e) => setShow(e.target.checked)} control={<Checkbox />} label="Show in Event Grid" />
             </FormGroup>
 
             { error && <Alert severity="warning">{error}</Alert> }
