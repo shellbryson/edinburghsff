@@ -42,11 +42,12 @@ export const customTheme = createTheme({
       '&::after': {
         content: '""',
         display: 'block',
+        position: 'absolute',
         width: '4px',
-        height: '2px',
+        height: '4px',
         backgroundColor: 'currentColor',
-        right: "100%",
-        paddingTop: "1px"
+        right: "0",
+        bottom: "0",
       },
     },
     h_medium: {

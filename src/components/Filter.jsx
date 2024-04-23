@@ -23,54 +23,57 @@ import MapSearch from './MapSearch';
 export default function Filter({onFilterMap}) {
 
   const theme = useTheme();
-
   const { isExpanded, isShowingSearch, setIsShowingSearch } = useApp();
-
   const [activeFilter, setActiveFilter] = useState('All');
 
-  const styleFilter = {
-    display: "flex",
-    flexDirection: "column",
-    position: "absolute",
-    bottom: "1rem",
-    justifyContent: "center",
-    gap: "1px",
-    zIndex: 1000,
-    marginLeft: isExpanded ? "300px" : "0",
-    backgroundColor: "rgb(0, 0, 0)",
-    padding: "4px",
-    border: `1px solid ${theme.palette.brand.main}`,
-  }
-
-  const styleFilterSearch = {
-    display: "block",
-    width: "100%",
-  }
-
-  const styleFilterIcons = {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "rgb(0, 0, 0)",
-    gap: "4px",
-  }
-
-  const styleIconInactive = {
-    display: "flex",
-    alignItems: "center",
-    backgroundColor: "rgb(0, 0, 0)",
-    color: theme.palette.brand.main,
-    borderRadius: "0",
-    padding: "0.5rem",
-  }
-
-  const styleIconActive = {
-    display: "flex",
-    alignItems: "center",
-    backgroundColor: theme.palette.brand.main,
-    color: "#000",
-    borderRadius: "0",
-    padding: "0.5rem",
+  const style = {
+    filter: {
+      display: "flex",
+      flexDirection: "column",
+      position: "absolute",
+      bottom: "1rem",
+      justifyContent: "center",
+      gap: "2px",
+      zIndex: 1000,
+      marginLeft: isExpanded ? "300px" : "0",
+      backgroundColor: "rgb(0, 0, 0)",
+      padding: "2px",
+      border: `1px solid ${theme.palette.brand.main}`
+    },
+    label: {
+      display: "flex",
+      width: "100%",
+      position: "relative",
+      justifyContent: "center",
+      color: theme.palette.brand.main,
+    },
+    search: {
+      display: "block",
+      width: "100%",
+    },
+    icons: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      backgroundColor: "rgb(0, 0, 0)",
+      gap: "2px",
+    },
+    iconInactive: {
+      display: "flex",
+      alignItems: "center",
+      backgroundColor: "rgb(0, 0, 0)",
+      color: theme.palette.brand.main,
+      borderRadius: "0",
+      padding: "0.5rem",
+    },
+    iconActive: {
+      display: "flex",
+      alignItems: "center",
+      backgroundColor: theme.palette.brand.main,
+      color: "#000",
+      borderRadius: "0",
+      padding: "0.5rem",
+    }
   }
 
   const handleToggleSearch = () => {
@@ -85,33 +88,31 @@ export default function Filter({onFilterMap}) {
   }
 
   return (
-    <Box style={styleFilter} className="sff-filters">
-      { isShowingSearch && <Box style={styleFilterSearch} className="sff-filters__search">
-        <MapSearch />
-      </Box>}
-      <Box>
-        <Typography variant='h_small' sx={{ color: theme.palette.brand.main, textAlign: "left" }}>{activeFilter}</Typography>
-      </Box>
-      <Box style={styleFilterIcons} className="sff-filters__icons">
-        <IconButton className="sff-filters__button" aria-label="Venues" onClick={() => handleFilterMap('Venue')} style={ activeFilter === "Venue" ? styleIconActive : styleIconInactive }>
+    <Box style={style.filter} className="sff-filters">
+      <Typography style={style.label} className="sff-filters__label" variant='h_small'>Filter by: {activeFilter}</Typography>
+      <Box style={style.icons} className="sff-filters__icons">
+        <IconButton className="sff-filters__button" aria-label="Venues" onClick={() => handleFilterMap('Venue')} style={ activeFilter === "Venue" ? style.iconActive : style.iconInactive }>
           <FestivalIcon />
         </IconButton>
-        <IconButton className="sff-filters__button" aria-label="Bookshops" onClick={() => handleFilterMap('Bookshop')} style={ activeFilter === "Bookshop" ? styleIconActive : styleIconInactive }>
+        <IconButton className="sff-filters__button" aria-label="Bookshops" onClick={() => handleFilterMap('Bookshop')} style={ activeFilter === "Bookshop" ? style.iconActive : style.iconInactive }>
           <MenuBookOutlinedIcon />
         </IconButton>
-        <IconButton className="sff-filters__button" aria-label="Cafes" onClick={() => handleFilterMap('Cafe')} style={ activeFilter === "Cafe" ? styleIconActive : styleIconInactive }>
+        <IconButton className="sff-filters__button" aria-label="Cafes" onClick={() => handleFilterMap('Cafe')} style={ activeFilter === "Cafe" ? style.iconActive : style.iconInactive }>
           <LocalCafeOutlinedIcon />
         </IconButton>
-        <IconButton className="sff-filters__button" aria-label="Libraries" onClick={() => handleFilterMap('Library')} style={ activeFilter === "Library" ? styleIconActive : styleIconInactive }>
+        <IconButton className="sff-filters__button" aria-label="Libraries" onClick={() => handleFilterMap('Library')} style={ activeFilter === "Library" ? style.iconActive : style.iconInactive }>
           <LocalLibraryOutlinedIcon />
         </IconButton>
-        <IconButton className="sff-filters__button" aria-label="All" onClick={() => handleFilterMap()} style={ activeFilter === "All" ? styleIconActive : styleIconInactive }>
+        <IconButton className="sff-filters__button" aria-label="All" onClick={() => handleFilterMap()} style={ activeFilter === "All" ? style.iconActive : style.iconInactive }>
           <PlaceIcon />
         </IconButton>
-        <IconButton className="sff-filters__button" aria-label="Show search" onClick={() => handleToggleSearch()} style={ isShowingSearch ? styleIconActive : styleIconInactive } >
+        <IconButton className="sff-filters__button" aria-label="Show search" onClick={() => handleToggleSearch()} style={ isShowingSearch ? style.iconActive : style.iconInactive } >
           <SearchIcon />
         </IconButton>
       </Box>
+      { isShowingSearch && <Box style={style.search} className="sff-filters__search">
+        <MapSearch />
+      </Box>}
     </Box>
   );
 }

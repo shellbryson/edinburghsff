@@ -76,7 +76,6 @@ export default function UpComingEvents() {
     const today = dayjs();
 
     querySnapshot.forEach((doc) => {
-      console.log(doc.data());
       const c = doc.data();
       const start = dayjs(c.eventStart.toDate());
       const end = dayjs(c.eventEnd.toDate());

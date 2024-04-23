@@ -10,7 +10,6 @@ import {imageURL} from '../../utils/utils';
 // MUI
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 
@@ -24,13 +23,13 @@ import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import EventAvailableOutlinedIcon from '@mui/icons-material/EventAvailableOutlined';
 
 import { styled } from '@mui/material/styles';
-import CloseIcon from '@mui/icons-material/Close';
 
 // Custom UI
 import EventsDetailsImage from '../EventsDetailsImage';
 
-// MUI Icons
+// Icons
 import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 
 // Theme helpers
 import { useTheme } from '@mui/material/styles';
@@ -59,29 +58,22 @@ const EventDetails = ({ selectedEvent, isOpen, onCloseCallback, isLoadingEvent }
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const styleEventTitle={
-    textAlign: "center"
-  }
-
-  const styleEventDate={
-    marginBottom: "1rem"
-  }
-
-  const styleEventMeta={
-    textAlign: "center"
-  }
-
-  const styleEventDecsription={
-    backgroundColor: "#f5f5f5",
-    padding: "1rem",
-    marginBottom: "1rem",
-    marginTop: "1rem"
-  }
-
-  const styleDescription={
-    paddingLeft: "1rem",
-    paddingRight: "1rem",
-    marginTop: "1rem"
+  const style = {
+    title: {
+      textAlign: "center"
+    },
+    date: {
+      marginBottom: "1rem"
+    },
+    meta: {
+      textAlign: "center"
+    },
+    description: {
+      backgroundColor: "#f5f5f5",
+      padding: "1rem",
+      marginBottom: "1rem",
+      marginTop: "1rem"
+    },
   }
 
   useEffect(() => {
@@ -97,19 +89,16 @@ const EventDetails = ({ selectedEvent, isOpen, onCloseCallback, isLoadingEvent }
     if (currentEvent.eventIsAllDay) {
       const _startDate = dayjs(currentEvent.eventStart.toDate().toLocaleString(), 'DD/MM/YYYY, HH:mm:ss').format('DD/MM/YYYY');
       const _endDate = dayjs(currentEvent.eventEnd.toDate().toLocaleString(), 'DD/MM/YYYY, HH:mm:ss').format('DD/MM/YYYY');
-
       displayDate = _startDate === _endDate ? _startDate : `${_startDate} to ${_endDate}`;
-
     } else {
-
       const _startDate = dayjs(currentEvent.eventStart.toDate().toLocaleString(), 'DD/MM/YYYY, HH:mm:ss').format('DD/MM/YYYY, HH:mm');
       const _endDate = dayjs(currentEvent.eventEnd.toDate().toLocaleString(), 'DD/MM/YYYY, HH:mm:ss').format('HH:mm');
-
       displayDate = `${_startDate} to ${_endDate}`;
     }
 
     return <>
-      <EventAvailableOutlinedIcon /><Typography component="p" style={styleEventDate}>
+      <EventAvailableOutlinedIcon />
+      <Typography component="p" style={style.date}>
         When: {displayDate}
       </Typography>
     </>;
@@ -137,7 +126,7 @@ const EventDetails = ({ selectedEvent, isOpen, onCloseCallback, isLoadingEvent }
       onClose={handleCloseDetails}
       scroll="paper"
       aria-labelledby="add-dialog-title">
-      <DialogTitle id="add-dialog-title" sx={styleEventTitle}>
+      <DialogTitle id="add-dialog-title" sx={style.title}>
         <Typography variant="h2" component="span">{currentEvent.title}</Typography>
       </DialogTitle>
       <IconButton
@@ -164,12 +153,12 @@ const EventDetails = ({ selectedEvent, isOpen, onCloseCallback, isLoadingEvent }
           { currentEvent?.image && (
           <EventsDetailsImage image={imageURL(currentEvent?.image, 'medium')} alt={currentEvent?.title} />
           )}
-          <Box style={styleEventMeta}>
+          <Box style={style.meta}>
             {eventDate()}
             <LocationOnOutlinedIcon />
             <Typography component="p" variant='p'> {currentEvent.eventLocation}</Typography>
           </Box>
-          <Box style={styleDescription}>
+          <Box style={style.description}>
             <ReactMarkdown children={currentEvent.description} />
             <Button onClick={handleView} color='brand' endIcon={<LaunchOutlinedIcon />}>Go to Event site</Button>
           </Box>
