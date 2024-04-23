@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 // MUI
+import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import { Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
@@ -17,42 +18,42 @@ export default function MapPin({data, onClickPin}) {
   const theme = useTheme();
   const [icon, setIcon] = useState("");
 
-  const style = {
-    pin: {
-      display: "flex",
-      position: "relative",
-      width: "2rem",
-      height: "3rem",
-      marginTop: "-3rem",
-      left: "-1rem"
-    },
-    icon: {
-      display: "flex",
-      position: "absolute",
-      width: "2rem",
-      height: "2rem",
-      fontSize: "1rem",
-      color: data.focus ? theme.palette.warning.main : "currentColor",
-      backgroundColor: data.focus ? theme.palette.warning.main : "currentColor",
-      top: "0",
-      alignItems: "center",
-      justifyContent: "center"
-    },
-    label: {
-      display: "flex",
-      position: "absolute",
-      fontSize: "0.5rem",
-      color: theme.palette.brand.main,
-      backgroundColor: theme.palette.warning.main,
-      top: "0",
-      left: "2rem",
-      alignItems: "center",
-      justifyContent: "center",
-      whiteSpace: "nowrap",
-      padding: "4px 1rem 4px 0",
-      clipPath: "polygon(0 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%)"
-    }
-  }
+  const PinBox = styled(Box)(({ theme }) => ({
+    display: "flex",
+    position: "relative",
+    width: "2rem",
+    height: "3rem",
+    marginTop: "-3rem",
+    left: "-1rem"
+  }));
+
+  const IconBox = styled(Box)(({ theme }) => ({
+    display: "flex",
+    position: "absolute",
+    width: "2rem",
+    height: "2rem",
+    fontSize: "1rem",
+    color: data.focus ? theme.palette.warning.main : "currentColor",
+    backgroundColor: data.focus ? theme.palette.warning.main : "currentColor",
+    top: "0",
+    alignItems: "center",
+    justifyContent: "center"
+  }));
+
+  const LabelBox = styled(Box)(({ theme }) => ({
+    display: "flex",
+    position: "absolute",
+    fontSize: "0.5rem",
+    color: theme.palette.brand.main,
+    backgroundColor: theme.palette.warning.main,
+    top: "0",
+    left: "2rem",
+    alignItems: "center",
+    justifyContent: "center",
+    whiteSpace: "nowrap",
+    padding: "4px 1rem 4px 0",
+    clipPath: "polygon(0 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%)"
+  }));
 
   useEffect(() => {
     if (!data.tags) return;
@@ -73,13 +74,13 @@ export default function MapPin({data, onClickPin}) {
   }, [data.id]);
 
   return (
-    <Box className="sff-map-pin" style={style.pin} onClick={() => onClickPin(data)}>
-      <Box className="sff-map-icon" style={style.icon}>{icon}</Box>
+    <PinBox className="sff-map-pin" onClick={() => onClickPin(data)}>
+      <IconBox className="sff-map-icon">{icon}</IconBox>
       { data.showLabel &&
-        <Box className="sff-map-label" style={style.label} >
+        <LabelBox className="sff-map-label">
           <Typography component="p">{data.title}</Typography>
-        </Box>
+        </LabelBox>
       }
-    </Box>
+    </PinBox>
   );
 }
