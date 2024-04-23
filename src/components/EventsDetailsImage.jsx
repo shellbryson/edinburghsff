@@ -1,19 +1,23 @@
 import React from 'react';
 
+// MUI
+import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 
-const EventsDetailsImage = ({ image, alt }) => {
+export default function EventsDetailsImage({ image, alt }) {
+
+  const theme = useTheme();
+
+  const ImageContainerBox = styled(Box)(({ theme }) => ({
+    display: "block",
+    aspectRatio: "1/1",
+    padding: 0,
+    maxWidth: "300px",
+    marginLeft: "auto",
+    marginRight: "auto",
+  }));
 
   const style = {
-    container: {
-      display: "block",
-      aspectRatio: "1/1",
-      padding: 0,
-      maxWidth: "300px",
-      marginBottom: "1rem",
-      marginLeft: "auto",
-      marginRight: "auto",
-    },
     image: {
       display: "block",
       width: "100%",
@@ -23,12 +27,8 @@ const EventsDetailsImage = ({ image, alt }) => {
   }
 
   return (
-    <Box style={style.container}>
-      {image &&
-        <img style={style.image} src={image} alt={alt} />
-      }
-    </Box>
+    <ImageContainerBox style={style.container}>
+      {image && <img style={style.image} src={image} alt={alt} />}
+    </ImageContainerBox>
   );
 };
-
-export default EventsDetailsImage;

@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 import { useApp } from '../context/AppContext';
 
 // MUI
+import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 
 // Icons
