@@ -34,11 +34,12 @@ export default function Filter({onFilterMap}) {
     position: "absolute",
     bottom: "1rem",
     justifyContent: "center",
-    gap: "4px",
+    gap: "1px",
     zIndex: 1000,
     marginLeft: isExpanded ? "300px" : "0",
     backgroundColor: "rgb(0, 0, 0)",
-    padding: "0.5rem",
+    padding: "4px",
+    border: `1px solid ${theme.palette.brand.main}`,
   }
 
   const styleFilterSearch = {
