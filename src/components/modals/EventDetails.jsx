@@ -58,6 +58,19 @@ const EventDetails = ({ selectedEvent, isOpen, onCloseCallback, isLoadingEvent }
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
+  const StyledBox = styled(Box)(({ theme }) => ({
+    width: '100%',
+    height: "400px",
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    background: currentEvent?.image ? `linear-gradient(to bottom, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.8) 100%), url(${imageURL(currentEvent?.image, 'large')})` : "none",
+    backgroundRepeat: 'no-repeat, no-repeat',
+    backgroundPosition: 'center, center',
+    backgroundSize: 'cover, cover',
+    marginBottom: "1rem"
+  }));
+
   const style = {
     title: {
       textAlign: "center"
@@ -150,7 +163,9 @@ const EventDetails = ({ selectedEvent, isOpen, onCloseCallback, isLoadingEvent }
         }
         { !isLoadingEvent && <>
           { currentEvent?.image && (
-          <EventsDetailsImage image={imageURL(currentEvent?.image, 'medium')} alt={currentEvent?.title} />
+            <StyledBox className="sff-event-masthead">
+              <EventsDetailsImage image={imageURL(currentEvent?.image, 'medium')} alt={currentEvent?.title} />
+            </StyledBox>
           )}
           <Box style={style.meta}>
             {eventDate()}
