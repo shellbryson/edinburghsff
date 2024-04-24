@@ -1,4 +1,4 @@
-import { doc, getDocs, getDoc, addDoc, updateDoc, deleteDoc, collection, orderBy, query } from 'firebase/firestore';
+import { doc, getDocs, getDoc, addDoc, updateDoc, deleteDoc, collection, orderBy, query, where } from 'firebase/firestore';
 import { db } from "../firebase";
 
 export function imageURL(filename, size) {
@@ -37,15 +37,47 @@ export function slugify(str) {
 }
 
 export async function fetchDocument(collectionName, documentId, callback) {
-  console.log("Fetching Location:", collectionName, documentId);
+  console.log("Fetching Document:", collectionName, documentId);
 
   const docRef = doc(db, collectionName, documentId);
   const docSnap = await getDoc(docRef);
 
   if (docSnap.exists()) {
-    console.log("Got Location:", docSnap.data());
     callback(docSnap.data());
   } else {
     console.log("No such document!", collectionName, documentId);
+  }
+}
+
+export async function updateMapLocationsIndex(pins, user, callback) {
+  console.log("Updating Map Locations Index", pins);
+  try {
+    const l = doc(db, "settings", "index_pins");
+    pins = pins.map((pin) => {
+      if (!pin.id || !pin.lat || !pin.lng || !pin.name) return;
+      return {
+        id: pin.id,
+        lat: pin.lat,
+        lng: pin.lng,
+        name: pin.name,
+        tags: pin.tags || "",
+        featured: pin?.featured || false,
+      }
+    });
+    const data = {
+      updated: {
+        email: user.email,
+        uid: user.uid,
+        timestamp: new Date()
+      },
+      pins: pins,
+    }
+
+    console.log("DATA", data);
+
+    await updateDoc(l, data);
+    if (callback) callback(data);
+  } catch (e) {
+    console.error("Error adding document: ", e);
   }
 }

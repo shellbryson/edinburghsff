@@ -96,7 +96,6 @@ export default function List({ data, onUpdate, onOpenForm, tableStructure }) {
     <Paper>
       <Box style={style.actionbar}>
         <TextField
-          color="form"
           value={filter}
           label="Filter"
           size="small"

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate, useLocation } from "react-router-dom";
-import { getDocs, collection, query } from 'firebase/firestore';
+import { getDocs, getDoc, collection, query, doc } from 'firebase/firestore';
 import { db } from "../firebase";
 import GoogleMapReact from 'google-maps-react-markers';
 import { useHead } from 'hoofd';
@@ -20,7 +20,7 @@ import Filter from './Filter';
 import Logo from './Logo';
 
 // Helpers
-import { slugify } from '../utils/utils';
+import { fetchDocument, slugify } from '../utils/utils';
 
 export default function Map() {
 
@@ -92,16 +92,21 @@ export default function Map() {
   }
 
   const getLocations = async () => {
-    const data = await getDocs(query(collection(db, "locations")));
-    const docs = data.docs.map((doc) => ({
-      ...doc.data(),
-      id: doc.id,
-      hidden: false,
-      focus: false
-    }));
-    setMapLocations(docs);
-    setFilteredLocations(docs);
-    setIsLoaded(true);
+    const docRef = doc(db, "settings", "index_pins");
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      const pins = data.pins.map((pin) => ({
+        ...pin,
+        hidden: false,
+        focus: false
+      }));
+      setMapLocations(pins);
+      setFilteredLocations(pins);
+      setIsLoaded(true);
+    } else {
+      console.log("Could not load index_pins from settings collection.");
+    }
   }
 
   const centerMapOnPin = (pin) => {
@@ -127,20 +132,16 @@ export default function Map() {
   }, [focusMapPin]);
 
   useEffect(() => {
-    if (location.pathname === '/') {
-      setIsOpenDialog(false);
-      return;
-    }
-    if (!params.place || !mapLocations.length) {
-      return;
-    }
+    if (location.pathname === '/') { setIsOpenDialog(false); return; }
+    if (!params.id || !mapLocations.length) { setIsOpenDialog(false); return; }
 
-    const place = mapLocations.find(location => slugify(location.title) === params.place);
-    if (place) {
-      setPinData(place);
+    // If url has changed and we have a place id, fetch the document
+    fetchDocument("locations", params.id, (pin) => {
+      setPinData(pin);
       setIsOpenDialog(true);
-    }
-  }, [mapLocations, params.place]);
+    });
+
+  }, [mapLocations, params.id]);
 
   const onGoogleApiLoaded = ({map}) => {
     mapRef.current = map;
@@ -148,9 +149,7 @@ export default function Map() {
   }
 
   const onClickPin = (data) => {
-    setPinData(data);
-    setIsOpenDialog(true)
-    navigate(`/places/${slugify(data.title)}`);
+    navigate(`/places/${data.id}/${slugify(data.name)}`);
   }
 
   const handleCloseDetails = () => {
@@ -165,7 +164,8 @@ export default function Map() {
   }
 
   const handleOnSearchMap = () => {
-    const filtered = mapLocations.filter(entry => entry.title.toLowerCase().includes(mapSearchText.toLowerCase()));
+    if (mapLocations.length === 0) return;
+    const filtered = mapLocations.filter(entry => entry.name.toLowerCase().includes(mapSearchText.toLowerCase()));
     if (mapSearchText === "") {
       setFilteredLocations(mapLocations);
     } else {

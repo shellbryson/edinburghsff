@@ -39,6 +39,8 @@ import PageHeading from '../../components/PageHeading';
 import List from '../../components/admin/List';
 import UploadImage from '../../components/admin/UploadImage';
 
+import { updateMapLocationsIndex } from '../../utils/utils';
+
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -82,7 +84,7 @@ const tableStructure = {
 export default function AdminMap() {
 
   const { user } = useAuth();
-  const { setIsLoading } = useApp();
+  const { setIsLoading, mapLocations } = useApp();
 
   const confirm = useConfirm();
 
@@ -130,7 +132,7 @@ export default function AdminMap() {
     getLocations();
   }, []);
 
-  const getLocations = async () => {
+  const getLocations = async (callback) => {
     setIsLoading(true);
     const q = query(collection(db, "locations"), orderBy("title"));
     const list = [];
@@ -144,6 +146,9 @@ export default function AdminMap() {
     });
     setPlaces(list);
     setIsLoading(false);
+    if (typeof callback === 'function') {
+      callback();
+    }
   }
 
   const handleOpenForm = () => {
@@ -244,7 +249,7 @@ export default function AdminMap() {
         }
       });
 
-      getLocations();
+      getLocations(updateMapLocationsIndex(mapLocations, user, () =>{ console.log("Updated Pins") }));
       handleCloseForm();
 
     } catch (e) {
@@ -294,8 +299,7 @@ export default function AdminMap() {
       await updateDoc(l, data);
 
       setIsDirty(false);
-      getLocations();
-
+      getLocations(updateMapLocationsIndex(mapLocations, user, () =>{ console.log("Updated Pins") }));
     } catch (e) {
       setIsLoading(false);
       console.error("Error adding document: ", e);
@@ -306,7 +310,7 @@ export default function AdminMap() {
     setIsLoading(true);
     try {
       await deleteDoc(doc(db, "locations", id));
-      getLocations();
+      getLocations(updateMapLocationsIndex(mapLocations, user, () =>{ console.log("Updated Pins") }));
       handleCloseForm();
     } catch (e) {
       setIsLoading(false);
