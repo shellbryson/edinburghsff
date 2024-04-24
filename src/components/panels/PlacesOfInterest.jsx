@@ -28,9 +28,7 @@ export default function PlacesOfInterest() {
     position: "relative",
     flexDirection: "column",
     gap: "1rem",
-    marginTop: "1rem",
-    border: `1px solid ${theme.palette.primary.dark}`,
-    padding: "0.5rem"
+    marginBottom: "2rem",
   }
 
   const stylePlace={
@@ -71,7 +69,7 @@ export default function PlacesOfInterest() {
 
   return (
     <Box style={stylePointsOfInterest} className="sff-panel-interesting">
-      <Typeography component="h2" variant="h_small">Places of Interest</Typeography>
+      <Typeography component="h2" variant="h_small_lined">Places of Interest</Typeography>
       {featured.map((place, index) => (
         <Box key={index} style={stylePlace} className="sff-interesting__place">
           <Typeography style={styleLink} component="a" variant="a_white" key={index} onClick={() => handleClickPointOfInterest(place.id)}>{place.name}</Typeography>

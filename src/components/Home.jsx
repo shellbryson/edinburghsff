@@ -33,6 +33,7 @@ export default function Home({onSearchMap}) {
       width: "100%",
       height: "200px",
       marginBottom: "1rem",
+      clipPath: "polygon(5% 0%, 95% 0%, 100% 5%, 100% 95%, 95% 100%, 5% 100%, 0% 95%, 0% 5%)"
     },
     splash: {
       position: "absolute",
@@ -58,7 +59,7 @@ export default function Home({onSearchMap}) {
           </Typography>
         </Box>
       </Box>
-      <Typography component="p">
+      <Typography component="p" sx={{marginBottom: "2rem"}}>
         Explore the map to discover places to write, events and resources.
       </Typography>
       <PlacesOfInterest />

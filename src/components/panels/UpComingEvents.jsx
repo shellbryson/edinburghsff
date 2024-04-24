@@ -33,9 +33,7 @@ export default function UpComingEvents() {
     position: "relative",
     flexDirection: "column",
     gap: "0.5rem",
-    marginTop: "1rem",
-    border: `1px solid ${theme.palette.primary.dark}`,
-    padding: "0.5rem"
+    marginBottom: "2rem",
   }
 
   const styleEvent={
@@ -106,7 +104,7 @@ export default function UpComingEvents() {
 
   return (
     <Box style={styleEvents} className="sff-panel-events">
-      <Typeography component="h2" variant="h_small">Events</Typeography>
+      <Typeography component="h2" variant="h_small_lined">Events</Typeography>
       {events.map((event, index) => (
         <Box key={index} style={styleEvent} className="sff-panel-events__event">
           <Typeography style={styleLink} component="a" variant="a_white" onClick={() => handleClickEvent(event)}>{event.title}</Typeography>
