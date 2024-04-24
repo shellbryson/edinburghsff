@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-//import { useState } from "react-router-dom";
 
 // Context
 import { useApp } from '../../context/AppContext';
@@ -9,6 +8,7 @@ import Box from '@mui/material/Box';
 import Typeography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
 
+// Icons
 import PinDropIcon from '@mui/icons-material/PinDrop';
 
 export default function PlacesOfInterest() {
@@ -22,13 +22,6 @@ export default function PlacesOfInterest() {
 
   const theme = useTheme();
   const [featured, setFeatured] = useState([]);
-
-  const places = [
-    {
-      id: "vjXUjeOoA0hBIFq4Bvfk",
-      title: "Cymera Festival"
-    }
-  ]
 
   const stylePointsOfInterest={
     display: "flex",

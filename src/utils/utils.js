@@ -87,9 +87,6 @@ export async function updateMapLocationsIndex(places, user, callback) {
       },
       pins: newPlaces,
     }
-
-    console.log("Updating index_pins data:", data.pins);
-
     await updateDoc(l, data);
     if (callback) callback(data);
   } catch (e) {

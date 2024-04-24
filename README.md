@@ -10,14 +10,16 @@ A custom ReactJS web app using modern Web patterns.
 2. From that folder, `yarn install` to ensure development requirements are in place.
 3. Firebase configuration is required to run the app. Create a `.env.local` file in the root of the project and add the following:
 
-```VITE_FIREBASE_API_KEY=
+```
+VITE_FIREBASE_API_KEY=
 VITE_FIREBASE_AUTH_DOMAIN=
 VITE_FIREBASE_PROJECT_ID=
 VITE_FIREBASE_STORAGE_BUCKET=
 VITE_FIREBASE_MESSAGING_SENDER_ID=
 VITE_FIREBASE_APP_ID=
 VITE_FIREBASE_MEASUREMENT_ID=
-VITE_GOOGLEMAPS_API_KEY=```
+VITE_GOOGLEMAPS_API_KEY=
+```
 
 ### Quick start
 
