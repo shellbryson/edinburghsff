@@ -78,7 +78,7 @@ export default function MapPin({data, onClickPin}) {
       <IconBox className="sff-map-icon">{icon}</IconBox>
       { data.showLabel &&
         <LabelBox className="sff-map-label">
-          <Typography component="p">{data.title}</Typography>
+          <Typography component="p">{data.name}</Typography>
         </LabelBox>
       }
     </PinBox>

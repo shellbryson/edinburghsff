@@ -8,6 +8,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useApp } from '../../context/AppContext';
 
 // MUI
+import { styled } from '@mui/material/styles';
 import Alert from '@mui/material/Alert';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
@@ -84,7 +85,7 @@ const tableStructure = {
 export default function AdminMap() {
 
   const { user } = useAuth();
-  const { setIsLoading, mapLocations } = useApp();
+  const { setIsLoading, mapLocations, setMapLocations } = useApp();
 
   const confirm = useConfirm();
 
@@ -99,6 +100,7 @@ export default function AdminMap() {
   const [imgUrl, setImgUrl] = useState(null);
 
   // Specific to Maps
+  const [featured, setFeatured] = useState(false);
   const [locationLat, setLocationLat] = useState(0);
   const [locationLng, setLocationLng] = useState(0);
   const [locationTags, setLocationTags] = useState([]);
@@ -120,6 +122,12 @@ export default function AdminMap() {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
+  const SplitBox = styled(Box)(({ theme }) => ({
+    display: 'flex',
+    flexDirection: 'row',
+    gap: "1rem",
+  }));
+
   const style = {
     dirty: {
       textTransform: 'uppercase',
@@ -137,6 +145,9 @@ export default function AdminMap() {
     const q = query(collection(db, "locations"), orderBy("title"));
     const list = [];
     const querySnapshot = await getDocs(q);
+
+    console.log("2. Fetched locations");
+
     querySnapshot.forEach((doc) => {
       list.push({
         ...doc.data(),
@@ -145,9 +156,12 @@ export default function AdminMap() {
       });
     });
     setPlaces(list);
+
+    console.log("PLACES", list);
+
     setIsLoading(false);
     if (typeof callback === 'function') {
-      callback();
+      callback(list);
     }
   }
 
@@ -170,6 +184,8 @@ export default function AdminMap() {
     setLocationLat('');
     setLocationLng('');
 
+    setFeatured(false);
+
     setNoiseLevel(5);
     setPriceLevel(5);
 
@@ -184,6 +200,7 @@ export default function AdminMap() {
     setURL(data.url);
     setImgUrl(data.image);
     setShow(data.show);
+    setFeatured(data.featured);
     setUpdateId(data.id);
     setLocationLat(data.lat);
     setLocationLng(data.lng);
@@ -229,6 +246,7 @@ export default function AdminMap() {
         title: title,
         description: description,
         url: url,
+        featured: featured,
         show: show,
         image: strippedImageUrl,
         lat: locationLat,
@@ -249,7 +267,7 @@ export default function AdminMap() {
         }
       });
 
-      getLocations(updateMapLocationsIndex(mapLocations, user, () =>{ console.log("Updated Pins") }));
+      getLocations(()=>updateMapLocationsIndex(mapLocations, user, (pins) =>{ console.log("Updated Pins", pins) }));
       handleCloseForm();
 
     } catch (e) {
@@ -281,7 +299,8 @@ export default function AdminMap() {
         title: title,
         description: description,
         url: url,
-        show: show || false,
+        show: show,
+        featured: featured,
         image: strippedImageUrl,
         lat: locationLat,
         lng: locationLng,
@@ -295,11 +314,15 @@ export default function AdminMap() {
           timestamp: new Date()
         }
       }
-
       await updateDoc(l, data);
 
+      console.log("1. Location Updated:", data);
+
       setIsDirty(false);
-      getLocations(updateMapLocationsIndex(mapLocations, user, () =>{ console.log("Updated Pins") }));
+      // refresh list of locations
+      getLocations(() => updateMapLocationsIndex(mapLocations, user, () => console.log("Updated Pins")));
+      // getLocations(() => updateMapLocationsIndex(places, user, () => console.log("Updated Pins")));
+
     } catch (e) {
       setIsLoading(false);
       console.error("Error adding document: ", e);
@@ -310,7 +333,7 @@ export default function AdminMap() {
     setIsLoading(true);
     try {
       await deleteDoc(doc(db, "locations", id));
-      getLocations(updateMapLocationsIndex(mapLocations, user, () =>{ console.log("Updated Pins") }));
+      getLocations(()=>updateMapLocationsIndex(mapLocations, user, () =>{ console.log("Updated Pins") }));
       handleCloseForm();
     } catch (e) {
       setIsLoading(false);
@@ -385,6 +408,16 @@ export default function AdminMap() {
     setURL(text);
   }
 
+  const handleFeaturedChange = (val) => {
+    if (val !== featured) setIsDirty(true);
+    setFeatured(val);
+  }
+
+  const handleShowChange = (val) => {
+    if (val !== show) setIsDirty(true);
+    setShow(val);
+  }
+
   return (
     <Container disableGutters maxWidth="md">
       <Dialog
@@ -414,6 +447,15 @@ export default function AdminMap() {
               value={url} required label="URL"
               onChange={(e) => handleChangeUrl(e.target.value)} type='url'
             />
+
+            <SplitBox>
+              <FormGroup>
+                <FormControlLabel onChange={(e) => handleFeaturedChange(e.target.checked)} control={<Checkbox checked={featured} />} label="Featured" />
+              </FormGroup>
+              <FormGroup>
+                <FormControlLabel onChange={(e) => handleShowChange(e.target.checked)} control={<Checkbox checked={show} />} label="Show on Map" />
+              </FormGroup>
+            </SplitBox>
 
             <FormControl sx={{ m: 1 }}>
               <InputLabel  id="demo-multiple-chip-label">Location tags</InputLabel>
@@ -467,7 +509,7 @@ export default function AdminMap() {
               </Select>
             </FormControl>
 
-            <Box sx={{ display: 'flex', flexDirection: 'row', gap: "1rem" }}>
+            <SplitBox>
 
               <FormControl fullWidth>
                 <TextField
@@ -486,17 +528,14 @@ export default function AdminMap() {
                   onChange={(e) => handlePriceLevelChange(e.target.value)}
                 />
               </FormControl>
-            </Box>
+
+            </SplitBox>
 
             <TextField sx={{ width: '100%' }} value={description} multiline rows={8} label="Description" onChange={(e) => handleChangeDescription(e.target.value)}  />
             <TextField sx={{ width: '100%' }} value={locationLat} required label="Lat" onChange={(e) => setLocationLat(e.target.value)} type='text' />
             <TextField sx={{ width: '100%' }} value={locationLng} required label="Lng" onChange={(e) => setLocationLng(e.target.value)} type='text' />
 
             <UploadImage imageUploadedCallback={handleFileUpload} imgUrl={imgUrl} />
-
-            <FormGroup>
-              <FormControlLabel onChange={(e) => setShow(e.target.checked)} control={<Checkbox  />} label="Show on Map" />
-            </FormGroup>
 
             { error && <Alert severity="warning">{error}</Alert> }
 
