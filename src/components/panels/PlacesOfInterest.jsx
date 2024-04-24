@@ -1,5 +1,5 @@
-import React from 'react';
-import { useSearchParams } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+//import { useState } from "react-router-dom";
 
 // Context
 import { useApp } from '../../context/AppContext';
@@ -21,7 +21,7 @@ export default function PlacesOfInterest() {
   } = useApp();
 
   const theme = useTheme();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [featured, setFeatured] = useState([]);
 
   const places = [
     {
@@ -57,6 +57,13 @@ export default function PlacesOfInterest() {
     textOverflow: "ellipsis",
   }
 
+  useEffect(() => {
+    const featured = mapLocations.filter(location => location.featured);
+    console.log("featured", featured);
+    console.log("mapLocations", mapLocations);
+    setFeatured(mapLocations.filter(location => location.featured));
+  }, [mapLocations]);
+
   const handleClickPointOfInterest = (id) => {
     const locations = mapLocations.map(location => {
       if (location.id === id) {
@@ -68,7 +75,6 @@ export default function PlacesOfInterest() {
       }
       return location;
     });
-    setSearchParams({});
     setMapLocations(locations);
     setFocusMapPin(id);
   }
@@ -76,9 +82,9 @@ export default function PlacesOfInterest() {
   return (
     <Box style={stylePointsOfInterest} className="sff-panel-interesting">
       <Typeography component="h2" variant="h_small">Places of Interest</Typeography>
-      {places.map((place, index) => (
+      {featured.map((place, index) => (
         <Box key={index} style={stylePlace} className="sff-interesting__place">
-          <Typeography style={styleLink} component="a" variant="a_white" key={index} onClick={() => handleClickPointOfInterest(place.id)}>{place.title}</Typeography>
+          <Typeography style={styleLink} component="a" variant="a_white" key={index} onClick={() => handleClickPointOfInterest(place.id)}>{place.name}</Typeography>
           <PinDropIcon />
         </Box>
       ))}

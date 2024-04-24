@@ -145,9 +145,6 @@ export default function AdminMap() {
     const q = query(collection(db, "locations"), orderBy("title"));
     const list = [];
     const querySnapshot = await getDocs(q);
-
-    console.log("2. Fetched locations");
-
     querySnapshot.forEach((doc) => {
       list.push({
         ...doc.data(),
@@ -156,9 +153,6 @@ export default function AdminMap() {
       });
     });
     setPlaces(list);
-
-    console.log("PLACES", list);
-
     setIsLoading(false);
     if (typeof callback === 'function') {
       callback(list);
@@ -316,12 +310,9 @@ export default function AdminMap() {
       }
       await updateDoc(l, data);
 
-      console.log("1. Location Updated:", data);
-
       setIsDirty(false);
       // refresh list of locations
-      getLocations(() => updateMapLocationsIndex(mapLocations, user, () => console.log("Updated Pins")));
-      // getLocations(() => updateMapLocationsIndex(places, user, () => console.log("Updated Pins")));
+      getLocations(() => updateMapLocationsIndex(places, user, () => console.log("Updated Pins")));
 
     } catch (e) {
       setIsLoading(false);

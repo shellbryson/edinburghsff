@@ -49,34 +49,31 @@ export async function fetchDocument(collectionName, documentId, callback) {
   }
 }
 
-export async function updateMapLocationsIndex(pins, user, callback) {
-  console.log("0. pins", pins);
-
+export async function updateMapLocationsIndex(places, user, callback) {
   try {
     const l = doc(db, "settings", "index_pins");
-    const newPins = pins.map((pin) => {
-      if (!pin.id || !pin.lat || !pin.lng || !pin.name) return;
-      return {
-        name: pin.name,
+    const newPlaces = [];
+    places.forEach((pin) => {
+      newPlaces.push({
+        name: pin.title,
+        show: pin?.show || true,
         featured: pin?.featured || false,
         id: pin.id,
         lat: pin.lat,
         lng: pin.lng,
         tags: pin.tags || "",
-      }
-    }).sort((a, b) => a.name.localeCompare(b.name));
+      })
+    });
+    newPlaces.sort((a, b) => a.name.localeCompare(b.name));
     const data = {
       updated: {
         email: user.email,
         uid: user.uid,
         timestamp: new Date()
       },
-      pins: newPins,
+      pins: newPlaces,
     }
     await updateDoc(l, data);
-
-    console.log("3. Location Index Updated", data);
-
     if (callback) callback(data);
   } catch (e) {
     console.error("Error adding document: ", e);
