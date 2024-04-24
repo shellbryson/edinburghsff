@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 
 // MUI
-import { styled } from '@mui/material/styles';
+import { useTheme, styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import { Typography } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
 
 // Icons
 import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';

@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate, useLocation } from "react-router-dom";
-import { getDocs, getDoc, collection, query, doc } from 'firebase/firestore';
-import { db } from "../firebase";
 import GoogleMapReact from 'google-maps-react-markers';
 import { useHead } from 'hoofd';
 
@@ -10,6 +8,7 @@ import { useApp } from '../context/AppContext';
 
 // MUI
 import Box from '@mui/material/Box';
+import { useTheme } from '@mui/material/styles';
 
 // Custom UI
 import MapPanel from './MapPanel';
@@ -40,6 +39,7 @@ export default function Map() {
     setMapSearchText
   } = useApp();
 
+  const theme = useTheme();
   const params = useParams();
   const navigate = useNavigate();
   const mapRef = useRef(null);

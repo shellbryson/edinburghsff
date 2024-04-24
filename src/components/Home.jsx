@@ -1,9 +1,9 @@
 import React from 'react';
 
 // MUI
+import { useTheme, styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { useTheme } from '@mui/material/styles';
 
 // Customer UI
 import PlacesOfInterest from './panels/PlacesOfInterest';
@@ -17,47 +17,70 @@ export default function Home({onSearchMap}) {
 
   const theme = useTheme();
 
-  const styles = {
-    home: {
-      display: "block",
-      height: "100%",
-      overflow: "auto",
-      padding: "0 1rem 1rem",
-      maxWidth: "calc(300px - 2rem)",
-      color: theme.palette.brand.main,
-    },
-    masthead: {
-      display: "flex",
-      flexDirection: "column",
-      position: "relative",
-      width: "100%",
-      height: "200px",
-      marginBottom: "1rem",
-    },
-    splash: {
-      position: "absolute",
-      top: "5%",
-      width: "100%",
-      zIndex: 2,
-    },
-  }
+  const HomeBox = styled(Box)(({ theme }) => ({
+    display: "flex",
+    flexDirection: "column",
+    gap: "2rem",
+    height: "100%",
+    overflow: "auto",
+    padding: "0 1rem 1rem",
+    maxWidth: "calc(300px - 2rem)",
+    color: theme.palette.brand.main,
+  }));
+
+  const MastheadBox = styled(Box)(({ theme }) => ({
+    display: "block",
+    position: "relative",
+    width: "100%",
+    height: "240px",
+    minHeight: "240px",
+    marginBottom: "1rem",
+    clipPath: "polygon(5% 0%, 95% 0%, 100% 5%, 100% 95%, 95% 100%, 5% 100%, 0% 95%, 0% 5%)"
+  }));
+
+  const SplashBox = styled(Box)(({ theme }) => ({
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    position: "absolute",
+    inset: "0",
+    zIndex: 2,
+  }));
+
+  const HeadingBox = styled(Box)(({ theme }) => ({
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    position: "absolute",
+    bottom: "2rem",
+    left: "0",
+    right: "0",
+    zIndex: 3,
+  }));
 
   return (
-    <Box style={styles.home} className="sff-home">
-      <Box style={styles.masthead} className="sff-masthead">
+    <HomeBox className="sff-home">
+      <MastheadBox className="sff-masthead">
         <Background />
-        <Box elevation={1} style={styles.splash}>
+        <SplashBox elevation={1}>
           <Box style={{ display: "flex", justifyContent: "center"}}>
-            <Logo />
+            <Logo size={5}/>
           </Box>
-          <Typography component="p" variant="p_small" sx={{textAlign: "center"}}>
+        </SplashBox>
+        <HeadingBox>
+          <Typography component="h1">
             Edinburgh SFF
           </Typography>
-          <Typography component="p" variant="p_small" sx={{textAlign: "center"}}>
-            The Writers Hub
+          <Typography component="p">
+            Writing Community
           </Typography>
-        </Box>
-      </Box>
+        </HeadingBox>
+      </MastheadBox>
+      <Typography component="p" variant="h_small" sx={{textAlign: "center"}}>
+        Hub
+      </Typography>
       <Typography component="p">
         Explore the map to discover places to write, events and resources.
       </Typography>
@@ -65,6 +88,6 @@ export default function Home({onSearchMap}) {
       <UpComingEvents />
       <SearchPanel onSearchMap={onSearchMap}/>
       <Footer />
-    </Box>
+    </HomeBox>
   );
 }

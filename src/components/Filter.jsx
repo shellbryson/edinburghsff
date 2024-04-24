@@ -93,7 +93,7 @@ export default function Filter({onFilterMap}) {
 
   return (
     <FilterBox className="sff-filters">
-      <LabelTypography style={style.label} className="sff-filters__label" variant='h_small'>Filter by: {activeFilter}</LabelTypography>
+      <LabelTypography style={style.label} className="sff-filters__label" variant='h_small_lined'>Filter by: {activeFilter}</LabelTypography>
       <IconsBox className="sff-filters__icons">
         <ToggleIconButton className="sff-filters__button" aria-label="Venues" onClick={() => handleFilterMap('Venue')} style={ activeFilter === "Venue" ? style.iconActive : style.iconInactive }>
           <FestivalIcon />

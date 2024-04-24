@@ -29,6 +29,7 @@ export const customTheme = createTheme({
     },
     p: {
       fontSize: 16,
+      padding: 0,
     },
     p_small: {
       fontSize: 13,
@@ -37,18 +38,7 @@ export const customTheme = createTheme({
       position: 'relative',
       textTransform: 'uppercase',
       fontSize: 13,
-      fontWeight: 'bold',
-      borderBottom: '1px solid currentColor',
-      '&::after': {
-        content: '""',
-        display: 'block',
-        position: 'absolute',
-        width: '4px',
-        height: '4px',
-        backgroundColor: 'currentColor',
-        right: "0",
-        bottom: "0",
-      },
+      fontWeight: 'bold'
     },
     h_medium: {
       fontSize: 18,
@@ -59,6 +49,24 @@ export const customTheme = createTheme({
       fontSize: 24,
       textTransform: 'uppercase',
       paddingBottom: '2rem'
+    },
+    h_small_lined: {
+      position: 'relative',
+      textTransform: 'uppercase',
+      fontSize: 13,
+      fontWeight: 'bold',
+      borderTop: '1px solid currentColor',
+      paddingTop: "4px",
+      '&::before': {
+        content: '""',
+        display: 'block',
+        position: 'absolute',
+        width: '4px',
+        height: '4px',
+        backgroundColor: 'currentColor',
+        right: "0",
+        top: "0",
+      },
     },
   },
   palette: {

@@ -17,14 +17,11 @@ export default function SearchPanel() {
     position: "relative",
     flexDirection: "column",
     gap: "1rem",
-    marginTop: "1rem",
-    border: `1px solid ${theme.palette.primary.dark}`,
-    padding: "0.5rem"
   }
 
   return (
     <Box style={styleBox} className="sff-panel-search">
-      <Typeography component="h2" variant="h_small">Search</Typeography>
+      <Typeography component="h2" variant="h_small_lined">Search</Typeography>
       <MapSearch />
     </Box>
   );

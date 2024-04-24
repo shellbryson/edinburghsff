@@ -6,16 +6,19 @@ import Box from '@mui/material/Box';
 // Custom UI
 import LogoAsset from '../assets/logo.svg';
 
-const logoStyle = {
-  borderRadius: "50%",
-  width: "calc(3rem - 8px)",
-  height: "calc(3rem - 8px)",
-  margin: "1rem",
-  padding: "4px",
-  backgroundColor: "black",
-}
+export default function Logo({size}) {
+  if (size === undefined) size = 3;
+  const border = "4";
 
-const Logo = () => {
+  const logoStyle = {
+    borderRadius: "50%",
+    width: `calc(${size}rem - (${border}px * 2))`,
+    height: `calc(${size}rem - (${border}px * 2))`,
+    margin: "1rem",
+    padding: "4px",
+    backgroundColor: "black",
+  }
+
   return (
     <Box>
       <img src={LogoAsset} alt="Logo" style={logoStyle} />
@@ -23,4 +26,3 @@ const Logo = () => {
   );
 };
 
-export default Logo;

@@ -11,9 +11,8 @@ import MastheadImage2 from '../assets/masthead_nebula.jpg';
 const mastheadContainerStyle = {
   display: 'block',
   position: "relative",
-  width: "100vw",
+  width: "100%",
   backgroundColor: "#023b46",
-  maxHeight: "400px",
   overflow: "hidden",
   marginBottom: "2rem",
 }
