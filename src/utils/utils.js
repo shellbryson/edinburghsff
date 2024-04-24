@@ -36,12 +36,26 @@ export function slugify(str) {
     .replace(/^-+|-+$/g, "");
 }
 
-export async function fetchDocument(collectionName, documentId, callback) {
-  console.log("Fetching Document:", collectionName, documentId);
+export async function fetchLocationsForMapDisplay(callback) {
+  const docRef = doc(db, "settings", "index_pins");
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    const data = docSnap.data();
+    const pins = data.pins.map((pin) => ({
+      ...pin,
+      hidden: false,
+      focus: false
+    }));
+    callback(pins);
+  } else {
+    console.log("Could not load index_pins from settings collection.");
+  }
+}
 
+export async function fetchDocument(collectionName, documentId, callback) {
   const docRef = doc(db, collectionName, documentId);
   const docSnap = await getDoc(docRef);
-
+  console.log("Fetching Document:", collectionName, documentId);
   if (docSnap.exists()) {
     callback(docSnap.data());
   } else {
@@ -73,6 +87,9 @@ export async function updateMapLocationsIndex(places, user, callback) {
       },
       pins: newPlaces,
     }
+
+    console.log("Updating index_pins data:", data.pins);
+
     await updateDoc(l, data);
     if (callback) callback(data);
   } catch (e) {

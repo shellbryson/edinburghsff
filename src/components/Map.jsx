@@ -20,7 +20,11 @@ import Filter from './Filter';
 import Logo from './Logo';
 
 // Helpers
-import { fetchDocument, slugify } from '../utils/utils';
+import {
+  fetchDocument,
+  fetchLocationsForMapDisplay,
+  slugify
+} from '../utils/utils';
 
 export default function Map() {
 
@@ -91,22 +95,12 @@ export default function Map() {
     }
   }
 
-  const getLocations = async () => {
-    const docRef = doc(db, "settings", "index_pins");
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      const data = docSnap.data();
-      const pins = data.pins.map((pin) => ({
-        ...pin,
-        hidden: false,
-        focus: false
-      }));
-      setMapLocations(pins);
-      setFilteredLocations(pins);
+  const getLocations = () => {
+    fetchLocationsForMapDisplay((data) => {
+      setMapLocations(data);
+      setFilteredLocations(data);
       setIsLoaded(true);
-    } else {
-      console.log("Could not load index_pins from settings collection.");
-    }
+    });
   }
 
   const centerMapOnPin = (pin) => {

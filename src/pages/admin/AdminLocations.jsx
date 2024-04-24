@@ -85,7 +85,7 @@ const tableStructure = {
 export default function AdminMap() {
 
   const { user } = useAuth();
-  const { setIsLoading, mapLocations, setMapLocations } = useApp();
+  const { setIsLoading, mapLocations } = useApp();
 
   const confirm = useConfirm();
 
@@ -271,8 +271,6 @@ export default function AdminMap() {
   };
 
   const handleUpdate = async () => {
-    setError('');
-
     if (
       !title ||
       !url ||
@@ -282,11 +280,9 @@ export default function AdminMap() {
       setError('Please fill out all fields');
       return;
     }
-
     setIsLoading(true);
-
+    setError('');
     const strippedImageUrl = imgUrl ? imgUrl.split('&')[0] : '';
-
     try {
       const l = doc(db, "locations", updateId);
       const data = {
@@ -309,11 +305,13 @@ export default function AdminMap() {
         }
       }
       await updateDoc(l, data);
-
+      getLocations((updatedLocations) => {
+        updateMapLocationsIndex(updatedLocations, user, (d) => {
+          console.log("Saved Locations Index", d);
+        });
+      });
       setIsDirty(false);
-      // refresh list of locations
-      getLocations(() => updateMapLocationsIndex(places, user, () => console.log("Updated Pins")));
-
+      setIsLoading(false);
     } catch (e) {
       setIsLoading(false);
       console.error("Error adding document: ", e);

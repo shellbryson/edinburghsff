@@ -58,9 +58,6 @@ export default function PlacesOfInterest() {
   }
 
   useEffect(() => {
-    const featured = mapLocations.filter(location => location.featured);
-    console.log("featured", featured);
-    console.log("mapLocations", mapLocations);
     setFeatured(mapLocations.filter(location => location.featured));
   }, [mapLocations]);
 
