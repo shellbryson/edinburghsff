@@ -26,14 +26,16 @@ export default function Filter({onFilterMap}) {
   const theme = useTheme();
   const { isExpanded, isShowingSearch, setIsShowingSearch } = useApp();
   const [activeFilter, setActiveFilter] = useState('All');
-  const [isMobile, setIsMobile] = useState(false);
-  const [isTiny, setIsTiny] = useState(false);
   const [screenSize, setScreenSize] = useState(window.innerWidth);
 
   useEffect(() => {
-    window.addEventListener('resize', () => {
+    const handleResize = () => {
       setScreenSize(window.innerWidth);
-    });
+    };
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    }
   }, []);
 
   const FilterBox = styled(Box)(({ theme }) => ({
