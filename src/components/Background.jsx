@@ -56,10 +56,10 @@ const Background = () => {
   return (
     <Box className="sff-background" style={styles.container}>
       <Box sx={styles.image1Wrapper}>
-        <img src={MastheadImage1} alt="*" style={styles.image1} />
+      <img src={MastheadImage2} alt="*" style={styles.image2} />
       </Box>
       <Box sx={styles.image2Wrapper}>
-        <img src={MastheadImage2} alt="*" style={styles.image2} />
+      <img src={MastheadImage1} alt="*" style={styles.image1} />
       </Box>
     </Box>
   );

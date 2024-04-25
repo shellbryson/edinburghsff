@@ -17,6 +17,9 @@ export default function Home({onSearchMap}) {
 
   const theme = useTheme();
 
+  // We inline these styles to avoid weird rendering refresh
+  // that happens when using styled();
+
   const styles = {
     home: {
       display: "block",
@@ -27,19 +30,32 @@ export default function Home({onSearchMap}) {
       color: theme.palette.brand.main,
     },
     masthead: {
-      display: "flex",
-      flexDirection: "column",
+      display: "block",
       position: "relative",
       width: "100%",
-      height: "200px",
+      height: "270px",
       marginBottom: "1rem",
       clipPath: "polygon(5% 0%, 95% 0%, 100% 5%, 100% 95%, 95% 100%, 5% 100%, 0% 95%, 0% 5%)"
     },
     splash: {
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      alignItems: "center",
       position: "absolute",
-      top: "5%",
-      width: "100%",
-      zIndex: 2,
+      inset: "0",
+    },
+    splashText: {
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      alignItems: "center",
+      textAlign: "center",
+      position: "absolute",
+      left: "0",
+      right: "0",
+      bottom: "1rem",
+      textShadow: "1px 1px 1px rgba(0, 0, 0, 0.9)",
     },
   }
 
@@ -49,16 +65,21 @@ export default function Home({onSearchMap}) {
         <Background />
         <Box elevation={1} style={styles.splash}>
           <Box style={{ display: "flex", justifyContent: "center"}}>
-            <Logo />
+            <Logo size={5}/>
           </Box>
-          <Typography component="p" variant="p_small" sx={{textAlign: "center"}}>
+        </Box>
+        <Box style={styles.splashText}>
+          <Typography>
             Edinburgh SFF
           </Typography>
-          <Typography component="p" variant="p_small" sx={{textAlign: "center"}}>
-            The Writers Hub
+          <Typography variant="p_tiny">
+            Science Fiction & Fantasy Writing Community
           </Typography>
         </Box>
       </Box>
+      <Typography component="p" variant="h_small" sx={{textAlign: "center"}}>
+        Hub
+      </Typography>
       <Typography component="p" sx={{marginBottom: "2rem"}}>
         Explore the map to discover places to write, events and resources.
       </Typography>

@@ -31,6 +31,9 @@ export const customTheme = createTheme({
       fontSize: 16,
       padding: 0,
     },
+    p_tiny: {
+      fontSize: 12,
+    },
     p_small: {
       fontSize: 13,
     },
