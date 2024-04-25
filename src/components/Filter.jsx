@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 // Context
 import { useApp } from '../context/AppContext';
@@ -26,31 +26,41 @@ export default function Filter({onFilterMap}) {
   const theme = useTheme();
   const { isExpanded, isShowingSearch, setIsShowingSearch } = useApp();
   const [activeFilter, setActiveFilter] = useState('All');
+  const [isMobile, setIsMobile] = useState(false);
+  const [isTiny, setIsTiny] = useState(false);
+  const [screenSize, setScreenSize] = useState(window.innerWidth);
+
+  useEffect(() => {
+    window.addEventListener('resize', () => {
+      setScreenSize(window.innerWidth);
+    });
+  }, []);
 
   const FilterBox = styled(Box)(({ theme }) => ({
-    display: "flex",
-    flexDirection: "column",
+    display: isExpanded && screenSize <= 380 ? "none" : "block",
     position: "absolute",
-    bottom: "1rem",
-    justifyContent: "center",
-    gap: "2px",
+    top: screenSize >= 700 ? "unset" : "5rem",
+    bottom: screenSize >= 700 ? "1rem" : "unset",
+    right: isExpanded && screenSize <= 700 ? "1rem" : (!isExpanded && screenSize <= 700) ? "1rem" : "auto",
+    marginLeft: isExpanded && screenSize >= 700 ? "300px" : "auto",
     zIndex: 1000,
-    marginLeft: isExpanded ? "300px" : "0",
     backgroundColor: "rgb(0, 0, 0)",
     padding: "2px",
     border: `1px solid ${theme.palette.brand.main}`
   }));
 
   const LabelTypography = styled(Typography)(({ theme }) => ({
-    display: "flex",
+    display: screenSize >= 700 ? "block" : "none",
     width: "100%",
     position: "relative",
     justifyContent: "center",
+    textAlign: "center",
     color: theme.palette.brand.main,
   }));
 
   const IconsBox = styled(Box)(({ theme }) => ({
     display: "flex",
+    flexDirection: screenSize <= 700 ? "column" : "row",
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "rgb(0, 0, 0)",
