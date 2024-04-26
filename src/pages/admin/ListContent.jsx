@@ -28,6 +28,7 @@ import {
 export default function ListContent() {
 
   const params = useParams();
+  const navigate = useNavigate();
 
   const [tableStructure, setTableStructure] = useState({});
   const [tableFilterOn, setTableFilterOn] = useState("title");
@@ -53,7 +54,7 @@ export default function ListContent() {
 
   useEffect(() => {
     if (params.type === 'locations') {
-      setTableStructure({ headings: ['Location'], keys: ['name'] });
+      setTableStructure({ headings: ['Location name'], keys: ['name'] });
       setTableFilterOn('name');
       fetchLocationsForMapDisplay((data) => {
         data.forEach((item) => {
@@ -63,7 +64,7 @@ export default function ListContent() {
       });
     } else if (params.type === 'events' || params.type === 'pages' || params.type === 'links') {
       setTableFilterOn('title');
-      setTableStructure({ headings: ['Title'], keys: ['title'] });
+      setTableStructure({ headings: ['Event Title'], keys: ['title'] });
       fetchDocuments(params.type, (data) => {
         data.forEach((item) => {
           item.display = true;
@@ -75,11 +76,12 @@ export default function ListContent() {
   }, [params.type]);
 
   useEffect(() => {
-    console.log("ITEMS", items)
+    if (params.id) {
+      console.log("ID", params.id);
+    }
   }, [items]);
 
   const handleFilter = (filterString) => {
-    console.log("FILTER", filterString);
     const PATTERN = filterString;
     const filteredItems = items;
     setFilter(PATTERN);
@@ -103,7 +105,7 @@ export default function ListContent() {
     if (items.length === 0) return;
     const h = [];
     tableStructure.headings.forEach((_heading, i) => {
-      h.push(<TableCell key={i}>{_heading}</TableCell>)
+      h.push(<TableCell key={i}><strong>{_heading}</strong></TableCell>)
     })
     return h;
   }
@@ -112,9 +114,7 @@ export default function ListContent() {
     if (items.length === 0) return;
     const r = [];
     tableStructure.keys.forEach((_key, i) => {
-      if (_key === 'tags') {
-        r.push(<TableCell key={i}>{renderTags(item[_key])}</TableCell>);
-      } else if (_key === 'name') {
+      if (_key === 'name') {
         r.push(<TableCell key={i} sx={{width: '40%'}}>{item[_key]}</TableCell>)
       } else if (_key === 'image') {
         r.push(<TableCell key={i} sx={{width: '2rem'}}><EventsListImage image={imageURL(item[_key], 'icon')} alt='*' /></TableCell>)
@@ -123,6 +123,14 @@ export default function ListContent() {
       }
     })
     return r;
+  }
+
+  const onAddItem = () => {
+    navigate(`/admin/${params.type}/add/`);
+  }
+
+  const onOpenItem = (item) => {
+    navigate(`/admin/${params.type}/update/${item.id}`);
   }
 
   const renderTable = () => {
@@ -139,7 +147,7 @@ export default function ListContent() {
           if (!item.display) return null;
           return (
             <TableRow
-              onClick={() => onUpdate(item)}
+              onClick={() => onOpenItem(item)}
               key={index}
               sx={{ cursor: "pointer", '&:last-child td, &:last-child th': { border: 0 } }}
             >
@@ -153,22 +161,24 @@ export default function ListContent() {
   }
 
   return (
-    <Paper>
-      <Box style={style.heading}>
-        <Typography variant="h1">{params.type}</Typography>
-      </Box>
-      <Box style={style.actionbar}>
-        <TextField
-          value={filter}
-          label="Filter"
-          size="small"
-          onChange={(e) => handleFilter(e.target.value)}
-        />
-        <Button onClick={() => onOpenForm()} variant='outlined' color="form" startIcon={<LibraryAddIcon />}>Add</Button>
-      </Box>
-      <TableContainer component={Paper} sx={{ mt: 4, mb: 4 }}>
-        {renderTable()}
-      </TableContainer>
-    </Paper>
+    <>
+      <Paper>
+        <Box style={style.heading}>
+          <Typography variant="h1">{params.type}</Typography>
+        </Box>
+        <Box style={style.actionbar}>
+          <TextField
+            value={filter}
+            label="Filter"
+            size="small"
+            onChange={(e) => handleFilter(e.target.value)}
+          />
+          <Button onClick={() => onAddItem()} variant='outlined' color="form" startIcon={<LibraryAddIcon />}>Add</Button>
+        </Box>
+        <TableContainer component={Paper} sx={{ mt: 4, mb: 4 }}>
+          {renderTable()}
+        </TableContainer>
+      </Paper>
+    </>
   );
 };

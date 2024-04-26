@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from "react-router-dom";
-import { doc, getDocs, addDoc, updateDoc, deleteDoc, collection, query, orderBy } from 'firebase/firestore';
+import { doc, addDoc, updateDoc, deleteDoc, collection} from 'firebase/firestore';
 import { db } from "../../firebase";
 import { useConfirm } from "material-ui-confirm";
 
@@ -129,10 +129,11 @@ export default function AdminMap() {
   }
 
   useEffect(() => {
+    if (!params.updateId) return;
     fetchDocument("locations", params.updateId, (data) => {
       handleOpenUpdate(data);
     });
-  }, [params.id]);
+  }, [params.updateId]);
 
   const handleOpenUpdate = (data) => {
     setUpdateId(params.updateId);
@@ -168,21 +169,12 @@ export default function AdminMap() {
 
   const handleAdd = async (e) => {
     setError('');
-
-    if (
-      !title ||
-      !url ||
-      !locationLat ||
-      !locationLng
-    ) {
-      setError('Please fill out all fields');
+    if (!title) {
+      setError('Please give this location a title');
       return;
     }
-
     setIsLoading(true);
-
     const strippedImageUrl = imgUrl ? imgUrl.split('&')[0] : '';
-
     try {
       const docRef = await addDoc(collection(db, "locations"), {
         title: title,
@@ -208,25 +200,29 @@ export default function AdminMap() {
           timestamp: new Date()
         }
       });
-
-      fetchDocuments("locations", (data)=>updateMapLocationsIndex(data, user, (pins) =>{ console.log("Updated Pins", pins) }));
-
+      console.log("Saved Location", docRef.id);
+      setIsLoading(false);
+      reIndexLocations();
+      navigate(`/admin/locations/update/${docRef.id}`);
     } catch (e) {
       setIsLoading(false);
       console.error("Error adding document: ", e);
     }
   };
 
+  const reIndexLocations = () => {
+    fetchDocuments("locations", (data) => {
+      updateMapLocationsIndex(data, user, (pins) => {
+        console.log("Saved Location Index", pins);
+      })
+    });
+  }
+
   // UPDATE
 
   const handleUpdate = async () => {
-    if (
-      !title ||
-      !url ||
-      !locationLat ||
-      !locationLng
-    ) {
-      setError('Please fill out all fields');
+    if ( !title) {
+      setError('Please give this location a title');
       return;
     }
     setIsLoading(true);
@@ -255,12 +251,7 @@ export default function AdminMap() {
         }
       }
       await updateDoc(l, data);
-      // Update the Pin Index
-      fetchDocuments("locations", (data) => {
-        updateMapLocationsIndex(data, user, (pins) => {
-          console.log("Saved Location Index", pins);
-        })
-      });
+      reIndexLocations();
       setIsDirty(false);
       setIsLoading(false);
     } catch (e) {
@@ -273,13 +264,8 @@ export default function AdminMap() {
     setIsLoading(true);
     try {
       await deleteDoc(doc(db, "locations", id));
-      // Update the Pin Index
-      fetchDocuments("locations", (data) => {
-        updateMapLocationsIndex(data, user, (pins) => {
-          console.log("Saved Location Index", pins);
-        })
-      });
-      handleCloseForm();
+      reIndexLocations();
+      navigate(`/admin/locations`);
     } catch (e) {
       setIsLoading(false);
       console.error("Error deleting document: ", e);
@@ -388,7 +374,7 @@ export default function AdminMap() {
             />
 
             <TextField sx={{ width: '100%' }}
-              value={url} required label="URL"
+              value={url} label="URL"
               onChange={(e) => handleChangeUrl(e.target.value)} type='url'
             />
 

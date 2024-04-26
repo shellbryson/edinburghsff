@@ -70,15 +70,15 @@ function App() {
                 <Route path="pages" element={<Pages />} />
                 <Route path="admin" element={<AdminLayout />}>
                   <Route index element={<Dashboard />} />
-                  <Route path=':type' element={<ListContent />} />
-                  <Route path='links/add/' element={<AdminLinks />} />
-                  <Route path='links/update/:id' element={<AdminLinks />} />
-                  <Route path='events/add' element={<AdminEvents />} />
-                  <Route path='events/update/:id' element={<AdminEvents />} />
+                  <Route path=':type/' element={<ListContent />} />
                   <Route path='locations/add' element={<AdminLocations />} />
-                  <Route path='locations/update/:id' element={<AdminLocations />} />
+                  <Route path='locations/update/:updateId' element={<AdminLocations />} />
+                  <Route path='events/add' element={<AdminEvents />} />
+                  <Route path='events/update/:updateId' element={<AdminEvents />} />
+                  <Route path='links/add' element={<AdminLinks />} />
+                  <Route path='links/update/:updateId' element={<AdminLinks />} />
                   <Route path='pages/add' element={<AdminPages />} />
-                  <Route path='pages/update/:id' element={<AdminPages />} />
+                  <Route path='pages/update/:updateId' element={<AdminPages />} />
                 </Route>
                 <Route path="*" element={<NotFound />} />
               </Route>
