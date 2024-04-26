@@ -14,7 +14,6 @@ export default function Logo({size}) {
     borderRadius: "50%",
     width: `calc(${size}rem - (${border}px * 2))`,
     height: `calc(${size}rem - (${border}px * 2))`,
-    margin: "1rem",
     padding: "4px",
     backgroundColor: "black",
   }

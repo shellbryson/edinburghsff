@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate, useLocation } from "react-router-dom";
-import { getDocs, getDoc, collection, query, doc } from 'firebase/firestore';
-import { db } from "../firebase";
 import GoogleMapReact from 'google-maps-react-markers';
 import { useHead } from 'hoofd';
 
@@ -87,8 +85,8 @@ export default function Map() {
     logo: {
       display: "flex",
       position: "absolute",
-      top: "0",
-      right: "0",
+      top: "1rem",
+      right: "0.5rem",
       alignItems: "center",
       justifyContent: "center",
       zIndex: 1000,

@@ -43,7 +43,7 @@ export default function Filter({onFilterMap}) {
     position: "absolute",
     top: screenSize >= 700 ? "unset" : "5rem",
     bottom: screenSize >= 700 ? "1rem" : "unset",
-    right: isExpanded && screenSize < 700 ? "1rem" : (!isExpanded && screenSize < 700) ? "1rem" : "auto",
+    right: isExpanded && screenSize < 700 ? "0.5rem" : (!isExpanded && screenSize < 700) ? "0.5rem" : "auto",
     marginLeft: isExpanded && screenSize >= 700 ? "300px" : "auto",
     zIndex: 1000,
     backgroundColor: "rgb(0, 0, 0)",

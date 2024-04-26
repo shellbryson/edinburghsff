@@ -59,6 +59,7 @@ export default function MapPanel() {
       transition: "width 200ms",
       width: isExploded ? "100%" : "300px",
       height: "100%",
+      overflow: "hidden"
     },
     expander: {
       display: "flex",
