@@ -17,8 +17,8 @@ export default function AdminNavigation() {
   return (
     <Box style={styleNavigation} className="sff-admin-navigation">
       <Link to='/admin'>Dashboard</Link>
-      <Link to='/admin/events'>Events</Link>
       <Link to='/admin/locations'>Locations</Link>
+      <Link to='/admin/events'>Events</Link>
       <Link to='/admin/links'>Links</Link>
       <Link to='/admin/pages'>Pages</Link>
     </Box>

@@ -36,6 +36,7 @@ export function slugify(str) {
     .replace(/^-+|-+$/g, "");
 }
 
+// Get map location index
 export async function fetchLocationsForMapDisplay(callback) {
   const docRef = doc(db, "settings", "index_pins");
   const docSnap = await getDoc(docRef);
@@ -52,6 +53,7 @@ export async function fetchLocationsForMapDisplay(callback) {
   }
 }
 
+// Single document fetch
 export async function fetchDocument(collectionName, documentId, callback) {
   const docRef = doc(db, collectionName, documentId);
   const docSnap = await getDoc(docRef);
@@ -63,6 +65,22 @@ export async function fetchDocument(collectionName, documentId, callback) {
   }
 }
 
+// Multiple documents fetch
+export async function fetchDocuments(collectionName, callback) {
+  const q = query(collection(db, collectionName), orderBy("title"));
+  const list = [];
+  const querySnapshot = await getDocs(q);
+  querySnapshot.forEach((doc) => {
+    list.push({
+      ...doc.data(),
+      id: doc.id,
+      display: true,
+    });
+  });
+  callback(list);
+}
+
+// Create a map pin index
 export async function updateMapLocationsIndex(places, user, callback) {
   try {
     const l = doc(db, "settings", "index_pins");

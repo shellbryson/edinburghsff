@@ -31,6 +31,7 @@ const Pages = lazy(() => import('./pages/public/Pages'));
 
 // Admin Pages
 const Dashboard = lazy(() => import('./pages/admin/Dashboard'));
+const ListContent = lazy(() => import('./pages/admin/ListContent'));
 const AdminLinks = lazy(() => import('./pages/admin/AdminLinks'));
 const AdminEvents = lazy(() => import('./pages/admin/AdminEvents'));
 const AdminLocations = lazy(() => import('./pages/admin/AdminLocations'));
@@ -69,10 +70,15 @@ function App() {
                 <Route path="pages" element={<Pages />} />
                 <Route path="admin" element={<AdminLayout />}>
                   <Route index element={<Dashboard />} />
-                  <Route path='links' element={<AdminLinks />} />
-                  <Route path='events' element={<AdminEvents />} />
-                  <Route path='locations' element={<AdminLocations />} />
-                  <Route path='pages' element={<AdminPages />} />
+                  <Route path=':type' element={<ListContent />} />
+                  <Route path='links/add/' element={<AdminLinks />} />
+                  <Route path='links/update/:id' element={<AdminLinks />} />
+                  <Route path='events/add' element={<AdminEvents />} />
+                  <Route path='events/update/:id' element={<AdminEvents />} />
+                  <Route path='locations/add' element={<AdminLocations />} />
+                  <Route path='locations/update/:id' element={<AdminLocations />} />
+                  <Route path='pages/add' element={<AdminPages />} />
+                  <Route path='pages/update/:id' element={<AdminPages />} />
                 </Route>
                 <Route path="*" element={<NotFound />} />
               </Route>
