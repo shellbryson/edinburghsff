@@ -44,7 +44,6 @@ export default function MapPanel() {
       bottom: "0",
       backgroundColor: "rgb(0, 0, 0)",
       zIndex: 1000,
-      clipPath: isExploded ? "polygon(0% 0%, 97% 0%, 100% 3%, 100% 100%, 100% 100%, 0% 100%)" : "none",
       borderRight: `1px solid ${theme.palette.brand.main}`
     },
     interior: {

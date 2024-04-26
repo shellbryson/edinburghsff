@@ -10,6 +10,7 @@ import { useApp } from '../../context/AppContext';
 
 // MUI
 import { styled } from '@mui/material/styles';
+import Container from '@mui/material/Container';
 import Alert from '@mui/material/Alert';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
@@ -33,6 +34,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 // Custom UI
 import UploadImage from '../../components/admin/UploadImage';
+import PageHeading from '../../components/PageHeading';
 
 import {
   updateMapLocationsIndex,
@@ -166,7 +168,6 @@ export default function AdminMap() {
   };
 
   // ADD
-
   const handleAdd = async (e) => {
     setError('');
     if (!title) {
@@ -175,35 +176,76 @@ export default function AdminMap() {
     }
     setIsLoading(true);
     const strippedImageUrl = imgUrl ? imgUrl.split('&')[0] : '';
+    const payload = {
+      title: title,
+      description: description,
+      url: url,
+      featured: featured,
+      show: show,
+      image: strippedImageUrl,
+      lat: locationLat,
+      lng: locationLng,
+      tags: locationTags.toString(),
+      facilities: locationFacilities.toString(),
+      price: locationPriceLevel,
+      noise: locationNoiseLevel,
+      created: {
+        email: user.email,
+        uid: user.uid,
+        timestamp: new Date()
+      },
+      updated: {
+        email: user.email,
+        uid: user.uid,
+        timestamp: new Date()
+      }
+    }
     try {
-      const docRef = await addDoc(collection(db, "locations"), {
-        title: title,
-        description: description,
-        url: url,
-        featured: featured,
-        show: show,
-        image: strippedImageUrl,
-        lat: locationLat,
-        lng: locationLng,
-        tags: locationTags.toString(),
-        facilities: locationFacilities.toString(),
-        price: locationPriceLevel,
-        noise: locationNoiseLevel,
-        created: {
-          email: user.email,
-          uid: user.uid,
-          timestamp: new Date()
-        },
-        updated: {
-          email: user.email,
-          uid: user.uid,
-          timestamp: new Date()
-        }
-      });
-      console.log("Saved Location", docRef.id);
+      const doc = await addDoc(collection(db, "locations"), payload);
+      console.log("Saved Location", doc.id);
       setIsLoading(false);
       reIndexLocations();
-      navigate(`/admin/locations/update/${docRef.id}`);
+      navigate(`/admin/locations/update/${doc.id}`, { replace: true });
+    } catch (e) {
+      setIsLoading(false);
+      console.error("Error adding document:", e);
+    }
+  };
+
+  // UPDATE
+  const handleUpdate = async () => {
+    if ( !title) {
+      setError('Please give this location a title');
+      return;
+    }
+    setIsLoading(true);
+    setError('');
+    const strippedImageUrl = imgUrl ? imgUrl.split('&')[0] : '';
+    const payload = {
+      title: title,
+      description: description,
+      url: url,
+      show: show,
+      featured: featured,
+      image: strippedImageUrl,
+      lat: locationLat,
+      lng: locationLng,
+      tags: locationTags.toString(),
+      facilities: locationFacilities.toString(),
+      price: locationPriceLevel,
+      noise: locationNoiseLevel,
+      updated: {
+        email: user.email,
+        uid: user.uid,
+        timestamp: new Date()
+      }
+    }
+    try {
+      const l = doc(db, "locations", updateId);
+      await updateDoc(l, payload);
+      reIndexLocations();
+      setIsDirty(false);
+      setIsLoading(false);
     } catch (e) {
       setIsLoading(false);
       console.error("Error adding document: ", e);
@@ -217,48 +259,6 @@ export default function AdminMap() {
       })
     });
   }
-
-  // UPDATE
-
-  const handleUpdate = async () => {
-    if ( !title) {
-      setError('Please give this location a title');
-      return;
-    }
-    setIsLoading(true);
-    setError('');
-    const strippedImageUrl = imgUrl ? imgUrl.split('&')[0] : '';
-    console.log("Updating", updateId);
-    try {
-      const l = doc(db, "locations", updateId);
-      const data = {
-        title: title,
-        description: description,
-        url: url,
-        show: show,
-        featured: featured,
-        image: strippedImageUrl,
-        lat: locationLat,
-        lng: locationLng,
-        tags: locationTags.toString(),
-        facilities: locationFacilities.toString(),
-        price: locationPriceLevel,
-        noise: locationNoiseLevel,
-        updated: {
-          email: user.email,
-          uid: user.uid,
-          timestamp: new Date()
-        }
-      }
-      await updateDoc(l, data);
-      reIndexLocations();
-      setIsDirty(false);
-      setIsLoading(false);
-    } catch (e) {
-      setIsLoading(false);
-      console.error("Error adding document: ", e);
-    }
-  };
 
   const performDelete = async (id) => {
     setIsLoading(true);
@@ -356,134 +356,134 @@ export default function AdminMap() {
   }
 
   return (
-    <Paper>
-      <Box style={style.container}>
-        <Box id="add-dialog-title" align='center'>
-          { isUpdate ?
-            <Typography variant="h2" component="span">Update Location</Typography>
-          :
-            <Typography variant="h2" component="span">Add Location</Typography>
-          }
-        </Box>
-        <Box>
-          <Stack spacing={2} sx={{ mt: 2}}>
-
-            <TextField sx={{ width: '100%' }}
-              value={title} required label="Title"
-              onChange={(e) => handleChangeTitle(e.target.value)} type='text'
-            />
-
-            <TextField sx={{ width: '100%' }}
-              value={url} label="URL"
-              onChange={(e) => handleChangeUrl(e.target.value)} type='url'
-            />
-
-            <SplitBox>
-              <FormGroup>
-                <FormControlLabel onChange={(e) => handleFeaturedChange(e.target.checked)} control={<Checkbox checked={featured} />} label="Featured" />
-              </FormGroup>
-              <FormGroup>
-                <FormControlLabel onChange={(e) => handleShowChange(e.target.checked)} control={<Checkbox checked={show} />} label="Show on Map" />
-              </FormGroup>
-            </SplitBox>
-
-            <FormControl sx={{ m: 1 }}>
-              <InputLabel  id="demo-multiple-chip-label">Location tags</InputLabel>
-              <Select
-                labelId="demo-multiple-chip-label"
-                id="demo-multiple-chip"
-                multiple
-                value={locationTags}
-                onChange={handleLocationTagsChange}
-                input={<OutlinedInput id="select-multiple-chip" label="Location tag"  />}
-                renderValue={(selected) => (
-                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                    {selected.map((value) => (
-                      <Chip key={value} label={value} />
-                    ))}
-                  </Box>
-                )}
-                MenuProps={MenuProps}
-              >
-                {locationTagsLookup.map((loc) => (
-                  <MenuItem key={loc} value={loc}>
-                    {loc}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-
-            <FormControl sx={{ m: 1 }}>
-              <InputLabel  id="demo-multiple-chip-label">Facilities</InputLabel>
-              <Select
-                labelId="demo-multiple-chip-label"
-                id="demo-multiple-chip"
-                multiple
-                value={locationFacilities}
-                onChange={handleFacilitiesChange}
-                input={<OutlinedInput  id="select-multiple-chip" label="Location tag" />}
-                renderValue={(selected) => (
-                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                    {selected.map((value) => (
-                      <Chip key={value} label={value} />
-                    ))}
-                  </Box>
-                )}
-                MenuProps={MenuProps}
-              >
-                {facilitiesTagsLookup.map((loc) => (
-                  <MenuItem key={loc} value={loc}>
-                    {loc}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-
-            <SplitBox>
-
-              <FormControl fullWidth>
-                <TextField
-                  label="Noise level"
-                  type="number"
-                  value={locationNoiseLevel || 5}
-                  onChange={(e) => handleNoiseLevelChange(e.target.value)}
-                />
-              </FormControl>
-
-              <FormControl fullWidth>
-                <TextField
-                  label="Price level"
-                  type="number"
-                  value={locationPriceLevel || 5}
-                  onChange={(e) => handlePriceLevelChange(e.target.value)}
-                />
-              </FormControl>
-
-            </SplitBox>
-
-            <TextField sx={{ width: '100%' }} value={description} multiline rows={8} label="Description" onChange={(e) => handleChangeDescription(e.target.value)}  />
-            <TextField sx={{ width: '100%' }} value={locationLat} required label="Lat" onChange={(e) => setLocationLat(e.target.value)} type='text' />
-            <TextField sx={{ width: '100%' }} value={locationLng} required label="Lng" onChange={(e) => setLocationLng(e.target.value)} type='text' />
-
-            <UploadImage imageUploadedCallback={handleFileUpload} imgUrl={imgUrl} />
-
-            { error && <Alert severity="warning">{error}</Alert> }
-
-          </Stack>
-        </Box>
-        <Box style={style.actions}>
+    <Container>
+      { isUpdate ?
+        <PageHeading heading="Update Location" />
+      :
+        <PageHeading heading="Add Location" />
+      }
+      <Paper>
+        <Box style={style.container}>
           <Box>
-            { isUpdate && <Button onClick={() => handleDelete(updateId)} variant="outlined" color="warning" startIcon={<DeleteIcon />}>Delete</Button> }
+            <Stack spacing={2} sx={{ mt: 2}}>
+
+              <TextField sx={{ width: '100%' }}
+                value={title} required label="Title"
+                onChange={(e) => handleChangeTitle(e.target.value)} type='text'
+              />
+
+              <TextField sx={{ width: '100%' }}
+                value={url} label="URL"
+                onChange={(e) => handleChangeUrl(e.target.value)} type='url'
+              />
+
+              <SplitBox>
+                <FormGroup>
+                  <FormControlLabel onChange={(e) => handleFeaturedChange(e.target.checked)} control={<Checkbox checked={featured} />} label="Featured" />
+                </FormGroup>
+                <FormGroup>
+                  <FormControlLabel onChange={(e) => handleShowChange(e.target.checked)} control={<Checkbox checked={show} />} label="Show on Map" />
+                </FormGroup>
+              </SplitBox>
+
+              <FormControl sx={{ m: 1 }}>
+                <InputLabel  id="demo-multiple-chip-label">Location tags</InputLabel>
+                <Select
+                  labelId="demo-multiple-chip-label"
+                  id="demo-multiple-chip"
+                  multiple
+                  value={locationTags}
+                  onChange={handleLocationTagsChange}
+                  input={<OutlinedInput id="select-multiple-chip" label="Location tag"  />}
+                  renderValue={(selected) => (
+                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                      {selected.map((value) => (
+                        <Chip key={value} label={value} />
+                      ))}
+                    </Box>
+                  )}
+                  MenuProps={MenuProps}
+                >
+                  {locationTagsLookup.map((loc) => (
+                    <MenuItem key={loc} value={loc}>
+                      {loc}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+
+              <FormControl sx={{ m: 1 }}>
+                <InputLabel  id="demo-multiple-chip-label">Facilities</InputLabel>
+                <Select
+                  labelId="demo-multiple-chip-label"
+                  id="demo-multiple-chip"
+                  multiple
+                  value={locationFacilities}
+                  onChange={handleFacilitiesChange}
+                  input={<OutlinedInput  id="select-multiple-chip" label="Location tag" />}
+                  renderValue={(selected) => (
+                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                      {selected.map((value) => (
+                        <Chip key={value} label={value} />
+                      ))}
+                    </Box>
+                  )}
+                  MenuProps={MenuProps}
+                >
+                  {facilitiesTagsLookup.map((loc) => (
+                    <MenuItem key={loc} value={loc}>
+                      {loc}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+
+              <SplitBox>
+
+                <FormControl fullWidth>
+                  <TextField
+                    label="Noise level"
+                    type="number"
+                    value={locationNoiseLevel || 5}
+                    onChange={(e) => handleNoiseLevelChange(e.target.value)}
+                  />
+                </FormControl>
+
+                <FormControl fullWidth>
+                  <TextField
+                    label="Price level"
+                    type="number"
+                    value={locationPriceLevel || 5}
+                    onChange={(e) => handlePriceLevelChange(e.target.value)}
+                  />
+                </FormControl>
+
+              </SplitBox>
+
+              <TextField sx={{ width: '100%' }} value={description} multiline rows={8} label="Description" onChange={(e) => handleChangeDescription(e.target.value)}  />
+              <TextField sx={{ width: '100%' }} value={locationLat} required label="Lat" onChange={(e) => setLocationLat(e.target.value)} type='text' />
+              <TextField sx={{ width: '100%' }} value={locationLng} required label="Lng" onChange={(e) => setLocationLng(e.target.value)} type='text' />
+
+              <UploadImage imageUploadedCallback={handleFileUpload} imgUrl={imgUrl} />
+
+              { error && <Alert severity="warning">{error}</Alert> }
+
+            </Stack>
           </Box>
-          <Box style={{ display: "flex", gap: "0.5rem" }}>
-            { isDirty && <Typography sx={style.dirty} variant='p_small'>Unsaved changes</Typography> }
-            <Button onClick={handleBack} variant='outlined'>Back</Button>
-            { isUpdate && <Button onClick={handleUpdate} variant='contained'>Save</Button> }
-            { !isUpdate && <Button onClick={handleAdd} variant='contained'>Add</Button> }
+          <Box style={style.actions}>
+            <Box>
+              { isUpdate && <Button onClick={() => handleDelete(updateId)} variant="outlined" color="warning" startIcon={<DeleteIcon />}>Delete</Button> }
+            </Box>
+            <Box style={{ display: "flex", gap: "0.5rem" }}>
+              { isDirty && <Typography sx={style.dirty} variant='p_small'>Unsaved changes</Typography> }
+              <Button onClick={handleBack} variant='outlined'>Back</Button>
+              { isUpdate && <Button onClick={handleUpdate} variant='contained'>Save</Button> }
+              { !isUpdate && <Button onClick={handleAdd} variant='contained'>Add</Button> }
+            </Box>
           </Box>
         </Box>
-      </Box>
-    </Paper>
+      </Paper>
+    </Container>
   )
 }
 

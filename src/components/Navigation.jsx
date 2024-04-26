@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 // Context
 import { useApp } from '../context/AppContext';
@@ -16,6 +16,9 @@ export default function Navigation() {
   const { isExploded } = useApp();
   const { user } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const style = {
     navigation: {
@@ -41,6 +44,10 @@ export default function Navigation() {
     navigate("/");
   }
 
+  useEffect(() => {
+    location.pathname.includes("/admin") ? setIsAdmin(true) : setIsAdmin(false);
+  }, [location]);
+
   return (
     <>
       {isExploded &&
@@ -48,10 +55,19 @@ export default function Navigation() {
           <ChevronLeftIcon />
         </Box>
       }
+      {isAdmin && <Box style={style.navigation} className="sff-navigation">
+        <Link to='/admin'>Dashboard</Link>
+        <Link to='/admin/locations'>Locations</Link>
+        <Link to='/admin/events'>Events</Link>
+        <Link to='/admin/links'>Links</Link>
+        <Link to='/admin/pages'>Pages</Link>
+      </Box>}
+      {!isAdmin && <>
       <Box style={style.navigation} className="sff-navigation">
         <Link to='/events'>Events</Link>
         <Link to='/links'>Resources</Link>
       </Box>
+      </>}
     </>
   );
 }

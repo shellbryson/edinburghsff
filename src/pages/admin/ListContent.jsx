@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 
 // MUI
-import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -19,6 +19,7 @@ import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 
 // Custom UI
 import EventsListImage from '../../components/admin/ListImage';
+import PageHeading from '../../components/PageHeading';
 
 import {
   fetchDocuments,
@@ -48,7 +49,8 @@ export default function ListContent() {
       justifyContent: "space-between",
       alignItems: "center",
       paddingLeft: "1rem",
-      paddingRight: "1rem"
+      paddingRight: "1rem",
+      paddingTop: "1rem",
     }
   }
 
@@ -161,11 +163,9 @@ export default function ListContent() {
   }
 
   return (
-    <>
+    <Container>
+      <PageHeading heading={params.type} />
       <Paper>
-        <Box style={style.heading}>
-          <Typography variant="h1">{params.type}</Typography>
-        </Box>
         <Box style={style.actionbar}>
           <TextField
             value={filter}
@@ -179,6 +179,6 @@ export default function ListContent() {
           {renderTable()}
         </TableContainer>
       </Paper>
-    </>
+    </Container>
   );
 };

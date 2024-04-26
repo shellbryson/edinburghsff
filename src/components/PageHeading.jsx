@@ -8,6 +8,7 @@ const headingStyle = {
   textAlign: "center",
   color: "#fff",
   marginTop: "1rem",
+  textTransform: "capitalize",
 }
 
 const PageHeading = ({ heading }) => {
