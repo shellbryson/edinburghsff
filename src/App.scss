@@ -210,3 +210,23 @@ p {
     font-weight: var(--font-body-bold-weight);
   }
 }
+
+.scroll {
+  scrollbar-color: #fded07 #000;
+  scrollbar-width: thin;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #000;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #fded07;
+    border-radius: 0;
+    border: 1px solid #fded07;
+  }
+}

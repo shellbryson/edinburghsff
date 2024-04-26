@@ -77,6 +77,7 @@ export const customTheme = createTheme({
     brand: {
       main: '#fded07',
       dark: '#6d6710',
+      contrastText: '#000',
     },
     primary: {
       main: '#262626',

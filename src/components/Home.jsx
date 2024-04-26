@@ -60,7 +60,7 @@ export default function Home({onSearchMap}) {
   }
 
   return (
-    <Box style={styles.home} className="sff-home">
+    <Box style={styles.home} className="sff-home scroll">
       <Box style={styles.masthead} className="sff-masthead">
         <Background />
         <Box elevation={1} style={styles.splash}>
