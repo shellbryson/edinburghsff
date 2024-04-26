@@ -167,7 +167,8 @@ export default function AdminMap() {
     setIsUpdate(true);
   };
 
-  // ADD
+  // ### ADD
+
   const handleAdd = async (e) => {
     setError('');
     if (!title) {
@@ -212,9 +213,10 @@ export default function AdminMap() {
     }
   };
 
-  // UPDATE
+  // ### UPDATE
+
   const handleUpdate = async () => {
-    if ( !title) {
+    if (!title) {
       setError('Please give this location a title');
       return;
     }
@@ -240,6 +242,7 @@ export default function AdminMap() {
         timestamp: new Date()
       }
     }
+    console.log("updateId", updateId);
     try {
       const l = doc(db, "locations", updateId);
       await updateDoc(l, payload);
@@ -283,7 +286,6 @@ export default function AdminMap() {
         variant: "outlined"
       }
     }
-
     confirm(settings)
     .then(() => {
       performDelete(id)
@@ -293,7 +295,7 @@ export default function AdminMap() {
     });
   };
 
-  // FORM INPUTS
+  // ### FORM INPUTS
 
   const handleNoiseLevelChange = (val) => {
     if (val !== locationNoiseLevel) setIsDirty(true);
@@ -356,7 +358,7 @@ export default function AdminMap() {
   }
 
   return (
-    <Container>
+    <Container style={{marginBottom: "1rem"}}>
       { isUpdate ?
         <PageHeading heading="Update Location" />
       :
@@ -477,8 +479,8 @@ export default function AdminMap() {
             <Box style={{ display: "flex", gap: "0.5rem" }}>
               { isDirty && <Typography sx={style.dirty} variant='p_small'>Unsaved changes</Typography> }
               <Button onClick={handleBack} variant='outlined'>Back</Button>
-              { isUpdate && <Button onClick={handleUpdate} variant='contained'>Save</Button> }
-              { !isUpdate && <Button onClick={handleAdd} variant='contained'>Add</Button> }
+              { isUpdate && <Button onClick={handleUpdate} variant='contained'>Save Location</Button> }
+              { !isUpdate && <Button onClick={handleAdd} variant='contained'>Add Location</Button> }
             </Box>
           </Box>
         </Box>

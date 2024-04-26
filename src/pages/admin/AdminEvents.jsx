@@ -1,71 +1,54 @@
 import React, { useEffect, useState } from 'react';
-
-import { doc, getDocs, addDoc, updateDoc, deleteDoc, collection, query, orderBy } from 'firebase/firestore';
+import { useParams, useNavigate } from "react-router-dom";
+import { doc, addDoc, updateDoc, deleteDoc, collection } from 'firebase/firestore';
 import { db } from "../../firebase";
+import { useConfirm } from "material-ui-confirm";
 
 import { useAuth } from '../../context/AuthContext';
 import { useApp } from '../../context/AppContext';
 
-import { useConfirm } from "material-ui-confirm";
-
 import dayjs from 'dayjs';
 import 'dayjs/locale/en-gb';
 
-// MUI
-import Alert from '@mui/material/Alert';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-
-import DeleteIcon from '@mui/icons-material/Delete';
-
+// Date Picker
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { MobileDateTimePicker } from '@mui/x-date-pickers/MobileDateTimePicker';
 
+// MUI
+import { styled } from '@mui/material/styles';
+import Container from '@mui/material/Container';
+import Alert from '@mui/material/Alert';
+import Typography from '@mui/material/Typography';
+import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
 import { useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
 
-// Custom Components
-import PageHeading from '../../components/PageHeading';
-import List from '../../components/admin/List';
+// Icons
+import DeleteIcon from '@mui/icons-material/Delete';
+
+// Custom UI
 import UploadImage from '../../components/admin/UploadImage';
+import PageHeading from '../../components/PageHeading';
 
-const tableStructure = {
-  headings: [
-    'Date',
-    'Title',
-    'Image',
-    'Location'
-  ],
-  keys: [
-    'start',
-    'title',
-    'image',
-    'eventLocation'
-  ]
-}
+import {
+  fetchDocument,
+} from '../../utils/utils';
 
 export default function AdminEvents() {
 
   const { user } = useAuth();
   const { setIsLoading } = useApp();
+  const params = useParams();
 
   const confirm = useConfirm();
-
-  // Data
-  const [events, setEvents] = useState([])
+  const navigate = useNavigate();
 
   // Common
   const [title, setTitle] = useState('');
@@ -85,133 +68,140 @@ export default function AdminEvents() {
   const [updateId, setUpdateId] = useState('');
 
   // UI state
-  const [openAdd, setOpenAdd] = useState(false);
   const [error, setError] = useState('');
   const [isDirty, setIsDirty] = useState(false);
 
   // Theme
   const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+
+  const SplitBox = styled(Box)(({ theme }) => ({
+    display: 'flex',
+    flexDirection: 'row',
+    gap: "1rem",
+  }));
 
   const style = {
+    container: {
+      padding: "1rem",
+    },
+    actions: {
+      display: "flex",
+      justifyContent: "space-between",
+      gap: "0.5rem",
+    },
     dirty: {
       textTransform: 'uppercase',
-      color: theme.palette.warning.main,
+      color: "red",
       marginRight: "1rem"
     }
   }
 
   useEffect(() => {
-    getEvents();
-  }, []);
-
-  const getEvents = async () => {
-    setIsLoading(true);
-    const q = query(collection(db, "events"), orderBy("eventStart", "desc"));
-    const querySnapshot = await getDocs(q);
-    const list = [];
-    querySnapshot.forEach((doc) => {
-      const c = doc.data();
-      list.push({
-        ...c,
-        // these two dates are used by the List
-        start: c.eventStart.toDate().toLocaleString(),
-        end: c.eventEnd.toDate().toLocaleString(),
-        id: doc.id,
-        display: true,
-      });
+    if (!params.updateId) return;
+    fetchDocument("events", params.updateId, (data) => {
+      handleOpenUpdate(data);
     });
-    setEvents(list);
-    setIsLoading(false);
-  }
-
-  const handleOpenForm = () => {
-    setOpenAdd(true);
-  };
-
-  const handleCloseForm = () => {
-    // Close the dialog
-    setOpenAdd(false);
-
-    // Reset common fields
-    setTitle('');
-    setDescription('');
-    setURL('');
-    setImgUrl('');
-    setShow(true);
-
-    // Reset Events fields
-    setEventStart(dayjs(new Date()));
-    setEventEnd(dayjs(new Date()));
-    setEventIsAllDay(false);
-    setEventLocation('');
-
-    // Reset to Add mode
-    setIsUpdate(false);
-    setIsDirty(false);
-  };
+  }, [params.updateId]);
 
   const handleOpenUpdate = (data) => {
+    setUpdateId(params.updateId);
+
     setTitle(data.title);
     setDescription(data.description);
     setURL(data.url);
     setImgUrl(data.image);
     setShow(data.show);
-    setUpdateId(data.id);
-    setEventStart(dayjs(data.eventStart.toDate()));
-    setEventEnd(dayjs(data.eventEnd.toDate()));
+
+    if (data.eventStart) {
+      setEventStart(dayjs(data.eventStart.toDate()));
+    } else {
+      setEventStart(dayjs(new Date()));
+    }
+    if (data.eventEnd) {
+      setEventEnd(dayjs(data.eventEnd.toDate()));
+    } else {
+      setEventEnd(dayjs(new Date()));
+    }
     setEventIsAllDay(data.eventIsAllDay || false);
     setEventLocation(data.eventLocation);
 
     setIsUpdate(true);
-    setOpenAdd(true);
   };
+
+  // ### ADD
 
   const handleAdd = async (e) => {
     setError('');
-
-    if (
-      !title ||
-      !description ||
-      !url ||
-      !eventStart ||
-      !eventEnd ||
-      !eventLocation
-    ) {
-      setError('Please fill out all fields');
+    if (!title) {
+      setError('Please give this event a title');
       return;
     }
-
     setIsLoading(true);
-
     const strippedImageUrl = imgUrl ? imgUrl.split('&')[0] : '';
-
+    const payload = {
+      title: title,
+      description: description,
+      url: url,
+      show: show,
+      image: strippedImageUrl,
+      eventStart: eventStart.$d,
+      eventEnd: eventEnd.$d,
+      eventIsAllDay: eventIsAllDay,
+      eventLocation: eventLocation,
+      created: {
+        email: user.email,
+        uid: user.uid,
+        timestamp: new Date()
+      },
+      updated: {
+        email: user.email,
+        uid: user.uid,
+        timestamp: new Date()
+      }
+    }
     try {
-      const docRef = await addDoc(collection(db, "events"), {
-        title: title,
-        description: description,
-        url: url,
-        show: show,
-        image: strippedImageUrl,
-        eventStart: eventStart.$d,
-        eventEnd: eventEnd.$d,
-        eventIsAllDay: eventIsAllDay,
-        eventLocation: eventLocation,
-        created: {
-          email: user.email,
-          uid: user.uid,
-          timestamp: new Date()
-        },
-        updated: {
-          email: user.email,
-          uid: user.uid,
-          timestamp: new Date()
-        }
-      });
+      const doc = await addDoc(collection(db, "events"), payload);
+      console.log("Saved Event", doc.id);
+      setIsLoading(false);
+      navigate(`/admin/events/update/${doc.id}`, { replace: true });
+    } catch (e) {
+      setIsLoading(false);
+      console.error("Error adding document: ", e);
+    }
+  };
 
-      getEvents();
-      handleCloseForm();
+  // ### UPDATE
 
+  const handleUpdate = async () => {
+    setError('');
+    if (!title) {
+      setError('Please give this event a title');
+      return;
+    }
+    setIsLoading(true);
+    setError('');
+    const strippedImageUrl = imgUrl ? imgUrl.split('&')[0] : '';
+    const payload = {
+      title: title,
+      description: description,
+      show: show,
+      image: strippedImageUrl,
+      eventStart: eventStart.$d,
+      eventEnd: eventEnd.$d,
+      eventIsAllDay: eventIsAllDay,
+      eventLocation: eventLocation,
+      updated: {
+        email: user.email,
+        uid: user.uid,
+        timestamp: new Date()
+      }
+    }
+    console.log("updateId", updateId);
+    try {
+      const l = doc(db, "events", updateId);
+      await updateDoc(l, payload);
+      setIsDirty(false);
+      setIsLoading(false);
     } catch (e) {
       setIsLoading(false);
       console.error("Error adding document: ", e);
@@ -222,16 +212,14 @@ export default function AdminEvents() {
     setIsLoading(true);
     try {
       await deleteDoc(doc(db, "events", id));
-      handleCloseForm();
-      getEvents();
+      navigate(`/admin/events`);
     } catch (e) {
       setIsLoading(false);
-      console.error("Error adding document: ", e);
+      console.error("Error deleting document: ", e);
     }
   };
 
   const handleDelete = async (id) => {
-
     const settings = {
       description: "This action will permanently delete the selected Event",
       confirmationText: "Delete Event",
@@ -242,7 +230,6 @@ export default function AdminEvents() {
         variant: "outlined"
       }
     }
-
     confirm(settings)
     .then(() => {
       performDelete(id)
@@ -252,53 +239,7 @@ export default function AdminEvents() {
     });
   };
 
-  const handleUpdate = async () => {
-    setError('');
-
-    if (
-      !title ||
-      !description ||
-      !url ||
-      !eventStart ||
-      !eventEnd ||
-      !eventLocation
-    ) {
-      setError('Please fill out all fields');
-      return;
-    }
-
-    setIsLoading(true);
-
-    const strippedImageUrl = imgUrl ? imgUrl.split('&')[0] : '';
-
-    try {
-      const l = doc(db, "events", updateId);
-      const data = {
-        title: title,
-        description: description,
-        show: show,
-        image: strippedImageUrl,
-        eventStart: eventStart.$d,
-        eventEnd: eventEnd.$d,
-        eventIsAllDay: eventIsAllDay,
-        eventLocation: eventLocation,
-        updated: {
-          email: user.email,
-          uid: user.uid,
-          timestamp: new Date()
-        }
-      }
-
-      await updateDoc(l, data);
-
-      setIsDirty(false);
-      getEvents();
-
-    } catch (e) {
-      setIsLoading(false);
-      console.error("Error adding document: ", e);
-    }
-  };
+  // ### FORM INPUTS
 
   const handleFileUpload = (url) => {
     if (url !== imgUrl) setIsDirty(true);
@@ -330,91 +271,81 @@ export default function AdminEvents() {
     setEventEnd(d);
   }
 
+  const handleBack = () => {
+    navigate(`/admin/events`);
+  }
+
   return (
-    <Container disableGutters maxWidth="md">
-      <Dialog
-        fullWidth
-        maxWidth="sm"
-        fullScreen={fullScreen}
-        open={openAdd}
-        onClose={handleCloseForm}
-        scroll="paper"
-        aria-labelledby="add-dialog-title">
-        <DialogTitle id="add-dialog-title" align='center'>
-          { isUpdate ?
-            <Typography variant="h2" component="span">Update Event</Typography>
-          :
-            <Typography variant="h2" component="span">Add Event</Typography>
-          }
-        </DialogTitle>
-        <DialogContent>
-          <Stack spacing={2} sx={{ mt: 2}}>
+    <Container style={{marginBottom: "1rem"}}>
+      { isUpdate ?
+        <PageHeading heading="Update Event" />
+      :
+        <PageHeading heading="Add Event" />
+      }
+      <Paper>
+        <Box style={style.container}>
+          <Box>
+            <Stack spacing={2} sx={{ mt: 2}}>
 
-            <TextField sx={{ width: '100%' }}
-              required value={title} label="Title"
-              onChange={(e) => handleChangeTitle(e.target.value)} type='text'
-            />
-
-            <TextField sx={{ width: '100%' }}
-              required value={url} label="URL"
-              onChange={(e) => handleChangeUrl(e.target.value)} type='url'
-            />
-
-            <TextField sx={{ width: '100%' }}
-              required value={description} multiline rows={8} label="Description"
-              onChange={(e) => handleChangeDescription(e.target.value)}
-            />
-
-            <TextField sx={{ width: '100%' }}
-              required value={eventLocation} label="Location"
-              onChange={(e) => setEventLocation(e.target.value)} type='text'
-            />
-
-            <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-gb">
-              <MobileDateTimePicker label="Event start" value={eventStart} onChange={(newValue) => handleChangeEventStart(newValue)}
-                renderInput={(params) => (
-                  <TextField {...params} />
-                )}
+              <TextField sx={{ width: '100%' }}
+                required value={title} label="Title"
+                onChange={(e) => handleChangeTitle(e.target.value)} type='text'
               />
-              <MobileDateTimePicker label="Event end" value={eventEnd} onChange={(newValue) => handleChangeEventEnd(newValue)}
-                renderInput={(params) => (
-                  <TextField {...params} />
-                )}
+
+              <TextField sx={{ width: '100%' }}
+                required value={url} label="URL"
+                onChange={(e) => handleChangeUrl(e.target.value)} type='url'
               />
+
+              <TextField sx={{ width: '100%' }}
+                required value={description} multiline rows={8} label="Description"
+                onChange={(e) => handleChangeDescription(e.target.value)}
+              />
+
+              <TextField sx={{ width: '100%' }}
+                required value={eventLocation} label="Location"
+                onChange={(e) => setEventLocation(e.target.value)} type='text'
+              />
+
+              <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-gb">
+                <MobileDateTimePicker label="Event start" value={eventStart} onChange={(newValue) => handleChangeEventStart(newValue)}
+                  renderInput={(params) => (
+                    <TextField {...params} />
+                  )}
+                />
+                <MobileDateTimePicker label="Event end" value={eventEnd} onChange={(newValue) => handleChangeEventEnd(newValue)}
+                  renderInput={(params) => (
+                    <TextField {...params} />
+                  )}
+                />
+                <FormGroup>
+                  <FormControlLabel onChange={(e) => setEventIsAllDay(e.target.checked)} control={<Checkbox checked={eventIsAllDay} />} label="All day" />
+                </FormGroup>
+              </LocalizationProvider>
+
+              <UploadImage imageUploadedCallback={handleFileUpload} imgUrl={imgUrl} />
+
               <FormGroup>
-                <FormControlLabel onChange={(e) => setEventIsAllDay(e.target.checked)} control={<Checkbox checked={eventIsAllDay} />} label="All day" />
+                <FormControlLabel onChange={(e) => setShow(e.target.checked)} control={<Checkbox />} label="Show in Event Grid" />
               </FormGroup>
-            </LocalizationProvider>
 
-            <UploadImage imageUploadedCallback={handleFileUpload} imgUrl={imgUrl} />
+              { error && <Alert severity="warning">{error}</Alert> }
 
-            <FormGroup>
-              <FormControlLabel onChange={(e) => setShow(e.target.checked)} control={<Checkbox />} label="Show in Event Grid" />
-            </FormGroup>
-
-            { error && <Alert severity="warning">{error}</Alert> }
-
-          </Stack>
-        </DialogContent>
-        <DialogActions>
-          { isDirty && <Typography sx={style.dirty} variant='p_small'>Unsaved changes</Typography> }
-          { isUpdate && <Button onClick={() => handleDelete(updateId)} variant="outlined" color="warning" startIcon={<DeleteIcon />}>Delete</Button> }
-          <Button onClick={handleCloseForm} variant='outlined'>Close</Button>
-          { isUpdate && <Button onClick={handleUpdate} variant='contained'>Save</Button> }
-          { !isUpdate && <Button onClick={handleAdd} variant='contained'>Add</Button> }
-        </DialogActions>
-      </Dialog>
-
-      <Container maxWidth="md">
-        <PageHeading heading="Events" />
-      </Container>
-
-      <List
-        tableStructure={tableStructure}
-        data={events}
-        onOpenForm={handleOpenForm}
-        onUpdate={handleOpenUpdate} />
-
+            </Stack>
+          </Box>
+          <Box style={style.actions}>
+            <Box>
+              { isUpdate && <Button onClick={() => handleDelete(updateId)} variant="outlined" color="warning" startIcon={<DeleteIcon />}>Delete</Button> }
+            </Box>
+            <Box style={{ display: "flex", gap: "0.5rem" }}>
+              { isDirty && <Typography sx={style.dirty} variant='p_small'>Unsaved changes</Typography> }
+              <Button onClick={handleBack} variant='outlined'>Back</Button>
+              { isUpdate && <Button onClick={handleUpdate} variant='contained'>Save Event</Button> }
+              { !isUpdate && <Button onClick={handleAdd} variant='contained'>Add Event</Button> }
+            </Box>
+          </Box>
+        </Box>
+      </Paper>
     </Container>
   )
 }
