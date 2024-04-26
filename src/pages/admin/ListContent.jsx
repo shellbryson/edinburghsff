@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 
+import dayjs from 'dayjs';
+import 'dayjs/locale/en-gb';
+
 // MUI
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
@@ -23,7 +26,8 @@ import PageHeading from '../../components/PageHeading';
 
 import {
   fetchDocuments,
-  fetchLocationsForMapDisplay
+  fetchLocationsForMapDisplay,
+  imageURL
 } from '../../utils/utils';
 
 export default function ListContent() {
@@ -64,9 +68,18 @@ export default function ListContent() {
         });
         setItems(data);
       });
-    } else if (params.type === 'events' || params.type === 'pages' || params.type === 'links') {
+    } else if (params.type === 'events') {
       setTableFilterOn('title');
-      setTableStructure({ headings: ['Event Title'], keys: ['title'] });
+      setTableStructure({ headings: ['Date', 'Event Title', ""], keys: ['eventStart', 'title', 'image'] });
+      fetchDocuments(params.type, (data) => {
+        data.forEach((item) => {
+          item.display = true;
+        });
+        setItems(data);
+      });
+    } else if (params.type === 'pages' || params.type === 'links') {
+      setTableFilterOn('title');
+      setTableStructure({ headings: ['Title', ""], keys: ['title', 'image'] });
       fetchDocuments(params.type, (data) => {
         data.forEach((item) => {
           item.display = true;
@@ -118,6 +131,13 @@ export default function ListContent() {
     tableStructure.keys.forEach((_key, i) => {
       if (_key === 'name') {
         r.push(<TableCell key={i} sx={{width: '40%'}}>{item[_key]}</TableCell>)
+      } else if (_key === 'eventStart') {
+        if (!item[_key]) {
+          r.push(<TableCell key={i}>No date</TableCell>)
+        } else {
+          const d = dayjs(item[_key].toDate()).format('DD/MM/YYYY');
+          r.push(<TableCell key={i} sx={{width: '2rem'}}>{d}</TableCell>)
+        }
       } else if (_key === 'image') {
         r.push(<TableCell key={i} sx={{width: '2rem'}}><EventsListImage image={imageURL(item[_key], 'icon')} alt='*' /></TableCell>)
       } else {
