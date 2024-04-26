@@ -1,5 +1,6 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { doc, getDocs, addDoc, updateDoc, deleteDoc, collection, orderBy, query } from 'firebase/firestore';
+import React, { useEffect, useState } from 'react';
+import { useParams, useNavigate } from "react-router-dom";
+import { doc, getDocs, addDoc, updateDoc, deleteDoc, collection, query, orderBy } from 'firebase/firestore';
 import { db } from "../../firebase";
 import { useConfirm } from "material-ui-confirm";
 
@@ -11,7 +12,7 @@ import { useApp } from '../../context/AppContext';
 import { styled } from '@mui/material/styles';
 import Alert from '@mui/material/Alert';
 import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
+import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
@@ -25,22 +26,19 @@ import Chip from '@mui/material/Chip';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
 import { useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
 
 // Icons
 import DeleteIcon from '@mui/icons-material/Delete';
 
 // Custom UI
-import PageHeading from '../../components/PageHeading';
-import List from '../../components/admin/List';
 import UploadImage from '../../components/admin/UploadImage';
 
-import { updateMapLocationsIndex } from '../../utils/utils';
+import {
+  updateMapLocationsIndex,
+  fetchDocument,
+  fetchDocuments,
+} from '../../utils/utils';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -71,26 +69,14 @@ const facilitiesTagsLookup = [
   "Writers"
 ];
 
-const tableStructure = {
-  headings: [
-    'Title',
-    'Tags'
-  ],
-  keys: [
-    'title',
-    'tags'
-  ]
-}
-
 export default function AdminMap() {
 
   const { user } = useAuth();
   const { setIsLoading, mapLocations } = useApp();
+  const params = useParams();
 
   const confirm = useConfirm();
-
-  // Data
-  const [places, setPlaces] = useState([]);
+  const navigate = useNavigate();
 
   // Common
   const [title, setTitle] = useState('');
@@ -114,13 +100,11 @@ export default function AdminMap() {
   const [updateId, setUpdateId] = useState('');
 
   // UI state
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [error, setError] = useState('');
   const [isDirty, setIsDirty] = useState(false);
 
   // Theme
   const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
   const SplitBox = styled(Box)(({ theme }) => ({
     display: 'flex',
@@ -129,6 +113,14 @@ export default function AdminMap() {
   }));
 
   const style = {
+    container: {
+      padding: "1rem",
+    },
+    actions: {
+      display: "flex",
+      justifyContent: "space-between",
+      gap: "0.5rem",
+    },
     dirty: {
       textTransform: 'uppercase',
       color: "red",
@@ -137,65 +129,20 @@ export default function AdminMap() {
   }
 
   useEffect(() => {
-    getLocations();
-  }, []);
-
-  const getLocations = async (callback) => {
-    setIsLoading(true);
-    const q = query(collection(db, "locations"), orderBy("title"));
-    const list = [];
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
-      list.push({
-        ...doc.data(),
-        id: doc.id,
-        display: true,
-      });
+    fetchDocument("locations", params.updateId, (data) => {
+      handleOpenUpdate(data);
     });
-    setPlaces(list);
-    setIsLoading(false);
-    if (typeof callback === 'function') {
-      callback(list);
-    }
-  }
-
-  const handleOpenForm = () => {
-    setIsDialogOpen(true);
-  };
-
-  const handleCloseForm = () => {
-    // Close the dialog
-    setIsDialogOpen(false);
-
-    // Reset common fields
-    setTitle('');
-    setDescription('');
-    setURL('');
-    setImgUrl('');
-    setShow(true);
-
-    // Reset Locations fields
-    setLocationLat('');
-    setLocationLng('');
-
-    setFeatured(false);
-
-    setNoiseLevel(5);
-    setPriceLevel(5);
-
-    // Reset to Add mode
-    setIsUpdate(false);
-    setIsDirty(false);
-  };
+  }, [params.id]);
 
   const handleOpenUpdate = (data) => {
+    setUpdateId(params.updateId);
+
     setTitle(data.title);
     setDescription(data.description);
     setURL(data.url);
     setImgUrl(data.image);
     setShow(data.show);
     setFeatured(data.featured);
-    setUpdateId(data.id);
     setLocationLat(data.lat);
     setLocationLng(data.lng);
 
@@ -215,8 +162,9 @@ export default function AdminMap() {
     }
 
     setIsUpdate(true);
-    setIsDialogOpen(true);
   };
+
+  // ADD
 
   const handleAdd = async (e) => {
     setError('');
@@ -261,14 +209,15 @@ export default function AdminMap() {
         }
       });
 
-      getLocations(()=>updateMapLocationsIndex(mapLocations, user, (pins) =>{ console.log("Updated Pins", pins) }));
-      handleCloseForm();
+      fetchDocuments("locations", (data)=>updateMapLocationsIndex(data, user, (pins) =>{ console.log("Updated Pins", pins) }));
 
     } catch (e) {
       setIsLoading(false);
       console.error("Error adding document: ", e);
     }
   };
+
+  // UPDATE
 
   const handleUpdate = async () => {
     if (
@@ -283,6 +232,7 @@ export default function AdminMap() {
     setIsLoading(true);
     setError('');
     const strippedImageUrl = imgUrl ? imgUrl.split('&')[0] : '';
+    console.log("Updating", updateId);
     try {
       const l = doc(db, "locations", updateId);
       const data = {
@@ -305,10 +255,11 @@ export default function AdminMap() {
         }
       }
       await updateDoc(l, data);
-      getLocations((updatedLocations) => {
-        updateMapLocationsIndex(updatedLocations, user, (d) => {
-          console.log("Saved Locations Index", d);
-        });
+      // Update the Pin Index
+      fetchDocuments("locations", (data) => {
+        updateMapLocationsIndex(data, user, (pins) => {
+          console.log("Saved Location Index", pins);
+        })
       });
       setIsDirty(false);
       setIsLoading(false);
@@ -322,7 +273,12 @@ export default function AdminMap() {
     setIsLoading(true);
     try {
       await deleteDoc(doc(db, "locations", id));
-      getLocations(()=>updateMapLocationsIndex(mapLocations, user, () =>{ console.log("Updated Pins") }));
+      // Update the Pin Index
+      fetchDocuments("locations", (data) => {
+        updateMapLocationsIndex(data, user, (pins) => {
+          console.log("Saved Location Index", pins);
+        })
+      });
       handleCloseForm();
     } catch (e) {
       setIsLoading(false);
@@ -350,6 +306,8 @@ export default function AdminMap() {
       /* ... */
     });
   };
+
+  // FORM INPUTS
 
   const handleNoiseLevelChange = (val) => {
     if (val !== locationNoiseLevel) setIsDirty(true);
@@ -407,24 +365,21 @@ export default function AdminMap() {
     setShow(val);
   }
 
+  const handleBack = () => {
+    navigate(`/admin/locations`);
+  }
+
   return (
-    <Container disableGutters maxWidth="md">
-      <Dialog
-        fullWidth
-        maxWidth="sm"
-        fullScreen={fullScreen}
-        open={isDialogOpen}
-        onClose={handleCloseForm}
-        scroll="paper"
-        aria-labelledby="add-dialog-title">
-        <DialogTitle id="add-dialog-title" align='center'>
+    <Paper>
+      <Box style={style.container}>
+        <Box id="add-dialog-title" align='center'>
           { isUpdate ?
             <Typography variant="h2" component="span">Update Location</Typography>
           :
             <Typography variant="h2" component="span">Add Location</Typography>
           }
-        </DialogTitle>
-        <DialogContent>
+        </Box>
+        <Box>
           <Stack spacing={2} sx={{ mt: 2}}>
 
             <TextField sx={{ width: '100%' }}
@@ -529,27 +484,20 @@ export default function AdminMap() {
             { error && <Alert severity="warning">{error}</Alert> }
 
           </Stack>
-        </DialogContent>
-        <DialogActions>
-          { isDirty && <Typography sx={style.dirty} variant='p_small'>Unsaved changes</Typography> }
-          { isUpdate && <Button onClick={() => handleDelete(updateId)} variant="outlined" color="warning" startIcon={<DeleteIcon />}>Delete</Button> }
-          <Button onClick={handleCloseForm} variant='outlined'>Close</Button>
-          { isUpdate && <Button onClick={handleUpdate} variant='contained'>Save</Button> }
-          { !isUpdate && <Button onClick={handleAdd} variant='contained'>Add</Button> }
-        </DialogActions>
-      </Dialog>
-
-      <Container maxWidth="md">
-        <PageHeading heading="Locations" />
-      </Container>
-
-      <List
-        tableStructure={tableStructure}
-        data={places}
-        onOpenForm={handleOpenForm}
-        onUpdate={handleOpenUpdate} />
-
-    </Container>
+        </Box>
+        <Box style={style.actions}>
+          <Box>
+            { isUpdate && <Button onClick={() => handleDelete(updateId)} variant="outlined" color="warning" startIcon={<DeleteIcon />}>Delete</Button> }
+          </Box>
+          <Box style={{ display: "flex", gap: "0.5rem" }}>
+            { isDirty && <Typography sx={style.dirty} variant='p_small'>Unsaved changes</Typography> }
+            <Button onClick={handleBack} variant='outlined'>Back</Button>
+            { isUpdate && <Button onClick={handleUpdate} variant='contained'>Save</Button> }
+            { !isUpdate && <Button onClick={handleAdd} variant='contained'>Add</Button> }
+          </Box>
+        </Box>
+      </Box>
+    </Paper>
   )
 }
 
