@@ -5,7 +5,7 @@ import { useLocation } from "react-router-dom";
 import { useApp } from '../context/AppContext';
 
 // MUI
-import { styled } from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 
 // Icons
@@ -21,6 +21,7 @@ import Home from './Home';
 export default function MapPanel() {
 
   const location = useLocation();
+  const theme = useTheme();
   const {
     isExploded,
     setIsExploded,
@@ -43,7 +44,8 @@ export default function MapPanel() {
       bottom: "0",
       backgroundColor: "rgb(0, 0, 0)",
       zIndex: 1000,
-      clipPath: isExploded ? "polygon(0% 0%, 97% 0%, 100% 3%, 100% 100%, 100% 100%, 0% 100%)" : "none"
+      clipPath: isExploded ? "polygon(0% 0%, 97% 0%, 100% 3%, 100% 100%, 100% 100%, 0% 100%)" : "none",
+      borderRight: `1px solid ${theme.palette.brand.main}`
     },
     interior: {
       transition: "width 200ms, max-width 200ms",
@@ -66,14 +68,16 @@ export default function MapPanel() {
       justifyContent: "center",
       alignItems: "center",
       position: "absolute",
-      top: "1rem",
-      right: isExpanded ? "calc(-2rem + 1px)" : "calc(-3rem + 1px)",
+      top: "14px",
+      right: isExpanded ? "calc(-2rem - 1px)" : "calc(-3rem - 1px)",
       width: isExpanded ? "2rem" : "3rem",
       height: "3rem",
       backgroundColor: "rgb(0, 0, 0)",
       color: "rgb(255, 255, 255)",
       cursor: "pointer",
-      clipPath: "polygon(0% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 0% 100%)"
+      borderTop: `1px solid ${theme.palette.brand.main}`,
+      borderRight: `1px solid ${theme.palette.brand.main}`,
+      borderBottom: `1px solid ${theme.palette.brand.main}`
     }
   }
 
