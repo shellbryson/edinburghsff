@@ -17,21 +17,27 @@ import { MobileDateTimePicker } from '@mui/x-date-pickers/MobileDateTimePicker';
 
 // MUI
 import { styled } from '@mui/material/styles';
-import Container from '@mui/material/Container';
 import Alert from '@mui/material/Alert';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
 import TextField from '@mui/material/TextField';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
 import FormGroup from '@mui/material/FormGroup';
+import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import { useTheme } from '@mui/material/styles';
 
 // Icons
 import DeleteIcon from '@mui/icons-material/Delete';
+import PlaceIcon from '@mui/icons-material/Place';
 
 // Custom UI
 import UploadImage from '../../components/admin/UploadImage';
@@ -44,7 +50,7 @@ import {
 export default function AdminEvents() {
 
   const { user } = useAuth();
-  const { setIsLoading } = useApp();
+  const { setIsLoading, mapLocations } = useApp();
   const params = useParams();
 
   const confirm = useConfirm();
@@ -62,6 +68,7 @@ export default function AdminEvents() {
   const [eventEnd, setEventEnd] = useState(dayjs(new Date()));
   const [eventIsAllDay, setEventIsAllDay] = useState(false);
   const [eventLocation, setEventLocation] = useState('');
+  const [eventPin, setEventPin] = useState('');
 
   // Update
   const [isUpdate, setIsUpdate] = useState(false);
@@ -78,6 +85,12 @@ export default function AdminEvents() {
     display: 'flex',
     flexDirection: 'row',
     gap: "1rem",
+  }));
+
+  const SelectionItemBox = styled(Box)(({ theme }) => ({
+    display: "flex",
+    alignItems: "center",
+    gap: "0.5rem",
   }));
 
   const style = {
@@ -141,6 +154,7 @@ export default function AdminEvents() {
     }
     setEventIsAllDay(data.eventIsAllDay || false);
     setEventLocation(data.eventLocation);
+    setEventPin(data.eventPin);
 
     setIsUpdate(true);
   };
@@ -165,6 +179,7 @@ export default function AdminEvents() {
       eventEnd: eventEnd.$d,
       eventIsAllDay: eventIsAllDay,
       eventLocation: eventLocation,
+      eventPin: eventPin,
       created: {
         email: user.email,
         uid: user.uid,
@@ -207,6 +222,7 @@ export default function AdminEvents() {
       eventEnd: eventEnd.$d,
       eventIsAllDay: eventIsAllDay,
       eventLocation: eventLocation,
+      eventPin: eventPin,
       updated: {
         email: user.email,
         uid: user.uid,
@@ -294,6 +310,14 @@ export default function AdminEvents() {
     setEventLocation(d);
   }
 
+  const handlePinSectionChange = (p) => {
+    if (p !== eventPin) setIsDirty(true);
+
+    console.log("p", p);
+
+    setEventPin(p);
+  }
+
   const handleBack = () => {
     navigate(`/admin/events`);
   }
@@ -306,9 +330,37 @@ export default function AdminEvents() {
           <Box>
             <Stack spacing={2} sx={{ mt: 2}}>
               <TextField sx={{ width: '100%' }} required value={title} label="Title" onChange={(e) => handleChangeTitle(e.target.value)} type='text' />
+
+              <SplitBox>
+                <FormGroup>
+                  <FormControlLabel onChange={(e) => setShow(e.target.checked)} control={<Checkbox />} label="Show in Event Grid" />
+                </FormGroup>
+              </SplitBox>
+
               <TextField sx={{ width: '100%' }} value={url} label="URL" onChange={(e) => handleChangeUrl(e.target.value)} type='url' />
               <TextField sx={{ width: '100%' }} required value={description} multiline rows={8} label="Description" onChange={(e) => handleChangeDescription(e.target.value)} />
               <TextField sx={{ width: '100%' }} required value={eventLocation} label="Location"  onChange={(e) => handleChangeLocation(e.target.value)} type='text' />
+
+              <FormControl fullWidth>
+                <InputLabel>Map Pin</InputLabel>
+                <Select
+                  value={eventPin}
+                  label="Map Pin"
+                  onChange={(e) => handlePinSectionChange(e.target.value)}
+                >
+                  { mapLocations.map((location, index) => (
+                    <MenuItem key={index} value={location.id}>
+                      <SelectionItemBox>
+                        <ListItemIcon>
+                          <PlaceIcon />
+                        </ListItemIcon>
+                        <ListItemText primary={location.name} />
+                      </SelectionItemBox>
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+
               <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-gb">
                 <MobileDateTimePicker label="Event start" value={eventStart} onChange={(newValue) => handleChangeEventStart(newValue)}
                   renderInput={(params) => (
@@ -326,10 +378,6 @@ export default function AdminEvents() {
               </LocalizationProvider>
 
               <UploadImage imageUploadedCallback={handleFileUpload} imgUrl={imgUrl} />
-
-              <FormGroup>
-                <FormControlLabel onChange={(e) => setShow(e.target.checked)} control={<Checkbox />} label="Show in Event Grid" />
-              </FormGroup>
 
               { error && <Alert severity="warning">{error}</Alert> }
 

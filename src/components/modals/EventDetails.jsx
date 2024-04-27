@@ -1,13 +1,21 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from "react-router-dom";
 
 import dayjs from 'dayjs';
 import 'dayjs/locale/en-gb';
 
 import ReactMarkdown from 'react-markdown';
 
-import {imageURL} from '../../utils/utils';
+import { imageURL } from '../../utils/utils';
+
+// Contexts
+import { useApp } from '../../context/AppContext';
 
 // MUI
+import { styled } from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
+
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -22,18 +30,14 @@ import LaunchOutlinedIcon from '@mui/icons-material/LaunchOutlined';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import EventAvailableOutlinedIcon from '@mui/icons-material/EventAvailableOutlined';
 
-import { styled } from '@mui/material/styles';
-
 // Custom UI
 import EventsDetailsImage from '../EventsDetailsImage';
+import LinkInterceptor from '../LinkInterceptor';
 
 // Icons
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
-
-// Theme helpers
-import { useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
+import PlaceIcon from '@mui/icons-material/Place';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -57,6 +61,17 @@ const EventDetails = ({ selectedEvent, isOpen, onCloseCallback, isLoadingEvent }
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
+  const {
+    setFocusMapPin,
+    focusMapPin,
+    setIsExpanded,
+    isExpanded,
+    setIsExploded,
+    isExploded,
+    setMapLocations,
+    mapLocations
+  } = useApp();
 
   const StyledBox = styled(Box)(({ theme }) => ({
     width: '100%',
@@ -116,6 +131,16 @@ const EventDetails = ({ selectedEvent, isOpen, onCloseCallback, isLoadingEvent }
     </>;
   }
 
+  const eventPin = () => {
+    if (!currentEvent.eventPin) return;
+    return <>
+      <PlaceIcon />
+      <Typography component="p" style={style.date} onClick={() => handleViewOnMap()}>
+        View on map
+      </Typography>
+    </>;
+  }
+
   const cleanUrl = (url) => {
     if (!url) return;
     return url.replace(/^(https?:\/\/)?(www\.)?|\/$/g, '');
@@ -124,6 +149,23 @@ const EventDetails = ({ selectedEvent, isOpen, onCloseCallback, isLoadingEvent }
   const handleView = () => {
     window.open(currentEvent.url, '_blank');
   };
+
+  const handleViewOnMap = () => {
+    const locations = mapLocations.map(location => {
+      if (location.id === currentEvent.eventPin) {
+        location.focus = !location.focus;
+        location.showLabel = !location.showLabel;
+      } else {
+        location.focus = false;
+        location.showLabel = false;
+      }
+      return location;
+    });
+    setMapLocations(locations);
+    setIsExploded(false);
+    setIsOpenDialog(false);
+    setFocusMapPin(currentEvent.eventPin);
+  }
 
   const handleCloseDetails = () => {
     onCloseCallback();
@@ -171,9 +213,12 @@ const EventDetails = ({ selectedEvent, isOpen, onCloseCallback, isLoadingEvent }
             {eventDate()}
             <LocationOnOutlinedIcon />
             <Typography component="p" variant='p'> {currentEvent.eventLocation}</Typography>
+            {eventPin()}
           </Box>
           <Box style={style.description} className="sff-event-details__description">
-            <ReactMarkdown children={currentEvent.description} />
+            <LinkInterceptor>
+              <ReactMarkdown children={currentEvent.description} />
+            </LinkInterceptor>
             <Button onClick={handleView} color='brand' endIcon={<LaunchOutlinedIcon />}>Go to Event site</Button>
           </Box>
         </>}

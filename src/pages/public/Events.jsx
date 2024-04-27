@@ -7,7 +7,6 @@ import { useHead } from 'hoofd';
 
 // MUI
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 
 // Custom Components
 import PageHeading from '../../components/PageHeading';

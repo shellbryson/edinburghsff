@@ -4,13 +4,11 @@ import { useParams, Link } from "react-router-dom";
 import { useHead } from 'hoofd';
 
 import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm'
 
 import { getDocs, collection, query, orderBy, where  } from 'firebase/firestore';
 import { db } from "../../firebase";
 
 // MUI
-import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -120,7 +118,7 @@ export default function Pages() {
       <Paper style={style.paper}>
         <Box style={style.content}>
           <LinkInterceptor>
-            <ReactMarkdown remarkPlugins={[remarkGfm]} children={firstMatchingPage.content} />
+            <ReactMarkdown children={firstMatchingPage.content} />
           </LinkInterceptor>
         </Box>
       </Paper>

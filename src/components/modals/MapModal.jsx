@@ -24,6 +24,7 @@ import IconButton from '@mui/material/IconButton';
 
 // Custom UI
 import EventsDetailsImage from '../EventsDetailsImage';
+import LinkInterceptor from '../LinkInterceptor';
 
 // Helpers
 import { imageURL } from '../../utils/utils';
@@ -171,7 +172,9 @@ export default function MapModal(
       </IconButton>
       <DialogContent dividers>
         <Box style={styleDescription}>
-          <ReactMarkdown children={pinData.description} />
+          <LinkInterceptor>
+            <ReactMarkdown children={pinData.description} />
+          </LinkInterceptor>
         </Box>
         { renderFacilities() }
         { renderPrice() }
