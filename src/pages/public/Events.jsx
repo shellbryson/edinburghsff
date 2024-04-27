@@ -6,7 +6,7 @@ import { db } from "../../firebase";
 import { useHead } from 'hoofd';
 
 // MUI
-import Container from '@mui/material/Container';
+import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
 // Custom Components
@@ -15,7 +15,29 @@ import EventsGrid from '../../components/EventsGrid';
 
 export default function Events() {
 
-  const [events, setEvents] = useState([])
+  const [events, setEvents] = useState([]);
+
+  const style = {
+    page: {
+      display: "flex",
+      flexDirection: "column",
+      height: "100%",
+      overflow: "hidden",
+      marginBottom: "1rem",
+    },
+    paper: {
+      display: "flex",
+      flexDirection: "column",
+      height: "100%",
+      overflow: "hidden",
+    },
+    content: {
+      textAlign: "left",
+      padding: "1rem",
+      margin: "0.5rem",
+      overflow: "auto",
+    }
+  }
 
   useHead({
     title: "Events - Edinburgh SFF",
@@ -41,15 +63,14 @@ export default function Events() {
   }
 
   return (
-    <>
-      <Container>
-        <PageHeading heading="Events" />
-        <Typography variant="p" component="p" gutterBottom align='center'>
-          Events for writers and readers
-        </Typography>
-      </Container>
-      <EventsGrid data={events} />
-    </>
+    <Box style={style.page} className="sff-page">
+      <PageHeading heading="Events" />
+      <Box style={style.paper}>
+        <Box style={style.content}>
+          <EventsGrid data={events} />
+        </Box>
+      </Box>
+    </Box>
   )
 }
 

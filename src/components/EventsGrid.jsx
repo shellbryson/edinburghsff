@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from "react-router-dom";
-
-import { slugify } from '../utils/utils';
-
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from "../firebase";
 
@@ -10,29 +7,17 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/en-gb';
 
 // MUI
-import Container from '@mui/material/Container';
+import { useTheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Link from '@mui/material/Link';
 
+import { slugify } from '../utils/utils';
+
 // Custom UI
 import EventsGridImage from './EventsGridImage';
 import EventDetails from './modals/EventDetails';
-
-const styleEventsSection={
-  marginTop: "3rem",
-  position: "relative",
-}
-
-const styleGrid={
-  display: "grid",
-  position: "relative",
-  gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-  gap: "4px",
-  marginBottom: "2rem",
-  zIndex: 1,
-}
 
 const EventsGrid = ({ data }) => {
   const [eventsCurrent, setEventsCurrent] = useState([]);
@@ -43,6 +28,21 @@ const EventsGrid = ({ data }) => {
   const [selectedEvent, setSelectedEvent] = useState({});
   const navigate = useNavigate();
   const params = useParams();
+  const theme = useTheme();
+
+  const style={
+    section:{
+      position: "relative",
+    },
+    grid: {
+      display: "grid",
+      position: "relative",
+      gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+      gap: "4px",
+      marginBottom: "2rem",
+      zIndex: 1,
+    }
+  }
 
   useEffect(() => {
     splitEvents(data);
@@ -82,15 +82,16 @@ const EventsGrid = ({ data }) => {
     setEventsFuture(eFuture);
   }
 
-  const renderEventDate = (eventStartDate, eventEndDate, eventIsAllDay) => {
+  const renderEventDate = (currentEvent) => {
+    if (!currentEvent.eventStart || !currentEvent.eventEnd) return;
     let displayDate = "";
-    if (eventIsAllDay) {
-      const _startDate = dayjs(eventStartDate.toDate(), 'DD/MM/YYYY, HH:mm:ss').format('DD/MM/YY');
-      const _endDate = dayjs(eventEndDate.toDate(), 'DD/MM/YYYY, HH:mm:ss').format('DD/MM/YY');
+    if (currentEvent.eventIsAllDay) {
+      const _startDate = dayjs(currentEvent.eventStart.toDate()).format('DD/MM/YYYY');
+      const _endDate = dayjs(currentEvent.eventEnd.toDate()).format('DD/MM/YYYY');
       displayDate = _startDate === _endDate ? _startDate : `${_startDate} to ${_endDate}`;
     } else {
-      const _startDate = dayjs(eventStartDate.toDate(), 'DD/MM/YYYY, HH:mm:ss').format('DD/MM/YY, HH:mm');
-      const _endDate = dayjs(eventEndDate.toDate(), 'DD/MM/YYYY, HH:mm:ss').format('HH:mm');
+      const _startDate = dayjs(currentEvent.eventStart.toDate()).format('DD/MM/YYYY, HH:mm');
+      const _endDate = dayjs(currentEvent.eventEnd.toDate()).format('HH:mm');
       displayDate = `${_startDate} to ${_endDate}`;
     }
     return <Box className="sff-events-grid__event-date"><Typography component="p">{displayDate}</Typography></Box>;
@@ -100,9 +101,9 @@ const EventsGrid = ({ data }) => {
     if (arrayOfEvents.length === 0) return;
 
     return(
-      <Box style={styleEventsSection} className="sff-events-section">
-        <Typography variant="h2" component="h2" sx={{ marginLeft: "1rem", textAlign: "center"}}>{heading}</Typography>
-        <Box style={styleGrid} className="sff-events-grid">
+      <Box style={style.section} className="sff-events-section">
+        <Typography variant="h2" component="h2" color={theme.palette.primary.contrastText} sx={{ marginLeft: "1rem", textAlign: "center"}}>{heading}</Typography>
+        <Box style={style.grid} className="sff-events-grid">
           {arrayOfEvents.map((data, index) => (
             <Link className="sff-events-grid__event" key={index} href={`/events/${data.id}/${slugify(data.title)}`} onClick={(e) => {handleOpenEvent(e, data.id, data.title)}}>
               <EventsGridImage image={data?.image} alt={data?.title} />
@@ -115,7 +116,7 @@ const EventsGrid = ({ data }) => {
                     {data.descriptionShort}
                   </Typography>
                 </Stack>
-                { renderEventDate(data?.eventStart, data?.eventEnd, data?.eventIsAllDay) }
+                { renderEventDate(data) }
               </Box>
             </Link>
           ))}
@@ -126,12 +127,8 @@ const EventsGrid = ({ data }) => {
 
   const fetchEvent = async (id) => {
     if (!id) return;
-
-    console.log("ESFF: fetching Event", id)
-
     const docRef = doc(db, "events", id);
     const docSnap = await getDoc(docRef);
-
     setIsLoadingEvent(false);
     setSelectedEvent(docSnap.data());
   }
@@ -153,11 +150,11 @@ const EventsGrid = ({ data }) => {
   return (
     <>
       <EventDetails isOpen={isOpen} isLoadingEvent={isLoadingEvent} selectedEvent={selectedEvent} onCloseCallback={handleCloseEvent} />
-      <Container maxWidth="md" disableGutters>
+      <Box>
         {renderSubGrid("Future events", eventsFuture)}
         {renderSubGrid("Current events", eventsCurrent)}
         {renderSubGrid("Past events", eventsPast)}
-      </Container>
+      </Box>
     </>
   );
 };

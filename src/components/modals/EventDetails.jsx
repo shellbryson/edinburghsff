@@ -103,8 +103,8 @@ const EventDetails = ({ selectedEvent, isOpen, onCloseCallback, isLoadingEvent }
       const _endDate = dayjs(currentEvent.eventEnd.toDate()).format('DD/MM/YYYY');
       displayDate = _startDate === _endDate ? _startDate : `${_startDate} to ${_endDate}`;
     } else {
-      const _startDate = dayjs(currentEvent.eventStart.toDate().format('DD/MM/YYYY, HH:mm'));
-      const _endDate = dayjs(currentEvent.eventEnd.toDate().format('HH:mm'));
+      const _startDate = dayjs(currentEvent.eventStart.toDate()).format('DD/MM/YYYY, HH:mm');
+      const _endDate = dayjs(currentEvent.eventEnd.toDate()).format('HH:mm');
       displayDate = `${_startDate} to ${_endDate}`;
     }
 
