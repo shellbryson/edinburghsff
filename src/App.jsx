@@ -20,9 +20,7 @@ import AdminLayout from './layouts/AdminLayout';
 
 // Regular Pages
 const Welcome = lazy(() => import('./pages/public/Welcome'));
-const Links = lazy(() => import('./pages/public/Links'));
 const Events = lazy(() => import('./pages/public/Events'));
-const About = lazy(() => import('./pages/public/About'));
 const NotFound = lazy(() => import('./pages/public/NotFound'));
 const Signin = lazy(() => import('./pages/public/Signin'));
 
@@ -32,7 +30,6 @@ const Pages = lazy(() => import('./pages/public/Pages'));
 // Admin Pages
 const Dashboard = lazy(() => import('./pages/admin/Dashboard'));
 const ListContent = lazy(() => import('./pages/admin/ListContent'));
-const AdminLinks = lazy(() => import('./pages/admin/AdminLinks'));
 const AdminEvents = lazy(() => import('./pages/admin/AdminEvents'));
 const AdminLocations = lazy(() => import('./pages/admin/AdminLocations'));
 const AdminPages = lazy(() => import('./pages/admin/AdminPages'));
@@ -61,9 +58,6 @@ function App() {
               <Route path="/" element={<Map />}>
                 <Route path="welcome" element={<Welcome />} />
                 <Route path="signin" element={<Signin />} />
-                <Route path="links/:classification" element={<Links />} />
-                <Route path="links" element={<Links />} />
-                <Route path="about" element={<About />} />
                 <Route path="events/:eventID/:eventTitle" element={<Events />} />
                 <Route path="events" element={<Events />} />
                 <Route path="pages/:pageSlug" element={<Pages />} />
@@ -75,8 +69,6 @@ function App() {
                   <Route path='locations/update/:updateId' element={<AdminLocations />} />
                   <Route path='events/add' element={<AdminEvents />} />
                   <Route path='events/update/:updateId' element={<AdminEvents />} />
-                  <Route path='links/add' element={<AdminLinks />} />
-                  <Route path='links/update/:updateId' element={<AdminLinks />} />
                   <Route path='pages/add' element={<AdminPages />} />
                   <Route path='pages/update/:updateId' element={<AdminPages />} />
                 </Route>

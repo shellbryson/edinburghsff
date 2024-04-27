@@ -65,7 +65,7 @@ export default function Navigation() {
       {!isAdmin && <>
       <Box style={style.navigation} className="sff-navigation">
         <Link to='/events'>Events</Link>
-        <Link to='/links'>Resources</Link>
+        <Link to='/pages/writing'>Writing</Link>
       </Box>
       </>}
     </>

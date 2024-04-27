@@ -14,7 +14,7 @@ const headingStyle = {
 const PageHeading = ({ heading }) => {
 
   return (
-    <Box>
+    <Box className="sff-page-heading">
       <Typography component="h1" variant="h1" style={headingStyle}>
         {heading}
       </Typography>

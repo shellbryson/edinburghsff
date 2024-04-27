@@ -72,8 +72,25 @@ export default function AdminPages() {
   }));
 
   const style = {
-    container: {
+    page: {
+      display: "flex",
+      flexDirection: "column",
+      height: "100%",
+      overflow: "hidden",
+      margin: "0 1rem 1rem 1rem",
+    },
+    paper: {
+      display: "flex",
+      flexDirection: "column",
+      height: "100%",
+      overflow: "hidden",
+    },
+    content: {
+      textAlign: "left",
+      minHeight: "calc(100vh -2rem)",
       padding: "1rem",
+      margin: "0.5rem",
+      overflow: "auto",
     },
     actions: {
       display: "flex",
@@ -254,10 +271,10 @@ export default function AdminPages() {
   }
 
   return (
-    <Container style={{marginBottom: "1rem"}}>
+    <Box style={style.page} className="sff-page">
       <PageHeading heading={isUpdate ? "Update Page" : "Add Page"} />
-      <Paper>
-        <Box style={style.container}>
+      <Paper style={style.paper}>
+        <Box style={style.content}>
           <Box>
             <Stack spacing={2} sx={{ mt: 2}}>
               <TextField sx={{ width: '100%' }} value={title} required label="Title" onChange={(e) => handleChangeTitle(e.target.value)} type='text' />
@@ -289,7 +306,7 @@ export default function AdminPages() {
           </Box>
         </Box>
       </Paper>
-    </Container>
+    </Box>
   )
 }
 

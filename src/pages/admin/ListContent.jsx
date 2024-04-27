@@ -5,7 +5,6 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/en-gb';
 
 // MUI
-import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -41,6 +40,26 @@ export default function ListContent() {
   const [filter, setFilter] = useState('');
 
   const style = {
+    page: {
+      display: "flex",
+      flexDirection: "column",
+      height: "100%",
+      overflow: "hidden",
+      margin: "0 1rem 1rem 1rem",
+    },
+    paper: {
+      display: "flex",
+      flexDirection: "column",
+      height: "100%",
+      overflow: "hidden",
+    },
+    content: {
+      textAlign: "left",
+      minHeight: "calc(100vh -2rem)",
+      padding: "1rem",
+      margin: "0.5rem",
+      overflow: "auto",
+    },
     heading: {
       display: "flex",
       justifyContent: "center",
@@ -51,10 +70,7 @@ export default function ListContent() {
     actionbar: {
       display: "flex",
       justifyContent: "space-between",
-      alignItems: "center",
-      paddingLeft: "1rem",
-      paddingRight: "1rem",
-      paddingTop: "1rem",
+      alignItems: "center"
     }
   }
 
@@ -183,22 +199,24 @@ export default function ListContent() {
   }
 
   return (
-    <Container>
+    <Box style={style.page} className="sff-page">
       <PageHeading heading={params.type} />
-      <Paper>
-        <Box style={style.actionbar}>
-          <TextField
-            value={filter}
-            label="Filter"
-            size="small"
-            onChange={(e) => handleFilter(e.target.value)}
-          />
-          <Button onClick={() => onAddItem()} variant='outlined' color="form" startIcon={<LibraryAddIcon />}>Add</Button>
+      <Paper style={style.paper}>
+        <Box style={style.content}>
+          <Box style={style.actionbar}>
+            <TextField
+              value={filter}
+              label="Filter"
+              size="small"
+              onChange={(e) => handleFilter(e.target.value)}
+            />
+            <Button onClick={() => onAddItem()} variant='outlined' color="form" startIcon={<LibraryAddIcon />}>Add</Button>
+          </Box>
+          <TableContainer component={Paper} sx={{ mt: 4, mb: 4 }}>
+            {renderTable()}
+          </TableContainer>
         </Box>
-        <TableContainer component={Paper} sx={{ mt: 4, mb: 4 }}>
-          {renderTable()}
-        </TableContainer>
       </Paper>
-    </Container>
+    </Box>
   );
 };
