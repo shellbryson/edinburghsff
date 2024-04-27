@@ -115,8 +115,25 @@ export default function AdminMap() {
   }));
 
   const style = {
-    container: {
+    page: {
+      display: "flex",
+      flexDirection: "column",
+      height: "100%",
+      overflow: "hidden",
+      margin: "0 1rem 1rem 1rem",
+    },
+    paper: {
+      display: "flex",
+      flexDirection: "column",
+      height: "100%",
+      overflow: "hidden",
+    },
+    content: {
+      textAlign: "left",
+      minHeight: "calc(100vh -2rem)",
       padding: "1rem",
+      margin: "0.5rem",
+      overflow: "auto",
     },
     actions: {
       display: "flex",
@@ -361,10 +378,10 @@ export default function AdminMap() {
   }
 
   return (
-    <Container style={{marginBottom: "1rem"}}>
+    <Box style={style.page} className="sff-page">
       <PageHeading heading={isUpdate ? "Update Location" : "Add Location"} />
-      <Paper>
-        <Box style={style.container}>
+      <Paper style={style.paper}>
+        <Box style={style.content}>
           <Box>
             <Stack spacing={2} sx={{ mt: 2}}>
 
@@ -484,7 +501,7 @@ export default function AdminMap() {
           </Box>
         </Box>
       </Paper>
-    </Container>
+    </Box>
   )
 }
 
