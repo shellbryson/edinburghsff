@@ -213,6 +213,7 @@ export default function AdminEvents() {
     try {
       await deleteDoc(doc(db, "events", id));
       navigate(`/admin/events`);
+      setIsLoading(false);
     } catch (e) {
       setIsLoading(false);
       console.error("Error deleting document: ", e);
@@ -241,9 +242,9 @@ export default function AdminEvents() {
 
   // ### FORM INPUTS
 
-  const handleFileUpload = (url) => {
-    if (url !== imgUrl) setIsDirty(true);
-    setImgUrl(url)
+  const handleChangeTitle = (text) => {
+    if (text !== title) setIsDirty(true);
+    setTitle(text);
   }
 
   const handleChangeDescription = (text) => {
@@ -251,14 +252,14 @@ export default function AdminEvents() {
     setDescription(text);
   };
 
-  const handleChangeTitle = (text) => {
-    if (text !== title) setIsDirty(true);
-    setTitle(text);
-  }
-
   const handleChangeUrl = (text) => {
     if (text !== url) setIsDirty(true);
     setURL(text);
+  }
+
+  const handleFileUpload = (url) => {
+    if (url !== imgUrl) setIsDirty(true);
+    setImgUrl(url)
   }
 
   const handleChangeEventStart = (d) => {
@@ -267,8 +268,13 @@ export default function AdminEvents() {
   }
 
   const handleChangeEventEnd = (d) => {
-    if (d !== eventStart) setIsDirty(true);
+    if (d !== eventEnd) setIsDirty(true);
     setEventEnd(d);
+  }
+
+  const handleChangeLocation = (d) => {
+    if (d !== eventLocation) setIsDirty(true);
+    setEventLocation(d);
   }
 
   const handleBack = () => {
@@ -277,36 +283,15 @@ export default function AdminEvents() {
 
   return (
     <Container style={{marginBottom: "1rem"}}>
-      { isUpdate ?
-        <PageHeading heading="Update Event" />
-      :
-        <PageHeading heading="Add Event" />
-      }
+      <PageHeading heading={isUpdate ? "Update Event" : "Add Event"} />
       <Paper>
         <Box style={style.container}>
           <Box>
             <Stack spacing={2} sx={{ mt: 2}}>
-
-              <TextField sx={{ width: '100%' }}
-                required value={title} label="Title"
-                onChange={(e) => handleChangeTitle(e.target.value)} type='text'
-              />
-
-              <TextField sx={{ width: '100%' }}
-                required value={url} label="URL"
-                onChange={(e) => handleChangeUrl(e.target.value)} type='url'
-              />
-
-              <TextField sx={{ width: '100%' }}
-                required value={description} multiline rows={8} label="Description"
-                onChange={(e) => handleChangeDescription(e.target.value)}
-              />
-
-              <TextField sx={{ width: '100%' }}
-                required value={eventLocation} label="Location"
-                onChange={(e) => setEventLocation(e.target.value)} type='text'
-              />
-
+              <TextField sx={{ width: '100%' }} required value={title} label="Title" onChange={(e) => handleChangeTitle(e.target.value)} type='text' />
+              <TextField sx={{ width: '100%' }} value={url} label="URL" onChange={(e) => handleChangeUrl(e.target.value)} type='url' />
+              <TextField sx={{ width: '100%' }} required value={description} multiline rows={8} label="Description" onChange={(e) => handleChangeDescription(e.target.value)} />
+              <TextField sx={{ width: '100%' }} required value={eventLocation} label="Location"  onChange={(e) => handleChangeLocation(e.target.value)} type='text' />
               <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-gb">
                 <MobileDateTimePicker label="Event start" value={eventStart} onChange={(newValue) => handleChangeEventStart(newValue)}
                   renderInput={(params) => (

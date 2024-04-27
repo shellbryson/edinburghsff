@@ -269,6 +269,7 @@ export default function AdminMap() {
     try {
       await deleteDoc(doc(db, "locations", id));
       reIndexLocations(() => {
+        setIsLoading(false);
         navigate(`/admin/locations`);
       });
     } catch (e) {
@@ -361,11 +362,7 @@ export default function AdminMap() {
 
   return (
     <Container style={{marginBottom: "1rem"}}>
-      { isUpdate ?
-        <PageHeading heading="Update Location" />
-      :
-        <PageHeading heading="Add Location" />
-      }
+      <PageHeading heading={isUpdate ? "Update Location" : "Add Location"} />
       <Paper>
         <Box style={style.container}>
           <Box>

@@ -1,62 +1,47 @@
 import React, { useEffect, useState } from 'react';
-
-import { slugify } from '../../utils/utils';
-
+import { useParams, useNavigate } from "react-router-dom";
 import { doc, getDocs, addDoc, updateDoc, deleteDoc, collection, query, orderBy } from 'firebase/firestore';
 import { db } from "../../firebase";
+import { useConfirm } from "material-ui-confirm";
 
 import { useAuth } from '../../context/AuthContext';
 import { useApp } from '../../context/AppContext';
 
-import { useConfirm } from "material-ui-confirm";
-
 // MUI
+import { styled } from '@mui/material/styles';
+import Container from '@mui/material/Container';
 import Alert from '@mui/material/Alert';
 import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
+import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
+import { useTheme } from '@mui/material/styles';
 
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-
+// Icons
 import DeleteIcon from '@mui/icons-material/Delete';
 
-import { useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
-
-// Custom Components
-import PageHeading from '../../components/PageHeading';
-import List from '../../components/admin/List';
+// Custom UI
 import UploadImage from '../../components/admin/UploadImage';
+import PageHeading from '../../components/PageHeading';
 
-const tableStructure = {
-  headings: [
-    'Title',
-    'URL'
-  ],
-  keys: [
-    'title',
-    'url'
-  ]
-}
+import {
+  fetchDocument,
+  slugify
+} from '../../utils/utils';
 
 export default function AdminPages() {
 
   const { user } = useAuth();
   const { setIsLoading } = useApp();
+  const params = useParams();
 
   const confirm = useConfirm();
-
-  // Data
-  const [pages, setPages] = useState([])
+  const navigate = useNavigate();
 
   // Common
   const [title, setTitle] = useState('');
@@ -74,150 +59,126 @@ export default function AdminPages() {
   const [updateId, setUpdateId] = useState('');
 
   // UI state
-  const [openAdd, setOpenAdd] = useState(false);
   const [error, setError] = useState('');
+  const [isDirty, setIsDirty] = useState(false);
 
   // Theme
   const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+
+  const SplitBox = styled(Box)(({ theme }) => ({
+    display: 'flex',
+    flexDirection: 'row',
+    gap: "1rem",
+  }));
+
+  const style = {
+    container: {
+      padding: "1rem",
+    },
+    actions: {
+      display: "flex",
+      justifyContent: "space-between",
+      gap: "0.5rem",
+    },
+    dirty: {
+      textTransform: 'uppercase',
+      color: "red",
+      marginRight: "1rem"
+    }
+  }
 
   useEffect(() => {
-    getPages();
-  }, [])
-
-  const getPages = async () => {
-    // Firebase provides no native way to search strings, so when searching we
-    // have get everything and filter it ourselves
-    setIsLoading(true);
-    const q = query(collection(db, "pages"), orderBy("title", "asc"));
-    const querySnapshot = await getDocs(q);
-    const list = [];
-    querySnapshot.forEach((doc) => {
-      list.push({
-        ...doc.data(),
-        id: doc.id,
-        display: true,
-      });
+    if (!params.updateId) return;
+    fetchDocument("pages", params.updateId, (data) => {
+      handleOpenUpdate(data);
     });
-    setPages(list);
-    setIsLoading(false);
-  }
-
-  const handleTitleChange = (title) => {
-    setTitle(title);
-    setSlug(slugify(title));
-  }
-
-  const handleOpenForm = () => {
-    setOpenAdd(true);
-  };
-
-  const handleCloseForm = () => {
-    // Close the dialog
-    setOpenAdd(false);
-
-    // Reset common fields
-    setTitle('');
-    setDescription('');
-    setContent('');
-    setImgUrl('');
-    setShow(true);
-
-    setURL('');
-
-    // Reset to Add mode
-    setIsUpdate(false);
-  };
+  }, [params.updateId]);
 
   const handleOpenUpdate = (data) => {
+    setUpdateId(params.updateId);
+
     setTitle(data.title);
     setDescription(data.description);
     setContent(data.content);
     setImgUrl(data.image);
     setShow(data.show);
-    setUpdateId(data.id);
     setSlug(data.slug);
     setURL(data.url || '');
 
     setIsUpdate(true);
-    setOpenAdd(true);
   };
+
+  // ### ADD
 
   const handleAdd = async (e) => {
     setError('');
-
-    if (!title || !description || !content) {
-      setError('Please fill out all fields');
+    if (!title) {
+      setError('Please give this page a title');
       return;
     }
-
     setIsLoading(true);
-
     const strippedImageUrl = imgUrl ? imgUrl.split('&')[0] : '';
-
+    const payload = {
+      title: title,
+      description: description,
+      content: content,
+      show: show,
+      image: strippedImageUrl,
+      slug: slug,
+      url: url,
+      created: {
+        email: user.email,
+        uid: user.uid,
+        timestamp: new Date()
+      },
+      updated: {
+        email: user.email,
+        uid: user.uid,
+        timestamp: new Date()
+      }
+    }
     try {
-      await addDoc(collection(db, "pages"), {
-        title: title,
-        description: description,
-        content: content,
-        show: show,
-        image: strippedImageUrl,
-        slug: slug,
-        url: url,
-        created: {
-          email: user.email,
-          uid: user.uid,
-          timestamp: new Date()
-        },
-        updated: {
-          email: user.email,
-          uid: user.uid,
-          timestamp: new Date()
-        }
-      });
-
-      getPages();
-      handleCloseForm();
-
+      const doc = await addDoc(collection(db, "pages"), payload);
+      console.log("Saved Page", doc.id);
+      setIsLoading(false);
+      navigate(`/admin/pages/update/${doc.id}`, { replace: true });
     } catch (e) {
       setIsLoading(false);
       console.error("Error adding document: ", e);
     }
   };
 
+  // ### UPDATE
+
   const handleUpdate = async () => {
     setError('');
-
     if (!title || !description || !content) {
       setError('Please fill out all fields');
       return;
     }
-
     setIsLoading(true);
-
+    setError('');
     const strippedImageUrl = imgUrl ? imgUrl.split('&')[0] : '';
-
+    const payload = {
+      title: title,
+      description: description,
+      content: content,
+      show: show,
+      image: strippedImageUrl,
+      slug: slug,
+      url: url,
+      updated: {
+        email: user.email,
+        uid: user.uid,
+        timestamp: new Date()
+      }
+    }
+    console.log("updateId", updateId);
     try {
       const l = doc(db, "pages", updateId);
-
-      await updateDoc(l, {
-        title: title,
-        description: description,
-        content: content,
-        show: show,
-        image: strippedImageUrl,
-        slug: slug,
-        url: url,
-        updated: {
-          email: user.email,
-          uid: user.uid,
-          timestamp: new Date()
-        }
-      });
-
-      getPages();
-      handleCloseForm();
-
+      await updateDoc(l, payload);
+      setIsDirty(false);
+      setIsLoading(false);
     } catch (e) {
       setIsLoading(false);
       console.error("Error adding document: ", e);
@@ -228,11 +189,11 @@ export default function AdminPages() {
     setIsLoading(true);
     try {
       await deleteDoc(doc(db, "pages", id));
-      handleCloseForm();
-      getPages();
+      navigate(`/admin/pages`);
+      setIsLoading(false);
     } catch (e) {
       setIsLoading(false);
-      console.error("Error adding document: ", e);
+      console.error("Error deleting document: ", e);
     }
   };
 
@@ -247,7 +208,6 @@ export default function AdminPages() {
         variant: "outlined"
       }
     }
-
     confirm(settings)
     .then(() => {
       performDelete(id)
@@ -257,68 +217,78 @@ export default function AdminPages() {
     });
   };
 
+  // ### FORM INPUTS
+
+  const handleChangeTitle = (text) => {
+    if (text !== title) setIsDirty(true);
+    setTitle(text);
+    setSlug(slugify(title));
+  }
+
+  const handleChangeDescription = (text) => {
+    if (text !== description) setIsDirty(true);
+    setDescription(text);
+  };
+
+  const handleChangeUrl = (text) => {
+    if (text !== url) setIsDirty(true);
+    setURL(text);
+  }
+
   const handleFileUpload = (url) => {
     setImgUrl(url)
   }
 
+  const handleChangeContent = (text) => {
+    if (text !== content) setIsDirty(true);
+    setContent(text);
+  }
+
+  const handleChangeSlug = (text) => {
+    if (text !== slug) setIsDirty(true);
+    setSlug(text);
+  }
+
+  const handleBack = () => {
+    navigate(`/admin/pages`);
+  }
+
   return (
-    <Container>
-      <Dialog
-        fullWidth
-        maxWidth="md"
-        fullScreen={fullScreen}
-        open={openAdd}
-        onClose={handleCloseForm}
-        scroll="paper"
-        aria-labelledby="add-dialog-title">
-        <DialogTitle id="add-dialog-title" align='center'>
-          { isUpdate ?
-            <Typography variant="h2" component="span">Update Page</Typography>
-          :
-            <Typography variant="h2" component="span">Add New Page</Typography>
-          }
-        </DialogTitle>
-        <DialogContent>
-          <Stack spacing={2} sx={{ mt: 2}}>
-            <TextField sx={{ width: '100%' }} value={title} required label="Title" onChange={(e) => handleTitleChange(e.target.value)} type='text' />
-            <TextField sx={{ width: '100%' }} value={url} required label="URL" onChange={(e) => setURL(e.target.value)} type='text' />
-            <TextField sx={{ width: '100%' }} value={slug} readOnly disabled label="Slug" type='text' />
-            <TextField sx={{ width: '100%' }} value={description} required multiline rows={2} label="Description" onChange={(e) => setDescription(e.target.value)} />
-            <TextField sx={{ width: '100%' }} value={content} required multiline rows={16} label="Content" onChange={(e) => setContent(e.target.value)}  />
+    <Container style={{marginBottom: "1rem"}}>
+      <PageHeading heading={isUpdate ? "Update Page" : "Add Page"} />
+      <Paper>
+        <Box style={style.container}>
+          <Box>
+            <Stack spacing={2} sx={{ mt: 2}}>
+              <TextField sx={{ width: '100%' }} value={title} required label="Title" onChange={(e) => handleChangeTitle(e.target.value)} type='text' />
+              <TextField sx={{ width: '100%' }} value={url} required label="URL" onChange={(e) => handleChangeUrl(e.target.value)} type='text' />
+              <TextField sx={{ width: '100%' }} value={slug} required label="Slug" onChange={(e) => handleChangeSlug(e.target.value)} type='text' />
+              <TextField sx={{ width: '100%' }} value={description} required multiline rows={2} label="Description" onChange={(e) => handleChangeDescription(e.target.value)} />
+              <TextField sx={{ width: '100%' }} value={content} required multiline rows={16} label="Content" onChange={(e) => handleChangeContent(e.target.value)}  />
 
-            <UploadImage imageUploadedCallback={handleFileUpload} imgUrl={imgUrl} />
+              <UploadImage imageUploadedCallback={handleFileUpload} imgUrl={imgUrl} />
 
-            <FormGroup>
-              <FormControlLabel onChange={(e) => setShow(e.target.checked)} control={<Checkbox checked />} label="Display on site" />
-            </FormGroup>
+              <FormGroup>
+                <FormControlLabel onChange={(e) => setShow(e.target.checked)} control={<Checkbox checked />} label="Display on site" />
+              </FormGroup>
 
-            { error && <Alert severity="warning">{error}</Alert> }
+              { error && <Alert severity="warning">{error}</Alert> }
 
-          </Stack>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseForm} variant='outlined'>Cancel</Button>
-          { isUpdate ?
-            <>
-              <Button onClick={() => handleDelete(updateId)} variant="outlined" startIcon={<DeleteIcon />}>Delete</Button>
-              <Button onClick={handleUpdate} variant='contained'>Update</Button>
-            </>
-            :
-            <Button onClick={handleAdd} variant='contained'>Add</Button>
-          }
-        </DialogActions>
-      </Dialog>
-
-      <Container maxWidth="md">
-        <PageHeading heading="Pages" />
-      </Container>
-
-      <List
-        tableStructure={tableStructure}
-        data={pages}
-        onOpenForm={handleOpenForm}
-        onUpdate={handleOpenUpdate} />
-
+            </Stack>
+          </Box>
+          <Box style={style.actions}>
+            <Box>
+              { isUpdate && <Button onClick={() => handleDelete(updateId)} variant="outlined" color="warning" startIcon={<DeleteIcon />}>Delete</Button> }
+            </Box>
+            <Box style={{ display: "flex", gap: "0.5rem" }}>
+              { isDirty && <Typography sx={style.dirty} variant='p_small'>Unsaved changes</Typography> }
+              <Button onClick={handleBack} variant='outlined'>Back</Button>
+              { isUpdate && <Button onClick={handleUpdate} variant='contained'>Save Page</Button> }
+              { !isUpdate && <Button onClick={handleAdd} variant='contained'>Add Page</Button> }
+            </Box>
+          </Box>
+        </Box>
+      </Paper>
     </Container>
   )
 }
