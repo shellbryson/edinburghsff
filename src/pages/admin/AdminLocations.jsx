@@ -120,7 +120,7 @@ export default function AdminMap() {
       flexDirection: "column",
       height: "100%",
       overflow: "hidden",
-      margin: "0 1rem 1rem 1rem",
+      marginBottom: "1rem",
     },
     paper: {
       display: "flex",
