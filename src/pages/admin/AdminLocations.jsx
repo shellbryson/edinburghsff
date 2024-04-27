@@ -255,10 +255,11 @@ export default function AdminMap() {
     }
   };
 
-  const reIndexLocations = () => {
+  const reIndexLocations = (cb) => {
     fetchDocuments("locations", (data) => {
       updateMapLocationsIndex(data, user, (pins) => {
         console.log("Saved Location Index", pins);
+        if (cb) cb();
       })
     });
   }
@@ -267,8 +268,9 @@ export default function AdminMap() {
     setIsLoading(true);
     try {
       await deleteDoc(doc(db, "locations", id));
-      reIndexLocations();
-      navigate(`/admin/locations`);
+      reIndexLocations(() => {
+        navigate(`/admin/locations`);
+      });
     } catch (e) {
       setIsLoading(false);
       console.error("Error deleting document: ", e);
