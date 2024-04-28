@@ -271,10 +271,12 @@ export default function AdminPages() {
 
   return (
     <Box style={style.page} className="sff-page">
-      <PageHeading heading={isUpdate ? "Update Page" : "Add Page"} />
       <Paper style={style.paper}>
         <Box style={style.content}>
           <Box>
+            <Typography component="h1" variant="h1" style={{textAlign: "center"}}>
+              {isUpdate ? "Update Page" : "Add Page"}
+            </Typography>
             <Stack spacing={2} sx={{ mt: 2}}>
               <TextField sx={{ width: '100%' }} value={title} required label="Title" onChange={(e) => handleChangeTitle(e.target.value)} type='text' />
               <TextField sx={{ width: '100%' }} value={url} required label="URL" onChange={(e) => handleChangeUrl(e.target.value)} type='text' />

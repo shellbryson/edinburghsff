@@ -41,7 +41,6 @@ import PlaceIcon from '@mui/icons-material/Place';
 
 // Custom UI
 import UploadImage from '../../components/admin/UploadImage';
-import PageHeading from '../../components/PageHeading';
 
 import {
   fetchDocument,
@@ -69,6 +68,10 @@ export default function AdminEvents() {
   const [eventIsAllDay, setEventIsAllDay] = useState(false);
   const [eventLocation, setEventLocation] = useState('');
   const [eventPin, setEventPin] = useState('');
+  const [eventHighlights, setEventHighlights] = useState('');
+  const [eventFacilities, setEventFacilities] = useState('');
+  const [eventTips, setEventTips] = useState('');
+  const [eventTrivia, setEventTrivia] = useState('');
 
   // Update
   const [isUpdate, setIsUpdate] = useState(false);
@@ -156,6 +159,11 @@ export default function AdminEvents() {
     setEventLocation(data.eventLocation);
     setEventPin(data.eventPin || "");
 
+    setEventHighlights(data.eventHighlights || "");
+    setEventFacilities(data.eventFacilities || "");
+    setEventTips(data.eventTips || "");
+    setEventTrivia(data.eventTrivia || "");
+
     setIsUpdate(true);
   };
 
@@ -180,6 +188,10 @@ export default function AdminEvents() {
       eventIsAllDay: eventIsAllDay,
       eventLocation: eventLocation,
       eventPin: eventPin,
+      eventHighlights: eventHighlights,
+      eventFacilities: eventFacilities,
+      eventTips: eventTips,
+      eventTrivia: eventTrivia,
       created: {
         email: user.email,
         uid: user.uid,
@@ -223,6 +235,10 @@ export default function AdminEvents() {
       eventIsAllDay: eventIsAllDay,
       eventLocation: eventLocation,
       eventPin: eventPin,
+      eventHighlights: eventHighlights,
+      eventFacilities: eventFacilities,
+      eventTips: eventTips,
+      eventTrivia: eventTrivia,
       updated: {
         email: user.email,
         uid: user.uid,
@@ -310,6 +326,26 @@ export default function AdminEvents() {
     setEventLocation(d);
   }
 
+  const handleChangeHighlights = (text) => {
+    if (text !== eventHighlights) setIsDirty(true);
+    setEventHighlights(text);
+  }
+
+  const handleChangeFacilities = (text) => {
+    if (text !== eventFacilities) setIsDirty(true);
+    setEventFacilities(text);
+  }
+
+  const handleChangeTips = (text) => {
+    if (text !== eventTips) setIsDirty(true);
+    setEventTips(text);
+  }
+
+  const handleChangeTrivia = (text) => {
+    if (text !== eventTrivia) setIsDirty(true);
+    setEventTrivia(text);
+  }
+
   const handlePinSectionChange = (p) => {
     if (p !== eventPin) setIsDirty(true);
 
@@ -324,12 +360,14 @@ export default function AdminEvents() {
 
   return (
     <Box style={style.page} className="sff-page">
-      <PageHeading heading={isUpdate ? "Update Event" : "Add Event"} />
       <Paper style={style.paper}>
         <Box style={style.content}>
           <Box>
+            <Typography component="h1" variant="h1" style={{textAlign: "center"}}>
+              {isUpdate ? "Update Event" : "Add Event"}
+            </Typography>
             <Stack spacing={2} sx={{ mt: 2}}>
-              <TextField sx={{ width: '100%' }} required value={title} label="Title" onChange={(e) => handleChangeTitle(e.target.value)} type='text' />
+              <TextField required value={title} label="Title" onChange={(e) => handleChangeTitle(e.target.value)} type='text' />
 
               <SplitBox>
                 <FormGroup>
@@ -337,9 +375,14 @@ export default function AdminEvents() {
                 </FormGroup>
               </SplitBox>
 
-              <TextField sx={{ width: '100%' }} value={url} label="URL" onChange={(e) => handleChangeUrl(e.target.value)} type='url' />
-              <TextField sx={{ width: '100%' }} required value={description} multiline rows={8} label="Description" onChange={(e) => handleChangeDescription(e.target.value)} />
-              <TextField sx={{ width: '100%' }} required value={eventLocation} label="Location"  onChange={(e) => handleChangeLocation(e.target.value)} type='text' />
+              <TextField required value={description} multiline rows={8} label="Description" onChange={(e) => handleChangeDescription(e.target.value)} />
+              <TextField required value={eventHighlights} multiline rows={8} label="Highlights" onChange={(e) => handleChangeHighlights(e.target.value)} />
+              <TextField required value={eventFacilities} multiline rows={4} label="Facilities" onChange={(e) => handleChangeFacilities(e.target.value)} />
+              <TextField required value={eventTips} multiline rows={4} label="Tips" onChange={(e) => handleChangeTips(e.target.value)} />
+              <TextField required value={eventTrivia} multiline rows={4} label="Trivia" onChange={(e) => handleChangeTrivia(e.target.value)} />
+
+              <TextField value={url} label="URL" onChange={(e) => handleChangeUrl(e.target.value)} type='url' />
+              <TextField required value={eventLocation} label="Location label"  onChange={(e) => handleChangeLocation(e.target.value)} type='text' />
 
               <FormControl fullWidth>
                 <InputLabel>Map Pin</InputLabel>

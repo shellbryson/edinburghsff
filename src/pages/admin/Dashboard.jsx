@@ -28,8 +28,10 @@ const Dashboard = () => {
 
   return (
     <Container>
-      <PageHeading heading="Dashboard" />
       <Paper sx={{padding: "1rem"}}>
+        <Typography component="h1" variant="h1" style={{textAlign: "center", textTransform: "capitalize",}}>
+          Dashboard
+        </Typography>
         <Stack spacing={2}>
           <Typography  sx={{ mt: 6, mb: 2, textAlign: "center"}} component="p" variant='p'>Signed in as {user && user.email}</Typography>
           <Button variant='outlined' onClick={handleLogout}>

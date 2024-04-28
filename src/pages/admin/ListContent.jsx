@@ -5,6 +5,7 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/en-gb';
 
 // MUI
+import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -21,7 +22,6 @@ import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 
 // Custom UI
 import EventsListImage from '../../components/admin/ListImage';
-import PageHeading from '../../components/PageHeading';
 
 import {
   fetchDocuments,
@@ -200,9 +200,11 @@ export default function ListContent() {
 
   return (
     <Box style={style.page} className="sff-page">
-      <PageHeading heading={params.type} />
       <Paper style={style.paper}>
         <Box style={style.content}>
+          <Typography component="h1" variant="h1" style={{textAlign: "center", textTransform: "capitalize",}}>
+            {params.type}
+          </Typography>
           <Box style={style.actionbar}>
             <TextField
               value={filter}

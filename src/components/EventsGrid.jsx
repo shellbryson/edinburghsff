@@ -7,7 +7,7 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/en-gb';
 
 // MUI
-import { useTheme } from '@mui/material/styles';
+import { useTheme, styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -17,18 +17,22 @@ import { slugify } from '../utils/utils';
 
 // Custom UI
 import EventsGridImage from './EventsGridImage';
-import EventDetails from '../pages/public/EventDetails';
+import DateBox from './DateBox';
 
 const EventsGrid = ({ data }) => {
-  const [eventsCurrent, setEventsCurrent] = useState([]);
-  const [eventsFuture, setEventsFuture] = useState([]);
-  const [eventsPast, setEventsPast] = useState([]);
-  const [isOpen, setIsOpen] = useState(false);
-  const [isLoadingEvent, setIsLoadingEvent] = useState(false);
-  const [selectedEvent, setSelectedEvent] = useState({});
   const navigate = useNavigate();
   const params = useParams();
   const theme = useTheme();
+
+  const EventContentBox = styled(Box)(({ theme }) => ({
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+  }));
+
+  const [eventsCurrent, setEventsCurrent] = useState([]);
+  const [eventsFuture, setEventsFuture] = useState([]);
+  const [eventsPast, setEventsPast] = useState([]);
 
   const style={
     section:{
@@ -50,9 +54,6 @@ const EventsGrid = ({ data }) => {
     if (params?.eventID) {
       setIsLoadingEvent(true);
       fetchEvent(params.eventID);
-      setIsOpen(true);
-    } else {
-      setIsOpen(false);
     }
   }, [data, params?.eventID]);
 
@@ -107,7 +108,7 @@ const EventsGrid = ({ data }) => {
           {arrayOfEvents.map((data, index) => (
             <Link className="sff-events-grid__event" key={index} href={`/events/${data.id}/${slugify(data.title)}`} onClick={(e) => {handleOpenEvent(e, data.id, data.title)}}>
               <EventsGridImage image={data?.image} alt={data?.title} />
-              <Box className="sff-events-grid__event-content">
+              <EventContentBox className="sff-events-grid__event-content">
                 <Stack spacing={2}>
                   <Typography variant='tile_heading' className='sff-events-grid__event-title'>
                     {data.title}
@@ -116,8 +117,8 @@ const EventsGrid = ({ data }) => {
                     {data.descriptionShort}
                   </Typography>
                 </Stack>
-                { renderEventDate(data) }
-              </Box>
+                <DateBox event={data} />
+              </EventContentBox>
             </Link>
           ))}
         </Box>
@@ -129,33 +130,21 @@ const EventsGrid = ({ data }) => {
     if (!id) return;
     const docRef = doc(db, "events", id);
     const docSnap = await getDoc(docRef);
-    setIsLoadingEvent(false);
     setSelectedEvent(docSnap.data());
   }
 
   const handleOpenEvent = (e, id, title) => {
     e && e.preventDefault();
     navigate(`/events/${id}/${slugify(title)}`);
-    setIsLoadingEvent(true);
     fetchEvent(id);
-    setIsOpen(true);
-  };
-
-  const handleCloseEvent = () => {
-    navigate(`/events`);
-    setIsOpen(false);
-    setSelectedEvent({});
   };
 
   return (
-    <>
-      <EventDetails isOpen={isOpen} isLoadingEvent={isLoadingEvent} selectedEvent={selectedEvent} onCloseCallback={handleCloseEvent} />
-      <Box>
-        {renderSubGrid("Future events", eventsFuture)}
-        {renderSubGrid("Current events", eventsCurrent)}
-        {renderSubGrid("Past events", eventsPast)}
-      </Box>
-    </>
+    <Box>
+      {renderSubGrid("Future events", eventsFuture)}
+      {renderSubGrid("Current events", eventsCurrent)}
+      {renderSubGrid("Past events", eventsPast)}
+    </Box>
   );
 };
 

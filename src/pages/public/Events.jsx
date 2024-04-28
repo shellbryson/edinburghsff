@@ -32,7 +32,6 @@ export default function Events() {
     },
     content: {
       textAlign: "left",
-      padding: "1rem",
       margin: "0.5rem",
       overflow: "auto",
     }
@@ -63,9 +62,9 @@ export default function Events() {
 
   return (
     <Box style={style.page} className="sff-page">
-      <PageHeading heading="Events" />
       <Box style={style.paper}>
         <Box style={style.content}>
+          <PageHeading heading="Events" />
           <EventsGrid data={events} />
         </Box>
       </Box>

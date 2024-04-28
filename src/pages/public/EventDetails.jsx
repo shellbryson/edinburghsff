@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from "react-router-dom";
-
-import dayjs from 'dayjs';
-import 'dayjs/locale/en-gb';
-
 import ReactMarkdown from 'react-markdown';
 
 // Contexts
@@ -19,12 +15,12 @@ import Button from '@mui/material/Button';
 
 import LaunchOutlinedIcon from '@mui/icons-material/LaunchOutlined';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
-import EventAvailableOutlinedIcon from '@mui/icons-material/EventAvailableOutlined';
 
 // Custom UI
 import EventsDetailsImage from '../../components/EventsDetailsImage';
 import LinkInterceptor from '../../components/LinkInterceptor';
 import PageHeading from '../../components/PageHeading';
+import DateBox from '../../components/DateBox';
 
 // Icons
 import PlaceIcon from '@mui/icons-material/Place';
@@ -84,31 +80,36 @@ const EventDetails = ({ isLoadingEvent }) => {
     justifyContent: "center",
   }));
 
-  const MetaBox = styled(Box)(({ theme }) => ({
-    display: "flex",
-    padding: "0.25rem",
-    gap: "1rem",
-    alignItems: "center",
-    border: `1px solid ${theme.palette.brand.main}`,
-    justifyContent: "center",
-    color: theme.palette.brand.main
-  }));
-
-  const DateBox = styled(Box)(({ theme }) => ({
-    display: "flex",
-    alignItems: "center",
-    padding: "0.25rem 0.5rem",
-    gap: "0.5rem",
-    backgroundColor: theme.palette.brand.main,
-    color: theme.palette.text.contrastText,
-  }));
-
   const LocationBox = styled(Box)(({ theme }) => ({
     display: "flex",
     alignItems: "center",
     padding: "0.25rem 0.5rem",
     gap: "0.5rem",
     marginTop: "4px",
+  }));
+
+  const Description = styled(Box)(({ theme }) => ({
+    padding: "0 1rem"
+  }));
+
+  const Section = styled(Box)(({ theme }) => ({
+    backgroundColor: theme.palette.brand.faint,
+    padding: "1.5rem 1rem 1rem 1rem",
+    marginBottom: "1rem",
+  }));
+
+  const SectionHeading = styled(Typography)(({ theme }) => ({
+    display: "inline-block",
+    marginBottom: "0.5rem",
+    paddingRight: "3rem",
+    color: theme.palette.brand.main,
+  }));
+
+  const ActionsBox = styled(Box)(({ theme }) => ({
+    display: "flex",
+    justifyContent: "center",
+    margin: "1rem 2rem 2rem 1rem",
+    gap: "1rem",
   }));
 
   const style = {
@@ -136,42 +137,17 @@ const EventDetails = ({ isLoadingEvent }) => {
     },
     description: {
       margin: "1rem 0",
-      padding: "1rem",
+      padding: "0.5rem",
     },
   }
 
   useEffect(() => {
-    fetchDocument("events", params.eventID, (eventData) => {
-      setCurrentEvent(eventData);
-    });
-  }, [params.eventID]);
-
-  const eventDate = () => {
-    if (!currentEvent.eventStart) return;
-
-    let displayDate = "";
-
-    if (currentEvent.eventIsAllDay) {
-      const _startDate = dayjs(currentEvent.eventStart.toDate()).format('DD/MM/YYYY');
-      const _endDate = dayjs(currentEvent.eventEnd.toDate()).format('DD/MM/YYYY');
-      displayDate = _startDate === _endDate ? _startDate : (
-        <>
-          <DateBox><EventAvailableOutlinedIcon /><span>{_startDate}</span></DateBox> to <DateBox><EventAvailableOutlinedIcon /><span>{_endDate}</span></DateBox>
-        </>
-      );
-    } else {
-      const _startDate = dayjs(currentEvent.eventStart.toDate()).format('DD/MM/YYYY, HH:mm');
-      const _endDate = dayjs(currentEvent.eventEnd.toDate()).format('HH:mm');
-      displayDate =
-        <>
-          <DateBox><span>{_startDate}</span></DateBox> to <DateBox><span>{_endDate}</span></DateBox>
-        </>;
+    if (params.eventID) {
+      fetchDocument("events", params.eventID, (eventData) => {
+        setCurrentEvent(eventData);
+      });
     }
-
-    return <MetaBox>
-      {displayDate}
-    </MetaBox>;
-  }
+  }, [params.eventID]);
 
   const eventLocation = () => {
     if (!currentEvent.eventLocation) return;
@@ -203,6 +179,28 @@ const EventDetails = ({ isLoadingEvent }) => {
     setFocusMapPin(currentEvent.eventPin);
   }
 
+  const renderDescription = () => {
+    return (
+      <Description>
+        <LinkInterceptor>
+          <ReactMarkdown children={currentEvent.description} />
+        </LinkInterceptor>
+      </Description>
+    );
+  }
+
+  const renderSection = (section, title) => {
+    if (!currentEvent[section]) return null;
+    return (
+      <Section className="sff-event-details__section">
+        <SectionHeading component="h2" variant="h_small_lined">{title}</SectionHeading>
+        <LinkInterceptor>
+          <ReactMarkdown children={currentEvent[section]} />
+        </LinkInterceptor>
+      </Section>
+    );
+  }
+
   return (
     <Box style={style.page} className="sff-page">
       <Box style={style.paper}>
@@ -215,18 +213,20 @@ const EventDetails = ({ isLoadingEvent }) => {
               </MastheadImageBox>
             )}
             <Meta>
-              {eventDate()}
+              <DateBox event={currentEvent} />
               {eventLocation()}
             </Meta>
             <Box style={style.description} className="sff-event-description">
-              <LinkInterceptor>
-                <ReactMarkdown children={currentEvent.description} />
-              </LinkInterceptor>
-              <Box style={{ display: "flex", justifyContent: "space-between "}}>
-                <Button onClick={() => handleView()} color='brand' variant="outlined" endIcon={<LaunchOutlinedIcon />}>Event site</Button>
-                <Button onClick={() => handleViewOnMap()} color='brand' variant="outlined" endIcon={<PlaceIcon />}>View on map</Button>
-              </Box>
+              { renderDescription() }
+              { renderSection('eventHighlights', "Highlights") }
+              { renderSection('eventFacilities', "Facilities") }
+              { renderSection('eventTips', "Tips") }
+              { renderSection('eventTrivia', "Trivia") }
             </Box>
+            <ActionsBox>
+              <Button onClick={() => handleView()} color='brand' variant="outlined" endIcon={<LaunchOutlinedIcon />}>Event site</Button>
+              <Button onClick={() => handleViewOnMap()} color='brand' variant="outlined" endIcon={<PlaceIcon />}>View on map</Button>
+            </ActionsBox>
             { currentEvent?.image && (
               <FooterImageBox className="sff-event-footer">
                 <EventsDetailsImage image={imageURL(currentEvent?.image, 'medium')} alt={currentEvent?.title} />

@@ -11,11 +11,11 @@ const headingStyle = {
   textTransform: "capitalize",
 }
 
-const PageHeading = ({ heading }) => {
+const PageHeading = ({ heading, ...props }) => {
 
   return (
     <Box className="sff-page-heading">
-      <Typography component="h1" variant="h1" style={headingStyle}>
+      <Typography component="h1" variant="h1" style={headingStyle} {...props}>
         {heading}
       </Typography>
     </Box>

@@ -80,6 +80,7 @@ export const customTheme = createTheme({
       contrastText: '#000',
     },
     brand: {
+      faint: '#1b1a01',
       main: '#fded07',
       dark: '#6d6710',
       contrastText: '#000',

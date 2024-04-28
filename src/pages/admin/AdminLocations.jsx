@@ -10,7 +10,6 @@ import { useApp } from '../../context/AppContext';
 
 // MUI
 import { styled } from '@mui/material/styles';
-import Container from '@mui/material/Container';
 import Alert from '@mui/material/Alert';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
@@ -34,7 +33,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 // Custom UI
 import UploadImage from '../../components/admin/UploadImage';
-import PageHeading from '../../components/PageHeading';
 
 import {
   updateMapLocationsIndex,
@@ -379,21 +377,16 @@ export default function AdminMap() {
 
   return (
     <Box style={style.page} className="sff-page">
-      <PageHeading heading={isUpdate ? "Update Location" : "Add Location"} />
       <Paper style={style.paper}>
         <Box style={style.content}>
           <Box>
+            <Typography component="h1" variant="h1" style={{textAlign: "center"}}>
+              {isUpdate ? "Update Location" : "Add Location"}
+            </Typography>
             <Stack spacing={2} sx={{ mt: 2}}>
 
-              <TextField sx={{ width: '100%' }}
-                value={title} required label="Title"
-                onChange={(e) => handleChangeTitle(e.target.value)} type='text'
-              />
-
-              <TextField sx={{ width: '100%' }}
-                value={url} label="URL"
-                onChange={(e) => handleChangeUrl(e.target.value)} type='url'
-              />
+              <TextField value={title} required label="Title" onChange={(e) => handleChangeTitle(e.target.value)} type='text'/>
+              <TextField value={url} label="URL" onChange={(e) => handleChangeUrl(e.target.value)} type='url' />
 
               <SplitBox>
                 <FormGroup>
