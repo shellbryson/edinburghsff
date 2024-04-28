@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import dayjs from 'dayjs';
 import 'dayjs/locale/en-gb';
 
-import { getDocs, collection, query, orderBy, limit  } from 'firebase/firestore';
+import { getDocs, collection, query, orderBy } from 'firebase/firestore';
 import { db } from "../../firebase";
 
 // MUI
@@ -15,8 +15,7 @@ import { useTheme } from '@mui/material/styles';
 import EventIcon from '@mui/icons-material/Event';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
-// Custom UI
-import EventDetails from '../modals/EventDetails';
+import { slugify } from '../../utils/utils';
 
 export default function UpComingEvents() {
 
@@ -93,8 +92,7 @@ export default function UpComingEvents() {
   }
 
   const handleClickEvent = (event) => {
-    setSelectedEvent(event);
-    setIsOpen(true);
+    navigate(`/events/${event.id}/${slugify(event.title)}`);
   };
 
   const handleCloseEvent = () => {
@@ -115,11 +113,6 @@ export default function UpComingEvents() {
         <Typeography component="a" onClick={() => handleClickExpand()}>Expand events</Typeography>
         <ChevronRightIcon />
       </Box>
-      <EventDetails
-        isOpen={isOpen}
-        isLoadingEvent={isLoadingEvent}
-        selectedEvent={selectedEvent}
-        onCloseCallback={handleCloseEvent} />
     </Box>
   );
 }

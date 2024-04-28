@@ -21,6 +21,7 @@ import AdminLayout from './layouts/AdminLayout';
 // Regular Pages
 const Welcome = lazy(() => import('./pages/public/Welcome'));
 const Events = lazy(() => import('./pages/public/Events'));
+const EventDetails = lazy(() => import('./pages/public/EventDetails'));
 const NotFound = lazy(() => import('./pages/public/NotFound'));
 const Signin = lazy(() => import('./pages/public/Signin'));
 
@@ -58,7 +59,7 @@ function App() {
               <Route path="/" element={<Map />}>
                 <Route path="welcome" element={<Welcome />} />
                 <Route path="signin" element={<Signin />} />
-                <Route path="events/:eventID/:eventTitle" element={<Events />} />
+                <Route path="events/:eventID/:eventTitle" element={<EventDetails />} />
                 <Route path="events" element={<Events />} />
                 <Route path="pages/:pageSlug" element={<Pages />} />
                 <Route path="pages" element={<Pages />} />

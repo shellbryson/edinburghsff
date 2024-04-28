@@ -74,6 +74,11 @@ export const customTheme = createTheme({
   },
   palette: {
     mode: 'light',
+    text: {
+      main: '#fff',
+      dark: '#6d6710',
+      contrastText: '#000',
+    },
     brand: {
       main: '#fded07',
       dark: '#6d6710',

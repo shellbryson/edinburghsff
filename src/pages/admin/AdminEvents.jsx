@@ -154,7 +154,7 @@ export default function AdminEvents() {
     }
     setEventIsAllDay(data.eventIsAllDay || false);
     setEventLocation(data.eventLocation);
-    setEventPin(data.eventPin);
+    setEventPin(data.eventPin || "");
 
     setIsUpdate(true);
   };

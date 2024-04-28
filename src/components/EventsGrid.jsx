@@ -17,7 +17,7 @@ import { slugify } from '../utils/utils';
 
 // Custom UI
 import EventsGridImage from './EventsGridImage';
-import EventDetails from './modals/EventDetails';
+import EventDetails from '../pages/public/EventDetails';
 
 const EventsGrid = ({ data }) => {
   const [eventsCurrent, setEventsCurrent] = useState([]);
