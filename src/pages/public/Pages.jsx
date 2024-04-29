@@ -39,16 +39,48 @@ export default function Pages() {
     background: theme.palette.brand.faint,
     color: theme.palette.text.main,
     borderRadius: "0",
-    '& code': {
-      display: "inline-block",
-      backgroundColor: "rgba(255,255,255,.05)",
-      borderRadius: "4px",
-      padding: "4px 8px",
-      fontWeight: "var(--font-body-bold-weight)"
+    '& p' : {
+      marginBottom: "1rem",
+      padding: 0,
     },
     '& a' : {
       color: theme.palette.brand.main,
       textDecoration: "underline",
+    },
+    '& h1' : {
+      textAlign: "center",
+      fontFamily: '"Chakra Petch", sans-serif',
+      fontWeight: "400",
+      marginTop: "2rem",
+      marginBottom: "1rem",
+    },
+    '& h2, h3' : {
+      display: "inline-block",
+      textTransform: 'uppercase',
+      padding: '6px 1rem',
+      fontFamily: '"Chakra Petch", sans-serif',
+      fontWeight: "400",
+      backgroundColor: "rgba(255,255,255,.05)",
+      marginTop: "2rem",
+      marginBottom: "1rem",
+    },
+    '& h2::before': {
+      content: '""',
+      display: 'block',
+      position: 'absolute',
+      width: '4px',
+      height: '4px',
+      backgroundColor: theme.palette.brand.main,
+      right: "0",
+      top: "0",
+    },
+    '& code': {
+      display: "inline-block",
+      border: "1px solid rgba(255,255,255,.05)",
+      padding: "4px 8px",
+      marginBottom: "2px",
+      color: theme.palette.brand.dark,
+      fontWeight: "var(--font-body-bold-weight)"
     },
   }));
 
@@ -63,7 +95,7 @@ export default function Pages() {
     content: {
       textAlign: "left",
       minHeight: "calc(100vh -2rem)",
-      padding: "0.5rem",
+      padding: "0.5rem 1rem 0.5rem 0.5rem",
       margin: "0.5rem",
       overflow: "auto",
     },
@@ -133,7 +165,9 @@ export default function Pages() {
     const r = <Box style={style.page} className="sff-page">
       <Page>
         <Box style={style.content} className="scroll">
-          <PageHeading heading={firstMatchingPage.title} />
+          <Typography component="h1" variant='h_large'>
+            {firstMatchingPage.title}
+          </Typography>
           <LinkInterceptor>
             <ReactMarkdown children={firstMatchingPage.content} />
           </LinkInterceptor>

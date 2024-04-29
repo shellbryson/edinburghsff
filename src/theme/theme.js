@@ -6,19 +6,31 @@ export const customTheme = createTheme({
     color: '#ffffff',
     h1: {
       fontSize: 24,
-      paddingBottom: '2rem'
+      paddingBottom: '2rem',
+      fontFamily: '"Chakra Petch", sans-serif',
+      fontWeight: "400",
+      fontStyle: "normal",
     },
     h2: {
       fontSize: 18,
-      paddingBottom: '1.2rem'
+      paddingBottom: '1.2rem',
+      fontFamily: '"Chakra Petch", sans-serif',
+      fontWeight: "400",
+      fontStyle: "normal",
     },
     h3: {
       fontSize: 16,
-      paddingBottom: '1.2rem'
+      paddingBottom: '1.2rem',
+      fontFamily: '"Chakra Petch", sans-serif',
+      fontWeight: "400",
+      fontStyle: "normal",
     },
     h4: {
       fontSize: 16,
-      paddingBottom: '1.2rem'
+      paddingBottom: '1.2rem',
+      fontFamily: '"Chakra Petch", sans-serif',
+      fontWeight: "400",
+      fontStyle: "normal",
     },
     tile_heading: {
       fontSize: 24,
@@ -41,23 +53,34 @@ export const customTheme = createTheme({
       position: 'relative',
       textTransform: 'uppercase',
       fontSize: 13,
-      fontWeight: 'bold'
+      fontWeight: 'bold',
+      fontFamily: '"Chakra Petch", sans-serif',
+      fontWeight: "400",
+      fontStyle: "normal",
     },
     h_medium: {
-      fontSize: 18,
+      fontSize: 22,
       textTransform: 'uppercase',
-      paddingBottom: '1.5rem'
+      paddingBottom: '1.5rem',
+      fontFamily: '"Chakra Petch", sans-serif',
+      fontWeight: "400",
+      fontStyle: "normal",
     },
     h_large: {
-      fontSize: 24,
+      fontSize: 32,
       textTransform: 'uppercase',
-      paddingBottom: '2rem'
+      paddingBottom: '2rem',
+      fontFamily: '"Chakra Petch", sans-serif',
+      fontWeight: "400",
+      fontStyle: "normal",
     },
     h_small_lined: {
       position: 'relative',
       textTransform: 'uppercase',
       fontSize: 13,
-      fontWeight: 'bold',
+      fontFamily: '"Chakra Petch", sans-serif',
+      fontWeight: "400",
+      fontStyle: "normal",
       borderTop: '1px solid currentColor',
       paddingTop: "4px",
       '&::before': {

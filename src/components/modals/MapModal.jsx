@@ -156,7 +156,7 @@ export default function MapModal(
       scroll="paper"
       aria-labelledby="add-dialog-title">
       <DialogTitle id="add-dialog-title" sx={styleEventTitle}>
-        <Typography variant="h2" component="span">{pinData.title}</Typography>
+        <Typography component="span" variant="h_large" >{pinData.title}</Typography>
       </DialogTitle>
       <IconButton
         aria-label="close"

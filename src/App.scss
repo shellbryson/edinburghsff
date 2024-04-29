@@ -2,23 +2,24 @@
   EDINBURGH SFF
 */
 
-$color-brand: #b91819;
+$color-brand: #fded07;
 $color-body: #003B4A;
 $color-body-dark: #fded07;
 $color-body-faded: #c5d3d6;
-$color-links: $color-brand;
+$color-links: #fff;
 
 $color-grey: rgb(250 250 250);
 $color-grid-start: #bd6767;
 $color-grid-end: #6e67bd;
 
 $body-font: 'Fira Code', monospace;
+$heading-font: "Chakra Petch", sans-serif;
 
 #root {
   --font-body: $body-font;
   --font-body-weight: 400;
   --font-body-bold-weight: 600;
-  --font-heading: $body-font;
+  --font-heading: $heading-font;
   --color-body: $color-body;
   --color-body-faded: $color-body-faded;
   --color-brand: $color-brand;
@@ -41,6 +42,7 @@ a {
   color: $color-links;
   max-width: 40vw;
   overflow: hidden;
+  text-decoration: none;
 }
 
 p {

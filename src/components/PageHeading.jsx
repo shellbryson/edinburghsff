@@ -8,14 +8,13 @@ const headingStyle = {
   textAlign: "center",
   color: "#fff",
   marginTop: "1rem",
-  textTransform: "capitalize",
 }
 
 const PageHeading = ({ heading, ...props }) => {
 
   return (
     <Box className="sff-page-heading">
-      <Typography component="h1" variant="h1" style={headingStyle} {...props}>
+      <Typography component="h1" variant="h_large" style={headingStyle} {...props}>
         {heading}
       </Typography>
     </Box>
