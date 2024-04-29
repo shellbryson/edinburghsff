@@ -182,30 +182,6 @@ p {
   }
 }
 
-.sff-page {
-
-  h1 + p {
-    //text-align: center;
-  }
-
-  p + h2,
-  p + h3,
-  ol + h2,
-  ol + h3,
-  ul + h2,
-  ul + h3 {
-    margin-top: 1rem;
-  }
-
-  code {
-    display: inline-block;
-    background-color: rgba(0,0,0,0.05);
-    border-radius: 4px;
-    padding: 4px 8px;
-    font-weight: var(--font-body-bold-weight);
-  }
-}
-
 .scroll {
   scrollbar-color: #fded07 #000;
   scrollbar-width: thin;

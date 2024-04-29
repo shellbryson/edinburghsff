@@ -9,6 +9,7 @@ import { getDocs, collection, query, orderBy, where  } from 'firebase/firestore'
 import { db } from "../../firebase";
 
 // MUI
+import { useTheme, styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -22,12 +23,34 @@ import PageHeading from '../../components/PageHeading';
 import LinkInterceptor from '../../components/LinkInterceptor';
 
 export default function Pages() {
+  const theme = useTheme();
   const params = useParams();
   const [page, setPage] = useState({});
   const [pages, setPages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const defaultPageTitle = "Edinburgh SFF"
   const defaultPageDescription = "Edinburgh Science Fiction and Fantasy writing community. New writers, events and community."
+
+  const Page = styled(Paper)(({ theme }) => ({
+    display: "flex",
+    flexDirection: "column",
+    height: "100%",
+    overflow: "hidden",
+    background: theme.palette.brand.faint,
+    color: theme.palette.text.main,
+    borderRadius: "0",
+    '& code': {
+      display: "inline-block",
+      backgroundColor: "rgba(255,255,255,.05)",
+      borderRadius: "4px",
+      padding: "4px 8px",
+      fontWeight: "var(--font-body-bold-weight)"
+    },
+    '& a' : {
+      color: theme.palette.brand.main,
+      textDecoration: "underline",
+    },
+  }));
 
   const style={
     page: {
@@ -36,12 +59,6 @@ export default function Pages() {
       height: "100%",
       overflow: "hidden",
       margin: "0 1rem 1rem 1rem",
-    },
-    paper: {
-      display: "flex",
-      flexDirection: "column",
-      height: "100%",
-      overflow: "hidden",
     },
     content: {
       textAlign: "left",
@@ -114,14 +131,14 @@ export default function Pages() {
     console.log("firstMatchingPage", firstMatchingPage)
 
     const r = <Box style={style.page} className="sff-page">
-      <PageHeading heading={firstMatchingPage.title} />
-      <Paper style={style.paper}>
-        <Box style={style.content}>
+      <Page>
+        <Box style={style.content} className="scroll">
+          <PageHeading heading={firstMatchingPage.title} />
           <LinkInterceptor>
             <ReactMarkdown children={firstMatchingPage.content} />
           </LinkInterceptor>
         </Box>
-      </Paper>
+      </Page>
     </Box>
     return r;
   }
