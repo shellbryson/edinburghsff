@@ -19,7 +19,6 @@ import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 // Custom UI
 import EventsDetailsImage from '../../components/EventsDetailsImage';
 import LinkInterceptor from '../../components/LinkInterceptor';
-import PageHeading from '../../components/PageHeading';
 import DateBox from '../../components/DateBox';
 
 // Icons
@@ -52,6 +51,7 @@ const EventDetails = ({ isLoadingEvent }) => {
   const MastheadImageBox = styled(Box)(({ theme }) => ({
     display: 'flex',
     justifyContent: 'center',
+    marginTop: "1rem",
     marginBottom: "1rem",
     "& img": {
       width: "3rem",
@@ -88,14 +88,22 @@ const EventDetails = ({ isLoadingEvent }) => {
     marginTop: "4px",
   }));
 
+  const Summary = styled(Box)(({ theme }) => ({
+    backgroundColor: theme.palette.brand.faint,
+    padding: "1rem 1rem",
+    margin: "2rem 4rem 3rem 4rem",
+    "& p" : {
+      margin: 0,
+    }
+  }));
+
   const Description = styled(Box)(({ theme }) => ({
-    padding: "0 1rem"
+    padding: "0 1rem",
+    margin: "1rem 0.5rem 2rem 0.5rem",
   }));
 
   const Section = styled(Box)(({ theme }) => ({
-    backgroundColor: theme.palette.brand.faint,
-    padding: "1.5rem 1rem 1rem 1rem",
-    marginBottom: "1rem",
+    padding: "1.5rem",
   }));
 
   const SectionHeading = styled(Typography)(({ theme }) => ({
@@ -103,6 +111,7 @@ const EventDetails = ({ isLoadingEvent }) => {
     marginBottom: "0.5rem",
     paddingRight: "3rem",
     color: theme.palette.brand.main,
+    minWidth: "150px",
   }));
 
   const ActionsBox = styled(Box)(({ theme }) => ({
@@ -134,11 +143,7 @@ const EventDetails = ({ isLoadingEvent }) => {
     },
     title: {
       textAlign: "center"
-    },
-    description: {
-      margin: "1rem 0",
-      padding: "0.5rem",
-    },
+    }
   }
 
   useEffect(() => {
@@ -179,7 +184,19 @@ const EventDetails = ({ isLoadingEvent }) => {
     setFocusMapPin(currentEvent.eventPin);
   }
 
+  const renderSummary = () => {
+    if (!currentEvent.summary) return null;
+    return (
+      <Summary>
+        <LinkInterceptor>
+          <ReactMarkdown children={currentEvent.summary} />
+        </LinkInterceptor>
+      </Summary>
+    );
+  }
+
   const renderDescription = () => {
+    if (!currentEvent.description) return null;
     return (
       <Description>
         <LinkInterceptor>
@@ -206,17 +223,20 @@ const EventDetails = ({ isLoadingEvent }) => {
       <Box style={style.paper}>
         <Box style={style.content} className="scroll">
           { !isLoadingEvent && <>
-            <PageHeading heading={currentEvent.title} />
             { currentEvent?.image && (
               <MastheadImageBox className="sff-event-masthead">
                 <img src={imageURL(currentEvent?.image, 'medium')} alt={currentEvent?.title} style={{ width: "4rem", height: "auto" }}/>
               </MastheadImageBox>
             )}
+            <Typography component="h1" variant="h_large" style={{textAlign: "center", marginBottom: "0", paddingBottom: "1rem" }}>
+              {currentEvent.title}
+            </Typography>
             <Meta>
               <DateBox event={currentEvent} />
               {eventLocation()}
             </Meta>
             <Box style={style.description} className="sff-event-description">
+              { renderSummary() }
               { renderDescription() }
               { renderSection('eventHighlights', "Highlights") }
               { renderSection('eventFacilities', "Facilities") }

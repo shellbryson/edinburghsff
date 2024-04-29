@@ -15,6 +15,8 @@ $color-grid-end: #6e67bd;
 $body-font: 'Fira Code', monospace;
 $heading-font: "Chakra Petch", sans-serif;
 
+$v: "red";
+
 #root {
   --font-body: $body-font;
   --font-body-weight: 400;
@@ -62,57 +64,57 @@ p {
   color: $color-body-dark;
 }
 
-.sff-events-grid {
+// .sff-events-grid {
 
-  $grid-columns: 4;
-  $grid-rows: 3;
-  $color-steps: $grid-columns * $grid-rows;
+//   $grid-columns: 4;
+//   $grid-rows: 3;
+//   $color-steps: $grid-columns * $grid-rows;
 
-  &__event {
-    display: block;
-    position: relative;
-    aspect-ratio: 1/1;
-    cursor: pointer;
-    max-width: 100%;
-    z-index: 2;
-    transition: transform 0.2s ease-in-out;
-    border: 1px solid $color-body;
+//   &__event {
+//     display: block;
+//     position: relative;
+//     aspect-ratio: 1/1;
+//     cursor: pointer;
+//     max-width: 100%;
+//     z-index: 2;
+//     transition: transform 0.2s ease-in-out;
+//     border: 1px solid $color-body;
 
-    @for $i from 1 through $color-steps {
-      $reset-index: $i % $color-steps; // Cycle back to 0 when we reach the end of the color grid
-      $color-percentage: percentage(calc($reset-index / $color-steps));
-      $interpolated-color: mix($color-grid-start, $color-grid-end, $color-percentage);
+//     @for $i from 1 through $color-steps {
+//       $reset-index: $i % $color-steps; // Cycle back to 0 when we reach the end of the color grid
+//       $color-percentage: percentage(calc($reset-index / $color-steps));
+//       $interpolated-color: mix($color-grid-start, $color-grid-end, $color-percentage);
 
-      &:nth-child(#{$i}) {
-        background-color: $interpolated-color;
-      }
-    }
-  }
+//       &:nth-child(#{$i}) {
+//         background-color: $interpolated-color;
+//       }
+//     }
+//   }
 
-  &__event-title {
-    display: -webkit-box;
-    -webkit-line-clamp: 4;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
+//   &__event-title {
+//     display: -webkit-box;
+//     -webkit-line-clamp: 4;
+//     -webkit-box-orient: vertical;
+//     overflow: hidden;
+//   }
 
-  &__event-content {
-    display: flex;
-    position: absolute;
-    flex-direction: column;
-    height: calc(100% - 2rem);
-    aspect-ratio: 1/1;
-    z-index: 2;
-    inset: 1rem;
-    text-align: left;
-    color: #fff;
-  }
+//   &__event-content {
+//     display: flex;
+//     position: absolute;
+//     flex-direction: column;
+//     height: calc(100% - 2rem);
+//     aspect-ratio: 1/1;
+//     z-index: 2;
+//     inset: 1rem;
+//     text-align: left;
+//     color: #fff;
+//   }
 
-  &__event-date {
-    padding: 0;
-    margin-top: auto;
-  }
-}
+//   &__event-date {
+//     padding: 0;
+//     margin-top: auto;
+//   }
+// }
 
 @keyframes sff-masthead-drift-1 {
   0% {

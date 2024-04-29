@@ -43,7 +43,10 @@ export default function MapPin({data, onClickPin}) {
   const LabelBox = styled(Box)(({ theme }) => ({
     display: "flex",
     position: "absolute",
+    fontFamily: '"Chakra Petch", sans-serif',
+    fontWeight: "400",
     fontSize: "0.5rem",
+    textTransform: "uppercase",
     color: theme.palette.brand.main,
     backgroundColor: theme.palette.warning.main,
     top: "0",
@@ -51,8 +54,7 @@ export default function MapPin({data, onClickPin}) {
     alignItems: "center",
     justifyContent: "center",
     whiteSpace: "nowrap",
-    padding: "4px 1rem 4px 0",
-    clipPath: "polygon(0 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%)"
+    padding: "4px 1rem 4px 0"
   }));
 
   useEffect(() => {

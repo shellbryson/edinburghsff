@@ -9,7 +9,7 @@ import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 
 // Icons
-import EventAvailableOutlinedIcon from '@mui/icons-material/EventAvailableOutlined';
+import EventIcon from '@mui/icons-material/Event';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
 export default function DateBox({event}) {
@@ -25,12 +25,14 @@ export default function DateBox({event}) {
   const MetaBox = styled(Box)(({ theme }) => ({
     display: "flex",
     padding: "0.25rem",
-    gap: "0.5rem",
+    gap: "1px",
     alignItems: "center",
     border: `1px solid ${theme.palette.brand.main}`,
     backgroundColor: "#000",
     justifyContent: "center",
     color: theme.palette.brand.main,
+    width: "100%",
+    maxWidth: "280px",
     "& > div": {
       display: "flex",
       alignItems: "center",
@@ -66,9 +68,8 @@ export default function DateBox({event}) {
       {!isAllDay && (
         <>
           <DisplayBox>
-            <EventAvailableOutlinedIcon /> {startDate}
+            <EventIcon /> {startDate}
           </DisplayBox>
-          to
           <DisplayBox>
             <AccessTimeIcon /> {startTime}-{endTime}
           </DisplayBox>
@@ -77,11 +78,11 @@ export default function DateBox({event}) {
       {isAllDay && (
         <>
           <DisplayBox>
-            <EventAvailableOutlinedIcon /> {startDate}
+            <EventIcon /> {startDate}
           </DisplayBox>
-          to
+          <Box style={{marginLeft: "2px", marginRight: "2px"}}>to</Box>
           <DisplayBox>
-            <EventAvailableOutlinedIcon /> {endDate}
+            <EventIcon /> {endDate}
           </DisplayBox>
         </>
       )}

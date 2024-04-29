@@ -58,6 +58,7 @@ export default function AdminEvents() {
   // Common
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [summary, setSummary] = useState('');
   const [url, setURL] = useState('');
   const [show, setShow] = useState(true);
   const [imgUrl, setImgUrl] = useState(null);
@@ -141,6 +142,7 @@ export default function AdminEvents() {
 
     setTitle(data.title);
     setDescription(data.description);
+    setSummary(data.summary || "");
     setURL(data.url);
     setImgUrl(data.image);
     setShow(data.show);
@@ -180,6 +182,7 @@ export default function AdminEvents() {
     const payload = {
       title: title,
       description: description,
+      summary: summary,
       url: url,
       show: show,
       image: strippedImageUrl,
@@ -228,6 +231,7 @@ export default function AdminEvents() {
     const payload = {
       title: title,
       description: description,
+      summary: summary,
       show: show,
       image: strippedImageUrl,
       eventStart: eventStart.$d,
@@ -245,7 +249,6 @@ export default function AdminEvents() {
         timestamp: new Date()
       }
     }
-    console.log("updateId", updateId);
     try {
       const l = doc(db, "events", updateId);
       await updateDoc(l, payload);
@@ -300,6 +303,11 @@ export default function AdminEvents() {
     if (text !== description) setIsDirty(true);
     setDescription(text);
   };
+
+  const handleChangeSummary = (text) => {
+    if (text !== summary) setIsDirty(true);
+    setSummary(text);
+  }
 
   const handleChangeUrl = (text) => {
     if (text !== url) setIsDirty(true);
@@ -376,6 +384,7 @@ export default function AdminEvents() {
               </SplitBox>
 
               <TextField required value={description} multiline rows={8} label="Description" onChange={(e) => handleChangeDescription(e.target.value)} />
+              <TextField required value={summary} multiline rows={2} label="Summary" onChange={(e) => handleChangeSummary(e.target.value)} />
               <TextField required value={eventHighlights} multiline rows={8} label="Highlights" onChange={(e) => handleChangeHighlights(e.target.value)} />
               <TextField required value={eventFacilities} multiline rows={4} label="Facilities" onChange={(e) => handleChangeFacilities(e.target.value)} />
               <TextField required value={eventTips} multiline rows={4} label="Tips" onChange={(e) => handleChangeTips(e.target.value)} />

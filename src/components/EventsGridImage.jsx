@@ -9,8 +9,9 @@ const eventImageContainerStyle = {
   display: "block",
   aspectRatio: "1/1",
   padding: 0,
-  width: "100%",
-  height: "100%",
+  width: "4rem",
+  height: "4rem",
+  border: "0.25rem solid #000"
 }
 
 const eventImageStyle = {
@@ -18,7 +19,6 @@ const eventImageStyle = {
   width: "100%",
   height: "100%",
   objectFit: "cover",
-  filter: "grayscale(1) opacity(0.1)"
 }
 
 const EventsGridImage = ({ image, alt }) => {

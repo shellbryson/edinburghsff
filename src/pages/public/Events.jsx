@@ -6,6 +6,8 @@ import { db } from "../../firebase";
 import { useHead } from 'hoofd';
 
 // MUI
+import { useTheme, styled } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
 // Custom Components
@@ -13,7 +15,7 @@ import PageHeading from '../../components/PageHeading';
 import EventsGrid from '../../components/EventsGrid';
 
 export default function Events() {
-
+  const theme = useTheme();
   const [events, setEvents] = useState([]);
 
   const style = {
@@ -63,8 +65,13 @@ export default function Events() {
   return (
     <Box style={style.page} className="sff-page">
       <Box style={style.paper}>
-        <Box style={style.content}>
+        <Box style={style.content} className="scroll">
           <PageHeading heading="Events" />
+          <Box style={{ padding: "1rem"}}>
+            <Typography style={{color: theme.palette.text.main}}>
+              Do you have an event you would like to share? Please get in touch with us.
+            </Typography>
+          </Box>
           <EventsGrid data={events} />
         </Box>
       </Box>

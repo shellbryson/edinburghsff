@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from "react-router-dom";
-import { doc, getDoc } from 'firebase/firestore';
-import { db } from "../firebase";
 
 import dayjs from 'dayjs';
 import 'dayjs/locale/en-gb';
@@ -10,8 +8,6 @@ import 'dayjs/locale/en-gb';
 import { useTheme, styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Link from '@mui/material/Link';
 
 import { slugify } from '../utils/utils';
 
@@ -24,29 +20,32 @@ const EventsGrid = ({ data }) => {
   const params = useParams();
   const theme = useTheme();
 
-  const EventContentBox = styled(Box)(({ theme }) => ({
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-between",
-  }));
-
   const [eventsCurrent, setEventsCurrent] = useState([]);
   const [eventsFuture, setEventsFuture] = useState([]);
   const [eventsPast, setEventsPast] = useState([]);
 
-  const style={
-    section:{
-      position: "relative",
-    },
-    grid: {
-      display: "grid",
-      position: "relative",
-      gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-      gap: "4px",
-      marginBottom: "2rem",
-      zIndex: 1,
-    }
-  }
+  const SectionTitle = styled(Box)(({ theme }) => ({
+    margin: "3rem 1rem 0 1rem",
+  }));
+
+  const EventBox = styled(Box)(({ theme }) => ({
+    display: "flex",
+    flexDirection: "column",
+    gap: "1rem",
+    padding: "1rem",
+    margin: "0.5rem",
+    backgroundColor: theme.palette.brand.main,
+    color: theme.palette.brand.contrastText
+  }));
+
+  const EventContentBox = styled(Box)(({ theme }) => ({
+    display: "flex",
+    flexDirection: "column",
+    gap: "1rem",
+    color: theme.palette.primary.main,
+    padding: "0.25rem",
+    width: "100%",
+  }));
 
   useEffect(() => {
     splitEvents(data);
@@ -83,65 +82,49 @@ const EventsGrid = ({ data }) => {
     setEventsFuture(eFuture);
   }
 
-  const renderEventDate = (currentEvent) => {
-    if (!currentEvent.eventStart || !currentEvent.eventEnd) return;
-    let displayDate = "";
-    if (currentEvent.eventIsAllDay) {
-      const _startDate = dayjs(currentEvent.eventStart.toDate()).format('DD/MM/YYYY');
-      const _endDate = dayjs(currentEvent.eventEnd.toDate()).format('DD/MM/YYYY');
-      displayDate = _startDate === _endDate ? _startDate : `${_startDate} to ${_endDate}`;
-    } else {
-      const _startDate = dayjs(currentEvent.eventStart.toDate()).format('DD/MM/YYYY, HH:mm');
-      const _endDate = dayjs(currentEvent.eventEnd.toDate()).format('HH:mm');
-      displayDate = `${_startDate} to ${_endDate}`;
-    }
-    return <Box className="sff-events-grid__event-date"><Typography component="p">{displayDate}</Typography></Box>;
-  }
-
   const renderSubGrid = (heading, arrayOfEvents) => {
     if (arrayOfEvents.length === 0) return;
 
-    return(
-      <Box style={style.section} className="sff-events-section">
-        <Typography variant="h2" component="h2" color={theme.palette.primary.contrastText} sx={{ marginLeft: "1rem", textAlign: "center"}}>{heading}</Typography>
-        <Box style={style.grid} className="sff-events-grid">
+    return (
+      <Box className="sff-events-section">
+        <SectionTitle>
+          <Typography variant="h_medium" component="h2" color={theme.palette.primary.contrastText}>
+            {heading}
+          </Typography>
+        </SectionTitle>
+        <Box className="sff-events-grid">
           {arrayOfEvents.map((data, index) => (
-            <Link className="sff-events-grid__event" key={index} href={`/events/${data.id}/${slugify(data.title)}`} onClick={(e) => {handleOpenEvent(e, data.id, data.title)}}>
-              <EventsGridImage image={data?.image} alt={data?.title} />
-              <EventContentBox className="sff-events-grid__event-content">
-                <Stack spacing={2}>
-                  <Typography variant='tile_heading' className='sff-events-grid__event-title'>
-                    {data.title}
-                  </Typography>
-                  <Typography variant="p">
-                    {data.descriptionShort}
-                  </Typography>
-                </Stack>
-                <DateBox event={data} />
-              </EventContentBox>
-            </Link>
+            <EventBox className="sff-events-grid__event" key={index} onClick={(e) => { handleOpenEvent(e, data.id, data.title) }}>
+              <Box style={{display: "flex", gap: "1rem" }}>
+                <EventContentBox className="sff-events-grid__event-content">
+                  <Box>
+                    <Typography variant='h_medium'>
+                      {data.title}
+                    </Typography>
+                  </Box>
+                  <Box>
+                    <Typography variant="p_small">
+                      {data.summary}
+                    </Typography>
+                  </Box>
+                </EventContentBox>
+                <EventsGridImage image={data?.image} alt={data?.title} />
+              </Box>
+              <DateBox event={data} />
+            </EventBox>
           ))}
         </Box>
       </Box>
     )
   }
 
-  const fetchEvent = async (id) => {
-    if (!id) return;
-    const docRef = doc(db, "events", id);
-    const docSnap = await getDoc(docRef);
-    setSelectedEvent(docSnap.data());
-  }
-
   const handleOpenEvent = (e, id, title) => {
-    e && e.preventDefault();
     navigate(`/events/${id}/${slugify(title)}`);
-    fetchEvent(id);
   };
 
   return (
     <Box>
-      {renderSubGrid("Future events", eventsFuture)}
+      {renderSubGrid("Upcoming", eventsFuture)}
       {renderSubGrid("Current events", eventsCurrent)}
       {renderSubGrid("Past events", eventsPast)}
     </Box>
