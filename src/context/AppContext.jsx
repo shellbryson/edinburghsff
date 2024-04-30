@@ -5,6 +5,7 @@ const AppContext = createContext(null);
 
 export const AppContextProvider = ({ children }) => {
 
+  const [config, setConfig] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [isExpanded, setIsExpanded] = useState(true);
   const [isExploded, setIsExploded] = useState(false);
@@ -28,7 +29,9 @@ export const AppContextProvider = ({ children }) => {
       isShowingSearch,
       setIsShowingSearch,
       mapSearchText,
-      setMapSearchText
+      setMapSearchText,
+      config,
+      setConfig,
     }}>
       {children}
     </AppContext.Provider>

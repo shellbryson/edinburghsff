@@ -35,7 +35,8 @@ const EventsGrid = ({ data }) => {
     padding: "1rem",
     margin: "0.5rem",
     backgroundColor: theme.palette.brand.main,
-    color: theme.palette.brand.contrastText
+    color: theme.palette.brand.contrastText,
+    cursor: "pointer",
   }));
 
   const EventContentBox = styled(Box)(({ theme }) => ({

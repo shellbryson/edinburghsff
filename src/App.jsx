@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from 'react';
+import React, { lazy, Suspense, useEffect, setState } from 'react';
 import { Routes, Route } from "react-router-dom";
 
 import { Analytics } from '@vercel/analytics/react';
@@ -7,6 +7,8 @@ import { ThemeProvider } from '@mui/material/styles';
 import { customTheme } from './theme/theme';
 
 import { ConfirmProvider } from "material-ui-confirm";
+
+import { useApp } from './context/AppContext';
 
 // MUI Components
 import Box from '@mui/material/Box';
@@ -31,9 +33,14 @@ const Pages = lazy(() => import('./pages/public/Pages'));
 // Admin Pages
 const Dashboard = lazy(() => import('./pages/admin/Dashboard'));
 const ListContent = lazy(() => import('./pages/admin/ListContent'));
+const AdminSettings = lazy(() => import('./pages/admin/AdminSettings'));
 const AdminEvents = lazy(() => import('./pages/admin/AdminEvents'));
 const AdminLocations = lazy(() => import('./pages/admin/AdminLocations'));
 const AdminPages = lazy(() => import('./pages/admin/AdminPages'));
+
+import {
+  fetchDocument
+} from './utils/utils';
 
 // Assets
 import './App.scss';
@@ -48,7 +55,16 @@ const styleLayout = {
   backgroundColor: "rgb(0, 0, 0)",
 }
 
-function App() {
+export default function App() {
+  const { config, setConfig } = useApp();
+
+  useEffect(() => {
+    fetchDocument("settings", "config", (data) => {
+      setConfig(data);
+      console.log(data);
+    });
+  }, []);
+
   return (
     <ThemeProvider theme={customTheme}>
       <Box style={styleLayout} className="sff">
@@ -72,6 +88,7 @@ function App() {
                   <Route path='events/update/:updateId' element={<AdminEvents />} />
                   <Route path='pages/add' element={<AdminPages />} />
                   <Route path='pages/update/:updateId' element={<AdminPages />} />
+                  <Route path='settings/' element={<AdminSettings />} />
                 </Route>
                 <Route path="*" element={<NotFound />} />
               </Route>
@@ -83,5 +100,3 @@ function App() {
     </ThemeProvider>
   )
 }
-
-export default App;

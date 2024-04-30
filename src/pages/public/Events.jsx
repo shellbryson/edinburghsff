@@ -1,22 +1,31 @@
 import React, { useEffect, useState } from 'react';
-
 import { getDocs, collection, query, orderBy, limit  } from 'firebase/firestore';
 import { db } from "../../firebase";
-
 import { useHead } from 'hoofd';
+import ReactMarkdown from 'react-markdown';
+
+// Context
+import { useApp } from '../../context/AppContext';
 
 // MUI
 import { useTheme, styled } from '@mui/material/styles';
-import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
 // Custom Components
 import PageHeading from '../../components/PageHeading';
 import EventsGrid from '../../components/EventsGrid';
+import LinkInterceptor from '../../components/LinkInterceptor';
 
 export default function Events() {
+
+  const { config } = useApp();
   const theme = useTheme();
   const [events, setEvents] = useState([]);
+
+  const ContentBox = styled(Box)(({ theme }) => ({
+    padding: "1rem",
+    color: theme.palette.text.main
+  }));
 
   const style = {
     page: {
@@ -67,11 +76,11 @@ export default function Events() {
       <Box style={style.paper}>
         <Box style={style.content} className="scroll">
           <PageHeading heading="Events" />
-          <Box style={{ padding: "1rem"}}>
-            <Typography style={{color: theme.palette.text.main}}>
-              Do you have an event you would like to share? Please get in touch with us.
-            </Typography>
-          </Box>
+          <ContentBox>
+            <LinkInterceptor>
+              <ReactMarkdown children={config.textEventIntro} />
+            </LinkInterceptor>
+          </ContentBox>
           <EventsGrid data={events} />
         </Box>
       </Box>

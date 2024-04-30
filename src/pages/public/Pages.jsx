@@ -159,9 +159,6 @@ export default function Pages() {
       return null;
     }
     const firstMatchingPage = page[0];
-
-    console.log("firstMatchingPage", firstMatchingPage)
-
     const r = <Box style={style.page} className="sff-page">
       <Page>
         <Box style={style.content} className="scroll">

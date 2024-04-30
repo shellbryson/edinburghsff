@@ -57,6 +57,7 @@ export default function Navigation() {
       }
       {isAdmin && <Box style={style.navigation} className="sff-navigation">
         <Link to='/admin'>Dashboard</Link>
+        <Link to='/admin/settings'>Settings</Link>
         <Link to='/admin/locations'>Locations</Link>
         <Link to='/admin/events'>Events</Link>
         <Link to='/admin/pages'>Pages</Link>

@@ -26,7 +26,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 // Custom UI
 import UploadImage from '../../components/admin/UploadImage';
-import PageHeading from '../../components/PageHeading';
 
 import {
   fetchDocument,
@@ -278,11 +277,11 @@ export default function AdminPages() {
               {isUpdate ? "Update Page" : "Add Page"}
             </Typography>
             <Stack spacing={2} sx={{ mt: 2}}>
-              <TextField sx={{ width: '100%' }} value={title} required label="Title" onChange={(e) => handleChangeTitle(e.target.value)} type='text' />
-              <TextField sx={{ width: '100%' }} value={url} required label="URL" onChange={(e) => handleChangeUrl(e.target.value)} type='text' />
-              <TextField sx={{ width: '100%' }} value={slug} required label="Slug" onChange={(e) => handleChangeSlug(e.target.value)} type='text' />
-              <TextField sx={{ width: '100%' }} value={description} required multiline rows={2} label="Description" onChange={(e) => handleChangeDescription(e.target.value)} />
-              <TextField sx={{ width: '100%' }} value={content} required multiline rows={16} label="Content" onChange={(e) => handleChangeContent(e.target.value)}  />
+              <TextField value={title} required label="Title" onChange={(e) => handleChangeTitle(e.target.value)} type='text' />
+              <TextField value={url} required label="URL" onChange={(e) => handleChangeUrl(e.target.value)} type='text' />
+              <TextField value={slug} required label="Slug" onChange={(e) => handleChangeSlug(e.target.value)} type='text' />
+              <TextField value={description} required multiline rows={2} label="Description" onChange={(e) => handleChangeDescription(e.target.value)} />
+              <TextField value={content} required multiline rows={16} label="Content" onChange={(e) => handleChangeContent(e.target.value)}  />
 
               <UploadImage imageUploadedCallback={handleFileUpload} imgUrl={imgUrl} />
 
