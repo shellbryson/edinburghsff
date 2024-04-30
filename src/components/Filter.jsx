@@ -16,7 +16,6 @@ import FestivalIcon from '@mui/icons-material/Festival';
 import MenuBookOutlinedIcon from '@mui/icons-material/MenuBookOutlined';
 import LocalCafeOutlinedIcon from '@mui/icons-material/LocalCafeOutlined';
 import LocalLibraryOutlinedIcon from '@mui/icons-material/LocalLibraryOutlined';
-import SearchIcon from '@mui/icons-material/Search';
 
 export default function Filter({onFilterMap}) {
 

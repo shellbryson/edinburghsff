@@ -7,11 +7,10 @@ import { useApp } from '../context/AppContext';
 // MUI
 import { useTheme, styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 
 // Customer UI
-import PlacesOfInterest from './panels/PlacesOfInterest';
-import UpComingEvents from './panels/UpComingEvents';
+import InterestPanel from './panels/InterestPanel';
+import EventsPanel from './panels/EventsPanel';
 import SearchPanel from './panels/SearchPanel';
 import Logo from './Logo';
 import Background from './Background';
@@ -25,7 +24,11 @@ export default function Home({onSearchMap}) {
 
   const ContentBox = styled(Box)(({ theme }) => ({
     color: theme.palette.brand.main,
-    marginBottom: "2rem",
+    textAlign: "center",
+    margin: "2rem 0",
+    '& p + p' :{
+      padding: "0",
+    }
   }));
 
   const styles = {
@@ -41,9 +44,8 @@ export default function Home({onSearchMap}) {
       display: "block",
       position: "relative",
       width: "100%",
-      height: "270px",
+      height: "180px",
       marginBottom: "1rem",
-      clipPath: "polygon(5% 0%, 95% 0%, 100% 5%, 100% 95%, 95% 100%, 5% 100%, 0% 95%, 0% 5%)"
     },
     splash: {
       display: "flex",
@@ -62,7 +64,7 @@ export default function Home({onSearchMap}) {
       position: "absolute",
       left: "0",
       right: "0",
-      bottom: "1rem",
+      bottom: "1.5rem",
       textShadow: "1px 1px 1px rgba(0, 0, 0, 0.9)",
     },
   }
@@ -76,25 +78,14 @@ export default function Home({onSearchMap}) {
             <Logo size={5}/>
           </Box>
         </Box>
-        <Box style={styles.splashText}>
-          <Typography>
-            Edinburgh SFF
-          </Typography>
-          <Typography variant="p_tiny">
-            Science Fiction & Fantasy Writing Community
-          </Typography>
-        </Box>
       </Box>
-      <Typography component="p" variant="h_small" sx={{textAlign: "center"}}>
-        Hub
-      </Typography>
       <ContentBox>
         <LinkInterceptor>
           <ReactMarkdown children={config.textPanelIntro} />
         </LinkInterceptor>
       </ContentBox>
-      <PlacesOfInterest />
-      <UpComingEvents />
+      <InterestPanel />
+      <EventsPanel />
       <SearchPanel onSearchMap={onSearchMap}/>
       <Footer />
     </Box>

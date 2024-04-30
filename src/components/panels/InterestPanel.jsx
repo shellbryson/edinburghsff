@@ -4,14 +4,14 @@ import React, { useEffect, useState } from 'react';
 import { useApp } from '../../context/AppContext';
 
 // MUI
+import { useTheme, styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Typeography from '@mui/material/Typography';
-import { useTheme } from '@mui/material/styles';
 
 // Icons
-import PinDropIcon from '@mui/icons-material/PinDrop';
+import PlaceIcon from '@mui/icons-material/Place';
 
-export default function PlacesOfInterest() {
+export default function InterestPanel() {
 
   const {
     mapLocations,
@@ -23,11 +23,22 @@ export default function PlacesOfInterest() {
   const theme = useTheme();
   const [featured, setFeatured] = useState([]);
 
+  const InterestBox = styled(Box)(({ theme }) => ({
+    display: "flex",
+    position: "relative",
+    gap: "0.5rem",
+    cursor: "pointer",
+    alignItems: "center",
+    justifyContent: "space-between",
+    backgroundColor: theme.palette.brand.faint,
+    padding: "0.5rem",
+  }));
+
   const stylePointsOfInterest={
     display: "flex",
     position: "relative",
     flexDirection: "column",
-    gap: "1rem",
+    gap: "0.5rem",
     marginBottom: "2rem",
   }
 
@@ -69,12 +80,12 @@ export default function PlacesOfInterest() {
 
   return (
     <Box style={stylePointsOfInterest} className="sff-panel-interesting">
-      <Typeography component="h2" variant="h_small_lined">Places of Interest</Typeography>
+      <Typeography component="h2" variant="h_small_lined">Map highlights</Typeography>
       {featured.map((place, index) => (
-        <Box key={index} style={stylePlace} className="sff-interesting__place">
+        <InterestBox key={index} className="sff-interesting__place">
           <Typeography style={styleLink} component="a" variant="a_white" key={index} onClick={() => handleClickPointOfInterest(place.id)}>{place.name}</Typeography>
-          <PinDropIcon />
-        </Box>
+          <PlaceIcon />
+        </InterestBox>
       ))}
     </Box>
   );

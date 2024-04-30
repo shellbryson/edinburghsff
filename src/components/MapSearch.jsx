@@ -49,7 +49,7 @@ export default function MapSearch() {
       >
         <InputBase
           sx={{ width: "100%", ml: 1, flex: 1, color: "#fff"}}
-          placeholder="Search Map"
+          placeholder=""
           inputProps={{ 'aria-label': 'Search map' }}
           value={mapSearchText} onChange={(e) => handleSearchChange(e.target.value)}
         />

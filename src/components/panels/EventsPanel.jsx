@@ -9,7 +9,7 @@ import { db } from "../../firebase";
 // MUI
 import Box from '@mui/material/Box';
 import Typeography from '@mui/material/Typography';
-import { useTheme } from '@mui/material/styles';
+import { useTheme, styled } from '@mui/material/styles';
 
 // Icons
 import EventIcon from '@mui/icons-material/Event';
@@ -17,49 +17,50 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
 import { slugify } from '../../utils/utils';
 
-export default function UpComingEvents() {
+export default function EventsPanel() {
 
   const theme = useTheme();
   const navigate = useNavigate();
 
   const [events, setEvents] = useState([]);
-  const [selectedEvent, setSelectedEvent] = useState({});
-  const [isOpen, setIsOpen] = useState(false);
-  const [isLoadingEvent, setIsLoadingEvent] = useState(false);
 
-  const styleEvents={
-    display: "flex",
-    position: "relative",
-    flexDirection: "column",
-    gap: "0.5rem",
-    marginBottom: "2rem",
-  }
-
-  const styleEvent={
+  const EventBox = styled(Box)(({ theme }) => ({
     display: "flex",
     position: "relative",
     gap: "0.5rem",
     cursor: "pointer",
     alignItems: "center",
     justifyContent: "space-between",
-    width: "100%",
-  }
+    backgroundColor: theme.palette.brand.main,
+    color: theme.palette.brand.contrastText,
+    padding: "0.5rem",
+  }));
 
-  const styleLink={
+  const EventLink = styled(Typeography)(({ theme }) => ({
     whiteSpace: "nowrap",
     maxWidth: "90%",
     overflow: "hidden",
     textOverflow: "ellipsis",
-  }
+    color: theme.palette.brand.contrastText,
+  }));
 
-  const styleMore={
-    display: "flex",
-    position: "relative",
-    gap: "0.5rem",
-    cursor: "pointer",
-    alignItems: "top",
-    justifyContent: "space-between",
-    width: "100%",
+  const style = {
+    events: {
+      display: "flex",
+      position: "relative",
+      flexDirection: "column",
+      gap: "0.5rem",
+      marginBottom: "2rem",
+    },
+    more: {
+      display: "flex",
+      position: "relative",
+      gap: "0.5rem",
+      cursor: "pointer",
+      alignItems: "top",
+      justifyContent: "space-between",
+      width: "100%",
+    }
   }
 
   useEffect(() => {
@@ -95,21 +96,16 @@ export default function UpComingEvents() {
     navigate(`/events/${event.id}/${slugify(event.title)}`);
   };
 
-  const handleCloseEvent = () => {
-    setSelectedEvent({});
-    setIsOpen(false);
-  }
-
   return (
-    <Box style={styleEvents} className="sff-panel-events">
+    <Box style={style.events} className="sff-panel-events">
       <Typeography component="h2" variant="h_small_lined">Events</Typeography>
       {events.map((event, index) => (
-        <Box key={index} style={styleEvent} className="sff-panel-events__event">
-          <Typeography style={styleLink} component="a" variant="a_white" onClick={() => handleClickEvent(event)}>{event.title}</Typeography>
+        <EventBox key={index} className="sff-panel-events__event">
+          <EventLink component="a" onClick={() => handleClickEvent(event)}>{event.title}</EventLink>
           <EventIcon />
-        </Box>
+        </EventBox>
       ))}
-      <Box style={styleMore} className="sff-interesting__place">
+      <Box style={style.more} className="sff-interesting__place">
         <Typeography component="a" onClick={() => handleClickExpand()}>Expand events</Typeography>
         <ChevronRightIcon />
       </Box>
