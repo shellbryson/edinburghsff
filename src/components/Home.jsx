@@ -1,9 +1,13 @@
 import React from 'react';
+import ReactMarkdown from 'react-markdown';
+
+// Context
+import { useApp } from '../context/AppContext';
 
 // MUI
+import { useTheme, styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { useTheme } from '@mui/material/styles';
 
 // Customer UI
 import PlacesOfInterest from './panels/PlacesOfInterest';
@@ -12,13 +16,17 @@ import SearchPanel from './panels/SearchPanel';
 import Logo from './Logo';
 import Background from './Background';
 import Footer from './Footer';
+import LinkInterceptor from './LinkInterceptor';
 
 export default function Home({onSearchMap}) {
 
+  const { config } = useApp();
   const theme = useTheme();
 
-  // We inline these styles to avoid weird rendering refresh
-  // that happens when using styled();
+  const ContentBox = styled(Box)(({ theme }) => ({
+    color: theme.palette.brand.main,
+    marginBottom: "2rem",
+  }));
 
   const styles = {
     home: {
@@ -80,9 +88,11 @@ export default function Home({onSearchMap}) {
       <Typography component="p" variant="h_small" sx={{textAlign: "center"}}>
         Hub
       </Typography>
-      <Typography component="p" sx={{marginBottom: "2rem"}}>
-        Explore the map to discover places to write, events and resources.
-      </Typography>
+      <ContentBox>
+        <LinkInterceptor>
+          <ReactMarkdown children={config.textPanelIntro} />
+        </LinkInterceptor>
+      </ContentBox>
       <PlacesOfInterest />
       <UpComingEvents />
       <SearchPanel onSearchMap={onSearchMap}/>

@@ -29,6 +29,7 @@ export default function AdminSettings() {
   const navigate = useNavigate();
 
   // Common
+  const [settingsPanelIntro, setSettingsPanelIntro] = useState('');
   const [settingsEventIntro, setSettingsEventIntro] = useState('');
 
   // UI state
@@ -85,6 +86,7 @@ export default function AdminSettings() {
   }, []);
 
   const handleOpenUpdate = (data) => {
+    setSettingsPanelIntro(data.textPanelIntro);
     setSettingsEventIntro(data.textEventIntro);
   };
 
@@ -95,6 +97,7 @@ export default function AdminSettings() {
     setIsLoading(true);
     setError('');
     const payload = {
+      textPanelIntro: settingsPanelIntro,
       textEventIntro: settingsEventIntro,
       updated: {
         email: user.email,
@@ -115,6 +118,11 @@ export default function AdminSettings() {
 
   // ### FORM INPUTS
 
+  const handleChangePanelIntro = (text) => {
+    if (text !== settingsPanelIntro) setIsDirty(true);
+    setSettingsPanelIntro(text);
+  }
+
   const handleChangeEventIntro = (text) => {
     if (text !== settingsEventIntro) setIsDirty(true);
     setSettingsEventIntro(text);
@@ -133,6 +141,7 @@ export default function AdminSettings() {
               Settings
             </Typography>
             <Stack spacing={2} sx={{ mt: 2}}>
+              <TextField value={settingsPanelIntro} required multiline rows={8} label="Panel Introduction" onChange={(e) => handleChangePanelIntro(e.target.value)}  />
               <TextField value={settingsEventIntro} required multiline rows={8} label="Events Introduction" onChange={(e) => handleChangeEventIntro(e.target.value)}  />
 
               { error && <Alert severity="warning">{error}</Alert> }
