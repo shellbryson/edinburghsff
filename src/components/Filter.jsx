@@ -18,13 +18,10 @@ import LocalCafeOutlinedIcon from '@mui/icons-material/LocalCafeOutlined';
 import LocalLibraryOutlinedIcon from '@mui/icons-material/LocalLibraryOutlined';
 import SearchIcon from '@mui/icons-material/Search';
 
-// Custom UI
-import MapSearch from './MapSearch';
-
 export default function Filter({onFilterMap}) {
 
   const theme = useTheme();
-  const { isExpanded, isShowingSearch, setIsShowingSearch } = useApp();
+  const { isExpanded } = useApp();
   const [activeFilter, setActiveFilter] = useState('All');
   const [screenSize, setScreenSize] = useState(window.innerWidth);
 
@@ -76,11 +73,6 @@ export default function Filter({onFilterMap}) {
     padding: "0.5rem",
   }));
 
-  const SearchBox = styled(Box)(({ theme }) => ({
-    display: "block",
-    width: "100%",
-  }));
-
   const style = {
     iconInactive: {
       backgroundColor: "rgb(0, 0, 0)",
@@ -90,11 +82,6 @@ export default function Filter({onFilterMap}) {
       backgroundColor: theme.palette.brand.main,
       color: "#000",
     }
-  }
-
-  const handleToggleSearch = () => {
-    setActiveFilter("All");
-    setIsShowingSearch(!isShowingSearch);
   }
 
   const handleFilterMap = (type) => {
@@ -122,13 +109,7 @@ export default function Filter({onFilterMap}) {
         <ToggleIconButton className="sff-filters__button" aria-label="All" onClick={() => handleFilterMap()} style={ activeFilter === "All" ? style.iconActive : style.iconInactive }>
           <PlaceIcon />
         </ToggleIconButton>
-        <ToggleIconButton className="sff-filters__button" aria-label="Show search" onClick={() => handleToggleSearch()} style={ isShowingSearch ? style.iconActive : style.iconInactive } >
-          <SearchIcon />
-        </ToggleIconButton>
       </IconsBox>
-      { isShowingSearch && <SearchBox style={style.search} className="sff-filters__search">
-        <MapSearch />
-      </SearchBox>}
     </FilterBox>
   );
 }
