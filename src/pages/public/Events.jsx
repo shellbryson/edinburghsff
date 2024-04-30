@@ -23,7 +23,7 @@ export default function Events() {
   const [events, setEvents] = useState([]);
 
   const ContentBox = styled(Box)(({ theme }) => ({
-    padding: "1rem",
+    padding: "0 1rem",
     color: theme.palette.text.main
   }));
 

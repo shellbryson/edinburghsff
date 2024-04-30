@@ -10,6 +10,8 @@ import Box from '@mui/material/Box';
 
 // Icons
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
+import DateRangeIcon from '@mui/icons-material/DateRange';
 
 export default function Navigation() {
 
@@ -25,8 +27,16 @@ export default function Navigation() {
       display: "flex",
       position: "relative",
       justifyContent: "center",
+      alignItems: "center",
       gap: "1rem",
-      padding: "0.5rem 0",
+      padding: "0.5rem 0"
+    },
+    link: {
+      display: "flex",
+      position: "relative",
+      justifyContent: "center",
+      alignItems: "center",
+      gap: "0.5rem",
     },
     icon: {
       display: "flex",
@@ -64,8 +74,8 @@ export default function Navigation() {
       </Box>}
       {!isAdmin && <>
       <Box style={style.navigation} className="sff-navigation">
-        <Link to='/events'>Events</Link>
-        <Link to='/pages/writing'>Writing</Link>
+        <Link to='/events' style={style.link}><DateRangeIcon /> <div>Events</div></Link>
+        <Link to='/pages/writing' style={style.link}><HistoryEduIcon /> <div>Writing</div></Link>
       </Box>
       </>}
     </>

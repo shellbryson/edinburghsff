@@ -1,67 +1,74 @@
 import React from 'react';
 
 // MUI Components
+import { useTheme, styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 
 // Assets
-import MastheadImage1 from '../assets/masthead_forest.jpg';
-import MastheadImage2 from '../assets/masthead_nebula.jpg';
+import MastheadImage1 from '../assets/masthead_nebula.jpg';
+import MastheadImage2 from '../assets/masthead_forest.jpg';
+
+const BackgroundBox = styled(Box)(({ theme }) => ({
+  display: 'block',
+  position: "relative",
+  width: "100%",
+  height: "100%",
+  top: "0",
+  left: "0",
+  overflow: "hidden",
+}));
+
+const Image1Box = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  position: "relative",
+  clipPath: 'polygon(0 0, 0 100%, 100% 0)',
+  width: "100%",
+  height: "100%",
+  top: "0",
+  left: "0",
+  alignItems: "center",
+  justifyContent: "center",
+}));
+
+const Image2Box = styled(Box)(({ theme }) => ({
+  display: 'block',
+  position: "absolute",
+  clipPath: 'polygon(100% 100%, 0 100%, 100% 0)',
+  height: "100%",
+  width: "100%",
+  right: "0",
+  top: "0",
+  bottom: "0",
+  left: "0",
+}));
 
 const styles = {
-  container: {
-    display: 'block',
-    position: "relative",
-    width: "100%",
-    height: "100%",
-    top: "0",
-    left: "0",
-    overflow: "hidden",
-  },
-  image1Wrapper: {
-    display: 'block',
-    position: "relative",
-    clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
-    width: "100%",
-    height: "50%",
-    top: "0",
-    left: "0",
-  },
-  image2Wrapper: {
-    display: 'block',
-    position: "absolute",
-    clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
-    height: "50%",
-    right: "0",
-    top: "50%",
-    bottom: "0",
-    left: "0",
-  },
   image1: {
     display: 'block',
-    width: "100%",
-    height: "100%",
-    objectFit: "cover",
-    animation: 'sff-background-drift-1 30s ease infinite'
+    width: "400px",
+    height: "400px",
+    animation: 'sff-background-drift-1 240s linear infinite',
+    transformOrigin: "50% 50%"
   },
   image2: {
     display: 'block',
-    width: "100%",
+    width: "auto",
     height: "100%",
-    objectFit: "cover",
-    animation: "sff-background-drift-2 30s ease infinite"
+    transform: "translateX(-25%)",
+    animation: "sff-background-drift-2 240s linear infinite",
   }
 }
 
 const Background = () => {
   return (
-    <Box className="sff-background" style={styles.container}>
-      <Box sx={styles.image1Wrapper}>
-      <img src={MastheadImage2} alt="*" style={styles.image2} />
-      </Box>
-      <Box sx={styles.image2Wrapper}>
-      <img src={MastheadImage1} alt="*" style={styles.image1} />
-      </Box>
-    </Box>
+    <BackgroundBox className="sff-background">
+      <Image1Box>
+        <img src={MastheadImage1} alt="*" style={styles.image1} />
+      </Image1Box>
+      <Image2Box>
+        <img src={MastheadImage2} alt="*" style={styles.image2} />
+      </Image2Box>
+    </BackgroundBox>
   );
 };
 

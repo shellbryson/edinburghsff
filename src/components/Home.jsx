@@ -45,6 +45,7 @@ export default function Home({onSearchMap}) {
       position: "relative",
       width: "100%",
       height: "180px",
+      marginTop: "1rem",
       marginBottom: "1rem",
     },
     splash: {

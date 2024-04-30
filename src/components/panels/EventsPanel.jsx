@@ -36,6 +36,17 @@ export default function EventsPanel() {
     padding: "0.5rem",
   }));
 
+  const MoreBox = styled(Box)(({ theme }) => ({
+    display: "flex",
+    position: "relative",
+    gap: "0.5rem",
+    cursor: "pointer",
+    alignItems: "center",
+    justifyContent: "space-between",
+    backgroundColor: theme.palette.brand.faint,
+    padding: "0.5rem",
+  }));
+
   const EventLink = styled(Typeography)(({ theme }) => ({
     whiteSpace: "nowrap",
     maxWidth: "90%",
@@ -51,15 +62,6 @@ export default function EventsPanel() {
       flexDirection: "column",
       gap: "0.5rem",
       marginBottom: "2rem",
-    },
-    more: {
-      display: "flex",
-      position: "relative",
-      gap: "0.5rem",
-      cursor: "pointer",
-      alignItems: "top",
-      justifyContent: "space-between",
-      width: "100%",
     }
   }
 
@@ -105,10 +107,10 @@ export default function EventsPanel() {
           <EventIcon />
         </EventBox>
       ))}
-      <Box style={style.more} className="sff-interesting__place">
-        <Typeography component="a" onClick={() => handleClickExpand()}>Expand events</Typeography>
-        <ChevronRightIcon />
-      </Box>
+      <MoreBox className="sff-interesting__place" onClick={() => handleClickExpand()}>
+        <Typeography>View all</Typeography>
+        <EventIcon />
+      </MoreBox>
     </Box>
   );
 }
