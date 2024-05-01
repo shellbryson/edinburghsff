@@ -15,7 +15,6 @@ import Box from '@mui/material/Box';
 
 // Custom UI
 import Map from './components/Map';
-import MapModal from './components/modals/MapModal';
 import Spinner from './components/Spinner';
 
 // Layouts
@@ -43,7 +42,6 @@ import {
 
 // Assets
 import './App.scss';
-// import MapModal from './components/modals/MapModal';
 
 const styleLayout = {
   display: "flex",
@@ -76,7 +74,7 @@ export default function App() {
                 <Route path="events" element={<Events />} />
                 <Route path="pages/:pageSlug" element={<Pages />} />
                 <Route path="pages" element={<Pages />} />
-                <Route path="places/:id/:place" element={<MapModal />} /> {/* Use a different component for this route */}
+                {/* <Route path="places/:id/:place" element={<Place />} /> */}
                 <Route path="admin" element={<AdminLayout />}>
                   <Route index element={<Dashboard />} />
                   <Route path='locations/update/:updateId' element={<AdminLocations />} />
