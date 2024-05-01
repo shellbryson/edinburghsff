@@ -68,7 +68,6 @@ export default function App() {
         <ConfirmProvider>
           <Suspense fallback={<Spinner />}>
             <Routes>
-              <Route path="places/:id/:place" element={<Map />} />
               <Route path="/" element={<Map />}>
                 <Route path="signin" element={<Signin />} />
                 <Route path="events/:eventID/:eventTitle" element={<EventDetails />} />
