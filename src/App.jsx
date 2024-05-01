@@ -90,7 +90,7 @@ export default function App() {
                   <Route path='pages/update/:updateId' element={<AdminPages />} />
                   <Route path='settings/' element={<AdminSettings />} />
                 </Route>
-                <Route path="*" element={<Navigate to="/" replace />} />
+                {/* <Route path="*" element={<Navigate to="/" replace />} /> */}
               </Route>
             </Routes>
           </Suspense>
