@@ -68,13 +68,13 @@ export default function App() {
         <ConfirmProvider>
           <Suspense fallback={<Spinner />}>
             <Routes>
-              <Route index path="/" element={<Map />}>
+              <Route path="places/:id/:place" element={<Map />} />
+              <Route path="/" element={<Map />}>
                 <Route path="signin" element={<Signin />} />
                 <Route path="events/:eventID/:eventTitle" element={<EventDetails />} />
                 <Route path="events" element={<Events />} />
                 <Route path="pages" element={<Pages />} />
                 <Route path="pages/:pageSlug" element={<Pages />} />
-                <Route path="places/:id/:place" element={<Map />} />
                 <Route path="admin" element={<AdminLayout />}>
                   <Route index element={<Dashboard />} />
                   <Route path='locations/update/:updateId' element={<AdminLocations />} />
