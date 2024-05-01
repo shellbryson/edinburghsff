@@ -1,4 +1,8 @@
 {
   "version": 2,
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" },
+    { "source": "/events/(.*)", "destination": "/index.html" },
+    { "source": "/pages/(.*)", "destination": "/index.html" }
+  ]
 }
