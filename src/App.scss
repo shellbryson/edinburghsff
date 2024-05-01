@@ -130,3 +130,23 @@ p {
     border: 1px solid #fded07;
   }
 }
+
+.scroll-dialog {
+  scrollbar-color: #fded07 #383838;
+  scrollbar-width: thin;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background:  #383838;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #fded07;
+    border-radius: 0;
+    border: 1px solid #fded07;
+  }
+}

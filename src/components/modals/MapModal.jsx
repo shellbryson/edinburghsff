@@ -2,6 +2,7 @@ import React from 'react';
 import ReactMarkdown from 'react-markdown';
 
 // MUI
+import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -9,7 +10,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import { styled } from '@mui/material/styles';
+import { useTheme, styled } from '@mui/material/styles';
 
 // Icons
 import CloseIcon from '@mui/icons-material/Close';
@@ -30,7 +31,6 @@ import LinkInterceptor from '../LinkInterceptor';
 import { imageURL } from '../../utils/utils';
 
 // Theme helpers
-import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -53,6 +53,59 @@ export default function MapModal(
 ) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
+  const Page = styled(Paper)(({ theme }) => ({
+    display: "flex",
+    flexDirection: "column",
+    height: "100%",
+    overflow: "hidden",
+    background: theme.palette.brand.faint,
+    color: theme.palette.text.main,
+    borderRadius: "0",
+    '& p' : {
+      marginBottom: "1rem",
+      padding: 0,
+    },
+    '& a' : {
+      color: theme.palette.brand.main,
+      textDecoration: "underline",
+    },
+    '& h1' : {
+      textAlign: "center",
+      fontFamily: '"Chakra Petch", sans-serif',
+      fontWeight: "400",
+      marginTop: "2rem",
+      marginBottom: "1rem",
+    },
+    '& h2, h3' : {
+      display: "inline-block",
+      textTransform: 'uppercase',
+      padding: '6px 1rem',
+      fontFamily: '"Chakra Petch", sans-serif',
+      fontWeight: "400",
+      backgroundColor: "rgba(255,255,255,.05)",
+      marginTop: "2rem",
+      marginBottom: "1rem",
+    },
+    '& h2::before': {
+      content: '""',
+      display: 'block',
+      position: 'absolute',
+      width: '4px',
+      height: '4px',
+      backgroundColor: theme.palette.brand.main,
+      right: "0",
+      top: "0",
+    },
+    '& code': {
+      display: "inline-block",
+      border: "1px solid rgba(255,255,255,.05)",
+      padding: "4px 8px",
+      marginBottom: "2px",
+      color: theme.palette.brand.dark,
+      fontWeight: "var(--font-body-bold-weight)"
+    },
+  }));
 
   const styleEventTitle={
     textAlign: "center"
@@ -170,18 +223,22 @@ export default function MapModal(
       >
         <CloseIcon />
       </IconButton>
-      <DialogContent dividers>
-        <Box style={styleDescription}>
-          <LinkInterceptor>
-            <ReactMarkdown children={pinData.description} />
-          </LinkInterceptor>
-        </Box>
-        { renderFacilities() }
-        { renderPrice() }
-        { renderNoise() }
-        { pinData.image &&
-          <EventsDetailsImage image={imageURL(pinData?.image, 'medium')} alt={pinData.title} />
-        }
+      <DialogContent dividers className="scroll-dialog">
+        <Page elevation={0}>
+          <Box style={styleDescription}>
+            <LinkInterceptor>
+              <ReactMarkdown children={pinData.description} />
+            </LinkInterceptor>
+          </Box>
+          { renderFacilities() }
+          <Box style={{ display: "flex", justifyContent: "space-between" }}>
+            { renderPrice() }
+            { renderNoise() }
+          </Box>
+          { pinData.image &&
+            <EventsDetailsImage image={imageURL(pinData?.image, 'medium')} alt={pinData.title} />
+          }
+        </Page>
       </DialogContent>
       <DialogActions>
         <Button onClick={handleCloseDetails} color="brand">Close</Button>

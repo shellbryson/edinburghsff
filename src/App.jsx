@@ -1,5 +1,5 @@
-import React, { lazy, Suspense, useEffect, setState } from 'react';
-import { Routes, Route } from "react-router-dom";
+import React, { lazy, Suspense, useEffect } from 'react';
+import { Routes, Route, Navigate } from "react-router-dom";
 
 import { Analytics } from '@vercel/analytics/react';
 
@@ -90,7 +90,7 @@ export default function App() {
                   <Route path='pages/update/:updateId' element={<AdminPages />} />
                   <Route path='settings/' element={<AdminSettings />} />
                 </Route>
-                <Route path="*" element={<NotFound />} />
+                <Route path="*" element={<Navigate to="/" replace />} />
               </Route>
             </Routes>
           </Suspense>

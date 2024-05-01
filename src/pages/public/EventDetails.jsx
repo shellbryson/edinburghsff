@@ -122,6 +122,7 @@ const EventDetails = ({ isLoadingEvent }) => {
     backgroundRepeat: 'no-repeat, no-repeat',
     backgroundPosition: 'center, center',
     backgroundSize: 'cover, cover',
+    marginTop: "2rem",
   }));
 
   const Meta = styled(Box)(({ theme }) => ({
@@ -131,6 +132,10 @@ const EventDetails = ({ isLoadingEvent }) => {
     gap: "0.5rem",
     alignItems: "center",
     justifyContent: "center",
+    '& p' : {
+      margin: 0,
+      padding: 0
+    }
   }));
 
   const LocationBox = styled(Box)(({ theme }) => ({
@@ -167,7 +172,7 @@ const EventDetails = ({ isLoadingEvent }) => {
   const ActionsBox = styled(Box)(({ theme }) => ({
     display: "flex",
     justifyContent: "center",
-    margin: "1rem 2rem 2rem 1rem",
+    margin: "1rem 2rem",
     gap: "1rem",
   }));
 
@@ -209,7 +214,6 @@ const EventDetails = ({ isLoadingEvent }) => {
     if (!currentEvent.eventLocation) return;
     return (
       <LocationBox>
-        <LocationOnOutlinedIcon />
         <Typography component="p" variant='p'>{currentEvent.eventLocation}</Typography>
       </LocationBox>
     );
@@ -284,8 +288,11 @@ const EventDetails = ({ isLoadingEvent }) => {
             </Typography>
             <Meta>
               <DateBox event={currentEvent} />
-              {eventLocation()}
             </Meta>
+            <ActionsBox>
+              <Button onClick={() => handleView()} color='brand' variant="outlined" endIcon={<LaunchOutlinedIcon />}>Event site</Button>
+              <Button onClick={() => handleViewOnMap()} color='brand' variant="outlined" endIcon={<PlaceIcon />}>View on map</Button>
+            </ActionsBox>
             <Box style={style.description} className="sff-event-description">
               { renderSummary() }
               { renderDescription() }
@@ -294,10 +301,6 @@ const EventDetails = ({ isLoadingEvent }) => {
               { renderSection('eventTips', "Tips") }
               { renderSection('eventTrivia', "Trivia") }
             </Box>
-            <ActionsBox>
-              <Button onClick={() => handleView()} color='brand' variant="outlined" endIcon={<LaunchOutlinedIcon />}>Event site</Button>
-              <Button onClick={() => handleViewOnMap()} color='brand' variant="outlined" endIcon={<PlaceIcon />}>View on map</Button>
-            </ActionsBox>
             { currentEvent?.image && (
               <FooterImageBox className="sff-event-footer">
                 <EventsDetailsImage image={imageURL(currentEvent?.image, 'medium')} alt={currentEvent?.title} />
