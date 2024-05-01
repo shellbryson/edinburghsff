@@ -9,12 +9,10 @@ import { useApp } from '../../context/AppContext';
 import { styled } from '@mui/material/styles';
 import { useTheme } from '@mui/material/styles';
 
+import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-
-import LaunchOutlinedIcon from '@mui/icons-material/LaunchOutlined';
-import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 
 // Custom UI
 import EventsDetailsImage from '../../components/EventsDetailsImage';
@@ -23,6 +21,8 @@ import DateBox from '../../components/DateBox';
 
 // Icons
 import PlaceIcon from '@mui/icons-material/Place';
+import LaunchOutlinedIcon from '@mui/icons-material/LaunchOutlined';
+import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 
 // Helpers
 import {
@@ -59,6 +59,59 @@ const EventDetails = ({ isLoadingEvent }) => {
     }
   }));
 
+  const Page = styled(Paper)(({ theme }) => ({
+    display: "flex",
+    flexDirection: "column",
+    height: "100%",
+    overflow: "hidden",
+    background: theme.palette.brand.faint,
+    color: theme.palette.text.main,
+    borderRadius: "0",
+    '& p' : {
+      marginBottom: "1rem",
+      padding: 0,
+    },
+    '& a' : {
+      color: theme.palette.brand.main,
+      textDecoration: "underline",
+    },
+    '& h1' : {
+      textAlign: "center",
+      fontFamily: '"Chakra Petch", sans-serif',
+      fontWeight: "400",
+      marginTop: "2rem",
+      marginBottom: "1rem",
+    },
+    '& h2, h3' : {
+      display: "inline-block",
+      textTransform: 'uppercase',
+      padding: '6px 1rem',
+      fontFamily: '"Chakra Petch", sans-serif',
+      fontWeight: "400",
+      backgroundColor: "rgba(255,255,255,.05)",
+      marginTop: "2rem",
+      marginBottom: "1rem",
+    },
+    '& h2::before': {
+      content: '""',
+      display: 'block',
+      position: 'absolute',
+      width: '4px',
+      height: '4px',
+      backgroundColor: theme.palette.brand.main,
+      right: "0",
+      top: "0",
+    },
+    '& code': {
+      display: "inline-block",
+      border: "1px solid rgba(255,255,255,.05)",
+      padding: "4px 8px",
+      marginBottom: "2px",
+      color: theme.palette.brand.dark,
+      fontWeight: "var(--font-body-bold-weight)"
+    },
+  }));
+
   const FooterImageBox = styled(Box)(({ theme }) => ({
     width: '100%',
     height: "400px",
@@ -89,7 +142,7 @@ const EventDetails = ({ isLoadingEvent }) => {
   }));
 
   const Summary = styled(Box)(({ theme }) => ({
-    backgroundColor: theme.palette.brand.faint,
+    backgroundColor: "#000",
     padding: "1rem 1rem",
     margin: "2rem 4rem 3rem 4rem",
     "& p" : {
@@ -98,20 +151,17 @@ const EventDetails = ({ isLoadingEvent }) => {
   }));
 
   const Description = styled(Box)(({ theme }) => ({
-    padding: "0 1rem",
-    margin: "1rem 0.5rem 2rem 0.5rem",
+    // padding: "0 1rem",
+    // margin: "1rem 0.5rem 2rem 0.5rem",
   }));
 
   const Section = styled(Box)(({ theme }) => ({
-    padding: "1.5rem",
+    //padding: "0 1.5rem",
   }));
 
   const SectionHeading = styled(Typography)(({ theme }) => ({
     display: "inline-block",
-    marginBottom: "0.5rem",
-    paddingRight: "3rem",
     color: theme.palette.brand.main,
-    minWidth: "150px",
   }));
 
   const ActionsBox = styled(Box)(({ theme }) => ({
@@ -127,7 +177,7 @@ const EventDetails = ({ isLoadingEvent }) => {
       flexDirection: "column",
       height: "100%",
       overflow: "hidden",
-      color: theme.palette.text.main
+      margin: "0 1rem 1rem 1rem",
     },
     paper: {
       display: "flex",
@@ -138,7 +188,8 @@ const EventDetails = ({ isLoadingEvent }) => {
     content: {
       textAlign: "left",
       minHeight: "calc(100vh -2rem)",
-      padding: "0 0.5rem",
+      padding: "0.5rem 1rem 0.5rem 0.5rem",
+      margin: "0.5rem",
       overflow: "auto",
     },
     title: {
@@ -210,7 +261,7 @@ const EventDetails = ({ isLoadingEvent }) => {
     if (!currentEvent[section]) return null;
     return (
       <Section className="sff-event-details__section">
-        <SectionHeading component="h2" variant="h_small_lined">{title}</SectionHeading>
+        <SectionHeading component="h2" variant="h_medium">{title}</SectionHeading>
         <LinkInterceptor>
           <ReactMarkdown children={currentEvent[section]} />
         </LinkInterceptor>
@@ -220,7 +271,7 @@ const EventDetails = ({ isLoadingEvent }) => {
 
   return (
     <Box style={style.page} className="sff-page">
-      <Box style={style.paper}>
+      <Page>
         <Box style={style.content} className="scroll">
           { !isLoadingEvent && <>
             { currentEvent?.image && (
@@ -254,7 +305,7 @@ const EventDetails = ({ isLoadingEvent }) => {
             )}
           </>}
         </Box>
-      </Box>
+      </Page>
     </Box>
   );
 };

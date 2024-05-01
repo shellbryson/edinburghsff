@@ -134,7 +134,7 @@ export default function MapModal(
     if (!pinData) return;
     if (!pinData.price) return;
     return <Box style={stylePrice}>
-      <Typography>Price: {pinData.price}</Typography>
+      <Typography>Price: {pinData.price} / 10</Typography>
     </Box>;
   }
 
@@ -142,7 +142,7 @@ export default function MapModal(
     if (!pinData) return;
     if (!pinData.price) return;
     return <Box style={styleNoise}>
-      <Typography>Noise: {pinData.noise}</Typography>
+      <Typography>Noise: {pinData.noise} / 10</Typography>
     </Box>;
   }
 
