@@ -72,8 +72,8 @@ export default function App() {
                 <Route path="signin" element={<Signin />} />
                 <Route path="events/:eventID/:eventTitle" element={<EventDetails />} />
                 <Route path="events" element={<Events />} />
-                <Route path="pages" element={<Pages />} />
                 <Route path="pages/:pageSlug" element={<Pages />} />
+                <Route path="pages" element={<Pages />} />
                 <Route path="places/:id/:place" element={<Map />} />
                 <Route path="admin" element={<AdminLayout />}>
                   <Route index element={<Dashboard />} />
@@ -86,8 +86,9 @@ export default function App() {
                   <Route path='settings/' element={<AdminSettings />} />
                   <Route path=':type/' element={<ListContent />} />
                 </Route>
-                <Route path="*" element={<Navigate to="/" replace />} />
+                {/* <Route path="*" element={<Navigate to="/" replace />} /> */}
               </Route>
+              <Route path="*" element={<Map />} />
             </Routes>
           </Suspense>
         </ConfirmProvider>
