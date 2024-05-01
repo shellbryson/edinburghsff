@@ -86,9 +86,8 @@ export default function App() {
                   <Route path='settings/' element={<AdminSettings />} />
                   <Route path=':type/' element={<ListContent />} />
                 </Route>
-                {/* <Route path="*" element={<Navigate to="/" replace />} /> */}
               </Route>
-              <Route path="*" element={<Map />} />
+              <Route path="places/:id/:place" element={<Map />} />
             </Routes>
           </Suspense>
         </ConfirmProvider>
