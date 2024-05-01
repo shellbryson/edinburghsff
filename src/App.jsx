@@ -21,9 +21,11 @@ import Spinner from './components/Spinner';
 import AdminLayout from './layouts/AdminLayout';
 
 // Regular Pages
-const Welcome = lazy(() => import('./pages/public/Welcome'));
-const Events = lazy(() => import('./pages/public/Events'));
-const EventDetails = lazy(() => import('./pages/public/EventDetails'));
+import Events from './pages/public/Events';
+import EventDetails from './pages/public/EventDetails';
+
+//const Events = lazy(() => import('./pages/public/Events'));
+// const EventDetails = lazy(() => import('./pages/public/EventDetails'));
 const Signin = lazy(() => import('./pages/public/Signin'));
 
 // Dynamic Pages
@@ -71,7 +73,6 @@ export default function App() {
           <Suspense fallback={<Spinner />}>
             <Routes>
               <Route path="/" element={<Map />}>
-                <Route path="welcome" element={<Welcome />} />
                 <Route path="signin" element={<Signin />} />
                 <Route path="events/:eventID/:eventTitle" element={<EventDetails />} />
                 <Route path="events" element={<Events />} />
