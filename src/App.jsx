@@ -70,8 +70,8 @@ export default function App() {
             <Routes>
               <Route path="/" element={<Map />}>
                 {/* <Route path="signin" element={<Signin />} /> */}
-                <Route path="events/:eventID/:eventTitle" element={<EventDetails />} />
-                <Route path="events" element={<Events />} />
+                {/* <Route path="events/:eventID/:eventTitle" element={<EventDetails />} />
+                <Route path="events" element={<Events />} /> */}
                 <Route path="pages" index element={<Pages />} />
                 <Route path="pages/:pageSlug" element={<Pages />} />
                 {/* <Route path="admin" element={<AdminLayout />}>
