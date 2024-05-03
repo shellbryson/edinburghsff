@@ -101,7 +101,7 @@ export default function MapPanel() {
       <Box style={styles.interior} className="sff-panel__interior">
         <Box style={styles.content} className="sff-panel__content">
           <Navigation />
-          { isExploded ? <PageLayout /> : <Home /> }
+          <PageLayout />
         </Box>
       </Box>
     </Box>
