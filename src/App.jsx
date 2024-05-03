@@ -73,7 +73,6 @@ export default function App() {
             <Routes>
               <Route path="/places/:id/:place" element={<Map />} />
               <Route path="/" element={<Map />}>
-                <Route path="welcome" element={<Welcome />} />
                 <Route path="signin" element={<Signin />} />
                 <Route path="events" element={<Events />} />
                 <Route path="events/:eventID/:eventTitle" element={<EventDetails />} />
