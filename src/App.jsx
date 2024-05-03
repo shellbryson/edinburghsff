@@ -15,37 +15,26 @@ import Box from '@mui/material/Box';
 
 // Custom UI
 import Map from './components/Map';
-// import Spinner from './components/Spinner';
-import Home from './components/Home';
+import Spinner from './components/Spinner';
 
 // Layouts
 import AdminLayout from './layouts/AdminLayout';
 
 // Regular Pages
-import Events from'./pages/public/Events';
-import EventDetails from'./pages/public/EventDetails';
-import Signin from'./pages/public/Signin';
-// const Events = lazy(() => import('./pages/public/Events'));
-// const EventDetails = lazy(() => import('./pages/public/EventDetails'));
-// const Signin = lazy(() => import('./pages/public/Signin'));
+const Events = lazy(() => import('./pages/public/Events'));
+const EventDetails = lazy(() => import('./pages/public/EventDetails'));
+const Signin = lazy(() => import('./pages/public/Signin'));
 
 // Dynamic Pages
-import Pages from'./pages/public/Pages';
-// const Pages = lazy(() => import('./pages/public/Pages'));
+const Pages = lazy(() => import('./pages/public/Pages'));
 
 // Admin Pages
-import Dashboard from './pages/admin/Dashboard';
-import ListContent from './pages/admin/ListContent';
-import AdminSettings from'./pages/admin/AdminSettings';
-import AdminEvents from './pages/admin/AdminEvents';
-import AdminLocations from './pages/admin/AdminLocations';
-import AdminPages from './pages/admin/AdminPages';
-// const Dashboard = lazy(() => import('./pages/admin/Dashboard'));
-// const ListContent = lazy(() => import('./pages/admin/ListContent'));
-// const AdminSettings = lazy(() => import('./pages/admin/AdminSettings'));
-// const AdminEvents = lazy(() => import('./pages/admin/AdminEvents'));
-// const AdminLocations = lazy(() => import('./pages/admin/AdminLocations'));
-// const AdminPages = lazy(() => import('./pages/admin/AdminPages'));
+const Dashboard = lazy(() => import('./pages/admin/Dashboard'));
+const ListContent = lazy(() => import('./pages/admin/ListContent'));
+const AdminSettings = lazy(() => import('./pages/admin/AdminSettings'));
+const AdminEvents = lazy(() => import('./pages/admin/AdminEvents'));
+const AdminLocations = lazy(() => import('./pages/admin/AdminLocations'));
+const AdminPages = lazy(() => import('./pages/admin/AdminPages'));
 
 import {
   fetchDocument
@@ -77,7 +66,7 @@ export default function App() {
     <ThemeProvider theme={customTheme}>
       <Box style={styleLayout} className="sff">
         <ConfirmProvider>
-          {/* <Suspense fallback={<Spinner />}> */}
+          <Suspense fallback={<Spinner />}>
             <Routes>
               <Route path="/" element={<Map />}>
                 <Route path="signin" element={<Signin />} />
@@ -100,7 +89,7 @@ export default function App() {
               </Route>
               <Route path="/places/:id/:place" element={<Map />} />
             </Routes>
-          {/* </Suspense> */}
+          </Suspense>
         </ConfirmProvider>
       </Box>
       <Analytics />
