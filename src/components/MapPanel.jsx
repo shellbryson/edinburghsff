@@ -33,10 +33,10 @@ export default function MapPanel() {
   }, [location]);
 
   const stylePage={
-    display: "flex",
-    flexDirection: "column",
-    overflow: "hidden",
-    height: "100%"
+    // display: "flex",
+    // flexDirection: "column",
+    // overflow: "hidden",
+    // height: "100%"
   }
 
   const styles = {
@@ -107,10 +107,9 @@ export default function MapPanel() {
       <Box style={styles.interior} className="sff-panel__interior">
         <Box style={styles.content} className="sff-panel__content">
           <Navigation />
-          { isExploded && <Box style={stylePage} className="sff-page-layout">
+          <Box style={stylePage} className="sff-page-layout">
             <Outlet />
           </Box>
-          }
           { !isExploded && <Home />}
         </Box>
       </Box>
