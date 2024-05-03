@@ -87,7 +87,7 @@ export default function App() {
                 </Route>
               </Route>
               <Route path="places/:id/:place" element={<Map />} />
-              <Route path="*" element={<Navigate to="/" replace />} />
+              {/* <Route path="*" element={<Navigate to="/" replace />} /> */}
             </Routes>
           </Suspense>
         </ConfirmProvider>
