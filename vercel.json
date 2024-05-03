@@ -1,7 +1,1 @@
-{
-  "routes":  [
-    {"src": "/(.*)", "dest": "/index.html"},
-    {"src": "/events/:id/(.*)", "dest": "/index.html"},
-    {"src": "/pages/:id/(.*)", "dest": "/index.html"}
-  ]
-}
+{ "routes": [{ "src": "/[^.]+", "dest": "/", "status": 200 }] }
