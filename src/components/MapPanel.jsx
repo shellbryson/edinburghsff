@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
-import { useLocation } from "react-router-dom";
-import { Outlet } from "react-router-dom";
+import { useLocation, Outlet } from "react-router-dom";
 
 // Contexts
 import { useApp } from '../context/AppContext';
@@ -17,7 +16,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 // Custom UI
 // import PageLayout from '../layouts/PageLayout';
 import Navigation from './Navigation';
-// import Home from './Home';
+import Home from './Home';
 
 export default function MapPanel() {
 
@@ -33,13 +32,6 @@ export default function MapPanel() {
   useEffect(() => {
     location.pathname === '/' || location.pathname.includes("/places") ? setIsExploded(false) : setIsExploded(true);
   }, [location]);
-
-  const stylePage={
-    display: "flex",
-    flexDirection: "column",
-    overflow: "hidden",
-    height: "100%"
-  }
 
   const styles = {
     panel: {
@@ -109,9 +101,8 @@ export default function MapPanel() {
       <Box style={styles.interior} className="sff-panel__interior">
         <Box style={styles.content} className="sff-panel__content">
           <Navigation />
-          <Box style={stylePage} className="sff-page-layout">
-            <Outlet />
-          </Box>
+          <Outlet></Outlet>
+          { !isExploded && <Home /> }
         </Box>
       </Box>
     </Box>

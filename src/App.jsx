@@ -80,7 +80,6 @@ export default function App() {
           {/* <Suspense fallback={<Spinner />}> */}
             <Routes>
               <Route path="/" element={<Map />}>
-                <Route index element={<Home />} />
                 <Route path="signin" element={<Signin />} />
                 <Route path="events/:eventID/:eventTitle" element={<EventDetails />} />
                 <Route path="events" element={<Events />} />
