@@ -67,28 +67,28 @@ export default function App() {
       <Box style={styleLayout} className="sff">
         <ConfirmProvider>
           <Suspense fallback={<Spinner />}>
-            <Routes>
+          <Routes>
+            <Route path="/" element={<Map />}>
               <Route path="places/:id/:place" element={<Map />} />
-              <Route path="/" element={<Map />}>
-                <Route path="signin" element={<Signin />} />
-                <Route path="events/:eventID/:eventTitle" element={<EventDetails />} />
-                <Route path="events" element={<Events />} />
-                <Route path="pages" index element={<Pages />} />
-                <Route path="pages/:pageSlug" element={<Pages />} />
-                <Route path="admin" element={<AdminLayout />}>
-                  <Route index element={<Dashboard />} />
-                  <Route path='locations/update/:updateId' element={<AdminLocations />} />
-                  <Route path='locations/add' element={<AdminLocations />} />
-                  <Route path='events/update/:updateId' element={<AdminEvents />} />
-                  <Route path='events/add' element={<AdminEvents />} />
-                  <Route path='pages/update/:updateId' element={<AdminPages />} />
-                  <Route path='pages/add' element={<AdminPages />} />
-                  <Route path='settings/' element={<AdminSettings />} />
-                  <Route path=':type/' element={<ListContent />} />
-                </Route>
-                <Route path="*" element={<Navigate to="/" replace />} />
+              <Route path="signin" element={<Signin />} />
+              <Route path="events/:eventID/:eventTitle" element={<EventDetails />} />
+              <Route path="events" element={<Events />} />
+              <Route path="pages/:pageSlug" element={<Pages />} />
+              <Route path="pages" element={<Pages />} />
+              <Route path="admin" element={<AdminLayout />}>
+                <Route index element={<Dashboard />} />
+                <Route path=':type/' element={<ListContent />} />
+                <Route path='locations/add' element={<AdminLocations />} />
+                <Route path='locations/update/:updateId' element={<AdminLocations />} />
+                <Route path='events/add' element={<AdminEvents />} />
+                <Route path='events/update/:updateId' element={<AdminEvents />} />
+                <Route path='pages/add' element={<AdminPages />} />
+                <Route path='pages/update/:updateId' element={<AdminPages />} />
+                <Route path='settings/' element={<AdminSettings />} />
               </Route>
-            </Routes>
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Route>
+          </Routes>
           </Suspense>
         </ConfirmProvider>
       </Box>
