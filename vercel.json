@@ -1,5 +1,7 @@
 {
   "rewrites":  [
+    {"source": "/events/:id/(.*)", "destination": "/"},
+    {"source": "/pages/:id/(.*)", "destination": "/"},
     {"source": "/(.*)", "destination": "/"}
   ]
 }
