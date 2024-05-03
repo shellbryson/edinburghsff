@@ -99,7 +99,7 @@ export default function App() {
                 </Route>
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Route>
-              <Route path="/places/:id/:place" element={<Map />} />
+              {/* <Route path="/places/:id/:place" element={<Map />} /> */}
             </Routes>
           {/* </Suspense> */}
         </ConfirmProvider>
