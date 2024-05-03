@@ -68,7 +68,6 @@ export default function App() {
         <ConfirmProvider>
           <Suspense fallback={<Spinner />}>
             <Routes>
-              <Route path="/places/:id/:place" element={<Map />} />
               <Route path="/" element={<Map />}>
                 <Route path="signin" element={<Signin />} />
                 <Route path="events/:eventID/:eventTitle" element={<EventDetails />} />
@@ -88,6 +87,7 @@ export default function App() {
                 </Route>
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Route>
+              <Route path="/places/:id/:place" element={<Map />} />
             </Routes>
           </Suspense>
         </ConfirmProvider>
