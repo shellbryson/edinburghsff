@@ -15,28 +15,28 @@ import Box from '@mui/material/Box';
 
 // Custom UI
 //import Map from './components/Map';
-import Spinner from './components/Spinner';
+// import Spinner from './components/Spinner';
 
 // Layouts
 import AdminLayout from './layouts/AdminLayout';
 
-const Map = lazy(() => import('./components/Map'));
+import Map from './components/Map';
 
 // Regular Pages
-const Events = lazy(() => import('./pages/Events'));
-const EventDetails = lazy(() => import('./pages/EventDetails'));
-const Signin = lazy(() => import('./pages/Signin'));
+import Events from './pages/Events';
+import EventDetails from './pages/EventDetails';
+import Signin from './pages/Signin';
 
 // Dynamic Pages
-const Page = lazy(() => import('./pages/Page'));
+import Page from './pages/Page';
 
 // Admin Pages
-const Dashboard = lazy(() => import('./pages/admin/Dashboard'));
-const ListContent = lazy(() => import('./pages/admin/ListContent'));
-const AdminSettings = lazy(() => import('./pages/admin/AdminSettings'));
-const AdminEvents = lazy(() => import('./pages/admin/AdminEvents'));
-const AdminLocations = lazy(() => import('./pages/admin/AdminLocations'));
-const AdminPages = lazy(() => import('./pages/admin/AdminPages'));
+import Dashboard from './pages/admin/Dashboard';
+import ListContent from './pages/admin/ListContent';
+import AdminSettings from './pages/admin/AdminSettings';
+import AdminEvents from './pages/admin/AdminEvents';
+import AdminLocations from './pages/admin/AdminLocations';
+import AdminPages from './pages/admin/AdminPages';
 
 import {
   fetchDocument
@@ -68,7 +68,7 @@ export default function App() {
     <ThemeProvider theme={customTheme}>
       <Box style={styleLayout} className="sff">
         <ConfirmProvider>
-          <Suspense fallback={<Spinner />}>
+          {/* <Suspense fallback={<Spinner />}> */}
             <Routes>
               <Route path="/" element={<Map />}>
                 <Route path="signin" element={<Signin />} />
@@ -90,7 +90,7 @@ export default function App() {
               <Route path="places/:id/:place" element={<Map />} />
               {/* <Route path="*" element={<Navigate to="/" replace />} /> */}
             </Routes>
-          </Suspense>
+          {/* </Suspense> */}
         </ConfirmProvider>
       </Box>
       <Analytics />
