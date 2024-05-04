@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { getDocs, collection, query, orderBy, limit  } from 'firebase/firestore';
-import { db } from "../../firebase";
+import { db } from "../firebase";
 import { useHead } from 'hoofd';
 import ReactMarkdown from 'react-markdown';
 
 // Context
-import { useApp } from '../../context/AppContext';
+import { useApp } from '../context/AppContext';
 
 // MUI
 import { useTheme, styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 
 // Custom Components
-import PageHeading from '../../components/PageHeading';
-import EventsGrid from '../../components/EventsGrid';
-import LinkInterceptor from '../../components/LinkInterceptor';
+import PageHeading from '../components/PageHeading';
+import EventsGrid from '../components/EventsGrid';
+import LinkInterceptor from '../components/LinkInterceptor';
 
 export default function Events() {
 

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { getAuth, sendPasswordResetEmail } from "firebase/auth"
 
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../context/AuthContext';
 
 // MUI
 import Paper from '@mui/material/Paper';
@@ -23,7 +23,7 @@ import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 // Custom Components
-import PageHeading from '../../components/PageHeading';
+import PageHeading from '../components/PageHeading';
 
 export default function Signin() {
 

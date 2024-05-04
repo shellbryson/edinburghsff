@@ -21,12 +21,12 @@ import Spinner from './components/Spinner';
 import AdminLayout from './layouts/AdminLayout';
 
 // Regular Pages
-const Events = lazy(() => import('./pages/public/Events'));
-const EventDetails = lazy(() => import('./pages/public/EventDetails'));
-const Signin = lazy(() => import('./pages/public/Signin'));
+const Events = lazy(() => import('./pages/Events'));
+const EventDetails = lazy(() => import('./pages/EventDetails'));
+const Signin = lazy(() => import('./pages/Signin'));
 
 // Dynamic Pages
-const Pages = lazy(() => import('./pages/public/Pages'));
+const Page = lazy(() => import('./pages/Page'));
 
 // Admin Pages
 const Dashboard = lazy(() => import('./pages/admin/Dashboard'));
@@ -69,12 +69,11 @@ export default function App() {
           <Suspense fallback={<Spinner />}>
             <Routes>
               <Route path="/" element={<Map />}>
-                {/* <Route path="signin" element={<Signin />} /> */}
-                {/* <Route path="events/:eventID/:eventTitle" element={<EventDetails />} />
-                <Route path="events" element={<Events />} /> */}
-                {/* <Route path="pages" element={<Pages />} /> */}
-                <Route path="pages/:pageSlug" element={<Pages />} />
-                {/* <Route path="admin" element={<AdminLayout />}>
+                <Route path="signin" element={<Signin />} />
+                <Route path="events/:eventID/:eventTitle" element={<EventDetails />} />
+                <Route path="events" element={<Events />} />
+                <Route path="pages/:pageSlug" element={<Page />} />
+                <Route path="admin" element={<AdminLayout />}>
                   <Route index element={<Dashboard />} />
                   <Route path='locations/update/:updateId' element={<AdminLocations />} />
                   <Route path='locations/add' element={<AdminLocations />} />
@@ -84,9 +83,9 @@ export default function App() {
                   <Route path='pages/add' element={<AdminPages />} />
                   <Route path='settings/' element={<AdminSettings />} />
                   <Route path=':type/' element={<ListContent />} />
-                </Route> */}
+                </Route>
               </Route>
-              {/* <Route path="places/:id/:place" element={<Map />} /> */}
+              <Route path="places/:id/:place" element={<Map />} />
               {/* <Route path="*" element={<Navigate to="/" replace />} /> */}
             </Routes>
           </Suspense>

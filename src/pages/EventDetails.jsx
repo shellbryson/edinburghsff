@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import ReactMarkdown from 'react-markdown';
 
 // Contexts
-import { useApp } from '../../context/AppContext';
+import { useApp } from '../context/AppContext';
 
 // MUI
 import { styled } from '@mui/material/styles';
@@ -15,9 +15,9 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 
 // Custom UI
-import EventsDetailsImage from '../../components/EventsDetailsImage';
-import LinkInterceptor from '../../components/LinkInterceptor';
-import DateBox from '../../components/DateBox';
+import EventsDetailsImage from '../components/EventsDetailsImage';
+import LinkInterceptor from '../components/LinkInterceptor';
+import DateBox from '../components/DateBox';
 
 // Icons
 import PlaceIcon from '@mui/icons-material/Place';
@@ -28,7 +28,7 @@ import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import {
   fetchDocument,
   imageURL
-} from '../../utils/utils';
+} from '../utils/utils';
 
 const EventDetails = ({ isLoadingEvent }) => {
 
