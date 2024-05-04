@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import GoogleMapReact from 'google-maps-react-markers';
 import { useHead } from 'hoofd';
 

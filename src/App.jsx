@@ -156,6 +156,17 @@ export default function App() {
               <Route path='settings/' element={<AdminSettings />} />
               <Route path=':type/' element={<ListContent />} />
             </Route>
+            {/* <Route path="admin" element={<DialogOutlet><AdminLayout /></DialogOutlet>}>
+              <Route index element={<DialogOutlet><Dashboard /></DialogOutlet>} />
+              <Route path='locations/update/:updateId' element={<DialogOutlet><AdminLocations /></DialogOutlet>} />
+              <Route path='locations/add' element={<DialogOutlet><AdminLocations /></DialogOutlet>} />
+              <Route path='events/update/:updateId' element={<DialogOutlet><AdminEvents /></DialogOutlet>} />
+              <Route path='events/add' element={<DialogOutlet><AdminEvents /></DialogOutlet>} />
+              <Route path='pages/update/:updateId' element={<DialogOutlet><AdminPages /></DialogOutlet>} />
+              <Route path='pages/add' element={<DialogOutlet><AdminPages /></DialogOutlet>} />
+              <Route path='settings/' element={<DialogOutlet><AdminSettings /></DialogOutlet>} />
+              <Route path=':type/' element={<DialogOutlet><ListContent /></DialogOutlet>} />
+            </Route> */}
           </Routes>
         </ConfirmProvider>
       </Box>
