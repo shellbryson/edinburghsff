@@ -2,7 +2,7 @@
   "name": "edinburghsff",
   "description": "Edinburgh Science Fiction and Fantasy Book Group",
   "homepage": ".",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -22,21 +22,21 @@
     "google-maps-react-markers": "^2.0.8",
     "hoofd": "^1.7.1",
     "material-ui-confirm": "^3.0.12",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "react-markdown": "^9.0.1",
     "react-router-dom": "^6.23.0",
     "sass": "^1.74.1",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
-    "@types/react": "^18.2.75",
-    "@types/react-dom": "^18.2.24",
+    "@types/react": "^18.3.1",
+    "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react-swc": "^3.6.0",
     "eslint": "^9.0.0",
     "eslint-plugin-react": "^7.34.1",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.6",
-    "vite": "^5.2.8"
+    "vite": "^5.2.11"
   }
 }
