@@ -70,7 +70,7 @@ export default function App() {
         <ConfirmProvider>
           {/* <Suspense fallback={<Spinner />}> */}
             <Routes>
-              <Route path="/" element={<Map />}>
+                <Route path="/" element={<Map />} />
                 <Route path="/signin" element={<Signin />} />
                 <Route path="/events/:eventID/:eventTitle" element={<EventDetails />} />
                 <Route path="/events" element={<Events />} />
@@ -86,7 +86,7 @@ export default function App() {
                   <Route path='/admin/settings/' element={<AdminSettings />} />
                   <Route path='/admin/:type/' element={<ListContent />} />
                 </Route>
-              </Route>
+              {/* </Route> */}
               <Route path="/places/:id/:place" element={<Map />} />
               {/* <Route path="*" element={<Navigate to="/" replace />} /> */}
             </Routes>
