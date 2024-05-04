@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useEffect } from 'react';
+import React, { lazy, Suspense, useEffect, Outlet } from 'react';
 import { Routes, Route, Navigate } from "react-router-dom";
 
 import { Analytics } from '@vercel/analytics/react';
@@ -9,6 +9,9 @@ import { customTheme } from './theme/theme';
 import { ConfirmProvider } from "material-ui-confirm";
 
 import { useApp } from './context/AppContext';
+
+// import { Outlet } from 'react-router-dom';
+import Dialog from '@mui/material/Dialog';
 
 // MUI Components
 import Box from '@mui/material/Box';
@@ -54,9 +57,12 @@ const styleLayout = {
   width: "100vw",
   backgroundColor: "rgb(0, 0, 0)",
 }
-
 export default function App() {
   const { config, setConfig } = useApp();
+
+  const handleOnClose = () => {
+    console.log('onClose');
+  }
 
   useEffect(() => {
     fetchDocument("settings", "config", (data) => {
@@ -71,28 +77,29 @@ export default function App() {
           {/* <Suspense fallback={<Spinner />}> */}
             <Routes>
               <Route path="places/:id/:place" element={<Map />} />
-              <Route path="*" element={<Map />}>
-                <Route path="signin" element={<Signin />} />
-                <Route path="events/:eventID/:eventTitle" element={<EventDetails />} />
-                <Route path="events" element={<Events />} />
-                <Route path="pages/:pageSlug" element={<Page />} />
-                <Route path="admin" element={<AdminLayout />}>
-                  <Route index element={<Dashboard />} />
-                  <Route path='admin/locations/update/:updateId' element={<AdminLocations />} />
-                  <Route path='admin/locations/add' element={<AdminLocations />} />
-                  <Route path='admin/events/update/:updateId' element={<AdminEvents />} />
-                  <Route path='admin/events/add' element={<AdminEvents />} />
-                  <Route path='admin/pages/update/:updateId' element={<AdminPages />} />
-                  <Route path='admin/pages/add' element={<AdminPages />} />
-                  <Route path='admin/settings/' element={<AdminSettings />} />
-                  <Route path='admin/:type/' element={<ListContent />} />
-                </Route>
+              <Route path="*" element={<Map />} />
+              <Route path="signin" element={<Signin />} />
+              <Route path="events/:eventID/:eventTitle" element={<EventDetails />} />
+              <Route path="events" element={<Events />} />
+              <Route path="pages/:pageSlug" element={<Page />} />
+              <Route path="admin" element={<AdminLayout />}>
+                <Route index element={<Dashboard />} />
+                <Route path='admin/locations/update/:updateId' element={<AdminLocations />} />
+                <Route path='admin/locations/add' element={<AdminLocations />} />
+                <Route path='admin/events/update/:updateId' element={<AdminEvents />} />
+                <Route path='admin/events/add' element={<AdminEvents />} />
+                <Route path='admin/pages/update/:updateId' element={<AdminPages />} />
+                <Route path='admin/pages/add' element={<AdminPages />} />
+                <Route path='admin/settings/' element={<AdminSettings />} />
+                <Route path='admin/:type/' element={<ListContent />} />
+                {/* </Route> */}
               </Route>
               {/* <Route path="places/:id/:place" element={<Map />} /> */}
               {/* <Route path="*" element={<Navigate to="/" replace />} /> */}
             </Routes>
           {/* </Suspense> */}
         </ConfirmProvider>
+
       </Box>
       <Analytics />
     </ThemeProvider>
