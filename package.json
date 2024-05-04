@@ -1,8 +1,7 @@
 {
   "name": "edinburghsff",
   "description": "Edinburgh Science Fiction and Fantasy Book Group",
-  "homepage": "https://edinburghsff.com",
-  "private": true,
+  "homepage": ".",
   "version": "0.0.1",
   "type": "module",
   "scripts": {
