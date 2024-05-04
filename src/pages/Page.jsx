@@ -17,6 +17,7 @@ import Typography from '@mui/material/Typography';
 // Custom UI
 import Spinner from '../components/Spinner';
 import LinkInterceptor from '../components/LinkInterceptor';
+import StyledContent from '../components/StyledContent';
 
 export default function Pages() {
   const theme = useTheme();
@@ -86,13 +87,16 @@ export default function Pages() {
       flexDirection: "column",
       height: "100%",
       overflow: "hidden",
-      margin: "0 1rem 1rem 1rem",
+      margin: "0",
+      padding: "0",
     },
     content: {
       textAlign: "left",
       minHeight: "calc(100vh -2rem)",
-      padding: "0.5rem 1rem 0.5rem 0.5rem",
-      margin: "0.5rem",
+      padding: "0",
+      margin: "0",
+      // padding: "0.5rem 1rem 0.5rem 0.5rem",
+      // margin: "0.5rem",
       overflow: "auto",
     },
   }
@@ -130,16 +134,16 @@ export default function Pages() {
     }
     const firstMatchingPage = page[0];
     const r = <Box style={style.page} className="sff-page">
-      <Page>
+      <StyledContent>
         <Box style={style.content} className="scroll">
-          <Typography component="h1" variant='h_large'>
+          <Typography component="h1" variant='h_large' style={{ marginTop: "0", marginBottom: "0"}}>
             {firstMatchingPage.title}
           </Typography>
           <LinkInterceptor>
             <ReactMarkdown children={firstMatchingPage.content} />
           </LinkInterceptor>
         </Box>
-      </Page>
+      </StyledContent>
     </Box>
     return r;
   }

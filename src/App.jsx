@@ -12,8 +12,8 @@ import { ConfirmProvider } from "material-ui-confirm";
 import { useApp } from './context/AppContext';
 
 // MUI
-import { styled } from '@mui/material/styles';
-import { useTheme } from '@mui/material/styles';
+import { useTheme, styled } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -59,6 +59,8 @@ export default function App() {
   const theme = useTheme();
   const navigate = useNavigate();
 
+  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+
   const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
       padding: theme.spacing(2),
@@ -98,14 +100,16 @@ export default function App() {
 
   const handleClose = () => {
     navigate(`/`);
-    setLocationDetailsOpen(false);
   };
 
-  function DialogOutlet({ children }) {
-    //setLocationDetailsOpen(true);
+  const DialogOutlet = ({children}) => {
 
     return (
-      <BootstrapDialog open={true} onClose={handleClose}>
+      <BootstrapDialog
+        fullWidth
+        maxWidth="sm"
+        open={true} fullScreen={fullScreen}
+        onClose={handleClose}>
         <DialogTitle id="add-dialog-title" sx={styleEventTitle}>
           <Typography component="span" variant="h_large"></Typography>
         </DialogTitle>
@@ -121,7 +125,7 @@ export default function App() {
         >
           <CloseIcon />
         </IconButton>
-        <DialogContent className="scroll">
+        <DialogContent className="scroll" style={{ borderBottom: "1px solid rgba(0,0,0, 0.1" }}>
           {children}
         </DialogContent>
         <DialogActions>

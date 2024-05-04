@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import GoogleMapReact from 'google-maps-react-markers';
 import { useHead } from 'hoofd';
 
@@ -20,8 +20,7 @@ import Logo from './Logo';
 // Helpers
 import {
   fetchDocument,
-  fetchLocationsForMapDisplay,
-  slugify
+  fetchLocationsForMapDisplay
 } from '../utils/utils';
 
 export default function Map() {
@@ -30,18 +29,12 @@ export default function Map() {
     mapLocations,
     setMapLocations,
     focusMapPin,
-    isExpanded,
-    setIsExpanded,
     isExploded,
-    setIsExploded,
     mapSearchText,
-    setMapSearchText
   } = useApp();
 
-  const params = useParams();
   const navigate = useNavigate();
   const mapRef = useRef(null);
-  const location = useLocation();
 
   useHead({
     title: "Edinburgh SFF",

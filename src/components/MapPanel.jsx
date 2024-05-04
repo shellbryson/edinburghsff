@@ -32,13 +32,6 @@ export default function MapPanel() {
     location.pathname === '/' || location.pathname.includes("/places") ? setIsExploded(false) : setIsExploded(true);
   }, [location]);
 
-  const stylePage={
-    // display: "flex",
-    // flexDirection: "column",
-    // overflow: "hidden",
-    // height: "100%"
-  }
-
   const styles = {
     panel: {
       display: "flex",
@@ -57,7 +50,6 @@ export default function MapPanel() {
       minWidth: "10px",
       maxWidth: "700px",
       width: isExpanded ? "300px" : "10px",
-      // width: isExploded ? "calc(100vw - 1rem)" : (isExpanded ? "300px" : "10px"),
       overflow: "hidden",
       height: "100vh",
     },
