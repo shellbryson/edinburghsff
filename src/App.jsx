@@ -14,11 +14,13 @@ import { useApp } from './context/AppContext';
 import Box from '@mui/material/Box';
 
 // Custom UI
-import Map from './components/Map';
+//import Map from './components/Map';
 import Spinner from './components/Spinner';
 
 // Layouts
 import AdminLayout from './layouts/AdminLayout';
+
+const Map = lazy(() => import('./components/Map'));
 
 // Regular Pages
 const Events = lazy(() => import('./pages/Events'));
