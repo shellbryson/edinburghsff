@@ -14,7 +14,6 @@ import { useApp } from './context/AppContext';
 import Box from '@mui/material/Box';
 
 // Custom UI
-import Home from './components/Home';
 import Map from './components/Map';
 import Spinner from './components/Spinner';
 
@@ -70,12 +69,11 @@ export default function App() {
           <Suspense fallback={<Spinner />}>
             <Routes>
               <Route path="/" element={<Map />}>
-                <Route index element={<Home />} />
-                {/* <Route path="signin" element={<Signin />} /> */}
+                <Route path="signin" element={<Signin />} />
                 <Route path="events/:eventID/:eventTitle" element={<EventDetails />} />
-                {/* <Route path="events" element={<Events />} /> */}
+                <Route path="events" element={<Events />} />
                 <Route path="pages/:pageSlug" element={<Page />} />
-                {/* <Route path="admin" element={<AdminLayout />}>
+                <Route path="admin" element={<AdminLayout />}>
                   <Route index element={<Dashboard />} />
                   <Route path='locations/update/:updateId' element={<AdminLocations />} />
                   <Route path='locations/add' element={<AdminLocations />} />
@@ -85,9 +83,9 @@ export default function App() {
                   <Route path='pages/add' element={<AdminPages />} />
                   <Route path='settings/' element={<AdminSettings />} />
                   <Route path=':type/' element={<ListContent />} />
-                </Route> */}
+                </Route>
               </Route>
-              {/* <Route path="places/:id/:place" element={<Map />} /> */}
+              <Route path="places/:id/:place" element={<Map />} />
               {/* <Route path="*" element={<Navigate to="/" replace />} /> */}
             </Routes>
           </Suspense>
