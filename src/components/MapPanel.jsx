@@ -56,7 +56,8 @@ export default function MapPanel() {
       transition: "width 200ms, max-width 200ms",
       minWidth: "10px",
       maxWidth: "700px",
-      width: isExploded ? "calc(100vw - 1rem)" : (isExpanded ? "300px" : "10px"),
+      width: isExpanded ? "300px" : "10px",
+      // width: isExploded ? "calc(100vw - 1rem)" : (isExpanded ? "300px" : "10px"),
       overflow: "hidden",
       height: "100vh",
     },
@@ -107,10 +108,7 @@ export default function MapPanel() {
       <Box style={styles.interior} className="sff-panel__interior">
         <Box style={styles.content} className="sff-panel__content">
           <Navigation />
-          <Box style={stylePage} className="sff-page-layout">
-            <Outlet />
-          </Box>
-          { !isExploded && <Home />}
+          <Home />
         </Box>
       </Box>
     </Box>

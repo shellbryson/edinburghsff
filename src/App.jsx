@@ -1,5 +1,5 @@
 import React, { lazy, Suspense, useEffect, Outlet } from 'react';
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 
 import { Analytics } from '@vercel/analytics/react';
 
@@ -11,7 +11,10 @@ import { ConfirmProvider } from "material-ui-confirm";
 import { useApp } from './context/AppContext';
 
 // import { Outlet } from 'react-router-dom';
+import { styled } from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
 
 // MUI Components
 import Box from '@mui/material/Box';
@@ -48,20 +51,34 @@ import {
 // Assets
 import './App.scss';
 
-const styleLayout = {
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-  position: "absolute",
-  height: "100vh",
-  width: "100vw",
-  backgroundColor: "rgb(0, 0, 0)",
-}
 export default function App() {
   const { config, setConfig } = useApp();
+  const theme = useTheme();
+  const navigate = useNavigate();
 
-  const handleOnClose = () => {
-    console.log('onClose');
+  const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+    '& .MuiDialogContent-root': {
+      padding: theme.spacing(2),
+      backgroundColor: '#383838',
+      color: '#fff',
+    },
+    '& .MuiDialogActions-root': {
+      padding: theme.spacing(1),
+    },
+    '& .MuiPaper-root': {
+      backgroundColor: '#383838',
+      color: '#fff',
+    },
+  }));
+
+  const styleLayout = {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    position: "absolute",
+    height: "100vh",
+    width: "100vw",
+    backgroundColor: "rgb(0, 0, 0)",
   }
 
   useEffect(() => {
@@ -70,36 +87,47 @@ export default function App() {
     });
   }, []);
 
+  function DialogOutlet({ children }) {
+    const [open, setOpen] = React.useState(true);
+
+    const handleClose = () => {
+      navigate(`/`);
+      setOpen(false);
+    };
+
+    return (
+      <BootstrapDialog open={open} onClose={handleClose}>
+        <DialogContent>
+          {children}
+        </DialogContent>
+      </BootstrapDialog>
+    );
+  }
+
   return (
     <ThemeProvider theme={customTheme}>
       <Box style={styleLayout} className="sff">
         <ConfirmProvider>
-          {/* <Suspense fallback={<Spinner />}> */}
-            <Routes>
-              <Route path="places/:id/:place" element={<Map />} />
-              <Route path="*" element={<Map />} />
-              <Route path="signin" element={<Signin />} />
-              <Route path="events/:eventID/:eventTitle" element={<EventDetails />} />
-              <Route path="events" element={<Events />} />
-              <Route path="pages/:pageSlug" element={<Page />} />
-              <Route path="admin" element={<AdminLayout />}>
-                <Route index element={<Dashboard />} />
-                <Route path='admin/locations/update/:updateId' element={<AdminLocations />} />
-                <Route path='admin/locations/add' element={<AdminLocations />} />
-                <Route path='admin/events/update/:updateId' element={<AdminEvents />} />
-                <Route path='admin/events/add' element={<AdminEvents />} />
-                <Route path='admin/pages/update/:updateId' element={<AdminPages />} />
-                <Route path='admin/pages/add' element={<AdminPages />} />
-                <Route path='admin/settings/' element={<AdminSettings />} />
-                <Route path='admin/:type/' element={<ListContent />} />
-                {/* </Route> */}
-              </Route>
-              {/* <Route path="places/:id/:place" element={<Map />} /> */}
-              {/* <Route path="*" element={<Navigate to="/" replace />} /> */}
-            </Routes>
-          {/* </Suspense> */}
+          <Map />
+          <Routes>
+            {/* <Route path="places/:id/:place" element={<Map />} /> */}
+            <Route path="signin" element={<DialogOutlet><Signin /></DialogOutlet>} />
+            <Route path="events/:eventID/:eventTitle" element={<DialogOutlet><EventDetails /></DialogOutlet>} />
+            <Route path="events" element={<DialogOutlet><Events /></DialogOutlet>} />
+            <Route path="pages/:pageSlug" element={<DialogOutlet><Page /></DialogOutlet>} />
+            <Route path="admin" element={<AdminLayout />}>
+              <Route index element={<Dashboard />} />
+              <Route path='locations/update/:updateId' element={<AdminLocations />} />
+              <Route path='locations/add' element={<AdminLocations />} />
+              <Route path='events/update/:updateId' element={<AdminEvents />} />
+              <Route path='events/add' element={<AdminEvents />} />
+              <Route path='pages/update/:updateId' element={<AdminPages />} />
+              <Route path='pages/add' element={<AdminPages />} />
+              <Route path='settings/' element={<AdminSettings />} />
+              <Route path=':type/' element={<ListContent />} />
+            </Route>
+          </Routes>
         </ConfirmProvider>
-
       </Box>
       <Analytics />
     </ThemeProvider>
