@@ -73,7 +73,7 @@ export default function App() {
                 <Route index element={<Home />} />
                 <Route path="signin" element={<Signin />} />
                 <Route path="events/:eventID/:eventTitle" element={<EventDetails />} />
-                <Route path="events" element={<Events />} />
+                {/* <Route path="events" element={<Events />} /> */}
                 <Route path="pages/:pageSlug" element={<Page />} />
                 <Route path="admin" element={<AdminLayout />}>
                   <Route index element={<Dashboard />} />
