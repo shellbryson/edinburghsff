@@ -1,5 +1,5 @@
 import React, { lazy, Suspense, useEffect, useState } from 'react';
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate, Outlet } from "react-router-dom";
 
 import { Analytics } from '@vercel/analytics/react';
 
@@ -102,7 +102,7 @@ export default function App() {
     navigate(`/`);
   };
 
-  const DialogOutlet = ({children}) => {
+  const PageDialog = ({children}) => {
 
     return (
       <BootstrapDialog
@@ -141,10 +141,10 @@ export default function App() {
         <ConfirmProvider>
           <Map />
           <Routes>
-            <Route path="signin" element={<DialogOutlet><Signin /></DialogOutlet>} />
-            <Route path="events/:eventID/:eventTitle" element={<DialogOutlet><EventDetails handleClose={handleClose} showEventDetails={setLocationDetailsOpen}/></DialogOutlet>} />
-            <Route path="events" element={<DialogOutlet><Events /></DialogOutlet>} />
-            <Route path="pages/:pageSlug" element={<DialogOutlet><Page /></DialogOutlet>} />
+            <Route path="signin" element={<PageDialog><Signin /></PageDialog>} />
+            <Route path="events/:eventID/:eventTitle" element={<PageDialog><EventDetails handleClose={handleClose} showEventDetails={setLocationDetailsOpen}/></PageDialog>} />
+            <Route path="events" element={<PageDialog><Events /></PageDialog>} />
+            <Route path="pages/:pageSlug" element={<PageDialog><Page /></PageDialog>} />
             <Route path="admin" element={<AdminLayout />}>
               <Route index element={<Dashboard />} />
               <Route path='locations/update/:updateId' element={<AdminLocations />} />
@@ -156,16 +156,16 @@ export default function App() {
               <Route path='settings/' element={<AdminSettings />} />
               <Route path=':type/' element={<ListContent />} />
             </Route>
-            {/* <Route path="admin" element={<DialogOutlet><AdminLayout /></DialogOutlet>}>
-              <Route index element={<DialogOutlet><Dashboard /></DialogOutlet>} />
-              <Route path='locations/update/:updateId' element={<DialogOutlet><AdminLocations /></DialogOutlet>} />
-              <Route path='locations/add' element={<DialogOutlet><AdminLocations /></DialogOutlet>} />
-              <Route path='events/update/:updateId' element={<DialogOutlet><AdminEvents /></DialogOutlet>} />
-              <Route path='events/add' element={<DialogOutlet><AdminEvents /></DialogOutlet>} />
-              <Route path='pages/update/:updateId' element={<DialogOutlet><AdminPages /></DialogOutlet>} />
-              <Route path='pages/add' element={<DialogOutlet><AdminPages /></DialogOutlet>} />
-              <Route path='settings/' element={<DialogOutlet><AdminSettings /></DialogOutlet>} />
-              <Route path=':type/' element={<DialogOutlet><ListContent /></DialogOutlet>} />
+            {/* <Route path="admin" element={<PageDialog><AdminLayout /></PageDialog>}>
+              <Route index element={<PageDialog><Dashboard /></PageDialog>} />
+              <Route path='locations/update/:updateId' element={<PageDialog><AdminLocations /></PageDialog>} />
+              <Route path='locations/add' element={<PageDialog><AdminLocations /></PageDialog>} />
+              <Route path='events/update/:updateId' element={<PageDialog><AdminEvents /></PageDialog>} />
+              <Route path='events/add' element={<PageDialog><AdminEvents /></PageDialog>} />
+              <Route path='pages/update/:updateId' element={<PageDialog><AdminPages /></PageDialog>} />
+              <Route path='pages/add' element={<PageDialog><AdminPages /></PageDialog>} />
+              <Route path='settings/' element={<PageDialog><AdminSettings /></PageDialog>} />
+              <Route path=':type/' element={<PageDialog><ListContent /></PageDialog>} />
             </Route> */}
           </Routes>
         </ConfirmProvider>
