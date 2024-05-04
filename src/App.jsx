@@ -1,5 +1,5 @@
 import React, { lazy, Suspense, useEffect, useState } from 'react';
-import { Routes, Route, useNavigate, Outlet } from "react-router-dom";
+import { Routes, Route, useNavigate, Link } from "react-router-dom";
 
 import { Analytics } from '@vercel/analytics/react';
 
@@ -15,6 +15,7 @@ import { useApp } from './context/AppContext';
 import { useTheme, styled } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Button from '@mui/material/Button';
+import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Dialog from '@mui/material/Dialog';
@@ -47,6 +48,9 @@ import AdminEvents from './pages/admin/AdminEvents';
 import AdminLocations from './pages/admin/AdminLocations';
 import AdminPages from './pages/admin/AdminPages';
 
+// Helpers
+import ProtectedRoute from './helpers/ProtectedRoute';
+
 import {
   fetchDocument
 } from './utils/utils';
@@ -76,6 +80,23 @@ export default function App() {
     },
   }));
 
+  const BootstrapAdminDialog = styled(Dialog)(({ theme }) => ({
+    '& .MuiDialogContent-root': {
+      padding: theme.spacing(2),
+      backgroundColor: '#fff',
+      color: '#000',
+      height: "100%"
+    },
+    '& .MuiDialogActions-root': {
+      padding: theme.spacing(1),
+    },
+    '& .MuiPaper-root': {
+      backgroundColor: '#fff',
+      color: '#000',
+      height: "100%"
+    },
+  }));
+
   const styleEventTitle={
     textAlign: "center"
   }
@@ -88,6 +109,29 @@ export default function App() {
     height: "100vh",
     width: "100vw",
     backgroundColor: "rgb(0, 0, 0)",
+  }
+
+  const style={
+    page: {
+      display: "flex",
+      position: "absolute",
+      flexDirection: "column",
+      overflow: "hidden",
+      zIndex: "9999",
+      inset: "0.5rem",
+    },
+    link: {
+      color: "red",
+    },
+    navigation: {
+      display: "flex",
+      position: "relative",
+      justifyContent: "center",
+      alignItems: "center",
+      gap: "1rem",
+      padding: "0.5rem 0",
+      color: "red"
+    },
   }
 
   useEffect(() => {
@@ -103,7 +147,6 @@ export default function App() {
   };
 
   const PageDialog = ({children}) => {
-
     return (
       <BootstrapDialog
         fullWidth
@@ -135,6 +178,50 @@ export default function App() {
     );
   }
 
+  const AdminDialog = ({children}) => {
+    return (
+      <BootstrapAdminDialog
+        fullWidth
+        maxWidth="md"
+        open={true} fullScreen={fullScreen}
+        onClose={handleClose}>
+        <DialogTitle id="add-dialog-title" sx={styleEventTitle}>
+          <Typography component="span" variant="h_large"></Typography>
+        </DialogTitle>
+        <IconButton
+          aria-label="close"
+          onClick={handleClose}
+          sx={{
+            position: 'absolute',
+            right: 8,
+            top: 8,
+            color: (theme) => theme.palette.grey[500],
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
+        <DialogContent className="scroll" style={{ borderBottom: "1px solid rgba(0,0,0, 0.1" }}>
+          <ProtectedRoute>
+            <Paper style={style.page} className="sff-admin-layout">
+              <Box style={style.navigation} className="sff-navigation">
+                <Link style={style.link} to='/'>Home</Link>
+                <Link style={style.link} to='/admin'>Dashboard</Link>
+                <Link style={style.link} to='/admin/settings'>Settings</Link>
+                <Link style={style.link} to='/admin/locations'>Locations</Link>
+                <Link style={style.link} to='/admin/events'>Events</Link>
+                <Link style={style.link} to='/admin/pages'>Pages</Link>
+              </Box>
+              {children}
+            </Paper>
+          </ProtectedRoute>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="brand">Close</Button>
+        </DialogActions>
+      </BootstrapAdminDialog>
+    );
+  }
+
   return (
     <ThemeProvider theme={customTheme}>
       <Box style={styleLayout} className="sff">
@@ -145,28 +232,15 @@ export default function App() {
             <Route path="events/:eventID/:eventTitle" element={<PageDialog><EventDetails handleClose={handleClose} showEventDetails={setLocationDetailsOpen}/></PageDialog>} />
             <Route path="events" element={<PageDialog><Events /></PageDialog>} />
             <Route path="pages/:pageSlug" element={<PageDialog><Page /></PageDialog>} />
-            <Route path="admin" element={<AdminLayout />}>
-              <Route index element={<Dashboard />} />
-              <Route path='locations/update/:updateId' element={<AdminLocations />} />
-              <Route path='locations/add' element={<AdminLocations />} />
-              <Route path='events/update/:updateId' element={<AdminEvents />} />
-              <Route path='events/add' element={<AdminEvents />} />
-              <Route path='pages/update/:updateId' element={<AdminPages />} />
-              <Route path='pages/add' element={<AdminPages />} />
-              <Route path='settings/' element={<AdminSettings />} />
-              <Route path=':type/' element={<ListContent />} />
-            </Route>
-            {/* <Route path="admin" element={<PageDialog><AdminLayout /></PageDialog>}>
-              <Route index element={<PageDialog><Dashboard /></PageDialog>} />
-              <Route path='locations/update/:updateId' element={<PageDialog><AdminLocations /></PageDialog>} />
-              <Route path='locations/add' element={<PageDialog><AdminLocations /></PageDialog>} />
-              <Route path='events/update/:updateId' element={<PageDialog><AdminEvents /></PageDialog>} />
-              <Route path='events/add' element={<PageDialog><AdminEvents /></PageDialog>} />
-              <Route path='pages/update/:updateId' element={<PageDialog><AdminPages /></PageDialog>} />
-              <Route path='pages/add' element={<PageDialog><AdminPages /></PageDialog>} />
-              <Route path='settings/' element={<PageDialog><AdminSettings /></PageDialog>} />
-              <Route path=':type/' element={<PageDialog><ListContent /></PageDialog>} />
-            </Route> */}
+            <Route path="/admin" element={<AdminDialog><Dashboard /></AdminDialog>} />
+            <Route path='/admin/locations/update/:updateId' element={<AdminDialog><AdminLocations /></AdminDialog>} />
+            <Route path='/admin/locations/add' element={<AdminDialog><AdminLocations /></AdminDialog>} />
+            <Route path='/admin/events/update/:updateId' element={<AdminDialog><AdminEvents /></AdminDialog>} />
+            <Route path='/admin/events/add' element={<AdminDialog><AdminEvents /></AdminDialog>} />
+            <Route path='/admin/pages/update/:updateId' element={<AdminDialog><AdminPages /></AdminDialog>} />
+            <Route path='/admin/pages/add' element={<AdminDialog><AdminPages /></AdminDialog>} />
+            <Route path='/admin/settings/' element={<AdminDialog><AdminSettings /></AdminDialog>} />
+            <Route path='/admin/:type/' element={<AdminDialog><ListContent /></AdminDialog>} />
           </Routes>
         </ConfirmProvider>
       </Box>
