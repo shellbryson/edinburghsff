@@ -87,7 +87,7 @@ export default function App() {
                   <Route path=':type/' element={<ListContent />} />
                 </Route>
               </Route>
-              <Route path="places/:id/:place" element={<Map />} />
+              {/* <Route path="places/:id/:place" element={<Map />} /> */}
               {/* <Route path="*" element={<Navigate to="/" replace />} /> */}
             </Routes>
           </Suspense>
