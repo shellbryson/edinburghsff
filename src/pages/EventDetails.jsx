@@ -22,7 +22,6 @@ import DateBox from '../components/DateBox';
 // Icons
 import PlaceIcon from '@mui/icons-material/Place';
 import LaunchOutlinedIcon from '@mui/icons-material/LaunchOutlined';
-import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 
 // Helpers
 import {
@@ -30,7 +29,7 @@ import {
   imageURL
 } from '../utils/utils';
 
-const EventDetails = ({ isLoadingEvent }) => {
+const EventDetails = ({ isLoadingEvent, handleClose, showEventDetails }) => {
 
   const [currentEvent, setCurrentEvent] = useState({});
   const params = useParams();
@@ -138,14 +137,6 @@ const EventDetails = ({ isLoadingEvent }) => {
     }
   }));
 
-  const LocationBox = styled(Box)(({ theme }) => ({
-    display: "flex",
-    alignItems: "center",
-    padding: "0.25rem 0.5rem",
-    gap: "0.5rem",
-    marginTop: "4px",
-  }));
-
   const Summary = styled(Box)(({ theme }) => ({
     backgroundColor: "#000",
     padding: "1rem 1rem",
@@ -206,18 +197,10 @@ const EventDetails = ({ isLoadingEvent }) => {
     if (params.eventID) {
       fetchDocument("events", params.eventID, (eventData) => {
         setCurrentEvent(eventData);
+        showEventDetails(true);
       });
     }
   }, [params.eventID]);
-
-  const eventLocation = () => {
-    if (!currentEvent.eventLocation) return;
-    return (
-      <LocationBox>
-        <Typography component="p" variant='p'>{currentEvent.eventLocation}</Typography>
-      </LocationBox>
-    );
-  }
 
   const handleView = () => {
     window.open(currentEvent.url, '_blank');
@@ -237,6 +220,7 @@ const EventDetails = ({ isLoadingEvent }) => {
     setMapLocations(locations);
     setIsExploded(false);
     setFocusMapPin(currentEvent.eventPin);
+    handleClose();
   }
 
   const renderSummary = () => {

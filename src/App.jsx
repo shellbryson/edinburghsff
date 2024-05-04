@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useEffect, Outlet } from 'react';
+import React, { lazy, Suspense, useEffect, useState } from 'react';
 import { Routes, Route, useNavigate } from "react-router-dom";
 
 import { Analytics } from '@vercel/analytics/react';
@@ -94,16 +94,18 @@ export default function App() {
     });
   }, []);
 
-  function DialogOutlet({ children }) {
-    const [open, setOpen] = React.useState(true);
+  const [locationDetailsOpen, setLocationDetailsOpen] = useState(true);
 
-    const handleClose = () => {
-      navigate(`/`);
-      setOpen(false);
-    };
+  const handleClose = () => {
+    navigate(`/`);
+    setLocationDetailsOpen(false);
+  };
+
+  function DialogOutlet({ children }) {
+    //setLocationDetailsOpen(true);
 
     return (
-      <BootstrapDialog open={open} onClose={handleClose}>
+      <BootstrapDialog open={true} onClose={handleClose}>
         <DialogTitle id="add-dialog-title" sx={styleEventTitle}>
           <Typography component="span" variant="h_large"></Typography>
         </DialogTitle>
@@ -136,7 +138,7 @@ export default function App() {
           <Map />
           <Routes>
             <Route path="signin" element={<DialogOutlet><Signin /></DialogOutlet>} />
-            <Route path="events/:eventID/:eventTitle" element={<DialogOutlet><EventDetails /></DialogOutlet>} />
+            <Route path="events/:eventID/:eventTitle" element={<DialogOutlet><EventDetails handleClose={handleClose} showEventDetails={setLocationDetailsOpen}/></DialogOutlet>} />
             <Route path="events" element={<DialogOutlet><Events /></DialogOutlet>} />
             <Route path="pages/:pageSlug" element={<DialogOutlet><Page /></DialogOutlet>} />
             <Route path="admin" element={<AdminLayout />}>
