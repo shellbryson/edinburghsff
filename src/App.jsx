@@ -14,6 +14,7 @@ import { useApp } from './context/AppContext';
 import Box from '@mui/material/Box';
 
 // Custom UI
+import Home from './components/Home';
 import Map from './components/Map';
 import Spinner from './components/Spinner';
 
@@ -69,6 +70,7 @@ export default function App() {
           <Suspense fallback={<Spinner />}>
             <Routes>
               <Route path="/" element={<Map />}>
+                <Route index element={<Home />} />
                 <Route path="signin" element={<Signin />} />
                 <Route path="events/:eventID/:eventTitle" element={<EventDetails />} />
                 <Route path="events" element={<Events />} />

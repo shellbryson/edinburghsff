@@ -15,7 +15,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 
 // Custom UI
 import Navigation from './Navigation';
-import Home from './Home';
+// import Home from './Home';
 
 export default function MapPanel() {
 
@@ -110,7 +110,7 @@ export default function MapPanel() {
           <Box style={stylePage} className="sff-page-layout">
             <Outlet />
           </Box>
-          { !isExploded && <Home />}
+          {/* { !isExploded && <Home />} */}
         </Box>
       </Box>
     </Box>
