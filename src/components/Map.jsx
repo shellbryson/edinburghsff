@@ -124,16 +124,13 @@ export default function Map() {
   }, [focusMapPin]);
 
   useEffect(() => {
-    if (location.pathname === '/') { setIsOpenDialog(false); return; }
-    if (!params.id || !mapLocations.length) { setIsOpenDialog(false); return; }
-
-    // If url has changed and we have a place id, fetch the document
-    fetchDocument("locations", params.id, (pin) => {
+    const selectedLocation = new URLSearchParams(window.location.search).get("location");
+    if (!selectedLocation) return;
+    fetchDocument("locations", selectedLocation, (pin) => {
       setPinData(pin);
       setIsOpenDialog(true);
     });
-
-  }, [mapLocations, params.id]);
+  }, [mapLocations]);
 
   const onGoogleApiLoaded = ({map}) => {
     mapRef.current = map;
@@ -141,7 +138,11 @@ export default function Map() {
   }
 
   const onClickPin = (data) => {
-    navigate(`/places/${data.id}/${slugify(data.name)}`);
+    navigate(`?location=${encodeURIComponent(data.id)}`);
+    fetchDocument("locations", data.id, (pin) => {
+      setPinData(pin);
+    });
+    setIsOpenDialog(true);
   }
 
   const handleCloseDetails = () => {
