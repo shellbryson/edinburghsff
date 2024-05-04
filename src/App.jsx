@@ -8,20 +8,23 @@ import { customTheme } from './theme/theme';
 
 import { ConfirmProvider } from "material-ui-confirm";
 
+// Contexts
 import { useApp } from './context/AppContext';
 
-// import { Outlet } from 'react-router-dom';
+// MUI
 import { styled } from '@mui/material/styles';
 import { useTheme } from '@mui/material/styles';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 
-// MUI Components
-import Box from '@mui/material/Box';
-
-// Custom UI
-//import Map from './components/Map';
-// import Spinner from './components/Spinner';
+// Icons
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 
 // Layouts
 import AdminLayout from './layouts/AdminLayout';
@@ -71,6 +74,10 @@ export default function App() {
     },
   }));
 
+  const styleEventTitle={
+    textAlign: "center"
+  }
+
   const styleLayout = {
     display: "flex",
     flexDirection: "column",
@@ -97,9 +104,27 @@ export default function App() {
 
     return (
       <BootstrapDialog open={open} onClose={handleClose}>
-        <DialogContent>
+        <DialogTitle id="add-dialog-title" sx={styleEventTitle}>
+          <Typography component="span" variant="h_large"></Typography>
+        </DialogTitle>
+        <IconButton
+          aria-label="close"
+          onClick={handleClose}
+          sx={{
+            position: 'absolute',
+            right: 8,
+            top: 8,
+            color: (theme) => theme.palette.grey[500],
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
+        <DialogContent className="scroll">
           {children}
         </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="brand">Close</Button>
+        </DialogActions>
       </BootstrapDialog>
     );
   }
@@ -110,7 +135,6 @@ export default function App() {
         <ConfirmProvider>
           <Map />
           <Routes>
-            {/* <Route path="places/:id/:place" element={<Map />} /> */}
             <Route path="signin" element={<DialogOutlet><Signin /></DialogOutlet>} />
             <Route path="events/:eventID/:eventTitle" element={<DialogOutlet><EventDetails /></DialogOutlet>} />
             <Route path="events" element={<DialogOutlet><Events /></DialogOutlet>} />
