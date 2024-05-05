@@ -72,7 +72,7 @@ export default function Events() {
   return (
     <Box style={style.page} className="sff-page">
       <Box style={style.paper}>
-        <Box style={style.content} className="scroll">
+        <Box style={style.content} className="scroll-dialog">
           <PageHeading heading="Events" />
           <ContentBox>
             <LinkInterceptor>

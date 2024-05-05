@@ -15,10 +15,32 @@ export default function StyledContent({ children}) {
     '& p' : {
       marginBottom: "1rem",
       padding: 0,
+      lineHeight: "1.6",
     },
     '& a' : {
       color: theme.palette.brand.main,
-      textDecoration: "underline",
+      transition: "textDecoration 250ms",
+      textDecoration: `underline ${theme.palette.brand.link} dashed`,
+    },
+    '& ul': {
+      listStyle: "none",
+      paddingLeft: "1rem"
+    },
+    '& ul li::before' : {
+      content: "''",
+      backgroundColor: theme.palette.brand.faint,
+      fontWeight: "bold",
+      display: "inline-block",
+      width: "4px",
+      height: "4px",
+      marginLeft: "-26px",
+      marginRight: "18px",
+      border: `2px solid ${theme.palette.brand.main}`,
+    },
+    '& li' : {
+      lineHeight: "1.6",
+      paddingLeft: "12px",
+      marginBottom: "0.5rem",
     },
     '& h1' : {
       textAlign: "center",
@@ -36,6 +58,7 @@ export default function StyledContent({ children}) {
       backgroundColor: "rgba(255,255,255,.05)",
       marginTop: "0",
       marginBottom: "1rem",
+      lineHeight: "1.1",
     },
     '& h2::before': {
       content: '""',
@@ -46,10 +69,6 @@ export default function StyledContent({ children}) {
       backgroundColor: theme.palette.brand.main,
       right: "0",
       top: "0",
-    },
-    '& h2 + div + ul': {
-      marginTop: "2rem",
-      border: "1px solid red"
     },
     '& code': {
       display: "inline-block",

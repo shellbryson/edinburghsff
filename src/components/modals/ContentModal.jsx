@@ -26,6 +26,12 @@ export default function ContentModal({ children, isLoading }) {
     },
   }));
 
+  const style= {
+    content: {
+      borderBottom: `1px solid rgba(0,0,0, 0.1`
+    }
+  }
+
   const handleClose = () => {
     navigate(`/`);
   };
@@ -36,7 +42,7 @@ export default function ContentModal({ children, isLoading }) {
       maxWidth="sm"
       open={true} fullScreen={fullScreen}
       onClose={handleClose}>
-      <DialogContent className="scroll" style={{ borderBottom: "1px solid rgba(0,0,0, 0.1" }}>
+      <DialogContent className="scroll-dialog" style={style.content}>
         {children}
       </DialogContent>
       <DialogActions>

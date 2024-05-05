@@ -86,28 +86,62 @@ const EventDetails = ({ handleClose }) => {
   }));
 
   const Summary = styled(Box)(({ theme }) => ({
-    backgroundColor: theme.palette.primary.dark,
-    padding: fullScreen ? "0.5rem" : "1rem 4rem",
-    margin: fullScreen ? "2rem 0" : "2rem 0 3rem 0",
-    fontSize: "1.2rem",
+    position: "relative",
+    backgroundColor: "rgba(255,255,255,.05)",
+    padding: fullScreen ? "1rem" : "1rem 1rem",
+    margin: fullScreen ? "2rem 0" : "2rem 0 2rem 0",
+    fontFamily: '"Chakra Petch", sans-serif',
+    color: theme.palette.brand.main,
+    textTransform: "uppercase",
     "& p" : {
       margin: 0,
-    }
+      padding: 0,
+      lineHeight: "1.1",
+      fontSize: "1.5rem",
+    },
+    '&::before': {
+      content: '""',
+      display: 'block',
+      position: 'absolute',
+      width: '4px',
+      height: '4px',
+      backgroundColor: theme.palette.brand.main,
+      top: "0",
+      left: "0",
+      opacity: "1",
+      animation: 'sff-pulse 1s linear infinite',
+    },
+    '&::after': {
+      content: '""',
+      display: 'block',
+      position: 'absolute',
+      width: '4px',
+      height: '4px',
+      backgroundColor: theme.palette.brand.main,
+      bottom: "0",
+      right: "0",
+      opacity: "1",
+      animation: 'sff-pulse 1s linear infinite',
+    },
   }));
 
   const Description = styled(Box)(({ theme }) => ({}));
-  const Section = styled(Box)(({ theme }) => ({}));
+  const Section = styled(Box)(({ theme }) => ({
+    marginTop: "2rem",
+  }));
 
   const SectionHeading = styled(Typography)(({ theme }) => ({
     display: "inline-block",
-    color: theme.palette.brand.main,
+    color: theme.palette.brand.main
   }));
 
   const ActionsBox = styled(Box)(({ theme }) => ({
     display: "flex",
     justifyContent: "center",
-    margin: "1rem 2rem",
+    margin: "2rem 0",
     gap: "1rem",
+    padding: "1rem",
+    backgroundColor: "rgba(255,255,255,.05)",
   }));
 
   const style = {
@@ -174,7 +208,7 @@ const EventDetails = ({ handleClose }) => {
     return (
       <Summary>
         <LinkInterceptor>
-          <ReactMarkdown children={currentEvent.summary} />
+          <Typography>{currentEvent.summary}</Typography>
         </LinkInterceptor>
       </Summary>
     );
@@ -208,7 +242,7 @@ const EventDetails = ({ handleClose }) => {
       { isLoading && <Spinner />}
       { !isLoading && <>
       <StyledContent>
-        <Box style={style.content} className="scroll">
+        <Box style={style.content}>
           { currentEvent?.image && (
             <MastheadImageBox className="sff-event-masthead">
               <img src={imageURL(currentEvent?.image, 'medium')} alt={currentEvent?.title} style={{ width: "4rem", height: "auto" }}/>

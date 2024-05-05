@@ -3,13 +3,39 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [2.0.0] - 2024-05-01
+## [2.0.0] - 2024-05-12
+
+General:
+  - Add: New fonts, colours and general branding
+  - Add: All pages / content can now be accessed/bookmarked via URLs
+  - Add: All Events and Locations now update the page title/meta tags
 
 Map:
-  - Add: Landing page now a map
-  - Fix: Make map full screen
+  - Add: All new Map, now full-screen
+  - Add: New filter widget
+  - Add: New side panel
+    - Add: Preview Events
+    - Add: Preview selected Map Highlights
+    - Add: Search for Map locations
 
-Build:
+Events:
+  - Add: All new Events popups
+
+Pages:
+  - Add: All new Events popups
+
+Locations
+  - Add: All new Locations popups
+
+Admin:
+  - Add: All new admin popups
+  - Add: Display "dirty' fields encouraging user to save after a change
+  - Add: New system admin for common texts
+  - Add: Locations - Support for Hightlighted locations
+
+Build / App:
+  - Add: New lightweight location handling/indexing for faster loading
+  - Update: React 18.3.x
   - Update: bump all dependencies to latest
 
 ## [1.13.2] - 2023-11-01

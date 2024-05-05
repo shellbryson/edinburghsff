@@ -104,6 +104,7 @@ export const customTheme = createTheme({
     },
     brand: {
       faint: '#1b1a01',
+      link: '#7b7300',
       main: '#fded07',
       dark: '#6d6710',
       contrastText: '#000',

@@ -153,18 +153,6 @@ export default function LocationModal(
       <DialogTitle id="add-dialog-title" sx={styleEventTitle}>
         <Typography component="span" variant="h_large" >{pinData.title}</Typography>
       </DialogTitle>
-      <IconButton
-        aria-label="close"
-        onClick={handleCloseDetails}
-        sx={{
-          position: 'absolute',
-          right: 8,
-          top: 8,
-          color: (theme) => theme.palette.grey[500],
-        }}
-      >
-        <CloseIcon />
-      </IconButton>
       <DialogContent dividers className="scroll-dialog">
         <StyledContent elevation={0}>
           <Box style={styleDescription}>
