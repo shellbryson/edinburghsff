@@ -113,7 +113,6 @@ const EventDetails = ({ handleClose }) => {
       display: "flex",
       flexDirection: "column",
       height: "100%",
-      overflow: "hidden",
     },
     paper: {
       display: "flex",
