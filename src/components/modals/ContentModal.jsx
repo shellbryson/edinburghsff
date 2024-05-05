@@ -1,12 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import ReactMarkdown from 'react-markdown';
-import { Link } from "react-router-dom";
-
 
 // MUI
 import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';

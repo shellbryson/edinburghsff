@@ -12,7 +12,7 @@ import { ConfirmProvider } from "material-ui-confirm";
 import { useApp } from './context/AppContext';
 
 // MUI
-import { useTheme, styled } from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 
 import Map from './components/Map';
@@ -48,37 +48,16 @@ export default function App() {
   const theme = useTheme();
   const navigate = useNavigate();
 
-  const styleLayout = {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    position: "absolute",
-    height: "100vh",
-    width: "100vw",
-    backgroundColor: "rgb(0, 0, 0)",
-  }
-
   const style={
-    page: {
+    sff: {
       display: "flex",
-      position: "absolute",
       flexDirection: "column",
-      overflow: "hidden",
-      zIndex: "9999",
-      inset: "0.5rem",
-    },
-    link: {
-      color: "red",
-    },
-    navigation: {
-      display: "flex",
-      position: "relative",
-      justifyContent: "center",
       alignItems: "center",
-      gap: "1rem",
-      padding: "0.5rem 0",
-      color: "red"
-    },
+      position: "absolute",
+      height: "100vh",
+      width: "100vw",
+      backgroundColor: "rgb(0, 0, 0)",
+    }
   }
 
   useEffect(() => {
@@ -95,7 +74,7 @@ export default function App() {
 
   return (
     <ThemeProvider theme={customTheme}>
-      <Box style={styleLayout} className="sff">
+      <Box style={style.sff} className="sff">
         <ConfirmProvider>
           <Map />
           <Routes>
