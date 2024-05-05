@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import ReactMarkdown from 'react-markdown';
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
+import { Link } from "react-router-dom";
 
 // MUI
 import Typography from '@mui/material/Typography';
@@ -28,6 +28,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 export default function AdminModal({ children }) {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const navigate = useNavigate();
 
   const BootstrapAdminDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {

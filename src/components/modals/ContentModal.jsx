@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from "react-router-dom";
 
 // MUI
 import Typography from '@mui/material/Typography';
@@ -19,6 +20,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 export default function ContentModal({ children }) {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const navigate = useNavigate();
 
   const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
