@@ -200,25 +200,23 @@ export default function ListContent() {
 
   return (
     <Box style={style.page} className="sff-page">
-      <Paper style={style.paper}>
-        <Box style={style.content}>
-          <Typography component="h1" variant="h1" style={{textAlign: "center", textTransform: "capitalize",}}>
-            {params.type}
-          </Typography>
-          <Box style={style.actionbar}>
-            <TextField
-              value={filter}
-              label="Filter"
-              size="small"
-              onChange={(e) => handleFilter(e.target.value)}
-            />
-            <Button onClick={() => onAddItem()} variant='outlined' color="form" startIcon={<LibraryAddIcon />}>Add</Button>
-          </Box>
-          <TableContainer component={Paper} sx={{ mt: 4, mb: 4 }}>
-            {renderTable()}
-          </TableContainer>
+      <Box style={style.content}>
+        <Typography component="h1" variant="h1" style={{textAlign: "center", textTransform: "capitalize",}}>
+          {params.type}
+        </Typography>
+        <Box style={style.actionbar}>
+          <TextField
+            value={filter}
+            label="Filter"
+            size="small"
+            onChange={(e) => handleFilter(e.target.value)}
+          />
+          <Button onClick={() => onAddItem()} variant='outlined' color="form" startIcon={<LibraryAddIcon />}>Add</Button>
         </Box>
-      </Paper>
+        <TableContainer component={Paper} sx={{ mt: 4, mb: 4 }}>
+          {renderTable()}
+        </TableContainer>
+      </Box>
     </Box>
   );
 };

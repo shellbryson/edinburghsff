@@ -20,24 +20,13 @@ import Map from './components/Map';
 import Spinner from './components/Spinner';
 import Events from './pages/Events';
 import EventDetails from './pages/EventDetails';
-// import Signin from './pages/Signin';
-
-// Dynamic Pages
 import Page from './pages/Page';
-
-// Admin Pages
-// import Dashboard from './pages/admin/Dashboard';
-// import ListContent from './pages/admin/ListContent';
-// import AdminSettings from './pages/admin/AdminSettings';
-// import AdminEvents from './pages/admin/AdminEvents';
-// import AdminLocations from './pages/admin/AdminLocations';
-// import AdminPages from './pages/admin/AdminPages';
 
 // Modals
 import AdminModal from './components/modals/AdminModal';
 import ContentModal from './components/modals/ContentModal';
 
-// Lazy load the suspended routes
+// Suspended components
 const Signin = lazy(() => import('./pages/Signin'));
 const Dashboard = lazy(() => import('./pages/admin/Dashboard'));
 const ListContent = lazy(() => import('./pages/admin/ListContent'));

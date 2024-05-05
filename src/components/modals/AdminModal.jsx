@@ -57,16 +57,15 @@ export default function AdminModal({ children }) {
       inset: "0.5rem",
     },
     link: {
-      color: "red",
+      display: "inline-block",
+      color: theme.palette.primary.main,
+      margin: "0 0.5rem",
     },
     navigation: {
       display: "flex",
-      position: "relative",
+      flexWrap: "wrap",
       justifyContent: "center",
-      alignItems: "center",
-      gap: "1rem",
-      padding: "0.5rem 0",
-      color: "red"
+      gap: "0.5rem"
     },
   }
 
@@ -103,12 +102,24 @@ export default function AdminModal({ children }) {
         <ProtectedRoute>
           <Paper style={style.page} className="sff-admin-layout">
             <Box style={style.navigation} className="sff-navigation">
-              <Link style={style.link} to='/'>Home</Link>
-              <Link style={style.link} to='/admin'>Dashboard</Link>
-              <Link style={style.link} to='/admin/settings'>Settings</Link>
-              <Link style={style.link} to='/admin/locations'>Locations</Link>
-              <Link style={style.link} to='/admin/events'>Events</Link>
-              <Link style={style.link} to='/admin/pages'>Pages</Link>
+              <Button variant="outlined" size="small" color="primary" component={Link} to="/">
+                Home
+              </Button>
+              <Button variant="outlined" size="small" color="primary" component={Link} to="/admin">
+                Dashboard
+              </Button>
+              <Button variant="outlined" size="small" color="primary" component={Link} to="/admin/settings">
+                Settings
+              </Button>
+              <Button variant="outlined" size="small" color="primary" component={Link} to="/admin/locations">
+                Locations
+              </Button>
+              <Button variant="outlined" size="small" color="primary" component={Link} to="/admin/events">
+                Events
+              </Button>
+              <Button variant="outlined" size="small" color="primary" component={Link} to="/admin/pages">
+                Pages
+              </Button>
             </Box>
             {children}
           </Paper>
