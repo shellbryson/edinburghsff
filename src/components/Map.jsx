@@ -12,7 +12,7 @@ import Box from '@mui/material/Box';
 // Custom UI
 import MapPanel from './MapPanel';
 import MapPin from './MapPin';
-import MapModal from './modals/MapModal';
+import LocationModal from './modals/LocationModal';
 import Spinner from './Spinner';
 import Filter from './Filter';
 import Logo from './Logo';
@@ -186,7 +186,7 @@ export default function Map() {
           <Logo />
         </Box>
         {!isExploded && <Filter onFilterMap={handleFilterMap} onSearchMap={handleOnSearchMap} />}
-        <MapModal
+        <LocationModal
           pinData={pinData}
           isOpenDialog={isOpenDialog}
           handleCloseDetails={handleCloseDetails}

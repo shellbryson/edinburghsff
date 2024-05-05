@@ -48,7 +48,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-export default function MapModal(
+export default function LocationModal(
   { pinData, isOpenDialog, handleCloseDetails }
 ) {
   const theme = useTheme();
