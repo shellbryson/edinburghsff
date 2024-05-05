@@ -160,7 +160,7 @@ export default function AdminMap() {
     setURL(data.url);
     setImgUrl(data.image);
     setShow(data.show);
-    setFeatured(data.featured);
+    setFeatured(data.featured || false);
     setLocationLat(data.lat);
     setLocationLng(data.lng);
 
