@@ -70,24 +70,8 @@ export default function AdminPages() {
   }));
 
   const style = {
-    page: {
-      display: "flex",
-      flexDirection: "column",
-      height: "100%",
-      overflow: "hidden",
-      marginBottom: "1rem",
-    },
-    paper: {
-      display: "flex",
-      flexDirection: "column",
-      height: "100%",
-      overflow: "hidden",
-    },
     content: {
       textAlign: "left",
-      minHeight: "calc(100vh -2rem)",
-      padding: "1rem",
-      margin: "0.5rem",
       overflow: "auto",
     },
     actions: {
@@ -269,43 +253,39 @@ export default function AdminPages() {
   }
 
   return (
-    <Box style={style.page} className="sff-page">
-      <Paper style={style.paper}>
-        <Box style={style.content}>
-          <Box>
-            <Typography component="h1" variant="h1" style={{textAlign: "center"}}>
-              {isUpdate ? "Update Page" : "Add Page"}
-            </Typography>
-            <Stack spacing={2} sx={{ mt: 2}}>
-              <TextField value={title} required label="Title" onChange={(e) => handleChangeTitle(e.target.value)} type='text' />
-              <TextField value={url} required label="URL" onChange={(e) => handleChangeUrl(e.target.value)} type='text' />
-              <TextField value={slug} required label="Slug" onChange={(e) => handleChangeSlug(e.target.value)} type='text' />
-              <TextField value={description} required multiline rows={2} label="Description" onChange={(e) => handleChangeDescription(e.target.value)} />
-              <TextField value={content} required multiline rows={16} label="Content" onChange={(e) => handleChangeContent(e.target.value)}  />
+    <Box style={style.content}>
+      <Box>
+        <Typography component="h1" variant="h1" style={{textAlign: "center"}}>
+          {isUpdate ? "Update Page" : "Add Page"}
+        </Typography>
+        <Stack spacing={2} sx={{ mt: 2}}>
+          <TextField value={title} required label="Title" onChange={(e) => handleChangeTitle(e.target.value)} type='text' />
+          <TextField value={url} required label="URL" onChange={(e) => handleChangeUrl(e.target.value)} type='text' />
+          <TextField value={slug} required label="Slug" onChange={(e) => handleChangeSlug(e.target.value)} type='text' />
+          <TextField value={description} required multiline rows={2} label="Description" onChange={(e) => handleChangeDescription(e.target.value)} />
+          <TextField value={content} required multiline rows={16} label="Content" onChange={(e) => handleChangeContent(e.target.value)}  />
 
-              <UploadImage imageUploadedCallback={handleFileUpload} imgUrl={imgUrl} />
+          <UploadImage imageUploadedCallback={handleFileUpload} imgUrl={imgUrl} />
 
-              <FormGroup>
-                <FormControlLabel onChange={(e) => setShow(e.target.checked)} control={<Checkbox checked />} label="Display on site" />
-              </FormGroup>
+          <FormGroup>
+            <FormControlLabel onChange={(e) => setShow(e.target.checked)} control={<Checkbox checked />} label="Display on site" />
+          </FormGroup>
 
-              { error && <Alert severity="warning">{error}</Alert> }
+          { error && <Alert severity="warning">{error}</Alert> }
 
-            </Stack>
-          </Box>
-          <Box style={style.actions}>
-            <Box>
-              { isUpdate && <Button onClick={() => handleDelete(updateId)} variant="outlined" color="warning" startIcon={<DeleteIcon />}>Delete</Button> }
-            </Box>
-            <Box style={{ display: "flex", gap: "0.5rem" }}>
-              { isDirty && <Typography sx={style.dirty} variant='p_small'>Unsaved changes</Typography> }
-              <Button onClick={handleBack} variant='outlined'>Back</Button>
-              { isUpdate && <Button onClick={handleUpdate} variant='contained'>Save Page</Button> }
-              { !isUpdate && <Button onClick={handleAdd} variant='contained'>Add Page</Button> }
-            </Box>
-          </Box>
+        </Stack>
+      </Box>
+      <Box style={style.actions}>
+        <Box>
+          { isUpdate && <Button onClick={() => handleDelete(updateId)} variant="outlined" color="warning" startIcon={<DeleteIcon />}>Delete</Button> }
         </Box>
-      </Paper>
+        <Box style={{ display: "flex", gap: "0.5rem" }}>
+          { isDirty && <Typography sx={style.dirty} variant='p_small'>Unsaved changes</Typography> }
+          <Button onClick={handleBack} variant='outlined'>Back</Button>
+          { isUpdate && <Button onClick={handleUpdate} variant='contained'>Save Page</Button> }
+          { !isUpdate && <Button onClick={handleAdd} variant='contained'>Add Page</Button> }
+        </Box>
+      </Box>
     </Box>
   )
 }

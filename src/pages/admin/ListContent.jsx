@@ -6,7 +6,6 @@ import 'dayjs/locale/en-gb';
 
 // MUI
 import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -41,10 +40,8 @@ export default function ListContent() {
 
   const style = {
     content: {
+      marginTop: "2rem",
       textAlign: "left",
-      minHeight: "calc(100vh -2rem)",
-      padding: "1rem",
-      margin: "0.5rem",
       overflow: "auto",
     },
     heading: {
@@ -57,7 +54,9 @@ export default function ListContent() {
     actionbar: {
       display: "flex",
       justifyContent: "space-between",
-      alignItems: "center"
+      alignItems: "center",
+      gap: "0.5rem",
+      margin: "0 1rem"
     }
   }
 
@@ -161,7 +160,7 @@ export default function ListContent() {
   const renderTable = () => {
     if (items.length === 0) return;
     return (
-      <Table sx={{ minWidth: 500 }} aria-label="List of events">
+      <Table aria-label="List of events">
         <TableHead>
           <TableRow>
             {renderHeadings()}
@@ -186,7 +185,7 @@ export default function ListContent() {
   }
 
   return (
-    <Box className="sff-page">
+    <Box className="sff-admin-content-list">
       <Box style={style.content}>
         <Typography component="h1" variant="h1" style={{textAlign: "center", textTransform: "capitalize",}}>
           {params.type}
@@ -200,7 +199,7 @@ export default function ListContent() {
           />
           <Button onClick={() => onAddItem()} variant='outlined' color="form" startIcon={<LibraryAddIcon />}>Add</Button>
         </Box>
-        <TableContainer component={Paper} sx={{ mt: 2, mb: 1 }}>
+        <TableContainer component={Box} sx={{ mt: 2, mb: 1 }}>
           {renderTable()}
         </TableContainer>
       </Box>

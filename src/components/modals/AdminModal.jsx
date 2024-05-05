@@ -9,7 +9,11 @@ import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
+import IconButton from '@mui/material/IconButton';
 import { useTheme, styled } from '@mui/material/styles';
+
+// Icons
+import MenuIcon from '@mui/icons-material/Menu';
 
 // Helpers
 import ProtectedRoute from '../../helpers/ProtectedRoute';
@@ -30,7 +34,8 @@ export default function AdminModal({ children }) {
       padding: theme.spacing(2),
       backgroundColor: '#fff',
       color: '#000',
-      height: "100%"
+      height: "100%",
+      padding: "0"
     },
     '& .MuiDialogActions-root': {
       padding: theme.spacing(1),
@@ -56,10 +61,9 @@ export default function AdminModal({ children }) {
       justifyContent: "center",
       gap: "0.5rem"
     },
-  }
-
-  const styleEventTitle={
-    textAlign: "center"
+    dashboardButton: {
+      display: !fullScreen || isDashboard ? "none" : "block"
+    }
   }
 
   const handleClose = () => {
@@ -72,7 +76,12 @@ export default function AdminModal({ children }) {
       maxWidth="md"
       open={true} fullScreen={fullScreen}
       onClose={handleClose}>
-      <DialogTitle sx={styleEventTitle}>
+      <DialogTitle>
+        <Box style={style.dashboardButton}>
+          <IconButton aria-label="Admin menu" variant="outlined" size="small" color="primary" component={Link} to="/dashboard">
+            <MenuIcon />
+          </IconButton>
+        </Box>
         <Box style={style.navigation} className="sff-navigation">
           <Button variant="outlined" size="small" color="primary" component={Link} to="/">
             Home
@@ -94,7 +103,7 @@ export default function AdminModal({ children }) {
           </Button>
         </Box>
       </DialogTitle>
-      <DialogContent style={{ overflow: "hidden" }}>
+      <DialogContent dividers style={{ overflow: "hidden" }}>
         <ProtectedRoute>
           <Box style={style.page} className="sff-admin-layout">
             <Box style={{ height: "100%", overflow: "auto"}}>
