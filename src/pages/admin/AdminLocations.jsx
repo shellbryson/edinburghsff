@@ -271,7 +271,7 @@ export default function AdminMap() {
   };
 
   const reIndexLocations = (cb) => {
-    fetchDocuments("locations", (data) => {
+    fetchDocuments("locations", {field:'title', mode:'asc'}, (data) => {
       updateMapLocationsIndex(data, user, (pins) => {
         console.log("Saved Location Index", pins);
         if (cb) cb();

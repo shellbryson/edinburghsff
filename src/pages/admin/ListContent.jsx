@@ -73,7 +73,7 @@ export default function ListContent() {
     } else if (params.type === 'events') {
       setTableFilterOn('title');
       setTableStructure({ headings: ['Date', 'Event Title', ""], keys: ['eventStart', 'title', 'image'] });
-      fetchDocuments(params.type, (data) => {
+      fetchDocuments(params.type, {field:'eventStart', mode:'desc'}, (data) => {
         data.forEach((item) => {
           item.display = true;
         });
@@ -82,7 +82,7 @@ export default function ListContent() {
     } else if (params.type === 'pages' || params.type === 'links') {
       setTableFilterOn('title');
       setTableStructure({ headings: ['Title', ""], keys: ['title', 'image'] });
-      fetchDocuments(params.type, (data) => {
+      fetchDocuments(params.type, {field:'title', mode:'asc'}, (data) => {
         data.forEach((item) => {
           item.display = true;
         });
