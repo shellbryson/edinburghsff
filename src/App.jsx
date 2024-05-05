@@ -1,5 +1,5 @@
 import React, { lazy, Suspense, useEffect, useState } from 'react';
-import { Routes, Route, useNavigate, Link } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 
 import { Analytics } from '@vercel/analytics/react';
 
@@ -13,18 +13,7 @@ import { useApp } from './context/AppContext';
 
 // MUI
 import { useTheme, styled } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-
-// Icons
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
 
 import Map from './components/Map';
 
@@ -45,6 +34,7 @@ import AdminLocations from './pages/admin/AdminLocations';
 import AdminPages from './pages/admin/AdminPages';
 
 import AdminModal from './components/modals/AdminModal';
+import ContentModal from './components/modals/ContentModal';
 
 import {
   fetchDocument
@@ -57,27 +47,6 @@ export default function App() {
   const { config, setConfig } = useApp();
   const theme = useTheme();
   const navigate = useNavigate();
-
-  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
-
-  const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-    '& .MuiDialogContent-root': {
-      padding: theme.spacing(2),
-      backgroundColor: '#383838',
-      color: '#fff',
-    },
-    '& .MuiDialogActions-root': {
-      padding: theme.spacing(1),
-    },
-    '& .MuiPaper-root': {
-      backgroundColor: '#383838',
-      color: '#fff',
-    },
-  }));
-
-  const styleEventTitle={
-    textAlign: "center"
-  }
 
   const styleLayout = {
     display: "flex",
@@ -124,48 +93,16 @@ export default function App() {
     navigate(`/`);
   };
 
-  const PageDialog = ({children}) => {
-    return (
-      <BootstrapDialog
-        fullWidth
-        maxWidth="sm"
-        open={true} fullScreen={fullScreen}
-        onClose={handleClose}>
-        <DialogTitle id="add-dialog-title" sx={styleEventTitle}>
-          <Typography component="span" variant="h_large"></Typography>
-        </DialogTitle>
-        <IconButton
-          aria-label="close"
-          onClick={handleClose}
-          sx={{
-            position: 'absolute',
-            right: 8,
-            top: 8,
-            color: (theme) => theme.palette.grey[500],
-          }}
-        >
-          <CloseIcon />
-        </IconButton>
-        <DialogContent className="scroll" style={{ borderBottom: "1px solid rgba(0,0,0, 0.1" }}>
-          {children}
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="brand">Close</Button>
-        </DialogActions>
-      </BootstrapDialog>
-    );
-  }
-
   return (
     <ThemeProvider theme={customTheme}>
       <Box style={styleLayout} className="sff">
         <ConfirmProvider>
           <Map />
           <Routes>
-            <Route path="signin" element={<PageDialog><Signin /></PageDialog>} />
-            <Route path="events/:eventID/:eventTitle" element={<PageDialog><EventDetails handleClose={handleClose} showEventDetails={setLocationDetailsOpen}/></PageDialog>} />
-            <Route path="events" element={<PageDialog><Events /></PageDialog>} />
-            <Route path="pages/:pageSlug" element={<PageDialog><Page /></PageDialog>} />
+            <Route path="signin" element={<ContentModal><Signin /></ContentModal>} />
+            <Route path="events/:eventID/:eventTitle" element={<ContentModal><EventDetails handleClose={handleClose} showEventDetails={setLocationDetailsOpen}/></ContentModal>} />
+            <Route path="events" element={<ContentModal><Events /></ContentModal>} />
+            <Route path="pages/:pageSlug" element={<ContentModal><Page /></ContentModal>} />
             <Route path="/admin" element={<AdminModal><Dashboard /></AdminModal>} />
             <Route path='/admin/locations/update/:updateId' element={<AdminModal><AdminLocations /></AdminModal>} />
             <Route path='/admin/locations/add' element={<AdminModal><AdminLocations /></AdminModal>} />
