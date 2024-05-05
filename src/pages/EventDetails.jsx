@@ -9,6 +9,7 @@ import { useApp } from '../context/AppContext';
 // MUI
 import { styled } from '@mui/material/styles';
 import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -37,12 +38,12 @@ const EventDetails = ({ handleClose }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const params = useParams();
-
   const theme = useTheme();
+
+  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   const {
     setFocusMapPin,
-    setIsExploded,
     setMapLocations,
     mapLocations
   } = useApp();
@@ -86,8 +87,9 @@ const EventDetails = ({ handleClose }) => {
 
   const Summary = styled(Box)(({ theme }) => ({
     backgroundColor: theme.palette.primary.dark,
-    padding: "1rem 4rem",
-    margin: "2rem 0 3rem 0",
+    padding: fullScreen ? "0.5rem" : "1rem 4rem",
+    margin: fullScreen ? "2rem 0" : "2rem 0 3rem 0",
+    fontSize: "1.2rem",
     "& p" : {
       margin: 0,
     }

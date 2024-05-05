@@ -98,7 +98,7 @@ export const customTheme = createTheme({
   palette: {
     mode: 'light',
     text: {
-      main: '#fff',
+      main: '#f2f2f2',
       dark: '#6d6710',
       contrastText: '#000',
     },
@@ -123,7 +123,7 @@ export const customTheme = createTheme({
       main: '#262626',
       light: '#3c3c3c',
       dark: '#000',
-      contrastText: '#fff',
+      contrastText: '#f2f2f2',
     }
   },
   components: {
