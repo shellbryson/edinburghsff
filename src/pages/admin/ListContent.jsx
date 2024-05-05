@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 import dayjs from 'dayjs';
 import 'dayjs/locale/en-gb';
@@ -40,19 +40,6 @@ export default function ListContent() {
   const [filter, setFilter] = useState('');
 
   const style = {
-    page: {
-      display: "flex",
-      flexDirection: "column",
-      height: "100%",
-      overflow: "hidden",
-      marginBottom: "1rem",
-    },
-    paper: {
-      display: "flex",
-      flexDirection: "column",
-      height: "100%",
-      overflow: "hidden",
-    },
     content: {
       textAlign: "left",
       minHeight: "calc(100vh -2rem)",
@@ -199,7 +186,7 @@ export default function ListContent() {
   }
 
   return (
-    <Box style={style.page} className="sff-page">
+    <Box className="sff-page">
       <Box style={style.content}>
         <Typography component="h1" variant="h1" style={{textAlign: "center", textTransform: "capitalize",}}>
           {params.type}
@@ -213,7 +200,7 @@ export default function ListContent() {
           />
           <Button onClick={() => onAddItem()} variant='outlined' color="form" startIcon={<LibraryAddIcon />}>Add</Button>
         </Box>
-        <TableContainer component={Paper} sx={{ mt: 4, mb: 4 }}>
+        <TableContainer component={Paper} sx={{ mt: 2, mb: 1 }}>
           {renderTable()}
         </TableContainer>
       </Box>

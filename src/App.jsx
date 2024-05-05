@@ -82,7 +82,7 @@ export default function App() {
               <Route path="events/:eventID/:eventTitle" element={<ContentModal><EventDetails handleClose={handleClose} showEventDetails={setLocationDetailsOpen}/></ContentModal>} />
               <Route path="events" element={<ContentModal><Events /></ContentModal>} />
               <Route path="pages/:pageSlug" element={<ContentModal><Page /></ContentModal>} />
-                <Route path="/admin" element={<AdminModal><Dashboard /></AdminModal>} />
+                <Route path="/dashboard" element={<AdminModal><Dashboard /></AdminModal>} />
                 <Route path='/admin/locations/update/:updateId' element={<AdminModal><AdminLocations /></AdminModal>} />
                 <Route path='/admin/locations/add' element={<AdminModal><AdminLocations /></AdminModal>} />
                 <Route path='/admin/events/update/:updateId' element={<AdminModal><AdminEvents /></AdminModal>} />

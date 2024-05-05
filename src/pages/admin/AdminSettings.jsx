@@ -129,7 +129,7 @@ export default function AdminSettings() {
   }
 
   const handleBack = () => {
-    navigate(`/admin/`);
+    navigate(`/dashboard/`);
   }
 
   return (

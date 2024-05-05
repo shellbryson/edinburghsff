@@ -27,7 +27,7 @@ export default function Footer() {
         <Link to='/signin'>Sign in</Link>
       }
       {user?.uid && <>
-        <Link to='/admin'>Admin</Link>
+        <Link to='/dashboard'>Dashboard</Link>
       </>
       }
     </Box>
