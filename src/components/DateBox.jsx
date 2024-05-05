@@ -33,6 +33,7 @@ export default function DateBox({event}) {
     color: theme.palette.brand.main,
     width: "100%",
     maxWidth: "280px",
+    fontFamily: '"Chakra Petch", sans-serif',
     "& > div": {
       display: "flex",
       alignItems: "center",

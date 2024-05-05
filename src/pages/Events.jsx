@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getDocs, collection, query, orderBy, limit  } from 'firebase/firestore';
+import { getDocs, collection, query, orderBy } from 'firebase/firestore';
 import { db } from "../firebase";
 import { useHead } from 'hoofd';
 import ReactMarkdown from 'react-markdown';
@@ -33,7 +33,6 @@ export default function Events() {
       flexDirection: "column",
       height: "100%",
       overflow: "hidden",
-      marginBottom: "1rem",
     },
     paper: {
       display: "flex",
@@ -43,7 +42,6 @@ export default function Events() {
     },
     content: {
       textAlign: "left",
-      margin: "0.5rem",
       overflow: "auto",
     }
   }

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from "react-router-dom";
 import ReactMarkdown from 'react-markdown';
+import { useHead } from 'hoofd';
 
 // Contexts
 import { useApp } from '../context/AppContext';
@@ -9,7 +10,6 @@ import { useApp } from '../context/AppContext';
 import { styled } from '@mui/material/styles';
 import { useTheme } from '@mui/material/styles';
 
-import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -18,6 +18,7 @@ import Button from '@mui/material/Button';
 import EventsDetailsImage from '../components/EventsDetailsImage';
 import LinkInterceptor from '../components/LinkInterceptor';
 import DateBox from '../components/DateBox';
+import StyledContent from '../components/StyledContent';
 
 // Icons
 import PlaceIcon from '@mui/icons-material/Place';
@@ -28,21 +29,20 @@ import {
   fetchDocument,
   imageURL
 } from '../utils/utils';
+import Spinner from '../components/Spinner';
 
-const EventDetails = ({ isLoadingEvent, handleClose, showEventDetails }) => {
+const EventDetails = ({ handleClose }) => {
 
   const [currentEvent, setCurrentEvent] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+
   const params = useParams();
 
   const theme = useTheme();
 
   const {
     setFocusMapPin,
-    focusMapPin,
-    setIsExpanded,
-    isExpanded,
     setIsExploded,
-    isExploded,
     setMapLocations,
     mapLocations
   } = useApp();
@@ -56,59 +56,6 @@ const EventDetails = ({ isLoadingEvent, handleClose, showEventDetails }) => {
       width: "3rem",
       height: "auto"
     }
-  }));
-
-  const Page = styled(Paper)(({ theme }) => ({
-    display: "flex",
-    flexDirection: "column",
-    height: "100%",
-    overflow: "hidden",
-    background: theme.palette.brand.faint,
-    color: theme.palette.text.main,
-    borderRadius: "0",
-    '& p' : {
-      marginBottom: "1rem",
-      padding: 0,
-    },
-    '& a' : {
-      color: theme.palette.brand.main,
-      textDecoration: "underline",
-    },
-    '& h1' : {
-      textAlign: "center",
-      fontFamily: '"Chakra Petch", sans-serif',
-      fontWeight: "400",
-      marginTop: "2rem",
-      marginBottom: "1rem",
-    },
-    '& h2, h3' : {
-      display: "inline-block",
-      textTransform: 'uppercase',
-      padding: '6px 1rem',
-      fontFamily: '"Chakra Petch", sans-serif',
-      fontWeight: "400",
-      backgroundColor: "rgba(255,255,255,.05)",
-      marginTop: "2rem",
-      marginBottom: "1rem",
-    },
-    '& h2::before': {
-      content: '""',
-      display: 'block',
-      position: 'absolute',
-      width: '4px',
-      height: '4px',
-      backgroundColor: theme.palette.brand.main,
-      right: "0",
-      top: "0",
-    },
-    '& code': {
-      display: "inline-block",
-      border: "1px solid rgba(255,255,255,.05)",
-      padding: "4px 8px",
-      marginBottom: "2px",
-      color: theme.palette.brand.dark,
-      fontWeight: "var(--font-body-bold-weight)"
-    },
   }));
 
   const FooterImageBox = styled(Box)(({ theme }) => ({
@@ -138,22 +85,16 @@ const EventDetails = ({ isLoadingEvent, handleClose, showEventDetails }) => {
   }));
 
   const Summary = styled(Box)(({ theme }) => ({
-    backgroundColor: "#000",
-    padding: "1rem 1rem",
-    margin: "2rem 4rem 3rem 4rem",
+    backgroundColor: theme.palette.primary.dark,
+    padding: "1rem 4rem",
+    margin: "2rem 0 3rem 0",
     "& p" : {
       margin: 0,
     }
   }));
 
-  const Description = styled(Box)(({ theme }) => ({
-    // padding: "0 1rem",
-    // margin: "1rem 0.5rem 2rem 0.5rem",
-  }));
-
-  const Section = styled(Box)(({ theme }) => ({
-    //padding: "0 1.5rem",
-  }));
+  const Description = styled(Box)(({ theme }) => ({}));
+  const Section = styled(Box)(({ theme }) => ({}));
 
   const SectionHeading = styled(Typography)(({ theme }) => ({
     display: "inline-block",
@@ -173,7 +114,6 @@ const EventDetails = ({ isLoadingEvent, handleClose, showEventDetails }) => {
       flexDirection: "column",
       height: "100%",
       overflow: "hidden",
-      margin: "0 1rem 1rem 1rem",
     },
     paper: {
       display: "flex",
@@ -185,7 +125,6 @@ const EventDetails = ({ isLoadingEvent, handleClose, showEventDetails }) => {
       textAlign: "left",
       minHeight: "calc(100vh -2rem)",
       padding: "0.5rem 1rem 0.5rem 0.5rem",
-      margin: "0.5rem",
       overflow: "auto",
     },
     title: {
@@ -195,12 +134,19 @@ const EventDetails = ({ isLoadingEvent, handleClose, showEventDetails }) => {
 
   useEffect(() => {
     if (params.eventID) {
+      setIsLoading(true);
       fetchDocument("events", params.eventID, (eventData) => {
         setCurrentEvent(eventData);
-        showEventDetails(true);
+        setIsLoading(false);
       });
     }
   }, [params.eventID]);
+
+  useHead({
+    title: `${currentEvent.title} - Edinburgh SFF`,
+    language: 'en',
+    metas: [{ name: 'description', content: currentEvent?.summary?.substring(0, 100) || currentEvent?.description?.substring(0, 100) || ""}],
+  });
 
   const handleView = () => {
     window.open(currentEvent.url, '_blank');
@@ -218,7 +164,6 @@ const EventDetails = ({ isLoadingEvent, handleClose, showEventDetails }) => {
       return location;
     });
     setMapLocations(locations);
-    setIsExploded(false);
     setFocusMapPin(currentEvent.eventPin);
     handleClose();
   }
@@ -259,40 +204,41 @@ const EventDetails = ({ isLoadingEvent, handleClose, showEventDetails }) => {
 
   return (
     <Box style={style.page} className="sff-page">
-      <Page>
+      { isLoading && <Spinner />}
+      { !isLoading && <>
+      <StyledContent>
         <Box style={style.content} className="scroll">
-          { !isLoadingEvent && <>
-            { currentEvent?.image && (
-              <MastheadImageBox className="sff-event-masthead">
-                <img src={imageURL(currentEvent?.image, 'medium')} alt={currentEvent?.title} style={{ width: "4rem", height: "auto" }}/>
-              </MastheadImageBox>
-            )}
-            <Typography component="h1" variant="h_large" style={{textAlign: "center", marginBottom: "0", paddingBottom: "1rem" }}>
-              {currentEvent.title}
-            </Typography>
-            <Meta>
-              <DateBox event={currentEvent} />
-            </Meta>
-            <ActionsBox>
-              <Button onClick={() => handleView()} color='brand' variant="outlined" endIcon={<LaunchOutlinedIcon />}>Event site</Button>
-              <Button onClick={() => handleViewOnMap()} color='brand' variant="outlined" endIcon={<PlaceIcon />}>View on map</Button>
-            </ActionsBox>
-            <Box style={style.description} className="sff-event-description">
-              { renderSummary() }
-              { renderDescription() }
-              { renderSection('eventHighlights', "Highlights") }
-              { renderSection('eventFacilities', "Facilities") }
-              { renderSection('eventTips', "Tips") }
-              { renderSection('eventTrivia', "Trivia") }
-            </Box>
-            { currentEvent?.image && (
-              <FooterImageBox className="sff-event-footer">
-                <EventsDetailsImage image={imageURL(currentEvent?.image, 'medium')} alt={currentEvent?.title} />
-              </FooterImageBox>
-            )}
-          </>}
+          { currentEvent?.image && (
+            <MastheadImageBox className="sff-event-masthead">
+              <img src={imageURL(currentEvent?.image, 'medium')} alt={currentEvent?.title} style={{ width: "4rem", height: "auto" }}/>
+            </MastheadImageBox>
+          )}
+          <Typography component="h1" variant="h_large" style={{textAlign: "center", marginBottom: "0", paddingBottom: "1rem" }}>
+            {currentEvent.title}
+          </Typography>
+          <Meta>
+            <DateBox event={currentEvent} />
+          </Meta>
+          <Box style={style.description} className="sff-event-description">
+            { renderSummary() }
+            { renderDescription() }
+            { renderSection('eventHighlights', "Highlights") }
+            { renderSection('eventFacilities', "Facilities") }
+            { renderSection('eventTips', "Tips") }
+            { renderSection('eventTrivia', "Trivia") }
+          </Box>
+          <ActionsBox>
+            <Button onClick={() => handleView()} color='brand' variant="outlined" endIcon={<LaunchOutlinedIcon />}>Event site</Button>
+            <Button onClick={() => handleViewOnMap()} color='brand' variant="outlined" endIcon={<PlaceIcon />}>View on map</Button>
+          </ActionsBox>
+          { currentEvent?.image && (
+            <FooterImageBox className="sff-event-footer">
+              <EventsDetailsImage image={imageURL(currentEvent?.image, 'medium')} alt={currentEvent?.title} />
+            </FooterImageBox>
+          )}
         </Box>
-      </Page>
+      </StyledContent>
+      </>}
     </Box>
   );
 };

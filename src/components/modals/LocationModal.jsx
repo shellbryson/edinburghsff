@@ -33,26 +33,21 @@ import { imageURL } from '../../utils/utils';
 // Theme helpers
 import useMediaQuery from '@mui/material/useMediaQuery';
 
-const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-  '& .MuiDialogContent-root': {
-    padding: theme.spacing(2),
-    backgroundColor: '#383838',
-    color: '#fff',
-  },
-  '& .MuiDialogActions-root': {
-    padding: theme.spacing(1),
-  },
-  '& .MuiPaper-root': {
-    backgroundColor: '#383838',
-    color: '#fff',
-  },
-}));
-
 export default function LocationModal(
   { pinData, isOpenDialog, handleCloseDetails }
 ) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
+  const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+    '& .MuiDialogContent-root': {
+      marginTop: "0.5rem"
+    },
+    '& .MuiPaper-root': {
+      backgroundColor: theme.palette.brand.faint,
+      color: theme.palette.text.main,
+    },
+  }));
 
   const styleEventTitle={
     textAlign: "center"
