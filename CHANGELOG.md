@@ -13,13 +13,16 @@ General:
 Map:
   - Add: Improved full-screen map
   - Add: Custom zoom buttons & hide streetview
+  - Add: Zoom to current location (if allowed)
   - Add: Map pins now colour coded
   - Add: New content filter ("Interesting")
   - Add: New filter widget, with colours
   - Add: New side panel
-    - Add: Preview Events
-    - Add: Preview selected Map Highlights
-    - Add: Search for Map locations
+
+Sidebar:
+  - Add: Preview Events
+  - Add: Preview selected Map Highlights
+  - Add: Search for Map locations
 
 Events:
   - Add: All new Events popups

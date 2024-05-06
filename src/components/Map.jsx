@@ -14,6 +14,7 @@ import IconButton from '@mui/material/IconButton';
 // Icons
 import ZoomInIcon from '@mui/icons-material/ZoomIn';
 import ZoomOutIcon from '@mui/icons-material/ZoomOut';
+import MyLocationIcon from '@mui/icons-material/MyLocation';
 
 // Custom UI
 import MapPanel from './MapPanel';
@@ -76,10 +77,13 @@ export default function Map() {
     display: "flex",
     flexDirection: "column",
     gap: "4px",
+    padding: "2px",
     position: "absolute",
     right: "0.5rem",
     bottom: "1rem",
     zIndex: "2",
+    border: `1px solid ${theme.palette.brand.main}`,
+    backgroundColor: theme.palette.brand.faint,
   }));
 
   const ToggleIconButton = styled(IconButton)(({ theme }) => ({
@@ -192,14 +196,27 @@ export default function Map() {
     mapRef.current.setZoom(mapRef.current.getZoom() - 1);
   }
 
+  const handleMyLocation = () => {
+    if (!navigator.geolocation) return;
+    navigator.geolocation.getCurrentPosition((position) => {
+      const pos = { lat: position.coords.latitude, lng: position.coords.longitude };
+      mapRef.current.panTo(pos);
+    }, () => {
+      console.log("Error: The Geolocation service failed.");
+    });
+  }
+
   const ZoomControls = () => {
     return (
       <Controls>
         <Box style={{ backgroundColor: "#000"}}>
-        <ToggleIconButton variant="outlined" onClick={handleZoomIn} style={style.action}><ZoomInIcon color="brand" /></ToggleIconButton>
+          <ToggleIconButton variant="outlined" onClick={handleZoomIn} style={style.action}><ZoomInIcon color="brand" /></ToggleIconButton>
         </Box>
         <Box style={{ backgroundColor: "#000"}}>
           <ToggleIconButton variant="outlined" onClick={handleZoomOut} style={style.action}><ZoomOutIcon color="brand" /></ToggleIconButton>
+        </Box>
+        <Box style={{ backgroundColor: "#000"}}>
+          <ToggleIconButton variant="outlined" onClick={(e) => handleMyLocation()} style={style.action}><MyLocationIcon color="brand" /></ToggleIconButton>
         </Box>
       </Controls>
     )
