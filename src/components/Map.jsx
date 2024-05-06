@@ -7,7 +7,13 @@ import { useHead } from 'hoofd';
 import { useApp } from '../context/AppContext';
 
 // MUI
+import { useTheme, styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+
+// Icons
+import ZoomInIcon from '@mui/icons-material/ZoomIn';
+import ZoomOutIcon from '@mui/icons-material/ZoomOut';
 
 // Custom UI
 import MapPanel from './MapPanel';
@@ -35,6 +41,7 @@ export default function Map() {
 
   const navigate = useNavigate();
   const mapRef = useRef(null);
+  const theme = useTheme();
 
   useHead({
     title: "Edinburgh SFF",
@@ -52,7 +59,9 @@ export default function Map() {
   const mapOptions = {
     fullscreenControl: false,
     mapTypeControl: false,
-    mapId: import.meta.env.VITE_GOOGLEMAPS_MAP_ID
+    mapId: import.meta.env.VITE_GOOGLEMAPS_MAP_ID,
+    zoomControl: false,
+    streetViewControl: false,
   }
 
   const defaultLocation = {
@@ -62,6 +71,22 @@ export default function Map() {
     },
     zoom: 13
   }
+
+  const Controls = styled(Box)(({ theme }) => ({
+    display: "flex",
+    flexDirection: "column",
+    gap: "4px",
+    position: "absolute",
+    right: "0.5rem",
+    bottom: "1rem",
+    zIndex: "2",
+  }));
+
+  const ToggleIconButton = styled(IconButton)(({ theme }) => ({
+    borderRadius: "0",
+    border: `2px solid ${theme.palette.brand.main}`,
+    backgroundColor: theme.palette.brand.faint,
+  }));
 
   const style = {
     map: {
@@ -159,10 +184,32 @@ export default function Map() {
     }
   }
 
+  const handleZoomIn = () => {
+    mapRef.current.setZoom(mapRef.current.getZoom() + 1);
+  }
+
+  const handleZoomOut = () => {
+    mapRef.current.setZoom(mapRef.current.getZoom() - 1);
+  }
+
+  const ZoomControls = () => {
+    return (
+      <Controls>
+        <Box style={{ backgroundColor: "#000"}}>
+        <ToggleIconButton variant="outlined" onClick={handleZoomIn} style={style.action}><ZoomInIcon color="brand" /></ToggleIconButton>
+        </Box>
+        <Box style={{ backgroundColor: "#000"}}>
+          <ToggleIconButton variant="outlined" onClick={handleZoomOut} style={style.action}><ZoomOutIcon color="brand" /></ToggleIconButton>
+        </Box>
+      </Controls>
+    )
+  }
+
   return (
     isLoaded ?
       <>
         <Box style={style.map} className="sff-map">
+          <ZoomControls />
           <GoogleMapReact
             apiKey={import.meta.env.VITE_GOOGLEMAPS_API_KEY}
             onGoogleApiLoaded={onGoogleApiLoaded}

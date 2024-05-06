@@ -11,7 +11,8 @@ General:
   - Add: All Events and Locations now update the page title/meta tags
 
 Map:
-  - Add: All new Map, now full-screen
+  - Add: Improved full-screen map
+  - Add: Custom zoom buttons & hide streetview
   - Add: Map pins now colour coded
   - Add: New content filter ("Interesting")
   - Add: New filter widget, with colours
