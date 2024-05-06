@@ -17,9 +17,10 @@ Map:
   - Add: Map pins now colour coded
   - Add: New content filter ("Interesting")
   - Add: New filter widget, with colours
-  - Add: New side panel
+  - Add: Featured pins now use colours from Location type
 
 Sidebar:
+  - Add: New side panel
   - Add: Preview Events
   - Add: Preview selected Map Highlights
   - Add: Search for Map locations
@@ -28,10 +29,15 @@ Events:
   - Add: All new Events popups
 
 Pages:
-  - Add: All new Events popups
+  - Add: New global styling for pages
+  - Add: Intercept links, force them to follow internal routing
 
 Locations
   - Add: All new Locations popups
+  - Add: Tips
+  - Add: Opening hours
+  - Add: New masthead image
+  - Add: Larger image at footer
 
 Admin:
   - Add: All new admin popups

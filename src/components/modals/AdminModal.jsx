@@ -37,6 +37,9 @@ export default function AdminModal({ children }) {
       height: "100%",
       padding: "0"
     },
+    '& .MuiBackdrop-root': {
+      backgroundColor: 'transparent'
+    },
     '& .MuiDialogActions-root': {
       padding: theme.spacing(1),
     },
@@ -106,7 +109,7 @@ export default function AdminModal({ children }) {
       <DialogContent dividers style={{ overflow: "hidden" }}>
         <ProtectedRoute>
           <Box style={style.page} className="sff-admin-layout">
-            <Box style={{ height: "100%", overflow: "auto"}}>
+            <Box style={{ height: "100%", overflow: "hidden"}}>
               {children}
             </Box>
           </Box>

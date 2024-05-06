@@ -8,22 +8,18 @@ import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
 import { useTheme, styled } from '@mui/material/styles';
 
-// Icons
-import CloseIcon from '@mui/icons-material/Close';
-import LocalCafeIcon from '@mui/icons-material/LocalCafe';
-import SportsBarIcon from '@mui/icons-material/SportsBar';
-import LunchDiningIcon from '@mui/icons-material/LunchDining';
-import WifiIcon from '@mui/icons-material/Wifi';
-import PowerIcon from '@mui/icons-material/Power';
-import PetsIcon from '@mui/icons-material/Pets';
-import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
-import IconButton from '@mui/material/IconButton';
+// FacilityIcons
+import LocalCafeFacilityIcon from '@mui/icons-material/LocalCafe';
+import SportsBarFacilityIcon from '@mui/icons-material/SportsBar';
+import LunchDiningFacilityIcon from '@mui/icons-material/LunchDining';
+import WifiFacilityIcon from '@mui/icons-material/Wifi';
+import PowerFacilityIcon from '@mui/icons-material/Power';
+import PetsFacilityIcon from '@mui/icons-material/Pets';
+import CreateFacilityIcon from '@mui/icons-material/Create';
 
 // Custom UI
-import EventsDetailsImage from '../EventsDetailsImage';
 import LinkInterceptor from '../LinkInterceptor';
 import StyledContent from '../StyledContent';
 
@@ -43,25 +39,47 @@ export default function LocationModal(
     '& .MuiDialogContent-root': {
       marginTop: "0.5rem"
     },
+    '& .MuiBackdrop-root': {
+      backgroundColor: 'transparent'
+    },
     '& .MuiPaper-root': {
       backgroundColor: theme.palette.brand.faint,
       color: theme.palette.text.main,
     },
   }));
 
-  const styleEventTitle={
-    textAlign: "center"
-  }
+  const MastheadImageBox = styled(Box)(({ theme }) => ({
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: "1rem",
+    marginBottom: "1rem",
+    "& img": {
+      width: "3rem",
+      height: "auto"
+    }
+  }));
 
-  const styleFacilities={
+  const FooterImageBox = styled(Box)(({ theme }) => ({
+    width: '100%',
+    marginTop: "2rem",
+    '& img': {
+      width: "100%",
+      height: "auto"
+    }
+  }));
+
+  const Facilities = styled(Box)(({ theme }) => ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     gap: "1rem",
-    marginBottom: "1rem"
-  }
+    marginBottom: "1rem",
+    backgroundColor: "rgba(255,255,255,.05)",
+    marginBottom: "2rem",
+    padding: "1rem"
+  }));
 
-  const styleIcon={
+  const FacilityIcon = styled(Box)(({ theme }) => ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
@@ -70,7 +88,36 @@ export default function LocationModal(
     height: "2.5rem",
     borderRadius: "50%",
     border: "1px solid #fff",
-  }
+  }));
+
+  const Heading = styled(Box)(({ theme }) => ({
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  }));
+
+  const Section = styled(Box)(({ theme }) => ({
+    marginTop: "2rem",
+  }));
+
+  const SectionHeading = styled(Typography)(({ theme }) => ({
+    display: "inline-block",
+    color: theme.palette.brand.main
+  }));
+
+  const Hours = styled(Box)(({ theme }) => ({
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "column",
+    padding: "1px",
+    gap: "0",
+    marginBottom: "1rem",
+    '& p': {
+      padding: "0",
+      margin: "0",
+    }
+  }));
 
   const stylePrice={
     paddingLeft: "1rem",
@@ -85,27 +132,25 @@ export default function LocationModal(
   }
 
   const styleDescription={
-    paddingLeft: "1rem",
-    paddingRight: "1rem",
     marginTop: "1rem"
   }
 
-  const pickIcon = (facility) => {
+  const pickFacilityIcon = (facility) => {
     switch (facility) {
       case "Coffee":
-        return <LocalCafeIcon color="secondary" />;
+        return <LocalCafeFacilityIcon color="brand" />;
       case "Alcohol":
-        return <SportsBarIcon color="secondary" />;
+        return <SportsBarFacilityIcon color="brand" />;
       case "Food":
-        return <LunchDiningIcon color="secondary" />;
+        return <LunchDiningFacilityIcon color="brand" />;
       case "Wifi":
-        return <WifiIcon color="secondary" />;
+        return <WifiFacilityIcon color="brand" />;
       case "Power":
-        return <PowerIcon color="secondary" />;
+        return <PowerFacilityIcon color="brand" />;
       case "Pets":
-        return <PetsIcon color="secondary" />;
+        return <PetsFacilityIcon color="brand" />;
       case "Writers":
-        return <HistoryEduIcon color="secondary" />;
+        return <CreateFacilityIcon color="brand" />;
       default:
         return null;
     }
@@ -115,14 +160,40 @@ export default function LocationModal(
     if (!pinData) return;
     if (!pinData.facilities) return;
     const facilities = pinData.facilities.split(",");
-    return <Box style={styleFacilities}>
+    return <Facilities>
       {facilities.map((facility, index) => (
-        <Box key={index} style={styleIcon}>
-          {pickIcon(facility)}
-        </Box>
+        <FacilityIcon key={index}>
+          {pickFacilityIcon(facility)}
+        </FacilityIcon>
       ))
       }
-    </Box>;
+    </Facilities>;
+  }
+
+
+  const renderHours = () => {
+    if (!pinData) return;
+    if (!pinData.hours) return;
+    const openingHoursArray = pinData.hours.split(",");
+    return <Hours>
+      {openingHoursArray.map((entry, index) => (
+        <div key={index}>
+          <Typography>{entry}</Typography>
+        </div>
+      ))
+      }
+    </Hours>;
+  }
+
+  const renderTips = () => {
+    if (!pinData) return;
+    if (!pinData.tips) return;
+    return <Section>
+      <SectionHeading component="h2" variant="h_medium">Tips</SectionHeading>
+      <LinkInterceptor>
+        <ReactMarkdown children={pinData.tips} />
+      </LinkInterceptor>
+    </Section>;
   }
 
   const renderPrice = () => {
@@ -150,25 +221,34 @@ export default function LocationModal(
       onClose={handleCloseDetails}
       scroll="paper"
       aria-labelledby="add-dialog-title">
-      <DialogTitle id="add-dialog-title" sx={styleEventTitle}>
-        <Typography component="span" variant="h_large" >{pinData.title}</Typography>
-      </DialogTitle>
       <DialogContent dividers className="scroll-dialog">
         <StyledContent elevation={0}>
+          { pinData?.image && (
+            <MastheadImageBox className="sff-event-masthead">
+              <img src={imageURL(pinData?.image, 'medium')} alt={pinData?.title} style={{ width: "4rem", height: "auto" }}/>
+            </MastheadImageBox>
+          )}
+          <Heading>
+            <Typography component="span" variant="h_large">{pinData.title}</Typography>
+          </Heading>
+          { renderHours() }
+          { renderFacilities() }
           <Box style={styleDescription}>
             <LinkInterceptor>
               <ReactMarkdown children={pinData.description} />
             </LinkInterceptor>
           </Box>
-          { renderFacilities() }
+          {renderTips()}
           <Box style={{ display: "flex", justifyContent: "space-between" }}>
             { renderPrice() }
             { renderNoise() }
           </Box>
-          { pinData.image &&
-            <EventsDetailsImage image={imageURL(pinData?.image, 'medium')} alt={pinData.title} />
-          }
         </StyledContent>
+        { pinData?.image && (
+          <FooterImageBox className="sff-location-footer">
+            <img loading="lazy" src={pinData.image} alt={pinData.title} />
+          </FooterImageBox>
+        )}
       </DialogContent>
       <DialogActions>
         <Button onClick={handleCloseDetails} color="brand">Close</Button>

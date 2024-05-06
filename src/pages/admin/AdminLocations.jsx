@@ -81,11 +81,12 @@ export default function AdminMap() {
   // Common
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [tips, setTips] = useState('');
   const [url, setURL] = useState('');
   const [show, setShow] = useState(true);
   const [imgUrl, setImgUrl] = useState(null);
 
-  // Specific to Maps
+  // Specific to Locations
   const [featured, setFeatured] = useState(false);
   const [locationLat, setLocationLat] = useState(0);
   const [locationLng, setLocationLng] = useState(0);
@@ -94,6 +95,7 @@ export default function AdminMap() {
 
   const [locationNoiseLevel, setNoiseLevel] = useState(5);
   const [locationPriceLevel, setPriceLevel] = useState(5);
+  const [hours, setHours] = useState('');
 
   // Update
   const [isUpdate, setIsUpdate] = useState(false);
@@ -110,6 +112,12 @@ export default function AdminMap() {
     display: 'flex',
     flexDirection: 'row',
     gap: "1rem",
+  }));
+
+  const HelpText = styled(Typography)(({ theme }) => ({
+    fontSize: "0.75rem",
+    color: theme.palette.text.secondary,
+    margin: "2px 0 8px"
   }));
 
   const style = {
@@ -157,6 +165,7 @@ export default function AdminMap() {
 
     setTitle(data.title);
     setDescription(data.description);
+    setTips(data.tips);
     setURL(data.url);
     setImgUrl(data.image);
     setShow(data.show);
@@ -166,6 +175,7 @@ export default function AdminMap() {
 
     setNoiseLevel(data.noise || 0);
     setPriceLevel(data.price || 0);
+    setHours(data.hours);
 
     if (data.tags) {
       setLocationTags(data.tags.split(','));
@@ -195,6 +205,7 @@ export default function AdminMap() {
     const payload = {
       title: title,
       description: description,
+      tips: tips,
       url: url,
       featured: featured,
       show: show,
@@ -205,6 +216,7 @@ export default function AdminMap() {
       facilities: locationFacilities.toString(),
       price: locationPriceLevel,
       noise: locationNoiseLevel,
+      hours: hours,
       created: {
         email: user.email,
         uid: user.uid,
@@ -241,6 +253,7 @@ export default function AdminMap() {
     const payload = {
       title: title,
       description: description,
+      tips: tips,
       url: url,
       show: show,
       featured: featured,
@@ -251,13 +264,13 @@ export default function AdminMap() {
       facilities: locationFacilities.toString(),
       price: locationPriceLevel,
       noise: locationNoiseLevel,
+      hours: hours,
       updated: {
         email: user.email,
         uid: user.uid,
         timestamp: new Date()
       }
     }
-    console.log("updateId", updateId);
     try {
       const l = doc(db, "locations", updateId);
       await updateDoc(l, payload);
@@ -344,6 +357,16 @@ export default function AdminMap() {
   const handleChangeDescription = (text) => {
     if (text !== description) setIsDirty(true);
     setDescription(text);
+  };
+
+  const handleChangeTips = (text) => {
+    if (text !== tips) setIsDirty(true);
+    setTips(text);
+  };
+
+  const handleChangeHours = (text) => {
+    if (text !== hours) setIsDirty(true);
+    setHours(text);
   };
 
   const handleFileUpload = (url) => {
@@ -472,6 +495,9 @@ export default function AdminMap() {
               </SplitBox>
 
               <TextField sx={{ width: '100%' }} value={description} multiline rows={8} label="Description" onChange={(e) => handleChangeDescription(e.target.value)}  />
+              <TextField sx={{ width: '100%' }} value={hours} multiline rows={1} label="Opening hours" onChange={(e) => handleChangeHours(e.target.value)}  />
+              <HelpText>Comma seperated values</HelpText>
+              <TextField sx={{ width: '100%' }} value={tips} multiline rows={4} label="Tips" onChange={(e) => handleChangeTips(e.target.value)}  />
               <TextField sx={{ width: '100%' }} value={locationLat} required label="Lat" onChange={(e) => setLocationLat(e.target.value)} type='text' />
               <TextField sx={{ width: '100%' }} value={locationLng} required label="Lng" onChange={(e) => setLocationLng(e.target.value)} type='text' />
 

@@ -41,9 +41,17 @@ export default function ListContent() {
   const [isLoading, setIsLoading] = useState(true);
 
   const style = {
+    paper: {
+      display: "flex",
+      flexDirection: "column",
+      height: "100%",
+      overflow: "hidden",
+    },
     content: {
-      marginTop: "2rem",
       textAlign: "left",
+      minHeight: "calc(100vh -2rem)",
+      padding: "1rem",
+      margin: "0.5rem",
       overflow: "auto",
     },
     heading: {
@@ -193,26 +201,28 @@ export default function ListContent() {
   }
 
   return (
-    <Box className="sff-admin-content-list">
-      <Box style={style.content}>
-        <Typography component="h1" variant="h1" style={{textAlign: "center", textTransform: "capitalize",}}>
-          {params.type}
-        </Typography>
-        {isLoading && <Spinner />}
-        {!isLoading && <>
-          <Box style={style.actionbar}>
-            <TextField
-              value={filter}
-              label="Filter"
-              size="small"
-              onChange={(e) => handleFilter(e.target.value)}
-            />
-            <Button onClick={() => onAddItem()} variant='outlined' color="form" startIcon={<LibraryAddIcon />}>Add</Button>
-          </Box>
-          <TableContainer component={Box} sx={{ mt: 2, mb: 1 }}>
-            {renderTable()}
-          </TableContainer>
-        </>}
+    <Box className="sff-admin-content-list" style={{height: "100%", overflow: "auto"}}>
+      <Box style={style.paper}>
+        <Box style={style.content}>
+          <Typography component="h1" variant="h1" style={{textAlign: "center", textTransform: "capitalize",}}>
+            {params.type}
+          </Typography>
+          {isLoading && <Spinner />}
+          {!isLoading && <>
+            <Box style={style.actionbar}>
+              <TextField
+                value={filter}
+                label="Filter"
+                size="small"
+                onChange={(e) => handleFilter(e.target.value)}
+              />
+              <Button onClick={() => onAddItem()} variant='outlined' color="form" startIcon={<LibraryAddIcon />}>Add</Button>
+            </Box>
+            <TableContainer component={Box} sx={{ mt: 2, mb: 1 }}>
+              {renderTable()}
+            </TableContainer>
+          </>}
+        </Box>
       </Box>
     </Box>
   );

@@ -35,8 +35,8 @@ export default function MapPin({data, onClickPin}) {
     width: "calc(2rem - 4px)",
     height: "calc(2rem - 4px)",
     fontSize: "1rem",
-    color: data.focus ? theme.palette.warning.main : "currentColor",
-    backgroundColor: data.focus ? theme.palette.warning.main : "currentColor",
+    color: data.focus ? theme.palette[color].main : "currentColor",
+    backgroundColor: data.focus ? "#000" : "currentColor",
     borderTop: `2px solid ${theme.palette[color].main}`,
     borderLeft: `2px solid ${theme.palette[color].main}`,
     borderRight: `2px solid ${theme.palette[color].main}`,
@@ -69,14 +69,14 @@ export default function MapPin({data, onClickPin}) {
     fontWeight: "400",
     fontSize: "0.5rem",
     textTransform: "uppercase",
-    color: theme.palette.brand.main,
-    backgroundColor: theme.palette.warning.main,
+    color: theme.palette.brand.contrastText,
+    backgroundColor: theme.palette[color].main,
     top: "0",
     left: "2rem",
     alignItems: "center",
     justifyContent: "center",
     whiteSpace: "nowrap",
-    padding: "4px 1rem 4px 0"
+    padding: "4px 1rem"
   }));
 
   useEffect(() => {
