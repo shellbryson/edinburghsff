@@ -12,7 +12,9 @@ General:
 
 Map:
   - Add: All new Map, now full-screen
-  - Add: New filter widget
+  - Add: Map pins now colour coded
+  - Add: New content filter ("Interesting")
+  - Add: New filter widget, with colours
   - Add: New side panel
     - Add: Preview Events
     - Add: Preview selected Map Highlights

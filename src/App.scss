@@ -101,28 +101,6 @@ p {
   }
 }
 
-.sff-map-icon {
-
-  &::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 2rem;
-    width: 0;
-    height: 0;
-    border-left: 16px solid transparent;
-    border-right: 16px solid transparent;
-    border-top: 16px solid currentColor;
-    clear: both;
-  }
-
-  > svg {
-    display: block;
-    width: 1rem;
-    height: 1rem;
-  }
-}
-
 .scroll {
   scrollbar-color: #fded07 #000;
   scrollbar-width: thin;

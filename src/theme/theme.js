@@ -125,6 +125,24 @@ export const customTheme = createTheme({
       light: '#3c3c3c',
       dark: '#000',
       contrastText: '#f2f2f2',
+    },
+    pinVenue: {
+      main: '#c184f8'
+    },
+    pinCafe: {
+      main: '#62bae3'
+    },
+    pinLibrary: {
+      main: '#8cd672'
+    },
+    pinBookshop: {
+      main: '#d69372'
+    },
+    pinInteresting: {
+      main: '#fff'
+    },
+    pinDefault: {
+      main: '#fff'
     }
   },
   components: {

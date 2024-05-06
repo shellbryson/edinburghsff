@@ -56,7 +56,7 @@ const locationTagsLookup = [
   'Cafe',
   'Bookshop',
   'Library',
-  'Place of interest'
+  'Interesting'
 ];
 
 const facilitiesTagsLookup = [

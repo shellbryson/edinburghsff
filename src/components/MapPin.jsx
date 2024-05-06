@@ -7,16 +7,17 @@ import { Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
 // Icons
-import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
+import PushPinIcon from '@mui/icons-material/PushPin';
 import FestivalIcon from '@mui/icons-material/Festival';
-import MenuBookOutlinedIcon from '@mui/icons-material/MenuBookOutlined';
-import LocalCafeOutlinedIcon from '@mui/icons-material/LocalCafeOutlined';
-import LocalLibraryOutlinedIcon from '@mui/icons-material/LocalLibraryOutlined';
+import BookIcon from '@mui/icons-material/Book';
+import CreateIcon from '@mui/icons-material/Create';
+import LocalLibraryIcon from '@mui/icons-material/LocalLibrary';
 
 export default function MapPin({data, onClickPin}) {
 
   const theme = useTheme();
   const [icon, setIcon] = useState("");
+  const [color, setColor] = useState("pinDefault");
 
   const PinBox = styled(Box)(({ theme }) => ({
     display: "flex",
@@ -24,20 +25,41 @@ export default function MapPin({data, onClickPin}) {
     width: "2rem",
     height: "3rem",
     marginTop: "-3rem",
-    left: "-1rem"
+    left: "-1rem",
+    filter: "drop-shadow(1px 1px 1px rgba(0,0,0,0.5))"
   }));
 
   const IconBox = styled(Box)(({ theme }) => ({
     display: "flex",
     position: "absolute",
-    width: "2rem",
-    height: "2rem",
+    width: "calc(2rem - 4px)",
+    height: "calc(2rem - 4px)",
     fontSize: "1rem",
     color: data.focus ? theme.palette.warning.main : "currentColor",
     backgroundColor: data.focus ? theme.palette.warning.main : "currentColor",
+    borderTop: `2px solid ${theme.palette[color].main}`,
+    borderLeft: `2px solid ${theme.palette[color].main}`,
+    borderRight: `2px solid ${theme.palette[color].main}`,
+    borderBottom: `2px solid ${theme.palette[color].main}`,
     top: "0",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    '&::after': {
+      content: "''",
+      position: "absolute",
+      top: "20px",
+      width: "calc(1rem)",
+      height: "calc(1rem)",
+      clear: "both",
+      transform: "rotate(45deg)",
+      backgroundColor: theme.palette[color].main,
+      zIndex: "-1"
+    },
+    '> svg': {
+      display: "block",
+      width: "22px",
+      height: "22px",
+    }
   }));
 
   const LabelBox = styled(Box)(({ theme }) => ({
@@ -60,18 +82,28 @@ export default function MapPin({data, onClickPin}) {
   useEffect(() => {
     if (!data.tags) return;
     let icon;
+    let color;
     const tagArray = data.tags.split(",");
     if (tagArray.includes("Venue")) {
-      icon = <FestivalIcon color="brand" />;
+      color = "pinVenue";
+      icon = <FestivalIcon color="pinVenue" />;
     } else if (tagArray.includes("Bookshop")) {
-      icon = <MenuBookOutlinedIcon color="brand" />;
+      color = "pinBookshop";
+      icon = <BookIcon color="pinBookshop" />;
     } else if (tagArray.includes("Cafe")) {
-      icon = <LocalCafeOutlinedIcon color="brand" />;
+      color = "pinCafe";
+      icon = <CreateIcon color="pinCafe" />;
     } else if (tagArray.includes("Library")) {
-      icon = <LocalLibraryOutlinedIcon color="brand" />;
+      color = "pinLibrary";
+      icon = <LocalLibraryIcon color="pinLibrary" />;
+    } else if (tagArray.includes("Interesting")) {
+      color = "pinInteresting";
+      icon = <PushPinIcon color="pinInteresting" />;
     } else {
-      icon = <PushPinOutlinedIcon color="brand" />;
+      color = "pinDefault";
+      icon = <PushPinIcon color="brand" />;
     }
+    setColor(color);
     setIcon(icon);
   }, [data.id]);
 
