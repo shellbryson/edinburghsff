@@ -38,6 +38,7 @@ export default function Map() {
     focusMapPin,
     isExploded,
     mapSearchText,
+    isExpanded,
   } = useApp();
 
   const navigate = useNavigate();
@@ -56,6 +57,8 @@ export default function Map() {
 
   const [mapReady, setMapReady] = useState(false);
   const [pinData, setPinData] = useState({});
+
+  const [screenSize, setScreenSize] = useState(window.innerWidth);
 
   const mapOptions = {
     fullscreenControl: false,
@@ -154,6 +157,16 @@ export default function Map() {
     });
   }, [mapLocations]);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setScreenSize(window.innerWidth);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    }
+  }, []);
+
   const onGoogleApiLoaded = ({map}) => {
     mapRef.current = map;
     setMapReady(true);
@@ -206,7 +219,8 @@ export default function Map() {
     });
   }
 
-  const ZoomControls = () => {
+  const MapControls = () => {
+    if (isExpanded && screenSize <= 380) return;
     return (
       <Controls>
         <Box style={{ backgroundColor: "#000"}}>
@@ -226,7 +240,7 @@ export default function Map() {
     isLoaded ?
       <>
         <Box style={style.map} className="sff-map">
-          <ZoomControls />
+          <MapControls />
           <GoogleMapReact
             apiKey={import.meta.env.VITE_GOOGLEMAPS_API_KEY}
             onGoogleApiLoaded={onGoogleApiLoaded}

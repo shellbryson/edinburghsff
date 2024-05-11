@@ -45,14 +45,14 @@ export default function LocationModal(
 
   const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
-      marginTop: "0.5rem",
+      marginTop: "1rem",
       borderRadius: "0",
       '&::before': {
         position: "absolute",
         content: '""',
         display: 'block',
-        width: '10%',
-        height: '2px',
+        width: '4px',
+        height: '4px',
         backgroundColor: theme.palette.brand.main,
         top: "0",
         right: "0",
@@ -72,6 +72,10 @@ export default function LocationModal(
       backgroundColor: theme.palette.brand.faint,
       color: theme.palette.text.main,
       borderRadius: "0",
+      borderTop: `1px solid rgba(255,255,255,.1)`,
+      borderBottom: `1px solid rgba(255,255,255,.1)`,
+      borderLeft: `1px solid rgba(255,255,255,.1)`,
+      borderRight: `1px solid rgba(255,255,255,.1)`,
     },
   }));
 
