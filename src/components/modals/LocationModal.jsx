@@ -10,7 +10,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import { useTheme, styled } from '@mui/material/styles';
 
-// FacilityIcons
+// Facility Icons
 import LocalCafeFacilityIcon from '@mui/icons-material/LocalCafe';
 import SportsBarFacilityIcon from '@mui/icons-material/SportsBar';
 import LunchDiningFacilityIcon from '@mui/icons-material/LunchDining';
@@ -18,6 +18,13 @@ import WifiFacilityIcon from '@mui/icons-material/Wifi';
 import PowerFacilityIcon from '@mui/icons-material/Power';
 import PetsFacilityIcon from '@mui/icons-material/Pets';
 import CreateFacilityIcon from '@mui/icons-material/Create';
+
+// Location Tag Icons
+import PushPinIcon from '@mui/icons-material/PushPin';
+import FestivalIcon from '@mui/icons-material/Festival';
+import BookIcon from '@mui/icons-material/Book';
+import CreateIcon from '@mui/icons-material/Create';
+import LocalLibraryIcon from '@mui/icons-material/LocalLibrary';
 
 // Custom UI
 import LinkInterceptor from '../LinkInterceptor';
@@ -90,6 +97,17 @@ export default function LocationModal(
     border: "1px solid #fff",
   }));
 
+  const TagIcon = styled(Box)(({ theme }) => ({
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: "1rem",
+    width: "2.5rem",
+    height: "2.5rem",
+    // borderRadius: "50%",
+    // border: "1px solid #fff",
+  }));
+
   const Heading = styled(Box)(({ theme }) => ({
     display: "flex",
     justifyContent: "center",
@@ -135,41 +153,83 @@ export default function LocationModal(
     marginTop: "1rem"
   }
 
-  const pickFacilityIcon = (facility) => {
+  const pickTagIcon = (tag, i) => {
+    let tagEl;
+    let color;
+    switch (tag) {
+      case "Venue":
+        color = "pinVenue";
+        tagEl = <FestivalIcon color="pinVenue" />;
+        break;
+      case "Bookshop":
+        color = "pinBookshop";
+        tagEl =  <BookIcon color="pinBookshop" />;
+        break;
+      case "Cafe":
+        color = "pinCafe";
+        tagEl =  <CreateIcon color="pinCafe" />;
+        break;
+      case "Library":
+        color = "pinLibrary";
+        tagEl =  <LocalLibraryIcon color="pinLibrary" />;
+        break;
+      case "Interesting":
+        color = "pinInteresting";
+        tagEl =  <PushPinIcon color="pinInteresting" />;
+        break;
+      default:
+        tagEl = null;
+    }
+
+    return <TagIcon color={color} key={i} style={{ borderRadius: "50%", border: `1px solid ${theme.palette[color].main}`}}>{tagEl}</TagIcon>
+  }
+
+  const pickFacilityIcon = (facility, i) => {
+    let el;
     switch (facility) {
       case "Coffee":
-        return <LocalCafeFacilityIcon color="brand" />;
+        el = <LocalCafeFacilityIcon color="brand" />;
+        break;
       case "Alcohol":
-        return <SportsBarFacilityIcon color="brand" />;
+        el = <SportsBarFacilityIcon color="brand" />;
+        break;
       case "Food":
-        return <LunchDiningFacilityIcon color="brand" />;
+        el = <LunchDiningFacilityIcon color="brand" />;
+        break;
       case "Wifi":
-        return <WifiFacilityIcon color="brand" />;
+        el = <WifiFacilityIcon color="brand" />;
+        break;
       case "Power":
-        return <PowerFacilityIcon color="brand" />;
+        el = <PowerFacilityIcon color="brand" />;
+        break;
       case "Pets":
-        return <PetsFacilityIcon color="brand" />;
+        el = <PetsFacilityIcon color="brand" />;
+        break;
       case "Writers":
-        return <CreateFacilityIcon color="brand" />;
+        el = <CreateFacilityIcon color="brand" />;
+        break;
       default:
-        return null;
+        el = null;
     }
+
+    return <TagIcon color="brand" key={i} style={{ borderRadius: "50%", border: `1px solid ${theme.palette.brand.main}`}}>{el}</TagIcon>
   }
 
   const renderFacilities = () => {
     if (!pinData) return;
-    if (!pinData.facilities) return;
+    if (!pinData.facilities && !pinData.tags) return;
     const facilities = pinData.facilities.split(",");
+    const tags = pinData.tags.split(",");
     return <Facilities>
-      {facilities.map((facility, index) => (
-        <FacilityIcon key={index}>
-          {pickFacilityIcon(facility)}
-        </FacilityIcon>
+      {tags && tags.map((tag, index) => (
+        pickTagIcon(tag, index)
+      ))}
+      {facilities && facilities.map((facility, index) => (
+        pickFacilityIcon(facility, index)
       ))
       }
     </Facilities>;
   }
-
 
   const renderHours = () => {
     if (!pinData) return;
