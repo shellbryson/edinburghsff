@@ -11,7 +11,7 @@ import { useTheme, styled } from '@mui/material/styles';
 // Theme helpers
 import useMediaQuery from '@mui/material/useMediaQuery';
 
-export default function ContentModal({ children, isLoading }) {
+export default function ContentModal({ children }) {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const navigate = useNavigate();
@@ -26,12 +26,6 @@ export default function ContentModal({ children, isLoading }) {
     },
   }));
 
-  const style= {
-    content: {
-      borderBottom: `1px solid rgba(0,0,0, 0.1`
-    }
-  }
-
   const handleClose = () => {
     navigate(`/`);
   };
@@ -42,7 +36,7 @@ export default function ContentModal({ children, isLoading }) {
       maxWidth="sm"
       open={true} fullScreen={fullScreen}
       onClose={handleClose}>
-      <DialogContent className="scroll-dialog" style={style.content}>
+      <DialogContent className="scroll-dialog">
         {children}
       </DialogContent>
       <DialogActions>

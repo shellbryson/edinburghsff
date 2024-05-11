@@ -23,7 +23,6 @@ export default function MapSearch() {
 
   const stylePanel={
     display: "flex",
-    backgroundColor: "rgb(0, 0, 0)",
     width: "100%",
   }
 
@@ -32,7 +31,7 @@ export default function MapSearch() {
     alignItems: 'center',
     borderRadius: "0",
     border: `1px solid ${theme.palette.brand.main}`,
-    backgroundColor: "rgba(255, 255, 255, 0.1)",
+    backgroundColor: theme.palette.brand.faint,
     color: "#fff",
     width: "100%",
   }

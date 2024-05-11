@@ -55,7 +55,7 @@ export default function StyledContent({ children}) {
       padding: '6px 1rem',
       fontFamily: '"Chakra Petch", sans-serif',
       fontWeight: "400",
-      backgroundColor: "rgba(255,255,255,.05)",
+      backgroundColor: theme.palette.highlight.main,
       marginTop: "0",
       marginBottom: "1rem",
       lineHeight: "1.1",
@@ -72,7 +72,7 @@ export default function StyledContent({ children}) {
     },
     '& code': {
       display: "inline-block",
-      border: "1px solid rgba(255,255,255,.05)",
+      border: theme.palette.highlight.main,
       padding: "4px 8px",
       marginBottom: "2px",
       color: theme.palette.brand.dark,

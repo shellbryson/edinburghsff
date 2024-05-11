@@ -120,6 +120,9 @@ export const customTheme = createTheme({
     warning: {
       main: '#c51d1d'
     },
+    highlight: {
+      main: '#27260d'
+    },
     form: {
       main: '#262626',
       light: '#3c3c3c',

@@ -87,7 +87,7 @@ const EventDetails = ({ handleClose }) => {
 
   const Summary = styled(Box)(({ theme }) => ({
     position: "relative",
-    backgroundColor: "rgba(255,255,255,.05)",
+    backgroundColor: theme.palette.highlight.main,
     padding: fullScreen ? "1rem" : "1rem 1rem",
     margin: fullScreen ? "2rem 0" : "2rem 0 2rem 0",
     fontFamily: '"Chakra Petch", sans-serif',
@@ -96,8 +96,9 @@ const EventDetails = ({ handleClose }) => {
     "& p" : {
       margin: 0,
       padding: 0,
-      lineHeight: "1.1",
-      fontSize: "1.5rem",
+      lineHeight: "1",
+      fontSize: "1.8rem",
+      maxWidth: "20ch",
     },
     '&::before': {
       content: '""',
@@ -141,7 +142,7 @@ const EventDetails = ({ handleClose }) => {
     margin: "2rem 0",
     gap: "1rem",
     padding: "1rem",
-    backgroundColor: "rgba(255,255,255,.05)",
+    backgroundColor: theme.palette.highlight.main,
   }));
 
   const style = {

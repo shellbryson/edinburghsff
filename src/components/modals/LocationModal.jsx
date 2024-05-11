@@ -105,7 +105,7 @@ export default function LocationModal(
     alignItems: "center",
     gap: "1rem",
     marginBottom: "1rem",
-    backgroundColor: "rgba(255,255,255,.05)",
+    backgroundColor: theme.palette.highlight.main,
     marginBottom: "2rem",
     padding: "1rem"
   }));
@@ -152,7 +152,7 @@ export default function LocationModal(
     display: "flex",
     justifyContent: "center",
     gap: "1rem",
-    backgroundColor: "rgba(255,255,255,.05)",
+    backgroundColor: theme.palette.highlight.main,
     alignContent: "center",
     padding: "1rem",
     '& > div' : {
@@ -306,7 +306,7 @@ export default function LocationModal(
       onClose={handleCloseDetails}
       scroll="paper"
       aria-labelledby="add-dialog-title">
-      <DialogContent dividers className="scroll-dialog">
+      <DialogContent className="scroll-dialog">
         <StyledContent elevation={0}>
           { pinData?.image && (
             <MastheadImageBox className="sff-event-masthead">
