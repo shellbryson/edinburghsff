@@ -141,33 +141,34 @@ export default function LocationModal(
   }
 
   const pickTagIcon = (tag, i) => {
-    let tagEl;
+    let el;
     let color;
     switch (tag) {
       case "Venue":
         color = "pinVenue";
-        tagEl = <FestivalIcon color="pinVenue" />;
+        el = <FestivalIcon color="pinVenue" />;
         break;
       case "Bookshop":
         color = "pinBookshop";
-        tagEl =  <BookIcon color="pinBookshop" />;
+        el =  <BookIcon color="pinBookshop" />;
         break;
       case "Cafe":
         color = "pinCafe";
-        tagEl =  <CreateIcon color="pinCafe" />;
+        el =  <CreateIcon color="pinCafe" />;
         break;
       case "Library":
         color = "pinLibrary";
-        tagEl =  <LocalLibraryIcon color="pinLibrary" />;
+        el =  <LocalLibraryIcon color="pinLibrary" />;
         break;
       case "Interesting":
         color = "pinInteresting";
-        tagEl =  <PushPinIcon color="pinInteresting" />;
+        el =  <PushPinIcon color="pinInteresting" />;
         break;
       default:
-        tagEl = null;
+        el =  null;
     }
-    return <TagIcon color={color} key={i} style={{ borderRadius: "50%", border: `1px solid ${theme.palette[color].main}`}}>{tagEl}</TagIcon>
+    if (!el) return;
+    return <TagIcon color={color} key={i} style={{ borderRadius: "50%", border: `1px solid ${theme.palette[color].main}`}}>{el}</TagIcon>
   }
 
   const pickFacilityIcon = (facility, i) => {
@@ -197,6 +198,7 @@ export default function LocationModal(
       default:
         el = null;
     }
+    if (!el) return;
     return <TagIcon color="brand" key={i} style={{ borderRadius: "50%", border: `1px solid ${theme.palette.brand.main}`}}>{el}</TagIcon>
   }
 
