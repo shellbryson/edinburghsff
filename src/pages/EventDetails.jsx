@@ -52,7 +52,7 @@ const EventDetails = ({ handleClose }) => {
     display: 'flex',
     justifyContent: 'center',
     marginTop: "1rem",
-    marginBottom: "1rem",
+    marginBottom: "2rem",
     "& img": {
       width: "3rem",
       height: "auto"

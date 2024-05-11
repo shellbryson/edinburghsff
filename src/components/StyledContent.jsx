@@ -49,7 +49,7 @@ export default function StyledContent({ children}) {
       marginTop: "0",
       marginBottom: "1rem",
     },
-    '& h2, h3' : {
+    '& h2' : {
       display: "inline-block",
       textTransform: 'uppercase',
       padding: '6px 1rem',

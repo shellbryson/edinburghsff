@@ -92,8 +92,8 @@ export default function AdminMap() {
   const [locationTags, setLocationTags] = useState([]);
   const [locationFacilities, setLocationFacilities] = useState([]);
 
-  const [locationNoiseLevel, setNoiseLevel] = useState(5);
-  const [locationPriceLevel, setPriceLevel] = useState(5);
+  const [locationNoiseLevel, setNoiseLevel] = useState(0);
+  const [locationPriceLevel, setPriceLevel] = useState(0);
   const [hours, setHours] = useState('');
 
   // Update

@@ -83,7 +83,7 @@ export default function LocationModal(
     display: 'flex',
     justifyContent: 'center',
     marginTop: "1rem",
-    marginBottom: "1rem",
+    marginBottom: "2rem",
     "& img": {
       width: "3rem",
       height: "auto"
@@ -148,15 +148,29 @@ export default function LocationModal(
     }
   }));
 
+  const FooterMeta = styled(Box)(({ theme }) => ({
+    display: "flex",
+    justifyContent: "center",
+    gap: "1rem",
+    backgroundColor: "rgba(255,255,255,.05)",
+    alignContent: "center",
+    padding: "1rem",
+    '& > div' : {
+      backgroundColor: theme.palette.brand.faint,
+      width: "50%",
+    },
+    '& p' : {
+      padding: "0.5rem 1rem",
+      margin: "0",
+      textAlign: "center",
+    }
+  }));
+
   const stylePrice={
-    paddingLeft: "1rem",
-    paddingRight: "1rem",
     marginTop: "1rem"
   }
 
   const styleNoise={
-    paddingLeft: "1rem",
-    paddingRight: "1rem",
     marginTop: "1rem"
   }
 
@@ -267,20 +281,20 @@ export default function LocationModal(
     </Section>;
   }
 
-  const renderPrice = () => {
-    if (!pinData) return;
-    if (!pinData.price) return;
-    return <Box style={stylePrice}>
-      <Typography>Price: {pinData.price} / 10</Typography>
-    </Box>;
-  }
-
-  const renderNoise = () => {
-    if (!pinData) return;
-    if (!pinData.price) return;
-    return <Box style={styleNoise}>
-      <Typography>Noise: {pinData.noise} / 10</Typography>
-    </Box>;
+  const renderFooter = () => {
+    if (!pinData?.price > 0 && !pinData?.noise > 0) return;
+    return <FooterMeta>
+      { pinData?.price > 0 &&
+        <Box>
+          <Typography>Price: {pinData.price} / 10</Typography>
+        </Box>
+      }
+      { pinData?.noise > 0 &&
+        <Box>
+          <Typography>Noise: {pinData.noise} / 10</Typography>
+        </Box>
+      }
+    </FooterMeta>
   }
 
   return (
@@ -310,10 +324,7 @@ export default function LocationModal(
             </LinkInterceptor>
           </Box>
           {renderTips()}
-          <Box style={{ display: "flex", justifyContent: "space-between" }}>
-            { renderPrice() }
-            { renderNoise() }
-          </Box>
+          {renderFooter()}
         </StyledContent>
         { pinData?.image && (
           <FooterImageBox className="sff-location-footer">
