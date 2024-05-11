@@ -85,18 +85,16 @@ export default function MapPanel() {
 
   return (
     <Box style={styles.panel} className="sff-panel">
-      {!isExploded &&
-        <Box style={styles.expander} onClick={() => handleExpanderClick()}  className="sff-panel__expander">
-          {isExpanded ?
-            <ChevronLeftIcon />
-          :
-            <>
-              <MenuIcon />
-              <ChevronRightIcon />
-            </>
-          }
-        </Box>
-      }
+      <Box style={styles.expander} onClick={() => handleExpanderClick()}  className="sff-panel__expander">
+        {isExpanded ?
+          <ChevronLeftIcon />
+        :
+          <>
+            <MenuIcon />
+            <ChevronRightIcon />
+          </>
+        }
+      </Box>
       <Box style={styles.interior} className="sff-panel__interior">
         <Box style={styles.content} className="sff-panel__content">
           <Navigation />

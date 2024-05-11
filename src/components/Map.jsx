@@ -263,7 +263,7 @@ export default function Map() {
         <Box style={style.logo} className="sff-logo">
           <Logo />
         </Box>
-        {!isExploded && <Filter onFilterMap={handleFilterMap} onSearchMap={handleOnSearchMap} />}
+        <Filter onFilterMap={handleFilterMap} onSearchMap={handleOnSearchMap} />
         <LocationModal
           pinData={pinData}
           isOpenDialog={isOpenDialog}

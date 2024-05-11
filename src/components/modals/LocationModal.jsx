@@ -18,7 +18,6 @@ import RestaurantIcon from '@mui/icons-material/Restaurant'; // Larger meals
 import WifiFacilityIcon from '@mui/icons-material/Wifi';
 import PowerFacilityIcon from '@mui/icons-material/Power';
 import PetsFacilityIcon from '@mui/icons-material/Pets';
-import CreateFacilityIcon from '@mui/icons-material/Create';
 
 // Location Tag Icons
 import PushPinIcon from '@mui/icons-material/PushPin';
@@ -72,10 +71,10 @@ export default function LocationModal(
       backgroundColor: theme.palette.brand.faint,
       color: theme.palette.text.main,
       borderRadius: "0",
-      borderTop: `1px solid rgba(255,255,255,.1)`,
-      borderBottom: `1px solid rgba(255,255,255,.1)`,
-      borderLeft: `1px solid rgba(255,255,255,.1)`,
-      borderRight: `1px solid rgba(255,255,255,.1)`,
+      borderTop: `1px solid ${theme.palette.highlight.main}`,
+      borderBottom: `1px solid ${theme.palette.highlight.main}`,
+      borderLeft: `1px solid ${theme.palette.highlight.main}`,
+      borderRight: `1px solid ${theme.palette.highlight.main}`,
     },
   }));
 
