@@ -46,9 +46,9 @@ export default function LocationModal(
     '& .MuiDialogContent-root': {
       marginTop: "0.5rem"
     },
-    '& .MuiBackdrop-root': {
-      backgroundColor: 'transparent'
-    },
+    // '& .MuiBackdrop-root': {
+    //   backgroundColor: 'transparent'
+    // },
     '& .MuiPaper-root': {
       backgroundColor: theme.palette.brand.faint,
       color: theme.palette.text.main,
@@ -205,8 +205,8 @@ export default function LocationModal(
   const renderFacilities = () => {
     if (!pinData) return;
     if (!pinData.facilities && !pinData.tags) return;
-    const facilities = pinData.facilities.split(",");
-    const tags = pinData.tags.split(",");
+    const facilities = pinData?.facilities && pinData.facilities.split(",");
+    const tags = pinData?.tags && pinData.tags.split(",");
     return <Facilities>
       {tags && tags.map((tag, index) => (
         pickTagIcon(tag, index)
