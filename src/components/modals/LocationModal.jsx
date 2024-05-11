@@ -86,17 +86,6 @@ export default function LocationModal(
     padding: "1rem"
   }));
 
-  const FacilityIcon = styled(Box)(({ theme }) => ({
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    gap: "1rem",
-    width: "2.5rem",
-    height: "2.5rem",
-    borderRadius: "50%",
-    border: "1px solid #fff",
-  }));
-
   const TagIcon = styled(Box)(({ theme }) => ({
     display: "flex",
     justifyContent: "center",
@@ -104,8 +93,6 @@ export default function LocationModal(
     gap: "1rem",
     width: "2.5rem",
     height: "2.5rem",
-    // borderRadius: "50%",
-    // border: "1px solid #fff",
   }));
 
   const Heading = styled(Box)(({ theme }) => ({
@@ -180,7 +167,6 @@ export default function LocationModal(
       default:
         tagEl = null;
     }
-
     return <TagIcon color={color} key={i} style={{ borderRadius: "50%", border: `1px solid ${theme.palette[color].main}`}}>{tagEl}</TagIcon>
   }
 
@@ -211,7 +197,6 @@ export default function LocationModal(
       default:
         el = null;
     }
-
     return <TagIcon color="brand" key={i} style={{ borderRadius: "50%", border: `1px solid ${theme.palette.brand.main}`}}>{el}</TagIcon>
   }
 
