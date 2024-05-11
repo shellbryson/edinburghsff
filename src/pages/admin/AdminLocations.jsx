@@ -83,7 +83,6 @@ export default function AdminMap() {
   const [description, setDescription] = useState('');
   const [tips, setTips] = useState('');
   const [url, setURL] = useState('');
-  const [show, setShow] = useState(true);
   const [imgUrl, setImgUrl] = useState(null);
 
   // Specific to Locations
@@ -145,17 +144,16 @@ export default function AdminMap() {
 
     setTitle(data.title);
     setDescription(data.description);
-    setTips(data.tips);
+    setTips(data.tips || "");
     setURL(data.url);
     setImgUrl(data.image);
-    setShow(data.show);
     setFeatured(data.featured || false);
     setLocationLat(data.lat);
     setLocationLng(data.lng);
 
     setNoiseLevel(data.noise || 0);
     setPriceLevel(data.price || 0);
-    setHours(data.hours);
+    setHours(data.hours || "");
 
     if (data.tags) {
       setLocationTags(data.tags.split(','));
@@ -188,7 +186,6 @@ export default function AdminMap() {
       tips: tips,
       url: url,
       featured: featured,
-      show: show,
       image: strippedImageUrl,
       lat: locationLat,
       lng: locationLng,
@@ -235,7 +232,6 @@ export default function AdminMap() {
       description: description,
       tips: tips,
       url: url,
-      show: show,
       featured: featured,
       image: strippedImageUrl,
       lat: locationLat,
@@ -369,11 +365,6 @@ export default function AdminMap() {
     setFeatured(val);
   }
 
-  const handleShowChange = (val) => {
-    if (val !== show) setIsDirty(true);
-    setShow(val);
-  }
-
   const handleBack = () => {
     navigate(`/admin/locations`);
   }
@@ -392,9 +383,6 @@ export default function AdminMap() {
           <SplitBox>
             <FormGroup>
               <FormControlLabel onChange={(e) => handleFeaturedChange(e.target.checked)} control={<Checkbox checked={featured} />} label="Featured" />
-            </FormGroup>
-            <FormGroup>
-              <FormControlLabel onChange={(e) => handleShowChange(e.target.checked)} control={<Checkbox checked={show} />} label="Show on Map" />
             </FormGroup>
           </SplitBox>
 

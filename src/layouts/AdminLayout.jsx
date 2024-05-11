@@ -20,7 +20,7 @@ export default function AdminLayout({children}) {
     content: {
       textAlign: "left",
       paddingRight: "1rem",
-      paddingLeft: "0",
+      paddingLeft: "0.5rem",
       marginTop: "1rem",
       marginBottom: "1rem",
       marginTop: "1rem",

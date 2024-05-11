@@ -14,6 +14,8 @@ import { useTheme, styled } from '@mui/material/styles';
 
 // Icons
 import MenuIcon from '@mui/icons-material/Menu';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+
 
 // Helpers
 import ProtectedRoute from '../../helpers/ProtectedRoute';
@@ -89,7 +91,7 @@ export default function AdminModal({ children }) {
         </Box>
         <Box style={style.navigation} className="sff-navigation">
           <Button variant="outlined" size="small" color="primary" component={Link} to="/">
-            Home
+            <ChevronLeftIcon />
           </Button>
           <Button variant="outlined" size="small" color="primary" component={Link} to="/dashboard">
             Dashboard

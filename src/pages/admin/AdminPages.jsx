@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from "react-router-dom";
-import { doc, getDocs, addDoc, updateDoc, deleteDoc, collection, query, orderBy } from 'firebase/firestore';
+import { doc, addDoc, updateDoc, deleteDoc, collection } from 'firebase/firestore';
 import { db } from "../../firebase";
 import { useConfirm } from "material-ui-confirm";
 
@@ -258,14 +258,15 @@ export default function AdminPages() {
           <TextField value={title} required label="Title" onChange={(e) => handleChangeTitle(e.target.value)} type='text' />
           <TextField value={url} required label="URL" onChange={(e) => handleChangeUrl(e.target.value)} type='text' />
           <TextField value={slug} required label="Slug" onChange={(e) => handleChangeSlug(e.target.value)} type='text' />
-          <TextField value={description} required multiline rows={2} label="Description" onChange={(e) => handleChangeDescription(e.target.value)} />
-          <TextField value={content} required multiline rows={16} label="Content" onChange={(e) => handleChangeContent(e.target.value)}  />
-
-          <UploadImage imageUploadedCallback={handleFileUpload} imgUrl={imgUrl} />
 
           <FormGroup>
             <FormControlLabel onChange={(e) => setShow(e.target.checked)} control={<Checkbox checked />} label="Display on site" />
           </FormGroup>
+
+          <TextField value={description} required multiline rows={2} label="Description" onChange={(e) => handleChangeDescription(e.target.value)} />
+          <TextField value={content} required multiline rows={16} label="Content" onChange={(e) => handleChangeContent(e.target.value)}  />
+
+          <UploadImage imageUploadedCallback={handleFileUpload} imgUrl={imgUrl} />
 
           { error && <Alert severity="warning">{error}</Alert> }
 

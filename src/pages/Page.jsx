@@ -10,7 +10,6 @@ import { db } from "../firebase";
 
 // MUI
 import { useTheme, styled } from '@mui/material/styles';
-import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
