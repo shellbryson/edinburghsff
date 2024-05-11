@@ -57,6 +57,8 @@ export default function AdminModal({ children }) {
       overflow: "hidden",
       height: "100%",
       width: "100%",
+      padding: "0",
+      margin: "0",
     },
     navigation: {
       display: fullScreen || isDashboard ? "none" : "flex",

@@ -11,7 +11,6 @@ import { useApp } from '../../context/AppContext';
 import { styled } from '@mui/material/styles';
 import Alert from '@mui/material/Alert';
 import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
@@ -26,6 +25,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 // Custom UI
 import UploadImage from '../../components/admin/UploadImage';
+import AdminLayout from '../../layouts/AdminLayout';
 
 import {
   fetchDocument,
@@ -70,10 +70,6 @@ export default function AdminPages() {
   }));
 
   const style = {
-    content: {
-      textAlign: "left",
-      overflow: "auto",
-    },
     actions: {
       display: "flex",
       justifyContent: "space-between",
@@ -253,7 +249,7 @@ export default function AdminPages() {
   }
 
   return (
-    <Box style={style.content}>
+    <AdminLayout>
       <Box>
         <Typography component="h1" variant="h1" style={{textAlign: "center"}}>
           {isUpdate ? "Update Page" : "Add Page"}
@@ -286,7 +282,7 @@ export default function AdminPages() {
           { !isUpdate && <Button onClick={handleAdd} variant='contained'>Add Page</Button> }
         </Box>
       </Box>
-    </Box>
+    </AdminLayout>
   )
 }
 

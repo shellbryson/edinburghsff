@@ -1,53 +1,38 @@
 import React from 'react';
-import { Outlet, Link } from "react-router-dom";
 
 // MUI Components
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Container';
-import Paper from '@mui/material/Paper';
 
-// Helpers
-import ProtectedRoute from '../helpers/ProtectedRoute';
-
-export default function AdminLayout() {
+export default function AdminLayout({children}) {
   const theme = useTheme();
 
   const style={
     page: {
       display: "flex",
-      position: "absolute",
       flexDirection: "column",
+      height: "100%",
       overflow: "hidden",
-      zIndex: "9999",
-      inset: "0.5rem",
+      marginBottom: "1rem",
+      paddingLeft: "0.5rem",
+      paddingRight: "0.5rem",
     },
-    link: {
-      color: theme.palette.text.contrastText,
-    },
-    navigation: {
-      display: "flex",
-      position: "relative",
-      justifyContent: "center",
-      alignItems: "center",
-      gap: "1rem",
-      padding: "0.5rem 0",
-      color: "red"
-    },
+    content: {
+      textAlign: "left",
+      paddingRight: "1rem",
+      paddingLeft: "0",
+      marginTop: "1rem",
+      marginBottom: "1rem",
+      marginTop: "1rem",
+      overflow: "auto",
+    }
   }
 
   return (
-    <ProtectedRoute>
-      <Paper style={style.page} className="sff-admin-layout">
-        <Box style={style.navigation} className="sff-navigation">
-          <Link style={style.link} to='/'>Home</Link>
-          <Link style={style.link} to='/admin'>Dashboard</Link>
-          <Link style={style.link} to='/admin/settings'>Settings</Link>
-          <Link style={style.link} to='/admin/locations'>Locations</Link>
-          <Link style={style.link} to='/admin/events'>Events</Link>
-          <Link style={style.link} to='/admin/pages'>Pages</Link>
-        </Box>
-        <Outlet />
-      </Paper>
-    </ProtectedRoute>
+    <Box style={style.page} className="sff-page">
+      <Box style={style.content} className="scroll-dialog-admin">
+        {children}
+      </Box>
+    </Box>
   )
 }

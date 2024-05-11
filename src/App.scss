@@ -140,3 +140,23 @@ p {
     border: 1px solid #fded07;
   }
 }
+
+.scroll-dialog-admin {
+  scrollbar-color: #1a1a17 #fff;
+  scrollbar-width: thin;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background:  #fff;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #1a1a17;
+    border-radius: 0;
+    border: 1px solid #1a1a17;
+  }
+}
