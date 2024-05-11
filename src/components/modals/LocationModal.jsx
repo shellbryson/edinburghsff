@@ -45,11 +45,33 @@ export default function LocationModal(
 
   const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
-      marginTop: "0.5rem"
+      marginTop: "0.5rem",
+      borderRadius: "0",
+      '&::before': {
+        position: "absolute",
+        content: '""',
+        display: 'block',
+        width: '10%',
+        height: '2px',
+        backgroundColor: theme.palette.brand.main,
+        top: "0",
+        right: "0",
+      },
+      '&::after': {
+        position: "absolute",
+        content: '""',
+        display: 'block',
+        width: '4px',
+        height: '4px',
+        backgroundColor: theme.palette.brand.main,
+        bottom: "0",
+        left: "0",
+      }
     },
     '& .MuiPaper-root': {
       backgroundColor: theme.palette.brand.faint,
       color: theme.palette.text.main,
+      borderRadius: "0",
     },
   }));
 
