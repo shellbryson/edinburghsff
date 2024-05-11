@@ -63,10 +63,10 @@ const facilitiesTagsLookup = [
   'Alcohol',
   'Coffee',
   'Food',
+  'Meal',
   'Power',
   'Wifi',
   "Pet",
-  "Writers"
 ];
 
 export default function AdminMap() {

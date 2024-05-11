@@ -13,7 +13,8 @@ import { useTheme, styled } from '@mui/material/styles';
 // Facility Icons
 import LocalCafeFacilityIcon from '@mui/icons-material/LocalCafe';
 import SportsBarFacilityIcon from '@mui/icons-material/SportsBar';
-import LunchDiningFacilityIcon from '@mui/icons-material/LunchDining';
+import LunchDiningFacilityIcon from '@mui/icons-material/LunchDining';  // snacks, lunch
+import RestaurantIcon from '@mui/icons-material/Restaurant'; // Larger meals
 import WifiFacilityIcon from '@mui/icons-material/Wifi';
 import PowerFacilityIcon from '@mui/icons-material/Power';
 import PetsFacilityIcon from '@mui/icons-material/Pets';
@@ -46,9 +47,6 @@ export default function LocationModal(
     '& .MuiDialogContent-root': {
       marginTop: "0.5rem"
     },
-    // '& .MuiBackdrop-root': {
-    //   backgroundColor: 'transparent'
-    // },
     '& .MuiPaper-root': {
       backgroundColor: theme.palette.brand.faint,
       color: theme.palette.text.main,
@@ -180,6 +178,9 @@ export default function LocationModal(
       case "Alcohol":
         el = <SportsBarFacilityIcon color="brand" />;
         break;
+      case "Meal":
+        el = <RestaurantIcon color="brand" />;
+        break;
       case "Food":
         el = <LunchDiningFacilityIcon color="brand" />;
         break;
@@ -189,11 +190,8 @@ export default function LocationModal(
       case "Power":
         el = <PowerFacilityIcon color="brand" />;
         break;
-      case "Pets":
+      case "Pet":
         el = <PetsFacilityIcon color="brand" />;
-        break;
-      case "Writers":
-        el = <CreateFacilityIcon color="brand" />;
         break;
       default:
         el = null;
