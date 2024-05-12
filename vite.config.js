@@ -1,16 +1,9 @@
-import { sentryVitePlugin } from "@sentry/vite-plugin";
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), sentryVitePlugin({
-    org: "shell-bryson",
-    project: "javascript-react"
-  }), sentryVitePlugin({
-    org: "shell-bryson",
-    project: "edinburgh-sff"
-  })],
+  plugins: [react()],
 
   build: {
     sourcemap: true
