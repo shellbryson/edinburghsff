@@ -37,10 +37,9 @@ export default function MapPanel() {
       display: "flex",
       flexDirection: "column",
       position: "absolute",
-      transition: "clip-path 200ms",
       left: "0",
       top: "0",
-      bottom: "0",
+      height: "100svh",
       backgroundColor: "rgb(0, 0, 0)",
       zIndex: 1000,
       borderRight: `1px solid ${theme.palette.brand.main}`
