@@ -12,7 +12,7 @@ Sentry.init({
     Sentry.replayIntegration(),
   ],
   tracesSampleRate: 1.0,
-  tracePropagationTargets: ["localhost", /^https:\/\/edinburghsff.com/],
+  tracePropagationTargets: ["localhost", /^https:\/\/edinburghsff.com/,  /^https:\/\/dev.edinburghsff.com/],
   replaysSessionSampleRate: 0.1,
   replaysOnErrorSampleRate: 1.0,
 });
