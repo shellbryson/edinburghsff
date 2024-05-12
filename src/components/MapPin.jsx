@@ -18,6 +18,7 @@ export default function MapPin({data, onClickPin}) {
   const theme = useTheme();
   const [icon, setIcon] = useState("");
   const [color, setColor] = useState("pinDefault");
+  const [isDragging, setIsDragging] = useState(false);
 
   const PinBox = styled(Box)(({ theme }) => ({
     display: "flex",
@@ -107,14 +108,37 @@ export default function MapPin({data, onClickPin}) {
     setIcon(icon);
   }, [data.id]);
 
+  // We perform this trio of event handling to avoid triggering the popups
+  // when the user is dragging the map to pan around.
+
+  const handleMouseDown = () => {
+    setIsDragging(false);
+  };
+
+  const handleMouseMove = () => {
+    setIsDragging(true);
+  };
+
+  const handleMouseUp = () => {
+    if (!isDragging) {
+      onClickPin(data);
+    }
+    setIsDragging(false);
+  };
+
   return (
-    <PinBox className="sff-map-pin" onClick={() => onClickPin(data)}>
+    <PinBox
+      className="sff-map-pin"
+      onMouseDown={handleMouseDown}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
+    >
       <IconBox className="sff-map-icon">{icon}</IconBox>
-      { data.showLabel &&
+      {data.showLabel && (
         <LabelBox className="sff-map-label">
           <Typography component="p">{data.name}</Typography>
         </LabelBox>
-      }
+      )}
     </PinBox>
   );
 }
