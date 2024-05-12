@@ -7,6 +7,9 @@ export default defineConfig({
   plugins: [react(), sentryVitePlugin({
     org: "shell-bryson",
     project: "javascript-react"
+  }), sentryVitePlugin({
+    org: "shell-bryson",
+    project: "edinburgh-sff"
   })],
 
   build: {
