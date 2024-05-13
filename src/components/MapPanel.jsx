@@ -39,7 +39,7 @@ export default function MapPanel() {
       position: "absolute",
       left: "0",
       top: "0",
-      height: "100svh",
+      height: "100vh",
       backgroundColor: "rgb(0, 0, 0)",
       zIndex: 1000,
       borderRight: `1px solid ${theme.palette.brand.main}`

@@ -7,6 +7,7 @@ export const AppContextProvider = ({ children }) => {
 
   const [config, setConfig] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingAdmin, setIsLoadingAdmin] = useState(false);
   const [isExpanded, setIsExpanded] = useState(true);
   const [isExploded, setIsExploded] = useState(false);
   const [isShowingSearch, setIsShowingSearch] = useState(false);
@@ -18,6 +19,8 @@ export const AppContextProvider = ({ children }) => {
     <AppContext.Provider value={{
       isLoading,
       setIsLoading,
+      isLoadingAdmin,
+      setIsLoadingAdmin,
       isExpanded,
       setIsExpanded,
       isExploded,

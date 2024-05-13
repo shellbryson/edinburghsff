@@ -24,6 +24,7 @@ import StyledContent from '../components/StyledContent';
 // Icons
 import PlaceIcon from '@mui/icons-material/Place';
 import LaunchOutlinedIcon from '@mui/icons-material/LaunchOutlined';
+import OndemandVideoIcon from '@mui/icons-material/OndemandVideo';
 
 // Helpers
 import {
@@ -211,6 +212,10 @@ const EventDetails = ({ handleClose }) => {
         <LinkInterceptor>
           <Typography>{currentEvent.summary}</Typography>
         </LinkInterceptor>
+        <Box style={{ position: "absolute", bottom: "0.5rem", right: "1rem"}}>
+          { currentEvent.eventLocation && <PlaceIcon />}
+          { currentEvent.eventIsDigital && <OndemandVideoIcon />}
+        </Box>
       </Summary>
     );
   }
