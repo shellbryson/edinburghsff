@@ -103,7 +103,6 @@ export default function LocationModal(
     justifyContent: "center",
     alignItems: "center",
     gap: "1rem",
-    marginBottom: "1rem",
     backgroundColor: theme.palette.highlight.main,
     marginBottom: "2rem",
     padding: "1rem"

@@ -33,7 +33,6 @@ export default function AdminModal({ children }) {
 
   const BootstrapAdminDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
-      padding: theme.spacing(2),
       backgroundColor: '#fff',
       color: '#000',
       height: "100%",
