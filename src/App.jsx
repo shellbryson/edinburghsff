@@ -21,6 +21,7 @@ import Map from './components/Map';
 import Spinner from './components/Spinner';
 import Events from './pages/Events';
 import EventDetails from './pages/EventDetails';
+import Community from './pages/Community';
 import Page from './pages/Page';
 
 // Modals
@@ -80,6 +81,7 @@ export default function App() {
               <Route path="signin" element={<ContentModal><Signin /></ContentModal>} />
               <Route path="events/:eventID/:eventTitle" element={<ContentModal><EventDetails handleClose={handleClose}/></ContentModal>} />
               <Route path="events" element={<ContentModal><Events /></ContentModal>} />
+              <Route path="community" element={<ContentModal><Community /></ContentModal>} />
               <Route path="pages/:pageSlug" element={<ContentModal><Page /></ContentModal>} />
               <Route path="/dashboard" element={<AdminModal><Dashboard /></AdminModal>} />
               <Route path='/admin/locations/update/:updateId' element={<AdminModal><AdminLocations /></AdminModal>} />

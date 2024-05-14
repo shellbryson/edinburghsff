@@ -30,7 +30,11 @@ export default function AdminSettings() {
 
   const navigate = useNavigate();
 
-  // Common
+  // Community
+  const [settingsDiscordLink, setSettingsDiscordLink] = useState('');
+  const [settingsCommunityText, setSettingsCommunityText] = useState('');
+
+  // General
   const [settingsPanelIntro, setSettingsPanelIntro] = useState('');
   const [settingsEventIntro, setSettingsEventIntro] = useState('');
 
@@ -68,8 +72,10 @@ export default function AdminSettings() {
   }, []);
 
   const handleOpenUpdate = (data) => {
-    setSettingsPanelIntro(data.textPanelIntro);
-    setSettingsEventIntro(data.textEventIntro);
+    setSettingsCommunityText(data.textCommunity || "");
+    setSettingsDiscordLink(data.discordLink || "");
+    setSettingsPanelIntro(data.textPanelIntro || "");
+    setSettingsEventIntro(data.textEventIntro || "");
   };
 
   // ### UPDATE
@@ -79,6 +85,8 @@ export default function AdminSettings() {
     setIsLoading(true);
     setError('');
     const payload = {
+      discordLink: settingsDiscordLink,
+      textCommunity: settingsCommunityText,
       textPanelIntro: settingsPanelIntro,
       textEventIntro: settingsEventIntro,
       updated: {
@@ -100,6 +108,16 @@ export default function AdminSettings() {
 
   // ### FORM INPUTS
 
+  const handleChangeDiscordLink = (text) => {
+    if (text !== settingsDiscordLink) setIsDirty(true);
+    setSettingsDiscordLink(text);
+  }
+
+  const handleChangeCommunityText = (text) => {
+    if (text !== settingsCommunityText) setIsDirty(true);
+    setSettingsCommunityText(text);
+  }
+
   const handleChangePanelIntro = (text) => {
     if (text !== settingsPanelIntro) setIsDirty(true);
     setSettingsPanelIntro(text);
@@ -116,17 +134,23 @@ export default function AdminSettings() {
 
   return (
     <AdminLayout>
-      <Box>
+      <Box style={{ marginTop: "2rem", marginBottom: "2rem"}}>
         <Typography component="h1" variant="h1" style={{textAlign: "center"}}>
           Settings
         </Typography>
-        <Stack spacing={2} sx={{ mt: 2}}>
+        <Stack spacing={2}>
+          <Typography component="h2" variant="h2">Community</Typography>
+          <TextField value={settingsDiscordLink} required rows={8} label="Discord Link" onChange={(e) => handleChangeDiscordLink(e.target.value)}  />
+          <TextField value={settingsCommunityText} required multiline rows={8} label="Community Text" onChange={(e) => handleChangeCommunityText(e.target.value)}  />
+        </Stack>
+      </Box>
+      <Box style={{ marginTop: "2rem", marginBottom: "2rem"}}>
+        <Stack spacing={2}>
+          <Typography component="h2" variant="h2">Content</Typography>
           <TextField value={settingsPanelIntro} required multiline rows={8} label="Panel Introduction" onChange={(e) => handleChangePanelIntro(e.target.value)}  />
           <TextField value={settingsEventIntro} required multiline rows={8} label="Events Introduction" onChange={(e) => handleChangeEventIntro(e.target.value)}  />
-
-          { error && <Alert severity="warning">{error}</Alert> }
-
         </Stack>
+        { error && <Alert severity="warning">{error}</Alert> }
       </Box>
       <Box style={style.actions}>
         <div></div>
