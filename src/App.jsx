@@ -54,7 +54,7 @@ export default function App() {
       flexDirection: "column",
       alignItems: "center",
       position: "absolute",
-      height: "100vh",
+      height: "100dvh",
       width: "100vw",
       backgroundColor: "rgb(0, 0, 0)",
     }
