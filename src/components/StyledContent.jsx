@@ -42,6 +42,9 @@ export default function StyledContent({ children}) {
       paddingLeft: "12px",
       marginBottom: "0.5rem",
     },
+    '& ul + h2' : {
+      marginTop: "2rem",
+    },
     '& h1' : {
       textAlign: "center",
       fontFamily: '"Chakra Petch", sans-serif',

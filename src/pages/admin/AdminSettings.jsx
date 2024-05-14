@@ -34,6 +34,10 @@ export default function AdminSettings() {
   const [settingsDiscordLink, setSettingsDiscordLink] = useState('');
   const [settingsCommunityText, setSettingsCommunityText] = useState('');
 
+  // Suggestions
+  const [settingsSuggestContentText, setSettingsSuggestContentText] = useState('');
+  const [settingsSuggestGoogleForm, setSettingsSuggestGoogleForm] = useState('');
+
   // General
   const [settingsPanelIntro, setSettingsPanelIntro] = useState('');
   const [settingsEventIntro, setSettingsEventIntro] = useState('');
@@ -73,6 +77,8 @@ export default function AdminSettings() {
 
   const handleOpenUpdate = (data) => {
     setSettingsCommunityText(data.textCommunity || "");
+    setSettingsSuggestContentText(data.textSuggestContent || "");
+    setSettingsSuggestGoogleForm(data.suggestGoogleForm || "");
     setSettingsDiscordLink(data.discordLink || "");
     setSettingsPanelIntro(data.textPanelIntro || "");
     setSettingsEventIntro(data.textEventIntro || "");
@@ -85,8 +91,10 @@ export default function AdminSettings() {
     setIsLoading(true);
     setError('');
     const payload = {
+      suggestGoogleForm: settingsSuggestGoogleForm,
       discordLink: settingsDiscordLink,
       textCommunity: settingsCommunityText,
+      textSuggestContent: settingsSuggestContentText,
       textPanelIntro: settingsPanelIntro,
       textEventIntro: settingsEventIntro,
       updated: {
@@ -128,6 +136,16 @@ export default function AdminSettings() {
     setSettingsEventIntro(text);
   }
 
+  const handleChangeSuggestContent = (text) => {
+    if (text !== settingsSuggestContentText) setIsDirty(true);
+    setSettingsSuggestContentText(text);
+  }
+
+  const handleChangeSuggestGoogleForm = (text) => {
+    if (text !== settingsSuggestGoogleForm) setIsDirty(true);
+    setSettingsSuggestGoogleForm(text);
+  }
+
   const handleBack = () => {
     navigate(`/dashboard/`);
   }
@@ -149,6 +167,14 @@ export default function AdminSettings() {
           <Typography component="h2" variant="h2">Content</Typography>
           <TextField value={settingsPanelIntro} required multiline rows={8} label="Panel Introduction" onChange={(e) => handleChangePanelIntro(e.target.value)}  />
           <TextField value={settingsEventIntro} required multiline rows={8} label="Events Introduction" onChange={(e) => handleChangeEventIntro(e.target.value)}  />
+        </Stack>
+        { error && <Alert severity="warning">{error}</Alert> }
+      </Box>
+      <Box style={{ marginTop: "2rem", marginBottom: "2rem"}}>
+        <Stack spacing={2}>
+          <Typography component="h2" variant="h2">Suggestions</Typography>
+          <TextField value={settingsSuggestGoogleForm} required label="Feedback form" onChange={(e) => handleChangeSuggestGoogleForm(e.target.value)}  />
+          <TextField value={settingsSuggestContentText} required multiline rows={8} label="Suggest Content" onChange={(e) => handleChangeSuggestContent(e.target.value)}  />
         </Stack>
         { error && <Alert severity="warning">{error}</Alert> }
       </Box>
