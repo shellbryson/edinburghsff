@@ -53,7 +53,7 @@ export default function Signin() {
 
     try {
       await signIn(email, password)
-      navigate('/admin')
+      navigate('/dashboard')
     } catch (e) {
       setError("Couldn't sign in. Please check your email and password.")
     }
