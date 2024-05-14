@@ -8,7 +8,7 @@ export default function LinkInterceptor({ children }) {
     if (element.tagName === 'A' && element.href) {
       event.preventDefault();
       const href = element.getAttribute('href');
-      if (href.startsWith('http')) {
+      if (href.startsWith('http') || href.startsWith('mailto') || href.startsWith('tel')) {
         window.location.href = href;
       } else {
         navigate(href);
@@ -17,7 +17,7 @@ export default function LinkInterceptor({ children }) {
   };
 
   return (
-    <div onClick={handleClick}>
+    <div onClick={handleClick} className="sff-link-intercept">
       {children}
     </div>
   );
