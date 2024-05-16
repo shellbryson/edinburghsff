@@ -3,7 +3,21 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [2.0.0] - 2024-05-18
+## [2.0.1] - 2024-05-16 (beta)
+
+Map:
+  - Fix: Performance improvements
+
+Sidebar:
+  - Fix: Many performance improvements
+
+Pins:
+  - Improve: On desktop, pins sometimes hard to click.
+
+App:
+  - Fix: Missing schema describing Organization for Google etc
+
+## [2.0.0] - 2024-05-16 (beta)
 
 General:
   - Add: New fonts, colours and general branding

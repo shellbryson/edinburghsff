@@ -30,6 +30,25 @@ import {
   fetchLocationsForMapDisplay
 } from '../utils/utils';
 
+const Controls = styled(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  gap: "4px",
+  padding: "2px",
+  position: "absolute",
+  right: "0.5rem",
+  bottom: "1rem",
+  zIndex: "2",
+  border: `1px solid ${theme.palette.brand.main}`,
+  backgroundColor: theme.palette.brand.faint,
+}));
+
+const ToggleIconButton = styled(IconButton)(({ theme }) => ({
+  borderRadius: "0",
+  border: `2px solid ${theme.palette.brand.main}`,
+  backgroundColor: theme.palette.brand.faint,
+}));
+
 export default function Map() {
 
   const {
@@ -76,25 +95,6 @@ export default function Map() {
     zoom: 13
   }
 
-  const Controls = styled(Box)(({ theme }) => ({
-    display: "flex",
-    flexDirection: "column",
-    gap: "4px",
-    padding: "2px",
-    position: "absolute",
-    right: "0.5rem",
-    bottom: "1rem",
-    zIndex: "2",
-    border: `1px solid ${theme.palette.brand.main}`,
-    backgroundColor: theme.palette.brand.faint,
-  }));
-
-  const ToggleIconButton = styled(IconButton)(({ theme }) => ({
-    borderRadius: "0",
-    border: `2px solid ${theme.palette.brand.main}`,
-    backgroundColor: theme.palette.brand.faint,
-  }));
-
   const style = {
     map: {
       display: "block",
@@ -136,28 +136,7 @@ export default function Map() {
 
   useEffect(() => {
     getLocations();
-  }, []);
 
-  useEffect(() => {
-    handleOnSearchMap();
-  }, [mapSearchText]);
-
-  useEffect(() => {
-    const thisPin = mapLocations.find(location => location.id === focusMapPin);
-    if (!thisPin) return;
-    centerMapOnPin(thisPin);
-  }, [focusMapPin]);
-
-  useEffect(() => {
-    const selectedLocation = new URLSearchParams(window.location.search).get("location");
-    if (!selectedLocation) return;
-    fetchDocument("locations", selectedLocation, (pin) => {
-      setPinData(pin);
-      setIsOpenDialog(true);
-    });
-  }, [mapLocations]);
-
-  useEffect(() => {
     const handleResize = () => {
       setScreenSize(window.innerWidth);
     };
@@ -166,6 +145,23 @@ export default function Map() {
       window.removeEventListener('resize', handleResize);
     }
   }, []);
+
+  useEffect(() => {
+    handleOnSearchMap();
+
+    const thisPin = mapLocations.find(location => location.id === focusMapPin);
+    if (thisPin) {
+      centerMapOnPin(thisPin);
+    }
+
+    const selectedLocation = new URLSearchParams(window.location.search).get("location");
+    if (selectedLocation) {
+      fetchDocument("locations", selectedLocation, (pin) => {
+        setPinData(pin);
+        setIsOpenDialog(true);
+      });
+    }
+  }, [mapSearchText, focusMapPin, mapLocations]);
 
   const onGoogleApiLoaded = ({map}) => {
     mapRef.current = map;
