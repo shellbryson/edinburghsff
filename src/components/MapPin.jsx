@@ -83,29 +83,18 @@ export default function MapPin({data, onClickPin}) {
 
   useEffect(() => {
     if (!data.tags) return;
-    let icon;
-    let color;
+    const tagIconMap = {
+      Venue: { color: 'pinVenue', Icon: FestivalIcon },
+      Bookshop: { color: 'pinBookshop', Icon: BookIcon },
+      Cafe: { color: 'pinCafe', Icon: CreateIcon },
+      Library: { color: 'pinLibrary', Icon: LocalLibraryIcon },
+      Interesting: { color: 'pinInteresting', Icon: PushPinIcon },
+    };
     const tagArray = data.tags.split(",");
-    if (tagArray.includes("Venue")) {
-      color = "pinVenue";
-      icon = <FestivalIcon color="pinVenue" />;
-    } else if (tagArray.includes("Bookshop")) {
-      color = "pinBookshop";
-      icon = <BookIcon color="pinBookshop" />;
-    } else if (tagArray.includes("Cafe")) {
-      color = "pinCafe";
-      icon = <CreateIcon color="pinCafe" />;
-    } else if (tagArray.includes("Library")) {
-      color = "pinLibrary";
-      icon = <LocalLibraryIcon color="pinLibrary" />;
-    } else if (tagArray.includes("Interesting")) {
-      color = "pinInteresting";
-      icon = <PushPinIcon color="pinInteresting" />;
-    } else {
-      color = "pinDefault";
-      icon = <PushPinIcon color="brand" />;
-    }
-    setColor(color);
+    const tag = tagArray.find(tag => tagIconMap.hasOwnProperty(tag));
+    const { color: iconColor, Icon } = tag ? tagIconMap[tag] : { color: 'pinDefault', Icon: PushPinIcon };
+    const icon = <Icon color={iconColor === 'pinDefault' ? 'brand' : iconColor} />;
+    setColor(iconColor);
     setIcon(icon);
   }, [data.id]);
 
