@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 // Contexts
 import { useApp } from '../context/AppContext';
@@ -24,7 +24,7 @@ export default function MapPanel() {
     setIsExpanded
   } = useApp();
 
-  const styles = {
+  const styles = useMemo(() => ({
     panel: {
       display: "flex",
       flexDirection: "column",
@@ -68,7 +68,7 @@ export default function MapPanel() {
       borderRight: `1px solid ${theme.palette.brand.main}`,
       borderBottom: `1px solid ${theme.palette.brand.main}`
     }
-  }
+  }), [theme, isExpanded]);
 
   const handleExpanderClick = () => {
     setIsExpanded(!isExpanded);
