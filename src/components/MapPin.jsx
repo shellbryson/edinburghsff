@@ -7,37 +7,61 @@ import { Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
 // Icons
-import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
+import PushPinIcon from '@mui/icons-material/PushPin';
 import FestivalIcon from '@mui/icons-material/Festival';
-import MenuBookOutlinedIcon from '@mui/icons-material/MenuBookOutlined';
-import LocalCafeOutlinedIcon from '@mui/icons-material/LocalCafeOutlined';
-import LocalLibraryOutlinedIcon from '@mui/icons-material/LocalLibraryOutlined';
+import BookIcon from '@mui/icons-material/Book';
+import CreateIcon from '@mui/icons-material/Create';
+import LocalLibraryIcon from '@mui/icons-material/LocalLibrary';
+
+const PinBox = styled(Box)(({ theme }) => ({
+  display: "flex",
+  position: "relative",
+  width: "2rem",
+  height: "3rem",
+  marginTop: "-3rem",
+  left: "-1rem",
+  filter: "drop-shadow(1px 1px 1px rgba(0,0,0,0.5))"
+}));
 
 export default function MapPin({data, onClickPin}) {
 
   const theme = useTheme();
   const [icon, setIcon] = useState("");
-
-  const PinBox = styled(Box)(({ theme }) => ({
-    display: "flex",
-    position: "relative",
-    width: "2rem",
-    height: "3rem",
-    marginTop: "-3rem",
-    left: "-1rem"
-  }));
+  const [color, setColor] = useState("pinDefault");
+  const [isDragging, setIsDragging] = useState(false);
 
   const IconBox = styled(Box)(({ theme }) => ({
     display: "flex",
     position: "absolute",
-    width: "2rem",
-    height: "2rem",
+    width: "calc(2rem - 4px)",
+    height: "calc(2rem - 4px)",
     fontSize: "1rem",
-    color: data.focus ? theme.palette.warning.main : "currentColor",
-    backgroundColor: data.focus ? theme.palette.warning.main : "currentColor",
+    color: data.focus ? theme.palette[color].main : "currentColor",
+    backgroundColor: data.focus ? "#000" : "currentColor",
+    borderTop: `2px solid ${theme.palette[color].main}`,
+    borderLeft: `2px solid ${theme.palette[color].main}`,
+    borderRight: `2px solid ${theme.palette[color].main}`,
+    borderBottom: `2px solid ${theme.palette[color].main}`,
     top: "0",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    cursor: "pointer",
+    '&::after': {
+      content: "''",
+      position: "absolute",
+      top: "20px",
+      width: "calc(1rem)",
+      height: "calc(1rem)",
+      clear: "both",
+      transform: "rotate(45deg)",
+      backgroundColor: theme.palette[color].main,
+      zIndex: "-1"
+    },
+    '> svg': {
+      display: "block",
+      width: "22px",
+      height: "22px",
+    }
   }));
 
   const LabelBox = styled(Box)(({ theme }) => ({
@@ -47,42 +71,75 @@ export default function MapPin({data, onClickPin}) {
     fontWeight: "400",
     fontSize: "0.5rem",
     textTransform: "uppercase",
-    color: theme.palette.brand.main,
-    backgroundColor: theme.palette.warning.main,
+    color: theme.palette.brand.contrastText,
+    backgroundColor: theme.palette[color].main,
     top: "0",
     left: "2rem",
     alignItems: "center",
     justifyContent: "center",
     whiteSpace: "nowrap",
-    padding: "4px 1rem 4px 0"
+    padding: "4px 1rem"
   }));
 
   useEffect(() => {
     if (!data.tags) return;
     let icon;
+    let color;
     const tagArray = data.tags.split(",");
     if (tagArray.includes("Venue")) {
-      icon = <FestivalIcon color="brand" />;
+      color = "pinVenue";
+      icon = <FestivalIcon color="pinVenue" />;
     } else if (tagArray.includes("Bookshop")) {
-      icon = <MenuBookOutlinedIcon color="brand" />;
+      color = "pinBookshop";
+      icon = <BookIcon color="pinBookshop" />;
     } else if (tagArray.includes("Cafe")) {
-      icon = <LocalCafeOutlinedIcon color="brand" />;
+      color = "pinCafe";
+      icon = <CreateIcon color="pinCafe" />;
     } else if (tagArray.includes("Library")) {
-      icon = <LocalLibraryOutlinedIcon color="brand" />;
+      color = "pinLibrary";
+      icon = <LocalLibraryIcon color="pinLibrary" />;
+    } else if (tagArray.includes("Interesting")) {
+      color = "pinInteresting";
+      icon = <PushPinIcon color="pinInteresting" />;
     } else {
-      icon = <PushPinOutlinedIcon color="brand" />;
+      color = "pinDefault";
+      icon = <PushPinIcon color="brand" />;
     }
+    setColor(color);
     setIcon(icon);
   }, [data.id]);
 
+  // We perform this trio of event handling to avoid triggering the popups
+  // when the user is dragging the map to pan around.
+
+  const handleMouseDown = () => {
+    setIsDragging(false);
+  };
+
+  const handleMouseMove = () => {
+    setIsDragging(true);
+  };
+
+  const handleMouseUp = () => {
+    if (!isDragging) {
+      onClickPin(data);
+    }
+    setIsDragging(false);
+  };
+
   return (
-    <PinBox className="sff-map-pin" onClick={() => onClickPin(data)}>
+    <PinBox
+      className="sff-map-pin"
+      onMouseDown={handleMouseDown}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
+    >
       <IconBox className="sff-map-icon">{icon}</IconBox>
-      { data.showLabel &&
+      {data.showLabel && (
         <LabelBox className="sff-map-label">
           <Typography component="p">{data.name}</Typography>
         </LabelBox>
-      }
+      )}
     </PinBox>
   );
 }

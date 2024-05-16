@@ -12,7 +12,6 @@ import { useApp } from '../../context/AppContext';
 import { styled } from '@mui/material/styles';
 import Alert from '@mui/material/Alert';
 import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
@@ -33,6 +32,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 // Custom UI
 import UploadImage from '../../components/admin/UploadImage';
+import AdminLayout from '../../layouts/AdminLayout';
 
 import {
   updateMapLocationsIndex,
@@ -56,18 +56,30 @@ const locationTagsLookup = [
   'Cafe',
   'Bookshop',
   'Library',
-  'Place of interest'
+  'Interesting'
 ];
 
 const facilitiesTagsLookup = [
   'Alcohol',
   'Coffee',
   'Food',
+  'Meal',
   'Power',
   'Wifi',
   "Pet",
-  "Writers"
 ];
+
+const SplitBox = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'row',
+  gap: "1rem",
+}));
+
+const HelpText = styled(Typography)(({ theme }) => ({
+  fontSize: "0.75rem",
+  color: theme.palette.text.secondary,
+  margin: "2px 0 8px"
+}));
 
 export default function AdminMap() {
 
@@ -81,19 +93,20 @@ export default function AdminMap() {
   // Common
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [tips, setTips] = useState('');
   const [url, setURL] = useState('');
-  const [show, setShow] = useState(true);
   const [imgUrl, setImgUrl] = useState(null);
 
-  // Specific to Maps
+  // Specific to Locations
   const [featured, setFeatured] = useState(false);
   const [locationLat, setLocationLat] = useState(0);
   const [locationLng, setLocationLng] = useState(0);
   const [locationTags, setLocationTags] = useState([]);
   const [locationFacilities, setLocationFacilities] = useState([]);
 
-  const [locationNoiseLevel, setNoiseLevel] = useState(5);
-  const [locationPriceLevel, setPriceLevel] = useState(5);
+  const [locationNoiseLevel, setNoiseLevel] = useState(0);
+  const [locationPriceLevel, setPriceLevel] = useState(0);
+  const [hours, setHours] = useState('');
 
   // Update
   const [isUpdate, setIsUpdate] = useState(false);
@@ -106,33 +119,7 @@ export default function AdminMap() {
   // Theme
   const theme = useTheme();
 
-  const SplitBox = styled(Box)(({ theme }) => ({
-    display: 'flex',
-    flexDirection: 'row',
-    gap: "1rem",
-  }));
-
   const style = {
-    page: {
-      display: "flex",
-      flexDirection: "column",
-      height: "100%",
-      overflow: "hidden",
-      marginBottom: "1rem",
-    },
-    paper: {
-      display: "flex",
-      flexDirection: "column",
-      height: "100%",
-      overflow: "hidden",
-    },
-    content: {
-      textAlign: "left",
-      minHeight: "calc(100vh -2rem)",
-      padding: "1rem",
-      margin: "0.5rem",
-      overflow: "auto",
-    },
     actions: {
       display: "flex",
       justifyContent: "space-between",
@@ -157,15 +144,16 @@ export default function AdminMap() {
 
     setTitle(data.title);
     setDescription(data.description);
+    setTips(data.tips || "");
     setURL(data.url);
     setImgUrl(data.image);
-    setShow(data.show);
-    setFeatured(data.featured);
+    setFeatured(data.featured || false);
     setLocationLat(data.lat);
     setLocationLng(data.lng);
 
     setNoiseLevel(data.noise || 0);
     setPriceLevel(data.price || 0);
+    setHours(data.hours || "");
 
     if (data.tags) {
       setLocationTags(data.tags.split(','));
@@ -195,9 +183,9 @@ export default function AdminMap() {
     const payload = {
       title: title,
       description: description,
+      tips: tips,
       url: url,
       featured: featured,
-      show: show,
       image: strippedImageUrl,
       lat: locationLat,
       lng: locationLng,
@@ -205,6 +193,7 @@ export default function AdminMap() {
       facilities: locationFacilities.toString(),
       price: locationPriceLevel,
       noise: locationNoiseLevel,
+      hours: hours,
       created: {
         email: user.email,
         uid: user.uid,
@@ -241,8 +230,8 @@ export default function AdminMap() {
     const payload = {
       title: title,
       description: description,
+      tips: tips,
       url: url,
-      show: show,
       featured: featured,
       image: strippedImageUrl,
       lat: locationLat,
@@ -251,13 +240,13 @@ export default function AdminMap() {
       facilities: locationFacilities.toString(),
       price: locationPriceLevel,
       noise: locationNoiseLevel,
+      hours: hours,
       updated: {
         email: user.email,
         uid: user.uid,
         timestamp: new Date()
       }
     }
-    console.log("updateId", updateId);
     try {
       const l = doc(db, "locations", updateId);
       await updateDoc(l, payload);
@@ -271,7 +260,7 @@ export default function AdminMap() {
   };
 
   const reIndexLocations = (cb) => {
-    fetchDocuments("locations", (data) => {
+    fetchDocuments("locations", {field:'title', mode:'asc'}, (data) => {
       updateMapLocationsIndex(data, user, (pins) => {
         console.log("Saved Location Index", pins);
         if (cb) cb();
@@ -346,6 +335,16 @@ export default function AdminMap() {
     setDescription(text);
   };
 
+  const handleChangeTips = (text) => {
+    if (text !== tips) setIsDirty(true);
+    setTips(text);
+  };
+
+  const handleChangeHours = (text) => {
+    if (text !== hours) setIsDirty(true);
+    setHours(text);
+  };
+
   const handleFileUpload = (url) => {
     if (url !== imgUrl) setIsDirty(true);
     setImgUrl(url);
@@ -366,135 +365,126 @@ export default function AdminMap() {
     setFeatured(val);
   }
 
-  const handleShowChange = (val) => {
-    if (val !== show) setIsDirty(true);
-    setShow(val);
-  }
-
   const handleBack = () => {
     navigate(`/admin/locations`);
   }
 
   return (
-    <Box style={style.page} className="sff-page">
-      <Paper style={style.paper}>
-        <Box style={style.content}>
-          <Box>
-            <Typography component="h1" variant="h1" style={{textAlign: "center"}}>
-              {isUpdate ? "Update Location" : "Add Location"}
-            </Typography>
-            <Stack spacing={2} sx={{ mt: 2}}>
+    <AdminLayout>
+      <Box>
+        <Typography component="h1" variant="h1" style={{textAlign: "center"}}>
+          {isUpdate ? "Update Location" : "Add Location"}
+        </Typography>
+        <Stack spacing={2} sx={{ mt: 2}}>
 
-              <TextField value={title} required label="Title" onChange={(e) => handleChangeTitle(e.target.value)} type='text'/>
-              <TextField value={url} label="URL" onChange={(e) => handleChangeUrl(e.target.value)} type='url' />
+          <TextField value={title} required label="Title" onChange={(e) => handleChangeTitle(e.target.value)} type='text'/>
+          <TextField value={url} label="URL" onChange={(e) => handleChangeUrl(e.target.value)} type='url' />
 
-              <SplitBox>
-                <FormGroup>
-                  <FormControlLabel onChange={(e) => handleFeaturedChange(e.target.checked)} control={<Checkbox checked={featured} />} label="Featured" />
-                </FormGroup>
-                <FormGroup>
-                  <FormControlLabel onChange={(e) => handleShowChange(e.target.checked)} control={<Checkbox checked={show} />} label="Show on Map" />
-                </FormGroup>
-              </SplitBox>
+          <SplitBox>
+            <FormGroup>
+              <FormControlLabel onChange={(e) => handleFeaturedChange(e.target.checked)} control={<Checkbox checked={featured} />} label="Featured" />
+            </FormGroup>
+          </SplitBox>
 
-              <FormControl sx={{ m: 1 }}>
-                <InputLabel  id="demo-multiple-chip-label">Location tags</InputLabel>
-                <Select
-                  labelId="demo-multiple-chip-label"
-                  id="demo-multiple-chip"
-                  multiple
-                  value={locationTags}
-                  onChange={handleLocationTagsChange}
-                  input={<OutlinedInput id="select-multiple-chip" label="Location tag"  />}
-                  renderValue={(selected) => (
-                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                      {selected.map((value) => (
-                        <Chip key={value} label={value} />
-                      ))}
-                    </Box>
-                  )}
-                  MenuProps={MenuProps}
-                >
-                  {locationTagsLookup.map((loc) => (
-                    <MenuItem key={loc} value={loc}>
-                      {loc}
-                    </MenuItem>
+          <FormControl sx={{ m: 1 }}>
+            <InputLabel  id="demo-multiple-chip-label">Location tags</InputLabel>
+            <Select
+              labelId="demo-multiple-chip-label"
+              id="demo-multiple-chip"
+              multiple
+              value={locationTags}
+              onChange={handleLocationTagsChange}
+              input={<OutlinedInput id="select-multiple-chip" label="Location tag"  />}
+              renderValue={(selected) => (
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                  {selected.map((value) => (
+                    <Chip key={value} label={value} />
                   ))}
-                </Select>
-              </FormControl>
+                </Box>
+              )}
+              MenuProps={MenuProps}
+            >
+              {locationTagsLookup.map((loc) => (
+                <MenuItem key={loc} value={loc}>
+                  {loc}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
 
-              <FormControl sx={{ m: 1 }}>
-                <InputLabel  id="demo-multiple-chip-label">Facilities</InputLabel>
-                <Select
-                  labelId="demo-multiple-chip-label"
-                  id="demo-multiple-chip"
-                  multiple
-                  value={locationFacilities}
-                  onChange={handleFacilitiesChange}
-                  input={<OutlinedInput  id="select-multiple-chip" label="Location tag" />}
-                  renderValue={(selected) => (
-                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                      {selected.map((value) => (
-                        <Chip key={value} label={value} />
-                      ))}
-                    </Box>
-                  )}
-                  MenuProps={MenuProps}
-                >
-                  {facilitiesTagsLookup.map((loc) => (
-                    <MenuItem key={loc} value={loc}>
-                      {loc}
-                    </MenuItem>
+          <FormControl sx={{ m: 1 }}>
+            <InputLabel  id="demo-multiple-chip-label">Facilities</InputLabel>
+            <Select
+              labelId="demo-multiple-chip-label"
+              id="demo-multiple-chip"
+              multiple
+              value={locationFacilities}
+              onChange={handleFacilitiesChange}
+              input={<OutlinedInput  id="select-multiple-chip" label="Location tag" />}
+              renderValue={(selected) => (
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                  {selected.map((value) => (
+                    <Chip key={value} label={value} />
                   ))}
-                </Select>
-              </FormControl>
+                </Box>
+              )}
+              MenuProps={MenuProps}
+            >
+              {facilitiesTagsLookup.map((loc) => (
+                <MenuItem key={loc} value={loc}>
+                  {loc}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
 
-              <SplitBox>
+          <SplitBox>
 
-                <FormControl fullWidth>
-                  <TextField
-                    label="Noise level"
-                    type="number"
-                    value={locationNoiseLevel || 5}
-                    onChange={(e) => handleNoiseLevelChange(e.target.value)}
-                  />
-                </FormControl>
+            <FormControl fullWidth>
+              <TextField
+                label="Noise level"
+                type="number"
+                value={locationNoiseLevel || 5}
+                onChange={(e) => handleNoiseLevelChange(e.target.value)}
+              />
+            </FormControl>
 
-                <FormControl fullWidth>
-                  <TextField
-                    label="Price level"
-                    type="number"
-                    value={locationPriceLevel || 5}
-                    onChange={(e) => handlePriceLevelChange(e.target.value)}
-                  />
-                </FormControl>
+            <FormControl fullWidth>
+              <TextField
+                label="Price level"
+                type="number"
+                value={locationPriceLevel || 5}
+                onChange={(e) => handlePriceLevelChange(e.target.value)}
+              />
+            </FormControl>
 
-              </SplitBox>
+          </SplitBox>
 
-              <TextField sx={{ width: '100%' }} value={description} multiline rows={8} label="Description" onChange={(e) => handleChangeDescription(e.target.value)}  />
-              <TextField sx={{ width: '100%' }} value={locationLat} required label="Lat" onChange={(e) => setLocationLat(e.target.value)} type='text' />
-              <TextField sx={{ width: '100%' }} value={locationLng} required label="Lng" onChange={(e) => setLocationLng(e.target.value)} type='text' />
+          <TextField sx={{ width: '100%' }} value={description} multiline rows={8} label="Description" onChange={(e) => handleChangeDescription(e.target.value)}  />
+          <TextField sx={{ width: '100%' }} value={hours} multiline rows={1} label="Opening hours" onChange={(e) => handleChangeHours(e.target.value)}  />
+          <HelpText>Comma seperated values</HelpText>
+          <TextField sx={{ width: '100%' }} value={tips} multiline rows={4} label="Tips" onChange={(e) => handleChangeTips(e.target.value)}  />
+          <TextField sx={{ width: '100%' }} value={locationLat} required label="Lat" onChange={(e) => setLocationLat(e.target.value)} type='text' />
+          <TextField sx={{ width: '100%' }} value={locationLng} required label="Lng" onChange={(e) => setLocationLng(e.target.value)} type='text' />
 
-              <UploadImage imageUploadedCallback={handleFileUpload} imgUrl={imgUrl} />
+          <UploadImage imageUploadedCallback={handleFileUpload} imgUrl={imgUrl} />
 
-              { error && <Alert severity="warning">{error}</Alert> }
+          { error && <Alert severity="warning">{error}</Alert> }
 
-            </Stack>
-          </Box>
-          <Box style={style.actions}>
-            <Box>
-              { isUpdate && <Button onClick={() => handleDelete(updateId)} variant="outlined" color="warning" startIcon={<DeleteIcon />}>Delete</Button> }
-            </Box>
-            <Box style={{ display: "flex", gap: "0.5rem" }}>
-              { isDirty && <Typography sx={style.dirty} variant='p_small'>Unsaved changes</Typography> }
-              <Button onClick={handleBack} variant='outlined'>Back</Button>
-              { isUpdate && <Button onClick={handleUpdate} variant='contained'>Save Location</Button> }
-              { !isUpdate && <Button onClick={handleAdd} variant='contained'>Add Location</Button> }
-            </Box>
-          </Box>
+        </Stack>
+      </Box>
+      <Box style={style.actions}>
+        <Box>
+          { isUpdate && <Button onClick={() => handleDelete(updateId)} variant="outlined" color="warning" startIcon={<DeleteIcon />}>Delete</Button> }
         </Box>
-      </Paper>
-    </Box>
+        <Box style={{ display: "flex", gap: "0.5rem" }}>
+          { isDirty && <Typography sx={style.dirty} variant='p_small'>Unsaved changes</Typography> }
+          <Button onClick={handleBack} variant='outlined'>Back</Button>
+          { isUpdate && <Button onClick={handleUpdate} variant='contained'>Save Location</Button> }
+          { !isUpdate && <Button onClick={handleAdd} variant='contained'>Add Location</Button> }
+        </Box>
+      </Box>
+    </AdminLayout>
   )
 }
 

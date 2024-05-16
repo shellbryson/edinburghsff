@@ -3,13 +3,54 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [2.0.0] - 2024-05-01
+## [2.0.0] - 2024-05-18
+
+General:
+  - Add: New fonts, colours and general branding
+  - Add: All pages / content can now be accessed/bookmarked via URLs
+  - Add: All Events and Locations now update the page title/meta tags
 
 Map:
-  - Add: Landing page now a map
-  - Fix: Make map full screen
+  - Add: Improved full-screen map
+  - Add: Custom zoom buttons & hide streetview
+  - Add: Zoom to current location (if allowed)
+  - Add: Map pins now colour coded
+  - Add: New content filter ("Interesting")
+  - Add: New filter widget, with colours
+  - Add: Featured pins now use colours from Location type
 
-Build:
+Sidebar:
+  - Add: New side panel
+  - Add: Preview Events
+  - Add: Preview selected Map Highlights
+  - Add: Search for Map locations
+
+Events:
+  - Add: All new Events popups
+
+Community:
+  - Add: New community page that encourages interaction before getting Discord link
+
+Pages:
+  - Add: New global styling for pages
+  - Add: Intercept links, force them to follow internal routing
+
+Locations
+  - Add: All new Locations popups
+  - Add: Tips
+  - Add: Opening hours
+  - Add: New masthead image
+  - Add: Larger image at footer
+
+Admin:
+  - Add: All new admin popups
+  - Add: Display "dirty' fields encouraging user to save after a change
+  - Add: New system admin for common texts
+  - Add: Locations - Support for Hightlighted locations
+
+Build / App:
+  - Add: New lightweight location handling/indexing for faster loading
+  - Update: React 18.3.x
   - Update: bump all dependencies to latest
 
 ## [1.13.2] - 2023-11-01

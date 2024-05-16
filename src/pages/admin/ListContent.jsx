@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 import dayjs from 'dayjs';
 import 'dayjs/locale/en-gb';
 
 // MUI
 import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -22,6 +21,8 @@ import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 
 // Custom UI
 import EventsListImage from '../../components/admin/ListImage';
+import Spinner from '../../components/Spinner';
+import AdminLayout from '../../layouts/AdminLayout';
 
 import {
   fetchDocuments,
@@ -38,28 +39,9 @@ export default function ListContent() {
   const [tableFilterOn, setTableFilterOn] = useState("title");
   const [items, setItems] = useState([]);
   const [filter, setFilter] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
 
   const style = {
-    page: {
-      display: "flex",
-      flexDirection: "column",
-      height: "100%",
-      overflow: "hidden",
-      marginBottom: "1rem",
-    },
-    paper: {
-      display: "flex",
-      flexDirection: "column",
-      height: "100%",
-      overflow: "hidden",
-    },
-    content: {
-      textAlign: "left",
-      minHeight: "calc(100vh -2rem)",
-      padding: "1rem",
-      margin: "0.5rem",
-      overflow: "auto",
-    },
     heading: {
       display: "flex",
       justifyContent: "center",
@@ -70,12 +52,15 @@ export default function ListContent() {
     actionbar: {
       display: "flex",
       justifyContent: "space-between",
-      alignItems: "center"
+      alignItems: "center",
+      gap: "0.5rem",
+      margin: "0 1rem"
     }
   }
 
   useEffect(() => {
     if (params.type === 'locations') {
+      setIsLoading(true);
       setTableStructure({ headings: ['Location name'], keys: ['name'] });
       setTableFilterOn('name');
       fetchLocationsForMapDisplay((data) => {
@@ -83,24 +68,29 @@ export default function ListContent() {
           item.display = true;
         });
         setItems(data);
+        setIsLoading(false);
       });
     } else if (params.type === 'events') {
+      setIsLoading(true);
       setTableFilterOn('title');
       setTableStructure({ headings: ['Date', 'Event Title', ""], keys: ['eventStart', 'title', 'image'] });
-      fetchDocuments(params.type, (data) => {
+      fetchDocuments(params.type, {field:'eventStart', mode:'desc'}, (data) => {
         data.forEach((item) => {
           item.display = true;
         });
         setItems(data);
+        setIsLoading(false);
       });
     } else if (params.type === 'pages' || params.type === 'links') {
+      setIsLoading(true);
       setTableFilterOn('title');
       setTableStructure({ headings: ['Title', ""], keys: ['title', 'image'] });
-      fetchDocuments(params.type, (data) => {
+      fetchDocuments(params.type, {field:'title', mode:'asc'}, (data) => {
         data.forEach((item) => {
           item.display = true;
         });
         setItems(data);
+        setIsLoading(false);
       });
     }
     handleFilter('');
@@ -174,7 +164,7 @@ export default function ListContent() {
   const renderTable = () => {
     if (items.length === 0) return;
     return (
-      <Table sx={{ minWidth: 500 }} aria-label="List of events">
+      <Table aria-label="List of events">
         <TableHead>
           <TableRow>
             {renderHeadings()}
@@ -199,26 +189,25 @@ export default function ListContent() {
   }
 
   return (
-    <Box style={style.page} className="sff-page">
-      <Paper style={style.paper}>
-        <Box style={style.content}>
-          <Typography component="h1" variant="h1" style={{textAlign: "center", textTransform: "capitalize",}}>
-            {params.type}
-          </Typography>
-          <Box style={style.actionbar}>
-            <TextField
-              value={filter}
-              label="Filter"
-              size="small"
-              onChange={(e) => handleFilter(e.target.value)}
-            />
-            <Button onClick={() => onAddItem()} variant='outlined' color="form" startIcon={<LibraryAddIcon />}>Add</Button>
-          </Box>
-          <TableContainer component={Paper} sx={{ mt: 4, mb: 4 }}>
-            {renderTable()}
-          </TableContainer>
+    <AdminLayout>
+      <Typography component="h1" variant="h1" style={{textAlign: "center", textTransform: "capitalize",}}>
+        {params.type}
+      </Typography>
+      {isLoading && <Spinner />}
+      {!isLoading && <>
+        <Box style={style.actionbar}>
+          <TextField
+            value={filter}
+            label="Filter"
+            size="small"
+            onChange={(e) => handleFilter(e.target.value)}
+          />
+          <Button onClick={() => onAddItem()} variant='outlined' color="form" startIcon={<LibraryAddIcon />}>Add</Button>
         </Box>
-      </Paper>
-    </Box>
+        <TableContainer component={Box} sx={{ mt: 2, mb: 1 }}>
+          {renderTable()}
+        </TableContainer>
+      </>}
+    </AdminLayout>
   );
 };

@@ -1,34 +1,36 @@
-import React, { lazy, Suspense, useEffect } from 'react';
-import { Routes, Route, Navigate } from "react-router-dom";
-
+import React, { lazy, Suspense, useEffect, useState } from 'react';
+import { Routes, Route, useNavigate } from "react-router-dom";
 import { Analytics } from '@vercel/analytics/react';
 
+// Providers
 import { ThemeProvider } from '@mui/material/styles';
-import { customTheme } from './theme/theme';
-
 import { ConfirmProvider } from "material-ui-confirm";
 
+// Contexts
 import { useApp } from './context/AppContext';
 
-// MUI Components
+// Theme
+import { customTheme } from './theme/theme';
+
+// MUI
+import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 
 // Custom UI
 import Map from './components/Map';
 import Spinner from './components/Spinner';
+import Events from './pages/Events';
+import EventDetails from './pages/EventDetails';
+import Community from './pages/Community';
+import Suggestions from './pages/Suggestions';
+import Page from './pages/Page';
 
-// Layouts
-import AdminLayout from './layouts/AdminLayout';
+// Modals
+import AdminModal from './components/modals/AdminModal';
+import ContentModal from './components/modals/ContentModal';
 
-// Regular Pages
-const Events = lazy(() => import('./pages/public/Events'));
-const EventDetails = lazy(() => import('./pages/public/EventDetails'));
-const Signin = lazy(() => import('./pages/public/Signin'));
-
-// Dynamic Pages
-const Pages = lazy(() => import('./pages/public/Pages'));
-
-// Admin Pages
+// Suspended components
+const Signin = lazy(() => import('./pages/Signin'));
 const Dashboard = lazy(() => import('./pages/admin/Dashboard'));
 const ListContent = lazy(() => import('./pages/admin/ListContent'));
 const AdminSettings = lazy(() => import('./pages/admin/AdminSettings'));
@@ -43,18 +45,22 @@ import {
 // Assets
 import './App.scss';
 
-const styleLayout = {
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-  position: "absolute",
-  height: "100vh",
-  width: "100vw",
-  backgroundColor: "rgb(0, 0, 0)",
-}
-
 export default function App() {
   const { config, setConfig } = useApp();
+  const theme = useTheme();
+  const navigate = useNavigate();
+
+  const style={
+    sff: {
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      position: "absolute",
+      height: "100dvh",
+      width: "100vw",
+      backgroundColor: "rgb(0, 0, 0)",
+    }
+  }
 
   useEffect(() => {
     fetchDocument("settings", "config", (data) => {
@@ -62,35 +68,35 @@ export default function App() {
     });
   }, []);
 
+  const handleClose = () => {
+    navigate(`/`);
+  };
+
   return (
     <ThemeProvider theme={customTheme}>
-      <Box style={styleLayout} className="sff">
-        <ConfirmProvider>
-          <Suspense fallback={<Spinner />}>
+      <Box style={style.sff} className="sff">
+        <Suspense fallback={<Spinner>Loading...</Spinner>}>
+          <ConfirmProvider>
+            <Map />
             <Routes>
-              <Route path="places/:id/:place" element={<Map />} />
-              <Route path="/" element={<Map />}>
-                <Route path="signin" element={<Signin />} />
-                <Route path="events/:eventID/:eventTitle" element={<EventDetails />} />
-                <Route path="events" element={<Events />} />
-                <Route path="pages" element={<Pages />} />
-                <Route path="pages/:pageSlug" element={<Pages />} />
-                <Route path="admin" element={<AdminLayout />}>
-                  <Route index element={<Dashboard />} />
-                  <Route path='locations/update/:updateId' element={<AdminLocations />} />
-                  <Route path='locations/add' element={<AdminLocations />} />
-                  <Route path='events/update/:updateId' element={<AdminEvents />} />
-                  <Route path='events/add' element={<AdminEvents />} />
-                  <Route path='pages/update/:updateId' element={<AdminPages />} />
-                  <Route path='pages/add' element={<AdminPages />} />
-                  <Route path='settings/' element={<AdminSettings />} />
-                  <Route path=':type/' element={<ListContent />} />
-                </Route>
-                <Route path="*" element={<Navigate to="/" replace />} />
-              </Route>
+              <Route path="signin" element={<ContentModal><Signin /></ContentModal>} />
+              <Route path="events/:eventID/:eventTitle" element={<ContentModal><EventDetails handleClose={handleClose}/></ContentModal>} />
+              <Route path="events" element={<ContentModal><Events /></ContentModal>} />
+              <Route path="community" element={<ContentModal><Community /></ContentModal>} />
+              <Route path="feedback" element={<ContentModal><Suggestions /></ContentModal>} />
+              <Route path="pages/:pageSlug" element={<ContentModal><Page /></ContentModal>} />
+              <Route path="/dashboard" element={<AdminModal><Dashboard /></AdminModal>} />
+              <Route path='/admin/locations/update/:updateId' element={<AdminModal><AdminLocations /></AdminModal>} />
+              <Route path='/admin/locations/add' element={<AdminModal><AdminLocations /></AdminModal>} />
+              <Route path='/admin/events/update/:updateId' element={<AdminModal><AdminEvents /></AdminModal>} />
+              <Route path='/admin/events/add' element={<AdminModal><AdminEvents /></AdminModal>} />
+              <Route path='/admin/pages/update/:updateId' element={<AdminModal><AdminPages /></AdminModal>} />
+              <Route path='/admin/pages/add' element={<AdminModal><AdminPages /></AdminModal>} />
+              <Route path='/admin/settings/' element={<AdminModal><AdminSettings /></AdminModal>} />
+              <Route path='/admin/:type/' element={<AdminModal><ListContent /></AdminModal>} />
             </Routes>
-          </Suspense>
-        </ConfirmProvider>
+          </ConfirmProvider>
+        </Suspense>
       </Box>
       <Analytics />
     </ThemeProvider>

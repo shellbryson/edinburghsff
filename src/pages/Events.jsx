@@ -1,20 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import { getDocs, collection, query, orderBy, limit  } from 'firebase/firestore';
-import { db } from "../../firebase";
+import { getDocs, collection, query, orderBy } from 'firebase/firestore';
+import { db } from "../firebase";
 import { useHead } from 'hoofd';
 import ReactMarkdown from 'react-markdown';
 
 // Context
-import { useApp } from '../../context/AppContext';
+import { useApp } from '../context/AppContext';
 
 // MUI
 import { useTheme, styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 
 // Custom Components
-import PageHeading from '../../components/PageHeading';
-import EventsGrid from '../../components/EventsGrid';
-import LinkInterceptor from '../../components/LinkInterceptor';
+import PageHeading from '../components/PageHeading';
+import EventsGrid from '../components/EventsGrid';
+import LinkInterceptor from '../components/LinkInterceptor';
+
+const ContentBox = styled(Box)(({ theme }) => ({
+  padding: "0 1rem",
+  color: theme.palette.text.main
+}));
 
 export default function Events() {
 
@@ -22,18 +27,12 @@ export default function Events() {
   const theme = useTheme();
   const [events, setEvents] = useState([]);
 
-  const ContentBox = styled(Box)(({ theme }) => ({
-    padding: "0 1rem",
-    color: theme.palette.text.main
-  }));
-
   const style = {
     page: {
       display: "flex",
       flexDirection: "column",
       height: "100%",
       overflow: "hidden",
-      marginBottom: "1rem",
     },
     paper: {
       display: "flex",
@@ -43,7 +42,6 @@ export default function Events() {
     },
     content: {
       textAlign: "left",
-      margin: "0.5rem",
       overflow: "auto",
     }
   }
@@ -74,7 +72,7 @@ export default function Events() {
   return (
     <Box style={style.page} className="sff-page">
       <Box style={style.paper}>
-        <Box style={style.content} className="scroll">
+        <Box style={style.content} className="scroll-dialog">
           <PageHeading heading="Events" />
           <ContentBox>
             <LinkInterceptor>

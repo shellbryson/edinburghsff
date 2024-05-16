@@ -89,25 +89,15 @@ p {
   }
 }
 
-.sff-map-icon {
-
-  &::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 2rem;
-    width: 0;
-    height: 0;
-    border-left: 16px solid transparent;
-    border-right: 16px solid transparent;
-    border-top: 16px solid currentColor;
-    clear: both;
+@keyframes sff-pulse {
+  0% {
+    opacity: 1;
   }
-
-  > svg {
-    display: block;
-    width: 1rem;
-    height: 1rem;
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
   }
 }
 
@@ -132,7 +122,7 @@ p {
 }
 
 .scroll-dialog {
-  scrollbar-color: #fded07 #383838;
+  scrollbar-color: #fded07 #1b1a04;
   scrollbar-width: thin;
 
   &::-webkit-scrollbar {
@@ -141,12 +131,32 @@ p {
   }
 
   &::-webkit-scrollbar-track {
-    background:  #383838;
+    background:  #1b1a04;
   }
 
   &::-webkit-scrollbar-thumb {
     background-color: #fded07;
     border-radius: 0;
     border: 1px solid #fded07;
+  }
+}
+
+.scroll-dialog-admin {
+  scrollbar-color: #1a1a17 #fff;
+  scrollbar-width: thin;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background:  #fff;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #1a1a17;
+    border-radius: 0;
+    border: 1px solid #1a1a17;
   }
 }

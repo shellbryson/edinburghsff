@@ -1,26 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useNavigate, useLocation } from "react-router-dom";
-
-// Context
-import { useApp } from '../context/AppContext';
-import { useAuth } from '../context/AuthContext';
+import React from 'react';
+import { Link } from "react-router-dom";
 
 // MUI
 import Box from '@mui/material/Box';
 
 // Icons
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
 import DateRangeIcon from '@mui/icons-material/DateRange';
 
 export default function Navigation() {
-
-  const { isExploded } = useApp();
-  const { user } = useAuth();
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  const [isAdmin, setIsAdmin] = useState(false);
 
   const style = {
     navigation: {
@@ -50,34 +38,10 @@ export default function Navigation() {
     }
   }
 
-  const handleClickBack = () => {
-    navigate("/");
-  }
-
-  useEffect(() => {
-    location.pathname.includes("/admin") ? setIsAdmin(true) : setIsAdmin(false);
-  }, [location]);
-
   return (
-    <>
-      {isExploded &&
-        <Box style={style.icon} onClick={() => handleClickBack()}>
-          <ChevronLeftIcon />
-        </Box>
-      }
-      {isAdmin && <Box style={style.navigation} className="sff-navigation">
-        <Link to='/admin'>Dashboard</Link>
-        <Link to='/admin/settings'>Settings</Link>
-        <Link to='/admin/locations'>Locations</Link>
-        <Link to='/admin/events'>Events</Link>
-        <Link to='/admin/pages'>Pages</Link>
-      </Box>}
-      {!isAdmin && <>
-      <Box style={style.navigation} className="sff-navigation">
-        <Link to='/events' style={style.link}><DateRangeIcon /> <div>Events</div></Link>
-        <Link to='/pages/writing' style={style.link}><HistoryEduIcon /> <div>Writing</div></Link>
-      </Box>
-      </>}
-    </>
+    <Box style={style.navigation} className="sff-navigation">
+      <Link to='/events' style={style.link}><DateRangeIcon /> <div>Events</div></Link>
+      <Link to='/pages/writing' style={style.link}><HistoryEduIcon /> <div>Writing</div></Link>
+    </Box>
   );
 }

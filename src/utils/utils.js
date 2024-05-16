@@ -1,4 +1,4 @@
-import { doc, getDocs, getDoc, addDoc, updateDoc, deleteDoc, collection, orderBy, query, where } from 'firebase/firestore';
+import { doc, getDocs, getDoc, updateDoc, collection, orderBy, query } from 'firebase/firestore';
 import { db } from "../firebase";
 
 export function imageURL(filename, size) {
@@ -66,8 +66,8 @@ export async function fetchDocument(collectionName, documentId, callback) {
 }
 
 // Multiple documents fetch
-export async function fetchDocuments(collectionName, callback) {
-  const q = query(collection(db, collectionName), orderBy("title"));
+export async function fetchDocuments(collectionName, orderOn, callback) {
+  const q = query(collection(db, collectionName), orderBy(orderOn.field, orderOn.mode));
   const list = [];
   const querySnapshot = await getDocs(q);
   querySnapshot.forEach((doc) => {

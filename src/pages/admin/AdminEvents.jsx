@@ -19,7 +19,6 @@ import { MobileDateTimePicker } from '@mui/x-date-pickers/MobileDateTimePicker';
 import { styled } from '@mui/material/styles';
 import Alert from '@mui/material/Alert';
 import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
@@ -41,15 +40,28 @@ import PlaceIcon from '@mui/icons-material/Place';
 
 // Custom UI
 import UploadImage from '../../components/admin/UploadImage';
+import AdminLayout from '../../layouts/AdminLayout';
 
 import {
   fetchDocument,
 } from '../../utils/utils';
 
+const SplitBox = styled(Box)(({ theme }) => ({
+  display: 'grid',
+  gap: "1rem",
+  gridTemplateColumns: '1fr 1fr',
+}));
+
+const SelectionItemBox = styled(Box)(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  gap: "0.5rem",
+}));
+
 export default function AdminEvents() {
 
   const { user } = useAuth();
-  const { setIsLoading, mapLocations } = useApp();
+  const { mapLocations, setIsLoading } = useApp();
   const params = useParams();
 
   const confirm = useConfirm();
@@ -67,7 +79,9 @@ export default function AdminEvents() {
   const [eventStart, setEventStart] = useState(dayjs(new Date()));
   const [eventEnd, setEventEnd] = useState(dayjs(new Date()));
   const [eventIsAllDay, setEventIsAllDay] = useState(false);
+  const [eventIsFeatured, setEventIsFeatured] = useState(false);
   const [eventLocation, setEventLocation] = useState('');
+  const [eventIsDigital, setEventIsDigital] = useState(false);
   const [eventPin, setEventPin] = useState('');
   const [eventHighlights, setEventHighlights] = useState('');
   const [eventFacilities, setEventFacilities] = useState('');
@@ -85,39 +99,7 @@ export default function AdminEvents() {
   // Theme
   const theme = useTheme();
 
-  const SplitBox = styled(Box)(({ theme }) => ({
-    display: 'flex',
-    flexDirection: 'row',
-    gap: "1rem",
-  }));
-
-  const SelectionItemBox = styled(Box)(({ theme }) => ({
-    display: "flex",
-    alignItems: "center",
-    gap: "0.5rem",
-  }));
-
   const style = {
-    page: {
-      display: "flex",
-      flexDirection: "column",
-      height: "100%",
-      overflow: "hidden",
-      marginBottom: "1rem",
-    },
-    paper: {
-      display: "flex",
-      flexDirection: "column",
-      height: "100%",
-      overflow: "hidden",
-    },
-    content: {
-      textAlign: "left",
-      minHeight: "calc(100vh -2rem)",
-      padding: "1rem",
-      margin: "0.5rem",
-      overflow: "auto",
-    },
     actions: {
       display: "flex",
       justifyContent: "space-between",
@@ -158,7 +140,9 @@ export default function AdminEvents() {
       setEventEnd(dayjs(new Date()));
     }
     setEventIsAllDay(data.eventIsAllDay || false);
-    setEventLocation(data.eventLocation);
+    setEventIsFeatured(data.eventIsFeatured || false);
+    setEventLocation(data.eventLocation || "");
+    setEventIsDigital(data.eventIsDigital || false);
     setEventPin(data.eventPin || "");
 
     setEventHighlights(data.eventHighlights || "");
@@ -189,7 +173,9 @@ export default function AdminEvents() {
       eventStart: eventStart.$d,
       eventEnd: eventEnd.$d,
       eventIsAllDay: eventIsAllDay,
+      eventIsFeatured: eventIsFeatured,
       eventLocation: eventLocation,
+      eventIsDigital: eventIsDigital,
       eventPin: eventPin,
       eventHighlights: eventHighlights,
       eventFacilities: eventFacilities,
@@ -237,7 +223,9 @@ export default function AdminEvents() {
       eventStart: eventStart.$d,
       eventEnd: eventEnd.$d,
       eventIsAllDay: eventIsAllDay,
+      eventIsFeatured: eventIsFeatured,
       eventLocation: eventLocation,
+      eventIsDigital: eventIsDigital,
       eventPin: eventPin,
       eventHighlights: eventHighlights,
       eventFacilities: eventFacilities,
@@ -356,9 +344,6 @@ export default function AdminEvents() {
 
   const handlePinSectionChange = (p) => {
     if (p !== eventPin) setIsDirty(true);
-
-    console.log("p", p);
-
     setEventPin(p);
   }
 
@@ -367,88 +352,100 @@ export default function AdminEvents() {
   }
 
   return (
-    <Box style={style.page} className="sff-page">
-      <Paper style={style.paper}>
-        <Box style={style.content}>
-          <Box>
-            <Typography component="h1" variant="h1" style={{textAlign: "center"}}>
-              {isUpdate ? "Update Event" : "Add Event"}
-            </Typography>
-            <Stack spacing={2} sx={{ mt: 2}}>
-              <TextField required value={title} label="Title" onChange={(e) => handleChangeTitle(e.target.value)} type='text' />
+    <AdminLayout>
+      <Box>
+        <Typography component="h1" variant="h1" style={{textAlign: "center"}}>
+          {isUpdate ? "Update Event" : "Add Event"}
+        </Typography>
 
-              <SplitBox>
-                <FormGroup>
-                  <FormControlLabel onChange={(e) => setShow(e.target.checked)} control={<Checkbox />} label="Show in Event Grid" />
-                </FormGroup>
-              </SplitBox>
+        <Stack spacing={2} sx={{ mt: 2}}>
+          <TextField required value={title} label="Title" onChange={(e) => handleChangeTitle(e.target.value)} type='text' />
 
-              <TextField required value={description} multiline rows={8} label="Description" onChange={(e) => handleChangeDescription(e.target.value)} />
-              <TextField required value={summary} multiline rows={2} label="Summary" onChange={(e) => handleChangeSummary(e.target.value)} />
-              <TextField required value={eventHighlights} multiline rows={8} label="Highlights" onChange={(e) => handleChangeHighlights(e.target.value)} />
-              <TextField required value={eventFacilities} multiline rows={4} label="Facilities" onChange={(e) => handleChangeFacilities(e.target.value)} />
-              <TextField required value={eventTips} multiline rows={4} label="Tips" onChange={(e) => handleChangeTips(e.target.value)} />
-              <TextField required value={eventTrivia} multiline rows={4} label="Trivia" onChange={(e) => handleChangeTrivia(e.target.value)} />
+          <SplitBox>
+            <FormGroup>
+              <FormControlLabel onChange={(e) => setEventIsFeatured(e.target.checked)} control={<Checkbox checked={eventIsFeatured} />} label="Featured" />
+            </FormGroup>
+            <FormGroup>
+              <FormControlLabel onChange={(e) => setShow(e.target.checked)} control={<Checkbox checked={show} />} label="Visible" />
+            </FormGroup>
+          </SplitBox>
 
-              <TextField value={url} label="URL" onChange={(e) => handleChangeUrl(e.target.value)} type='url' />
-              <TextField required value={eventLocation} label="Location label"  onChange={(e) => handleChangeLocation(e.target.value)} type='text' />
+          <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-gb">
+            <SplitBox>
+              <MobileDateTimePicker label="Event start" value={eventStart} onChange={(newValue) => handleChangeEventStart(newValue)}
+                renderInput={(params) => (
+                  <TextField {...params} />
+                )}
+              />
+              <MobileDateTimePicker label="Event end" value={eventEnd} onChange={(newValue) => handleChangeEventEnd(newValue)}
+                renderInput={(params) => (
+                  <TextField {...params} />
+                )}
+              />
+            </SplitBox>
+          </LocalizationProvider>
 
-              <FormControl fullWidth>
-                <InputLabel>Map Pin</InputLabel>
-                <Select
-                  value={eventPin}
-                  label="Map Pin"
-                  onChange={(e) => handlePinSectionChange(e.target.value)}
-                >
-                  { mapLocations.map((location, index) => (
-                    <MenuItem key={index} value={location.id}>
-                      <SelectionItemBox>
-                        <ListItemIcon>
-                          <PlaceIcon />
-                        </ListItemIcon>
-                        <ListItemText primary={location.name} />
-                      </SelectionItemBox>
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+          <SplitBox>
+            <FormGroup>
+              <FormControlLabel onChange={(e) => setEventIsAllDay(e.target.checked)} control={<Checkbox checked={eventIsAllDay} />} label="All day" />
+            </FormGroup>
+          </SplitBox>
 
-              <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en-gb">
-                <MobileDateTimePicker label="Event start" value={eventStart} onChange={(newValue) => handleChangeEventStart(newValue)}
-                  renderInput={(params) => (
-                    <TextField {...params} />
-                  )}
-                />
-                <MobileDateTimePicker label="Event end" value={eventEnd} onChange={(newValue) => handleChangeEventEnd(newValue)}
-                  renderInput={(params) => (
-                    <TextField {...params} />
-                  )}
-                />
-                <FormGroup>
-                  <FormControlLabel onChange={(e) => setEventIsAllDay(e.target.checked)} control={<Checkbox checked={eventIsAllDay} />} label="All day" />
-                </FormGroup>
-              </LocalizationProvider>
+          <TextField required value={eventLocation} label="Location label"  onChange={(e) => handleChangeLocation(e.target.value)} type='text' />
 
-              <UploadImage imageUploadedCallback={handleFileUpload} imgUrl={imgUrl} />
+          <SplitBox>
+            <FormGroup>
+              <FormControlLabel onChange={(e) => setEventIsDigital(e.target.checked)} control={<Checkbox checked={eventIsDigital} />} label="Digital" />
+            </FormGroup>
+          </SplitBox>
 
-              { error && <Alert severity="warning">{error}</Alert> }
+          <FormControl fullWidth>
+            <InputLabel>Map Pin</InputLabel>
+            <Select
+              value={eventPin}
+              label="Map Pin"
+              onChange={(e) => handlePinSectionChange(e.target.value)}
+            >
+              { mapLocations.map((location, index) => (
+                <MenuItem key={index} value={location.id}>
+                  <SelectionItemBox>
+                    <ListItemIcon>
+                      <PlaceIcon />
+                    </ListItemIcon>
+                    <ListItemText primary={location.name} />
+                  </SelectionItemBox>
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
 
-            </Stack>
-          </Box>
-          <Box style={style.actions}>
-            <Box>
-              { isUpdate && <Button onClick={() => handleDelete(updateId)} variant="outlined" color="warning" startIcon={<DeleteIcon />}>Delete</Button> }
-            </Box>
-            <Box style={{ display: "flex", gap: "0.5rem" }}>
-              { isDirty && <Typography sx={style.dirty} variant='p_small'>Unsaved changes</Typography> }
-              <Button onClick={handleBack} variant='outlined'>Back</Button>
-              { isUpdate && <Button onClick={handleUpdate} variant='contained'>Save Event</Button> }
-              { !isUpdate && <Button onClick={handleAdd} variant='contained'>Add Event</Button> }
-            </Box>
-          </Box>
+          <TextField required value={description} multiline rows={8} label="Description" onChange={(e) => handleChangeDescription(e.target.value)} />
+          <TextField required value={summary} multiline rows={2} label="Summary" onChange={(e) => handleChangeSummary(e.target.value)} />
+          <TextField required value={eventHighlights} multiline rows={8} label="Highlights" onChange={(e) => handleChangeHighlights(e.target.value)} />
+          <TextField required value={eventFacilities} multiline rows={4} label="Facilities" onChange={(e) => handleChangeFacilities(e.target.value)} />
+          <TextField required value={eventTips} multiline rows={4} label="Tips" onChange={(e) => handleChangeTips(e.target.value)} />
+          <TextField required value={eventTrivia} multiline rows={4} label="Trivia" onChange={(e) => handleChangeTrivia(e.target.value)} />
+
+          <TextField value={url} label="URL" onChange={(e) => handleChangeUrl(e.target.value)} type='url' />
+
+          <UploadImage imageUploadedCallback={handleFileUpload} imgUrl={imgUrl} />
+
+          { error && <Alert severity="warning">{error}</Alert> }
+
+        </Stack>
+      </Box>
+      <Box style={style.actions}>
+        <Box>
+          { isUpdate && <Button onClick={() => handleDelete(updateId)} variant="outlined" color="warning" startIcon={<DeleteIcon />}>Delete</Button> }
         </Box>
-      </Paper>
-    </Box>
+        <Box style={{ display: "flex", gap: "0.5rem" }}>
+          { isDirty && <Typography sx={style.dirty} variant='p_small'>Unsaved changes</Typography> }
+          <Button onClick={handleBack} variant='outlined'>Back</Button>
+          { isUpdate && <Button onClick={handleUpdate} variant='contained'>Save Event</Button> }
+          { !isUpdate && <Button onClick={handleAdd} variant='contained'>Add Event</Button> }
+        </Box>
+      </Box>
+    </AdminLayout>
   )
 }
 

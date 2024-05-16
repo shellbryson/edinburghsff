@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useLocation } from "react-router-dom";
+import { useLocation, Outlet } from "react-router-dom";
 
 // Contexts
 import { useApp } from '../context/AppContext';
@@ -14,7 +14,6 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import MenuIcon from '@mui/icons-material/Menu';
 
 // Custom UI
-import PageLayout from '../layouts/PageLayout';
 import Navigation from './Navigation';
 import Home from './Home';
 
@@ -38,10 +37,9 @@ export default function MapPanel() {
       display: "flex",
       flexDirection: "column",
       position: "absolute",
-      transition: "clip-path 200ms",
       left: "0",
       top: "0",
-      bottom: "0",
+      height: "100dvh",
       backgroundColor: "rgb(0, 0, 0)",
       zIndex: 1000,
       borderRight: `1px solid ${theme.palette.brand.main}`
@@ -50,7 +48,7 @@ export default function MapPanel() {
       transition: "width 200ms, max-width 200ms",
       minWidth: "10px",
       maxWidth: "700px",
-      width: isExploded ? "calc(100vw - 1rem)" : (isExpanded ? "300px" : "10px"),
+      width: isExpanded ? "300px" : "10px",
       overflow: "hidden",
       height: "100vh",
     },
@@ -86,22 +84,20 @@ export default function MapPanel() {
 
   return (
     <Box style={styles.panel} className="sff-panel">
-      {!isExploded &&
-        <Box style={styles.expander} onClick={() => handleExpanderClick()}  className="sff-panel__expander">
-          {isExpanded ?
-            <ChevronLeftIcon />
-          :
-            <>
-              <MenuIcon />
-              <ChevronRightIcon />
-            </>
-          }
-        </Box>
-      }
+      <Box style={styles.expander} onClick={() => handleExpanderClick()}  className="sff-panel__expander">
+        {isExpanded ?
+          <ChevronLeftIcon />
+        :
+          <>
+            <MenuIcon />
+            <ChevronRightIcon />
+          </>
+        }
+      </Box>
       <Box style={styles.interior} className="sff-panel__interior">
         <Box style={styles.content} className="sff-panel__content">
           <Navigation />
-          { isExploded ? <PageLayout /> : <Home /> }
+          <Home />
         </Box>
       </Box>
     </Box>

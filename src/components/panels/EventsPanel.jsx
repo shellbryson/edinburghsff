@@ -101,7 +101,7 @@ export default function EventsPanel() {
   return (
     <Box style={style.events} className="sff-panel-events">
       <Typeography component="h2" variant="h_small_lined">Events</Typeography>
-      {events.map((event, index) => (
+      {events.filter(event => event.eventIsFeatured).map((event, index) => (
         <EventBox key={index} className="sff-panel-events__event">
           <EventLink component="a" onClick={() => handleClickEvent(event)}>{event.title}</EventLink>
           <EventIcon />

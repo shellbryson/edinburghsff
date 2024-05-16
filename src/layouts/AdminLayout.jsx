@@ -1,26 +1,37 @@
 import React from 'react';
-import { Outlet } from "react-router-dom";
 
 // MUI Components
+import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Container';
 
-// Helpers
-import ProtectedRoute from '../helpers/ProtectedRoute';
+export default function AdminLayout({children}) {
+  const theme = useTheme();
 
-export default function AdminLayout() {
-
-  const stylePage={
-    display: "flex",
-    flexDirection: "column",
-    overflow: "hidden",
-    height: "100%"
+  const style={
+    page: {
+      display: "flex",
+      flexDirection: "column",
+      height: "100%",
+      overflow: "hidden",
+      marginBottom: "1rem",
+      paddingLeft: "0.5rem",
+      paddingRight: "0.5rem",
+    },
+    content: {
+      textAlign: "left",
+      paddingRight: "1rem",
+      paddingLeft: "0.5rem",
+      marginBottom: "1rem",
+      marginTop: "1rem",
+      overflow: "auto",
+    }
   }
 
   return (
-    <ProtectedRoute>
-      <Box style={stylePage} className="sff-admin-layout">
-        <Outlet />
+    <Box style={style.page} className="sff-page">
+      <Box style={style.content} className="scroll-dialog-admin">
+        {children}
       </Box>
-    </ProtectedRoute>
+    </Box>
   )
 }

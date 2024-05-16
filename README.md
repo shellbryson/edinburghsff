@@ -1,6 +1,6 @@
 # Edinburgh SFF
 
-A custom ReactJS web app using modern Web patterns.
+A custom React web app using modern Web patterns.
 
 ## Local development
 
