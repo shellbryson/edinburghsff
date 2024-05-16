@@ -14,6 +14,9 @@ Sidebar:
 Pins:
   - Improve: On desktop, pins sometimes hard to click.
 
+App:
+  - Fix: Missing schema describing Organization for Google etc
+
 ## [2.0.0] - 2024-05-16 (beta)
 
 General:
