@@ -23,6 +23,23 @@ import ProtectedRoute from '../../helpers/ProtectedRoute';
 // Theme helpers
 import useMediaQuery from '@mui/material/useMediaQuery';
 
+const BootstrapAdminDialog = styled(Dialog)(({ theme }) => ({
+  '& .MuiDialogContent-root': {
+    backgroundColor: '#fff',
+    color: '#000',
+    height: "100%",
+    padding: "0"
+  },
+  '& .MuiDialogActions-root': {
+    padding: theme.spacing(1),
+  },
+  '& .MuiPaper-root': {
+    backgroundColor: '#fff',
+    color: '#000',
+    height: "100%"
+  },
+}));
+
 export default function AdminModal({ children }) {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -30,26 +47,6 @@ export default function AdminModal({ children }) {
   const location = useLocation();
 
   const isDashboard = location.pathname.includes("dashboard");
-
-  const BootstrapAdminDialog = styled(Dialog)(({ theme }) => ({
-    '& .MuiDialogContent-root': {
-      backgroundColor: '#fff',
-      color: '#000',
-      height: "100%",
-      padding: "0"
-    },
-    '& .MuiBackdrop-root': {
-      backgroundColor: 'transparent'
-    },
-    '& .MuiDialogActions-root': {
-      padding: theme.spacing(1),
-    },
-    '& .MuiPaper-root': {
-      backgroundColor: '#fff',
-      color: '#000',
-      height: "100%"
-    },
-  }));
 
   const style={
     page: {
@@ -71,7 +68,6 @@ export default function AdminModal({ children }) {
       display: !fullScreen || isDashboard ? "none" : "block"
     }
   }
-
   const handleClose = () => {
     navigate(`/`);
   };

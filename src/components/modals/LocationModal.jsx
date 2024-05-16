@@ -36,141 +36,133 @@ import { imageURL } from '../../utils/utils';
 // Theme helpers
 import useMediaQuery from '@mui/material/useMediaQuery';
 
+const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+  '& .MuiDialogContent-root': {
+    marginTop: "1rem",
+    borderRadius: "0",
+    '&::before': {
+      position: "absolute",
+      content: '""',
+      display: 'block',
+      width: '4px',
+      height: '4px',
+      backgroundColor: theme.palette.brand.main,
+      top: "0",
+      right: "0",
+    },
+    '&::after': {
+      position: "absolute",
+      content: '""',
+      display: 'block',
+      width: '4px',
+      height: '4px',
+      backgroundColor: theme.palette.brand.main,
+      bottom: "0",
+      left: "0",
+    }
+  },
+  '& .MuiPaper-root': {
+    backgroundColor: theme.palette.brand.faint,
+    color: theme.palette.text.main,
+    borderRadius: "0",
+    borderTop: `1px solid ${theme.palette.highlight.main}`,
+    borderBottom: `1px solid ${theme.palette.highlight.main}`,
+    borderLeft: `1px solid ${theme.palette.highlight.main}`,
+    borderRight: `1px solid ${theme.palette.highlight.main}`,
+  },
+}));
+
+const MastheadImageBox = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  justifyContent: 'center',
+  marginTop: "1rem",
+  marginBottom: "2rem",
+  "& img": {
+    width: "3rem",
+    height: "auto"
+  }
+}));
+
+const FooterImageBox = styled(Box)(({ theme }) => ({
+  width: '100%',
+  marginTop: "2rem",
+  '& img': {
+    width: "100%",
+    height: "auto"
+  }
+}));
+
+const Facilities = styled(Box)(({ theme }) => ({
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  gap: "1rem",
+  backgroundColor: theme.palette.highlight.main,
+  marginBottom: "2rem",
+  padding: "1rem"
+}));
+
+const TagIcon = styled(Box)(({ theme }) => ({
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  gap: "1rem",
+  width: "2.5rem",
+  height: "2.5rem",
+}));
+
+const Heading = styled(Box)(({ theme }) => ({
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+}));
+
+const Section = styled(Box)(({ theme }) => ({
+  marginTop: "2rem",
+}));
+
+const SectionHeading = styled(Typography)(({ theme }) => ({
+  display: "inline-block",
+  color: theme.palette.brand.main
+}));
+
+const Hours = styled(Box)(({ theme }) => ({
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  flexDirection: "column",
+  padding: "1px",
+  gap: "0",
+  marginBottom: "1rem",
+  '& p': {
+    padding: "0",
+    margin: "0",
+  }
+}));
+
+const FooterMeta = styled(Box)(({ theme }) => ({
+  display: "flex",
+  justifyContent: "center",
+  gap: "1rem",
+  backgroundColor: theme.palette.highlight.main,
+  alignContent: "center",
+  padding: "1rem",
+  '& > div' : {
+    backgroundColor: theme.palette.brand.faint,
+    width: "50%",
+  },
+  '& p' : {
+    padding: "0.5rem 1rem",
+    margin: "0",
+    textAlign: "center",
+  }
+}));
+
 export default function LocationModal(
   { pinData, isOpenDialog, handleCloseDetails }
 ) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-
-  const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-    '& .MuiDialogContent-root': {
-      marginTop: "1rem",
-      borderRadius: "0",
-      '&::before': {
-        position: "absolute",
-        content: '""',
-        display: 'block',
-        width: '4px',
-        height: '4px',
-        backgroundColor: theme.palette.brand.main,
-        top: "0",
-        right: "0",
-      },
-      '&::after': {
-        position: "absolute",
-        content: '""',
-        display: 'block',
-        width: '4px',
-        height: '4px',
-        backgroundColor: theme.palette.brand.main,
-        bottom: "0",
-        left: "0",
-      }
-    },
-    '& .MuiPaper-root': {
-      backgroundColor: theme.palette.brand.faint,
-      color: theme.palette.text.main,
-      borderRadius: "0",
-      borderTop: `1px solid ${theme.palette.highlight.main}`,
-      borderBottom: `1px solid ${theme.palette.highlight.main}`,
-      borderLeft: `1px solid ${theme.palette.highlight.main}`,
-      borderRight: `1px solid ${theme.palette.highlight.main}`,
-    },
-  }));
-
-  const MastheadImageBox = styled(Box)(({ theme }) => ({
-    display: 'flex',
-    justifyContent: 'center',
-    marginTop: "1rem",
-    marginBottom: "2rem",
-    "& img": {
-      width: "3rem",
-      height: "auto"
-    }
-  }));
-
-  const FooterImageBox = styled(Box)(({ theme }) => ({
-    width: '100%',
-    marginTop: "2rem",
-    '& img': {
-      width: "100%",
-      height: "auto"
-    }
-  }));
-
-  const Facilities = styled(Box)(({ theme }) => ({
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    gap: "1rem",
-    backgroundColor: theme.palette.highlight.main,
-    marginBottom: "2rem",
-    padding: "1rem"
-  }));
-
-  const TagIcon = styled(Box)(({ theme }) => ({
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    gap: "1rem",
-    width: "2.5rem",
-    height: "2.5rem",
-  }));
-
-  const Heading = styled(Box)(({ theme }) => ({
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  }));
-
-  const Section = styled(Box)(({ theme }) => ({
-    marginTop: "2rem",
-  }));
-
-  const SectionHeading = styled(Typography)(({ theme }) => ({
-    display: "inline-block",
-    color: theme.palette.brand.main
-  }));
-
-  const Hours = styled(Box)(({ theme }) => ({
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "column",
-    padding: "1px",
-    gap: "0",
-    marginBottom: "1rem",
-    '& p': {
-      padding: "0",
-      margin: "0",
-    }
-  }));
-
-  const FooterMeta = styled(Box)(({ theme }) => ({
-    display: "flex",
-    justifyContent: "center",
-    gap: "1rem",
-    backgroundColor: theme.palette.highlight.main,
-    alignContent: "center",
-    padding: "1rem",
-    '& > div' : {
-      backgroundColor: theme.palette.brand.faint,
-      width: "50%",
-    },
-    '& p' : {
-      padding: "0.5rem 1rem",
-      margin: "0",
-      textAlign: "center",
-    }
-  }));
-
-  const stylePrice={
-    marginTop: "1rem"
-  }
-
-  const styleNoise={
-    marginTop: "1rem"
-  }
 
   const styleDescription={
     marginTop: "1rem"

@@ -9,21 +9,21 @@ import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 
+const NavigationMenu = styled(Box)(({ theme }) => ({
+  display: "flex",
+  height: "100%",
+  flexDirection: "column",
+  justifyContent: "center",
+  alignItems: "center"
+}));
+
+const NavigationButton = styled(Button)(({ theme }) => ({
+  minWidth: "100%"
+}));
+
 const Dashboard = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
-
-  const NavigationMenu = styled(Box)(({ theme }) => ({
-    display: "flex",
-    height: "100%",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center"
-  }));
-
-  const NavigationButton = styled(Button)(({ theme }) => ({
-    minWidth: "100%"
-  }));
 
   const handleLogout = async () => {
     try {
