@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useLocation, Outlet } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 // Contexts
 import { useApp } from '../context/AppContext';
@@ -30,7 +30,7 @@ export default function MapPanel() {
 
   useEffect(() => {
     location.pathname === '/' || location.pathname.includes("/places") ? setIsExploded(false) : setIsExploded(true);
-  }, [location]);
+  }, [location.pathname]);
 
   const styles = {
     panel: {
