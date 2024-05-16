@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from "react-router-dom";
-import packageJson from '../../package.json';
 
 // Context
 import { useAuth } from '../context/AuthContext';
