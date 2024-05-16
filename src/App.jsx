@@ -6,6 +6,8 @@ import { Analytics } from '@vercel/analytics/react';
 import { ThemeProvider } from '@mui/material/styles';
 import { ConfirmProvider } from "material-ui-confirm";
 
+import packageJson from '../package.json';
+
 // Contexts
 import { useApp } from './context/AppContext';
 
@@ -50,6 +52,8 @@ export default function App() {
   const theme = useTheme();
   const navigate = useNavigate();
 
+  const version = packageJson.version;
+
   const style={
     sff: {
       display: "flex",
@@ -62,7 +66,17 @@ export default function App() {
     }
   }
 
+  const splashMessage = () => {
+    console.log(`%c \n Edinburgh SFF`, "color: #fded07; font-size: 2em;");
+    console.log(`%c Made in Scotland with love`, "color: #fded07; font-size: 2em;");
+    console.log(`%c Version ${version}`, "color: #fded07; font-size: 2em;");
+    console.log(`%c ## Designed and developed by Shell Bryson`, "color: #fded07; font-size: 1em;");
+    console.log(`%c ## Web: https://shellbryson.com\n`, "color: #fded07; font-size: 1em;");
+  }
+
   useEffect(() => {
+    splashMessage();
+
     fetchDocument("settings", "config", (data) => {
       setConfig(data);
     });
