@@ -13,22 +13,22 @@ import BookIcon from '@mui/icons-material/Book';
 import CreateIcon from '@mui/icons-material/Create';
 import LocalLibraryIcon from '@mui/icons-material/LocalLibrary';
 
+const PinBox = styled(Box)(({ theme }) => ({
+  display: "flex",
+  position: "relative",
+  width: "2rem",
+  height: "3rem",
+  marginTop: "-3rem",
+  left: "-1rem",
+  filter: "drop-shadow(1px 1px 1px rgba(0,0,0,0.5))"
+}));
+
 export default function MapPin({data, onClickPin}) {
 
   const theme = useTheme();
   const [icon, setIcon] = useState("");
   const [color, setColor] = useState("pinDefault");
   const [isDragging, setIsDragging] = useState(false);
-
-  const PinBox = styled(Box)(({ theme }) => ({
-    display: "flex",
-    position: "relative",
-    width: "2rem",
-    height: "3rem",
-    marginTop: "-3rem",
-    left: "-1rem",
-    filter: "drop-shadow(1px 1px 1px rgba(0,0,0,0.5))"
-  }));
 
   const IconBox = styled(Box)(({ theme }) => ({
     display: "flex",
@@ -45,6 +45,7 @@ export default function MapPin({data, onClickPin}) {
     top: "0",
     alignItems: "center",
     justifyContent: "center",
+    cursor: "pointer",
     '&::after': {
       content: "''",
       position: "absolute",

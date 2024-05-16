@@ -46,6 +46,18 @@ import {
   fetchDocument,
 } from '../../utils/utils';
 
+const SplitBox = styled(Box)(({ theme }) => ({
+  display: 'grid',
+  gap: "1rem",
+  gridTemplateColumns: '1fr 1fr',
+}));
+
+const SelectionItemBox = styled(Box)(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  gap: "0.5rem",
+}));
+
 export default function AdminEvents() {
 
   const { user } = useAuth();
@@ -86,18 +98,6 @@ export default function AdminEvents() {
 
   // Theme
   const theme = useTheme();
-
-  const SplitBox = styled(Box)(({ theme }) => ({
-    display: 'grid',
-    gap: "1rem",
-    gridTemplateColumns: '1fr 1fr',
-  }));
-
-  const SelectionItemBox = styled(Box)(({ theme }) => ({
-    display: "flex",
-    alignItems: "center",
-    gap: "0.5rem",
-  }));
 
   const style = {
     actions: {

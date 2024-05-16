@@ -69,6 +69,18 @@ const facilitiesTagsLookup = [
   "Pet",
 ];
 
+const SplitBox = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'row',
+  gap: "1rem",
+}));
+
+const HelpText = styled(Typography)(({ theme }) => ({
+  fontSize: "0.75rem",
+  color: theme.palette.text.secondary,
+  margin: "2px 0 8px"
+}));
+
 export default function AdminMap() {
 
   const { user } = useAuth();
@@ -106,18 +118,6 @@ export default function AdminMap() {
 
   // Theme
   const theme = useTheme();
-
-  const SplitBox = styled(Box)(({ theme }) => ({
-    display: 'flex',
-    flexDirection: 'row',
-    gap: "1rem",
-  }));
-
-  const HelpText = styled(Typography)(({ theme }) => ({
-    fontSize: "0.75rem",
-    color: theme.palette.text.secondary,
-    margin: "2px 0 8px"
-  }));
 
   const style = {
     actions: {

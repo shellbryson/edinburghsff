@@ -33,6 +33,49 @@ import {
 } from '../utils/utils';
 import Spinner from '../components/Spinner';
 
+const Meta = styled(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  padding: "0.25rem 0.5rem",
+  gap: "0.5rem",
+  alignItems: "center",
+  justifyContent: "center",
+  '& p' : {
+    margin: 0,
+    padding: 0
+  }
+}));
+
+const Description = styled(Box)(({ theme }) => ({}));
+const Section = styled(Box)(({ theme }) => ({
+  marginTop: "2rem",
+}));
+
+const SectionHeading = styled(Typography)(({ theme }) => ({
+  display: "inline-block",
+  color: theme.palette.brand.main
+}));
+
+const ActionsBox = styled(Box)(({ theme }) => ({
+  display: "flex",
+  justifyContent: "center",
+  margin: "2rem 0",
+  gap: "1rem",
+  padding: "1rem",
+  backgroundColor: theme.palette.highlight.main,
+}));
+
+const MastheadImageBox = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  justifyContent: 'center',
+  marginTop: "1rem",
+  marginBottom: "2rem",
+  "& img": {
+    width: "3rem",
+    height: "auto"
+  }
+}));
+
 const EventDetails = ({ handleClose }) => {
 
   const [currentEvent, setCurrentEvent] = useState({});
@@ -48,43 +91,6 @@ const EventDetails = ({ handleClose }) => {
     setMapLocations,
     mapLocations
   } = useApp();
-
-  const MastheadImageBox = styled(Box)(({ theme }) => ({
-    display: 'flex',
-    justifyContent: 'center',
-    marginTop: "1rem",
-    marginBottom: "2rem",
-    "& img": {
-      width: "3rem",
-      height: "auto"
-    }
-  }));
-
-  const FooterImageBox = styled(Box)(({ theme }) => ({
-    width: '100%',
-    height: "400px",
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    background: currentEvent?.image ? `linear-gradient(to bottom, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.8) 100%), url(${imageURL(currentEvent?.image, 'large')})` : "none",
-    backgroundRepeat: 'no-repeat, no-repeat',
-    backgroundPosition: 'center, center',
-    backgroundSize: 'cover, cover',
-    marginTop: "2rem",
-  }));
-
-  const Meta = styled(Box)(({ theme }) => ({
-    display: "flex",
-    flexDirection: "column",
-    padding: "0.25rem 0.5rem",
-    gap: "0.5rem",
-    alignItems: "center",
-    justifyContent: "center",
-    '& p' : {
-      margin: 0,
-      padding: 0
-    }
-  }));
 
   const Summary = styled(Box)(({ theme }) => ({
     position: "relative",
@@ -127,23 +133,17 @@ const EventDetails = ({ handleClose }) => {
     },
   }));
 
-  const Description = styled(Box)(({ theme }) => ({}));
-  const Section = styled(Box)(({ theme }) => ({
+  const FooterImageBox = styled(Box)(({ theme }) => ({
+    width: '100%',
+    height: "400px",
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    background: currentEvent?.image ? `linear-gradient(to bottom, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.8) 100%), url(${imageURL(currentEvent?.image, 'large')})` : "none",
+    backgroundRepeat: 'no-repeat, no-repeat',
+    backgroundPosition: 'center, center',
+    backgroundSize: 'cover, cover',
     marginTop: "2rem",
-  }));
-
-  const SectionHeading = styled(Typography)(({ theme }) => ({
-    display: "inline-block",
-    color: theme.palette.brand.main
-  }));
-
-  const ActionsBox = styled(Box)(({ theme }) => ({
-    display: "flex",
-    justifyContent: "center",
-    margin: "2rem 0",
-    gap: "1rem",
-    padding: "1rem",
-    backgroundColor: theme.palette.highlight.main,
   }));
 
   const style = {

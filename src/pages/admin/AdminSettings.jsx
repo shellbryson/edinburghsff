@@ -23,6 +23,12 @@ import {
   fetchDocument
 } from '../../utils/utils';
 
+const SplitBox = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'row',
+  gap: "1rem",
+}));
+
 export default function AdminSettings() {
 
   const { user } = useAuth();
@@ -48,12 +54,6 @@ export default function AdminSettings() {
 
   // Theme
   const theme = useTheme();
-
-  const SplitBox = styled(Box)(({ theme }) => ({
-    display: 'flex',
-    flexDirection: 'row',
-    gap: "1rem",
-  }));
 
   const style = {
     actions: {

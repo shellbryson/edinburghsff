@@ -18,6 +18,14 @@ import BookIcon from '@mui/icons-material/Book';
 import CreateIcon from '@mui/icons-material/Create';
 import LocalLibraryIcon from '@mui/icons-material/LocalLibrary';
 
+const ToggleIconButton = styled(IconButton)(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  borderRadius: "0",
+  padding: "0.5rem",
+  border: `2px solid #000`
+}));
+
 export default function Filter({onFilterMap}) {
 
   const theme = useTheme();
@@ -62,14 +70,6 @@ export default function Filter({onFilterMap}) {
     alignItems: "center",
     justifyContent: "center",
     gap: "2px",
-  }));
-
-  const ToggleIconButton = styled(IconButton)(({ theme }) => ({
-    display: "flex",
-    alignItems: "center",
-    borderRadius: "0",
-    padding: "0.5rem",
-    border: `2px solid #000`
   }));
 
   const style = {

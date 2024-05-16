@@ -15,6 +15,30 @@ import { slugify } from '../utils/utils';
 import EventsGridImage from './EventsGridImage';
 import DateBox from './DateBox';
 
+const EventBox = styled(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  gap: "1rem",
+  padding: "1rem",
+  margin: "0.5rem",
+  backgroundColor: theme.palette.brand.main,
+  color: theme.palette.brand.contrastText,
+  cursor: "pointer",
+}));
+
+const EventContentBox = styled(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  gap: "1rem",
+  color: theme.palette.primary.main,
+  padding: "0.25rem",
+  width: "100%",
+}));
+
+const SectionTitle = styled(Box)(({ theme }) => ({
+  margin: "3rem 1rem 0 1rem",
+}));
+
 const EventsGrid = ({ data }) => {
   const navigate = useNavigate();
   const params = useParams();
@@ -23,30 +47,6 @@ const EventsGrid = ({ data }) => {
   const [eventsCurrent, setEventsCurrent] = useState([]);
   const [eventsFuture, setEventsFuture] = useState([]);
   const [eventsPast, setEventsPast] = useState([]);
-
-  const SectionTitle = styled(Box)(({ theme }) => ({
-    margin: "3rem 1rem 0 1rem",
-  }));
-
-  const EventBox = styled(Box)(({ theme }) => ({
-    display: "flex",
-    flexDirection: "column",
-    gap: "1rem",
-    padding: "1rem",
-    margin: "0.5rem",
-    backgroundColor: theme.palette.brand.main,
-    color: theme.palette.brand.contrastText,
-    cursor: "pointer",
-  }));
-
-  const EventContentBox = styled(Box)(({ theme }) => ({
-    display: "flex",
-    flexDirection: "column",
-    gap: "1rem",
-    color: theme.palette.primary.main,
-    padding: "0.25rem",
-    width: "100%",
-  }));
 
   useEffect(() => {
     splitEvents(data);

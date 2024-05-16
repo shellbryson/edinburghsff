@@ -32,6 +32,12 @@ import {
   slugify
 } from '../../utils/utils';
 
+const SplitBox = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'row',
+  gap: "1rem",
+}));
+
 export default function AdminPages() {
 
   const { user } = useAuth();
@@ -62,12 +68,6 @@ export default function AdminPages() {
 
   // Theme
   const theme = useTheme();
-
-  const SplitBox = styled(Box)(({ theme }) => ({
-    display: 'flex',
-    flexDirection: 'row',
-    gap: "1rem",
-  }));
 
   const style = {
     actions: {

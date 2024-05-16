@@ -16,29 +16,29 @@ import PageHeading from '../components/PageHeading';
 import LinkInterceptor from '../components/LinkInterceptor';
 import StyledContent from '../components/StyledContent';
 
+const ContentBox = styled(Box)(({ theme }) => ({
+  padding: "0 1rem",
+  color: theme.palette.text.main
+}));
+
+const DiscordBox = styled(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  alignItems: "center",
+  margin: "2rem 0",
+  background: theme.palette.highlight.main,
+  padding: "2rem",
+  gap: "0.5rem",
+  color: theme.palette.text.main
+}));
+
 export default function Community() {
 
   const { config } = useApp();
   const theme = useTheme();
   const [showDiscord, setShowDiscord] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
-
-  const ContentBox = styled(Box)(({ theme }) => ({
-    padding: "0 1rem",
-    color: theme.palette.text.main
-  }));
-
-  const DiscordBox = styled(Box)(({ theme }) => ({
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    margin: "2rem 0",
-    background: theme.palette.highlight.main,
-    padding: "2rem",
-    gap: "0.5rem",
-    color: theme.palette.text.main
-  }));
 
   const style = {
     page: {

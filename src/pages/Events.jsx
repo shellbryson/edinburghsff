@@ -16,16 +16,16 @@ import PageHeading from '../components/PageHeading';
 import EventsGrid from '../components/EventsGrid';
 import LinkInterceptor from '../components/LinkInterceptor';
 
+const ContentBox = styled(Box)(({ theme }) => ({
+  padding: "0 1rem",
+  color: theme.palette.text.main
+}));
+
 export default function Events() {
 
   const { config } = useApp();
   const theme = useTheme();
   const [events, setEvents] = useState([]);
-
-  const ContentBox = styled(Box)(({ theme }) => ({
-    padding: "0 1rem",
-    color: theme.palette.text.main
-  }));
 
   const style = {
     page: {
