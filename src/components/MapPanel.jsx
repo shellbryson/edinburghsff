@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react';
-import { useLocation } from "react-router-dom";
+import React from 'react';
 
 // Contexts
 import { useApp } from '../context/AppContext';
@@ -19,18 +18,11 @@ import Home from './Home';
 
 export default function MapPanel() {
 
-  const location = useLocation();
   const theme = useTheme();
   const {
-    isExploded,
-    setIsExploded,
     isExpanded,
     setIsExpanded
   } = useApp();
-
-  useEffect(() => {
-    location.pathname === '/' || location.pathname.includes("/places") ? setIsExploded(false) : setIsExploded(true);
-  }, [location.pathname]);
 
   const styles = {
     panel: {
@@ -56,7 +48,7 @@ export default function MapPanel() {
       display: isExpanded ? "flex" : "none",
       flexDirection: "column",
       transition: "width 200ms",
-      width: isExploded ? "100%" : "300px",
+      width: "300px",
       height: "100%",
       overflow: "hidden"
     },
