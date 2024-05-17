@@ -3,10 +3,13 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [2.0.4] - 2024-05-16 (beta)
+## [2.0.4] - 2024-05-18 (beta)
 
 Map:
   - Improve: performance of map pins
+
+App:
+  - Fix: Remove lazy loading from Admin pages as this was causing rendering issues (flickering dialogs)
 
 ## [2.0.3] - 2024-05-16 (beta)
 

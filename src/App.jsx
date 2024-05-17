@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { Analytics } from '@vercel/analytics/react';
 
@@ -17,10 +17,10 @@ import { customTheme } from './theme/theme';
 // MUI
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
+import styled from '@mui/material/styles/styled';
 
 // Custom UI
 import Map from './components/Map';
-import Spinner from './components/Spinner';
 import Events from './pages/Events';
 import EventDetails from './pages/EventDetails';
 import Community from './pages/Community';
@@ -32,13 +32,13 @@ import AdminModal from './components/modals/AdminModal';
 import ContentModal from './components/modals/ContentModal';
 
 // Suspended components
-const Signin = lazy(() => import('./pages/Signin'));
-const Dashboard = lazy(() => import('./pages/admin/Dashboard'));
-const ListContent = lazy(() => import('./pages/admin/ListContent'));
-const AdminSettings = lazy(() => import('./pages/admin/AdminSettings'));
-const AdminEvents = lazy(() => import('./pages/admin/AdminEvents'));
-const AdminLocations = lazy(() => import('./pages/admin/AdminLocations'));
-const AdminPages = lazy(() => import('./pages/admin/AdminPages'));
+import Signin from './pages/Signin';
+import Dashboard from './pages/admin/Dashboard';
+import ListContent from './pages/admin/ListContent';
+import AdminSettings from './pages/admin/AdminSettings';
+import AdminEvents from './pages/admin/AdminEvents';
+import AdminLocations from './pages/admin/AdminLocations';
+import AdminPages from './pages/admin/AdminPages';
 
 import {
   fetchDocument
@@ -47,24 +47,22 @@ import {
 // Assets
 import './App.scss';
 
+const EdinburghSFF = styled(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  position: "absolute",
+  height: "100dvh",
+  width: "100vw",
+  backgroundColor: "rgb(0, 0, 0)",
+}));
+
 export default function App() {
   const { config, setConfig } = useApp();
   const theme = useTheme();
   const navigate = useNavigate();
 
   const version = packageJson.version;
-
-  const style={
-    sff: {
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      position: "absolute",
-      height: "100dvh",
-      width: "100vw",
-      backgroundColor: "rgb(0, 0, 0)",
-    }
-  }
 
   const splashMessage = () => {
     console.log(`%c \n Edinburgh SFF`, "color: #fded07; font-size: 2em;");
@@ -80,7 +78,7 @@ export default function App() {
     fetchDocument("settings", "config", (data) => {
       setConfig(data);
     });
-  }, []);
+  }, [setConfig]);
 
   const handleClose = () => {
     navigate(`/`);
@@ -88,30 +86,28 @@ export default function App() {
 
   return (
     <ThemeProvider theme={customTheme}>
-      <Box style={style.sff} className="sff">
-        <Suspense fallback={<Spinner>Loading...</Spinner>}>
-          <ConfirmProvider>
-            <Map />
-            <Routes>
-              <Route path="signin" element={<ContentModal><Signin /></ContentModal>} />
-              <Route path="events/:eventID/:eventTitle" element={<ContentModal><EventDetails handleClose={handleClose}/></ContentModal>} />
-              <Route path="events" element={<ContentModal><Events /></ContentModal>} />
-              <Route path="community" element={<ContentModal><Community /></ContentModal>} />
-              <Route path="feedback" element={<ContentModal><Suggestions /></ContentModal>} />
-              <Route path="pages/:pageSlug" element={<ContentModal><Page /></ContentModal>} />
-              <Route path="/dashboard" element={<AdminModal><Dashboard /></AdminModal>} />
-              <Route path='/admin/locations/update/:updateId' element={<AdminModal><AdminLocations /></AdminModal>} />
-              <Route path='/admin/locations/add' element={<AdminModal><AdminLocations /></AdminModal>} />
-              <Route path='/admin/events/update/:updateId' element={<AdminModal><AdminEvents /></AdminModal>} />
-              <Route path='/admin/events/add' element={<AdminModal><AdminEvents /></AdminModal>} />
-              <Route path='/admin/pages/update/:updateId' element={<AdminModal><AdminPages /></AdminModal>} />
-              <Route path='/admin/pages/add' element={<AdminModal><AdminPages /></AdminModal>} />
-              <Route path='/admin/settings/' element={<AdminModal><AdminSettings /></AdminModal>} />
-              <Route path='/admin/:type/' element={<AdminModal><ListContent /></AdminModal>} />
-            </Routes>
-          </ConfirmProvider>
-        </Suspense>
-      </Box>
+      <EdinburghSFF className="sff">
+        <ConfirmProvider>
+          <Map />
+          <Routes>
+            <Route path="signin" element={<ContentModal><Signin /></ContentModal>} />
+            <Route path="events/:eventID/:eventTitle" element={<ContentModal><EventDetails handleClose={handleClose}/></ContentModal>} />
+            <Route path="events" element={<ContentModal><Events /></ContentModal>} />
+            <Route path="community" element={<ContentModal><Community /></ContentModal>} />
+            <Route path="feedback" element={<ContentModal><Suggestions /></ContentModal>} />
+            <Route path="pages/:pageSlug" element={<ContentModal><Page /></ContentModal>} />
+            <Route path="/dashboard" element={<AdminModal><Dashboard /></AdminModal>} />
+            <Route path='/admin/locations/update/:updateId' element={<AdminModal><AdminLocations /></AdminModal>} />
+            <Route path='/admin/locations/add' element={<AdminModal><AdminLocations /></AdminModal>} />
+            <Route path='/admin/events/update/:updateId' element={<AdminModal><AdminEvents /></AdminModal>} />
+            <Route path='/admin/events/add' element={<AdminModal><AdminEvents /></AdminModal>} />
+            <Route path='/admin/pages/update/:updateId' element={<AdminModal><AdminPages /></AdminModal>} />
+            <Route path='/admin/pages/add' element={<AdminModal><AdminPages /></AdminModal>} />
+            <Route path='/admin/settings/' element={<AdminModal><AdminSettings /></AdminModal>} />
+            <Route path='/admin/:type/' element={<AdminModal><ListContent /></AdminModal>} />
+          </Routes>
+        </ConfirmProvider>
+      </EdinburghSFF>
       <Analytics />
     </ThemeProvider>
   )
