@@ -55,7 +55,6 @@ export default function Map() {
     mapLocations,
     setMapLocations,
     focusMapPin,
-    isExploded,
     mapSearchText,
     isExpanded,
   } = useApp();

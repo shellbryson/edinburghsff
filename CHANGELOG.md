@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.0.4] - 2024-05-16 (beta)
+
+Map:
+  - Improve: performance of map pins
+
 ## [2.0.3] - 2024-05-16 (beta)
 
 App:
