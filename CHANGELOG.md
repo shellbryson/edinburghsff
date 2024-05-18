@@ -6,6 +6,13 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [2.0.5] - 2024-05-18 (beta)
 
 Locations:
+  - Fix: flip default title to be the longer title
+  - Fix: rename Long Title to Short Title
+  - Fix: if no short title, show placeholder containing the Long Title instead
+
+## [2.0.5] - 2024-05-18 (beta)
+
+Locations:
   - Improve: allow for locations to have longer titles (but shorter titles for lists)
 
 App:
