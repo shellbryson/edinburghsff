@@ -9,8 +9,6 @@ $color-body-faded: #c5d3d6;
 $color-links: #fff;
 
 $color-grey: rgb(250 250 250);
-$color-grid-start: #bd6767;
-$color-grid-end: #6e67bd;
 
 $body-font: 'Fira Code', monospace;
 $heading-font: "Chakra Petch", sans-serif;
@@ -28,7 +26,6 @@ $heading-font: "Chakra Petch", sans-serif;
 
 body {
   min-width: 320px;
-  min-height: 100vh;
   margin: 0;
   padding: 0;
   font-size: 16px;
@@ -37,6 +34,8 @@ body {
   background-color: #fff;
   overflow: hidden;
 }
+
+.gm-style iframe + div { border:none !important; }
 
 a {
   color: $color-links;
@@ -55,11 +54,6 @@ p {
 
 .sff {
   margin: 0 auto;
-}
-
-.sff-navigation-link {
-  padding: 4px;
-  color: $color-body-dark;
 }
 
 @keyframes sff-background-drift-1 {
