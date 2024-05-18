@@ -78,7 +78,7 @@ export default function App() {
     fetchDocument("settings", "config", (data) => {
       setConfig(data);
     });
-  }, [setConfig]);
+  }, []);
 
   const handleClose = () => {
     navigate(`/`);
