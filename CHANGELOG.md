@@ -7,6 +7,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 App:
   - Fix: remove hardcoded vertical height for wrapper container to mitigate screen sizing issues
+  - Fix: only apply Sentry on deployed domains
 
 Map:
   - Fix: remove focus outline
