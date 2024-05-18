@@ -31,7 +31,6 @@ export default function DateBox({event}) {
     backgroundColor: "#000",
     justifyContent: "center",
     color: theme.palette.brand.main,
-    width: "100%",
     maxWidth: "280px",
     fontFamily: '"Chakra Petch", sans-serif',
     "& > div": {
