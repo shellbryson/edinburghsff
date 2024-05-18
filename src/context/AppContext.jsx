@@ -9,7 +9,6 @@ export const AppContextProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingAdmin, setIsLoadingAdmin] = useState(false);
   const [isExpanded, setIsExpanded] = useState(true);
-  const [isExploded, setIsExploded] = useState(false);
   const [isShowingSearch, setIsShowingSearch] = useState(false);
   const [mapLocations, setMapLocations] = useState([]);
   const [mapSearchText, setMapSearchText] = useState("");
@@ -23,8 +22,6 @@ export const AppContextProvider = ({ children }) => {
       setIsLoadingAdmin,
       isExpanded,
       setIsExpanded,
-      isExploded,
-      setIsExploded,
       mapLocations,
       setMapLocations,
       focusMapPin,

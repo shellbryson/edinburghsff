@@ -26,65 +26,64 @@ const PinBox = styled(Box)(({ theme }) => ({
   filter: "drop-shadow(1px 1px 1px rgba(0,0,0,0.5))"
 }));
 
+const IconBox = styled(({ isFocused, ...otherProps }) => <Box {...otherProps} />)(({ theme, color, isFocused }) => ({
+  display: "flex",
+  position: "absolute",
+  width: "calc(2rem - 4px)",
+  height: "calc(2rem - 4px)",
+  fontSize: "1rem",
+  color: isFocused ? theme.palette[color].main : "currentColor",
+  backgroundColor: isFocused ? "#000" : "currentColor",
+  borderTop: `2px solid ${theme.palette[color].main}`,
+  borderLeft: `2px solid ${theme.palette[color].main}`,
+  borderRight: `2px solid ${theme.palette[color].main}`,
+  borderBottom: `2px solid ${theme.palette[color].main}`,
+  top: "0",
+  alignItems: "center",
+  justifyContent: "center",
+  cursor: "pointer",
+  '&::after': {
+    content: "''",
+    position: "absolute",
+    top: "20px",
+    width: "calc(1rem)",
+    height: "calc(1rem)",
+    clear: "both",
+    transform: "rotate(45deg)",
+    backgroundColor: theme.palette[color].main,
+    zIndex: "-1"
+  },
+  '> svg': {
+    display: "block",
+    width: "22px",
+    height: "22px",
+  }
+}));
+
+const LabelBox = styled(Box)(({ theme, color }) => ({
+  display: "flex",
+  position: "absolute",
+  fontFamily: '"Chakra Petch", sans-serif',
+  fontWeight: "400",
+  fontSize: "0.5rem",
+  textTransform: "uppercase",
+  color: theme.palette.brand.contrastText,
+  backgroundColor: theme.palette[color].main,
+  top: "0",
+  left: "2rem",
+  alignItems: "center",
+  justifyContent: "center",
+  whiteSpace: "nowrap",
+  padding: "4px 1rem"
+}));
+
 export default function MapPin({data, onClickPin}) {
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const [icon, setIcon] = useState("");
-  const [color, setColor] = useState("pinDefault");
+  const [iconData, setIconData] = useState({ icon: null, color: "pinDefault" });
   const [isDragging, setIsDragging] = useState(false);
-
-  const IconBox = styled(Box)(({ theme }) => ({
-    display: "flex",
-    position: "absolute",
-    width: "calc(2rem - 4px)",
-    height: "calc(2rem - 4px)",
-    fontSize: "1rem",
-    color: data.focus ? theme.palette[color].main : "currentColor",
-    backgroundColor: data.focus ? "#000" : "currentColor",
-    borderTop: `2px solid ${theme.palette[color].main}`,
-    borderLeft: `2px solid ${theme.palette[color].main}`,
-    borderRight: `2px solid ${theme.palette[color].main}`,
-    borderBottom: `2px solid ${theme.palette[color].main}`,
-    top: "0",
-    alignItems: "center",
-    justifyContent: "center",
-    cursor: "pointer",
-    '&::after': {
-      content: "''",
-      position: "absolute",
-      top: "20px",
-      width: "calc(1rem)",
-      height: "calc(1rem)",
-      clear: "both",
-      transform: "rotate(45deg)",
-      backgroundColor: theme.palette[color].main,
-      zIndex: "-1"
-    },
-    '> svg': {
-      display: "block",
-      width: "22px",
-      height: "22px",
-    }
-  }));
-
-  const LabelBox = styled(Box)(({ theme }) => ({
-    display: "flex",
-    position: "absolute",
-    fontFamily: '"Chakra Petch", sans-serif',
-    fontWeight: "400",
-    fontSize: "0.5rem",
-    textTransform: "uppercase",
-    color: theme.palette.brand.contrastText,
-    backgroundColor: theme.palette[color].main,
-    top: "0",
-    left: "2rem",
-    alignItems: "center",
-    justifyContent: "center",
-    whiteSpace: "nowrap",
-    padding: "4px 1rem"
-  }));
 
   useEffect(() => {
     if (!data.tags) return;
@@ -99,8 +98,7 @@ export default function MapPin({data, onClickPin}) {
     const tag = tagArray.find(tag => tagIconMap.hasOwnProperty(tag));
     const { color: iconColor, Icon } = tag ? tagIconMap[tag] : { color: 'pinDefault', Icon: PushPinIcon };
     const icon = <Icon color={iconColor === 'pinDefault' ? 'brand' : iconColor} />;
-    setColor(iconColor);
-    setIcon(icon);
+    setIconData({ icon, color: iconColor });
   }, [data.id]);
 
   // We perform this set of event handling to avoid triggering the popups
@@ -137,9 +135,9 @@ export default function MapPin({data, onClickPin}) {
       onMouseUp={handleMouseUp}
       onClick={handleClick}
     >
-      <IconBox className="sff-map-icon">{icon}</IconBox>
+      <IconBox color={iconData.color} isFocused={!!data.focus} className="sff-map-icon">{iconData.icon}</IconBox>
       {data.showLabel && (
-        <LabelBox className="sff-map-label">
+        <LabelBox color={iconData.color} className="sff-map-label">
           <Typography component="p">{data.name}</Typography>
         </LabelBox>
       )}
