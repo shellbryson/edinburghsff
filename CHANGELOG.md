@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.0.5] - 2024-05-18 (beta)
+
+Locations:
+  - Improve: allow for locations to have longer titles (but shorter titles for lists)
+
+App:
+  - Add: debug data when fetching documents (only in development mode)
+
 ## [2.0.4] - 2024-05-18 (beta)
 
 Map:

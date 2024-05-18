@@ -304,7 +304,9 @@ export default function LocationModal(
             </MastheadImageBox>
           )}
           <Heading>
-            <Typography component="span" variant="h_large">{pinData.title}</Typography>
+            <Typography component="span" variant="h_large">
+              {pinData?.title_long ? pinData.title_long : pinData.title}
+            </Typography>
           </Heading>
           { renderHours() }
           { renderFacilities() }
