@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.0.7] - 2024-05-18 (beta)
+
+Locations:
+  - Fix: location label & digital label placement
+
+## [2.0.6] - 2024-05-18 (beta)
+
+Locations:
+  - Fix: flip default title to be the longer title
+  - Fix: rename Long Title to Short Title
+  - Fix: if no short title, show placeholder containing the Long Title instead
+
 ## [2.0.5] - 2024-05-18 (beta)
 
 Locations:

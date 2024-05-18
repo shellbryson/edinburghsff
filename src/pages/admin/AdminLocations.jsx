@@ -92,7 +92,7 @@ export default function AdminMap() {
 
   // Common
   const [title, setTitle] = useState('');
-  const [titleLong, setTitleLong] = useState('');
+  const [titleShort, setTitleShort] = useState('');
   const [description, setDescription] = useState('');
   const [tips, setTips] = useState('');
   const [url, setURL] = useState('');
@@ -144,7 +144,7 @@ export default function AdminMap() {
     setUpdateId(params.updateId);
 
     setTitle(data.title);
-    setTitleLong(data.title_long || "");
+    setTitleShort(data.title_short || "");
     setDescription(data.description);
     setTips(data.tips || "");
     setURL(data.url);
@@ -184,7 +184,7 @@ export default function AdminMap() {
     const strippedImageUrl = imgUrl ? imgUrl.split('&')[0] : '';
     const payload = {
       title: title,
-      title_long: titleLong,
+      title_short: titleShort,
       description: description,
       tips: tips,
       url: url,
@@ -232,7 +232,7 @@ export default function AdminMap() {
     const strippedImageUrl = imgUrl ? imgUrl.split('&')[0] : '';
     const payload = {
       title: title,
-      title_long: titleLong,
+      title_short: titleShort,
       description: description,
       tips: tips,
       url: url,
@@ -359,9 +359,9 @@ export default function AdminMap() {
     setTitle(text);
   }
 
-  const handleChangeTitleLong = (text) => {
-    if (text !== titleLong) setIsDirty(true);
-    setTitleLong(text);
+  const handleChangeTitleShort = (text) => {
+    if (text !== titleShort) setIsDirty(true);
+    setTitleShort(text);
   }
 
   const handleChangeUrl = (text) => {
@@ -387,7 +387,7 @@ export default function AdminMap() {
         <Stack spacing={2} sx={{ mt: 2}}>
 
           <TextField value={title} required label="Title" onChange={(e) => handleChangeTitle(e.target.value)} type='text'/>
-          <TextField value={titleLong} label="Long Title" onChange={(e) => handleChangeTitleLong(e.target.value)} type='text'/>
+          <TextField value={titleShort} label="Short Title" placeholder={title} onChange={(e) => handleChangeTitleShort(e.target.value)} type='text'/>
           <TextField value={url} label="URL" onChange={(e) => handleChangeUrl(e.target.value)} type='url' />
 
           <SplitBox>

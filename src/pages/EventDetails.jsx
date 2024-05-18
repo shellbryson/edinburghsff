@@ -46,6 +46,12 @@ const Meta = styled(Box)(({ theme }) => ({
   }
 }));
 
+const LocationBox = styled(Box)(({ theme }) => ({
+  display: "flex", gap: "1rem",
+  justifyContent: "center",
+  margin: "1rem 0"
+}));
+
 const Description = styled(Box)(({ theme }) => ({}));
 const Section = styled(Box)(({ theme }) => ({
   marginTop: "2rem",
@@ -212,10 +218,6 @@ const EventDetails = ({ handleClose }) => {
         <LinkInterceptor>
           <Typography>{currentEvent.summary}</Typography>
         </LinkInterceptor>
-        <Box style={{ position: "absolute", bottom: "0.5rem", right: "1rem"}}>
-          { currentEvent.eventLocation && <PlaceIcon />}
-          { currentEvent.eventIsDigital && <OndemandVideoIcon />}
-        </Box>
       </Summary>
     );
   }
@@ -260,6 +262,10 @@ const EventDetails = ({ handleClose }) => {
           <Meta>
             <DateBox event={currentEvent} />
           </Meta>
+          <LocationBox>
+            { currentEvent.eventLocation && <Box style={{ display: "flex", gap: "0.25rem", alignItems: "center" }}><PlaceIcon />{currentEvent.eventLocation}</Box>}
+            { currentEvent.eventIsDigital && <Box style={{ display: "flex", gap: "0.25rem", alignItems: "center" }}><OndemandVideoIcon />Online</Box>}
+          </LocationBox>
           <Box style={style.description} className="sff-event-description">
             { renderSummary() }
             { renderDescription() }
