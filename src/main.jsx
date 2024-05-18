@@ -8,6 +8,20 @@ import { AppContextProvider } from './context/AppContext';
 
 import ScrollToTop from './helpers/ScrollToTop.jsx';
 
+import * as Sentry from "@sentry/react";
+
+Sentry.init({
+  dsn: "https://185898a833a620092430bdaaa3cb7eb9@o4507245141557248.ingest.de.sentry.io/4507245445775440",
+  integrations: [
+    Sentry.browserTracingIntegration(),
+    Sentry.replayIntegration(),
+  ],
+  tracesSampleRate: 1.0,
+  tracePropagationTargets: ["localhost", /^https:\/\/edinburghsff\.com/, /^https:\/\/dev\.edinburghsff\.com/],
+  replaysSessionSampleRate: 0.1,
+  replaysOnErrorSampleRate: 1.0,
+});
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>

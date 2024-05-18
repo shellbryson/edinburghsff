@@ -2,7 +2,7 @@
   "name": "edinburghsff",
   "description": "Edinburgh Science Fiction and Fantasy writing community",
   "homepage": ".",
-  "version": "2.0.7",
+  "version": "2.0.8",
   "license": "MIT",
   "type": "module",
   "scripts": {
@@ -17,6 +17,8 @@
     "@mui/icons-material": "^5.15.15",
     "@mui/material": "^5.15.15",
     "@mui/x-date-pickers": "^7.1.1",
+    "@sentry/react": "^8.2.1",
+    "@sentry/vite-plugin": "^2.16.1",
     "@vercel/analytics": "^1.2.2",
     "dayjs": "^1.11.10",
     "firebase": "^10.10.0",
