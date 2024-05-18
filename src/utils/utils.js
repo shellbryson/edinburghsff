@@ -59,6 +59,9 @@ export async function fetchDocument(collectionName, documentId, callback) {
   const docSnap = await getDoc(docRef);
   console.log("Fetching Document:", collectionName, documentId);
   if (docSnap.exists()) {
+    if (process.env.NODE_ENV === "development" || process.env.VERCEL_ENV === "development") {
+      console.log("Document data:", docSnap.data());
+    }
     callback(docSnap.data());
   } else {
     console.log("No such document!", collectionName, documentId);
@@ -76,6 +79,9 @@ export async function fetchDocuments(collectionName, orderOn, callback) {
       id: doc.id,
       display: true,
     });
+    if (process.env.NODE_ENV === "development" || process.env.VERCEL_ENV === "development") {
+      console.log("Document data:", list);
+    }
   });
   callback(list);
 }
