@@ -5,7 +5,7 @@ import react from '@vitejs/plugin-react-swc'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react(), sentryVitePlugin({
-    org: "shell-bryson",
+    org: "shellbryson",
     project: "edinburghsff"
   })],
 
