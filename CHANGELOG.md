@@ -5,6 +5,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [2.0.10] - 2024-05-19 (beta)
 
+Map:
+  - Add: blur map if on mobile and sidebar is open
+  - Add: dismiss sidebar and unblur map when tapping background on mobile
+
 App:
   - Fix: negate non-blocking source map errors when building in production
 

@@ -114,7 +114,7 @@ export default function Map() {
       right: "0.5rem",
       alignItems: "center",
       justifyContent: "center",
-      zIndex: 1000,
+      zIndex: 900,
     }
   }
 
