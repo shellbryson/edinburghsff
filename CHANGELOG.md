@@ -11,6 +11,10 @@ App:
 Events:
   - Fix: event datebox cramped
   - Improve: event datebox performance
+  - Improve: restyle loader to be a Progress bar
+
+Locations:
+  - Fix: missing loader while fetching a location
 
 ## [2.0.9] - 2024-05-18 (beta)
 

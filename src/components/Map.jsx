@@ -72,6 +72,7 @@ export default function Map() {
   const [filteredLocations, setFilteredLocations] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isOpenDialog, setIsOpenDialog] = useState(false);
+  const [isLoadingLocation, setIsLoadingLocation] = useState(false);
 
   const [mapReady, setMapReady] = useState(false);
   const [pinData, setPinData] = useState({});
@@ -169,8 +170,10 @@ export default function Map() {
 
   const onClickPin = (data) => {
     navigate(`?location=${encodeURIComponent(data.id)}`);
+    setIsLoadingLocation(true);
     fetchDocument("locations", data.id, (pin) => {
       setPinData(pin);
+      setIsLoadingLocation(false);
     });
     setIsOpenDialog(true);
   }
@@ -262,6 +265,7 @@ export default function Map() {
         <LocationModal
           pinData={pinData}
           isOpenDialog={isOpenDialog}
+          isLoadingLocation={isLoadingLocation}
           handleCloseDetails={handleCloseDetails}
         />
         <MapPanel onSearchMap={handleOnSearchMap}/>

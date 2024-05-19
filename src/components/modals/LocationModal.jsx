@@ -29,6 +29,7 @@ import LocalLibraryIcon from '@mui/icons-material/LocalLibrary';
 // Custom UI
 import LinkInterceptor from '../LinkInterceptor';
 import StyledContent from '../StyledContent';
+import Loader from '../Loader';
 
 // Helpers
 import { imageURL } from '../../utils/utils';
@@ -158,9 +159,12 @@ const FooterMeta = styled(Box)(({ theme }) => ({
   }
 }));
 
-export default function LocationModal(
-  { pinData, isOpenDialog, handleCloseDetails }
-) {
+export default function LocationModal({
+  pinData,
+  isOpenDialog,
+  isLoadingLocation,
+  handleCloseDetails
+}) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -297,27 +301,30 @@ export default function LocationModal(
       scroll="paper"
       aria-labelledby="add-dialog-title">
       <DialogContent className="scroll-dialog">
-        <StyledContent elevation={0}>
-          { pinData?.image && (
-            <MastheadImageBox className="sff-event-masthead">
-              <img src={imageURL(pinData?.image, 'medium')} alt={pinData?.title} style={{ width: "4rem", height: "auto" }}/>
-            </MastheadImageBox>
-          )}
-          <Heading>
-            <Typography component="span" variant="h_large">
-              {pinData?.title_long ? pinData.title_long : pinData.title}
-            </Typography>
-          </Heading>
-          { renderHours() }
-          { renderFacilities() }
-          <Box style={styleDescription}>
-            <LinkInterceptor>
-              <ReactMarkdown children={pinData.description} />
-            </LinkInterceptor>
-          </Box>
-          {renderTips()}
-          {renderFooter()}
-        </StyledContent>
+        { isLoadingLocation && <Loader />}
+        { !isLoadingLocation && pinData && (
+          <StyledContent elevation={0}>
+            { pinData?.image && (
+              <MastheadImageBox className="sff-event-masthead">
+                <img src={imageURL(pinData?.image, 'medium')} alt={pinData?.title} style={{ width: "4rem", height: "auto" }}/>
+              </MastheadImageBox>
+            )}
+            <Heading>
+              <Typography component="span" variant="h_large">
+                {pinData?.title_long ? pinData.title_long : pinData.title}
+              </Typography>
+            </Heading>
+            { renderHours() }
+            { renderFacilities() }
+            <Box style={styleDescription}>
+              <LinkInterceptor>
+                <ReactMarkdown children={pinData.description} />
+              </LinkInterceptor>
+            </Box>
+            {renderTips()}
+            {renderFooter()}
+          </StyledContent>
+        )}
         { pinData?.image && (
           <FooterImageBox className="sff-location-footer">
             <img loading="lazy" src={pinData.image} alt={pinData.title} />
