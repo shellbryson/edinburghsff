@@ -118,6 +118,11 @@ export default function MapPanel() {
     }
   }
 
+  const hideSidebar = () => {
+    setIsExpanded(false);
+    setShowMask(false);
+  }
+
   const handleMaskClick = () => {
     setShowMask(false);
     setIsExpanded(false);
@@ -140,7 +145,7 @@ export default function MapPanel() {
         <Box style={styles.interior} className="sff-panel__interior">
           <Box style={styles.content} className="sff-panel__content">
             <Navigation />
-            <Home />
+            <Home hideSidebar={hideSidebar} />
           </Box>
         </Box>
       </Box>

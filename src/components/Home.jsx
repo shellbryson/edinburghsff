@@ -17,7 +17,7 @@ import Background from './Background';
 import Footer from './Footer';
 import LinkInterceptor from './LinkInterceptor';
 
-export default function Home({onSearchMap}) {
+export default function Home({hideSidebar}) {
 
   const { config } = useApp();
   const theme = useTheme();
@@ -85,9 +85,9 @@ export default function Home({onSearchMap}) {
           <ReactMarkdown children={config.textPanelIntro} />
         </LinkInterceptor>
       </ContentBox>
-      <InterestPanel />
+      <InterestPanel hideSidebar={hideSidebar} />
       <EventsPanel />
-      <SearchPanel onSearchMap={onSearchMap}/>
+      <SearchPanel />
       <Footer />
     </Box>
   );
