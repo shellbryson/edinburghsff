@@ -44,6 +44,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     borderBottom: `1px solid ${theme.palette.highlight.main}`,
     borderLeft: `1px solid ${theme.palette.highlight.main}`,
     borderRight: `1px solid ${theme.palette.highlight.main}`,
+    minHeight: "calc(100dvh - 2rem)",
   },
 }));
 

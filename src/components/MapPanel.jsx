@@ -1,10 +1,10 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useEffect, useState } from 'react';
 
 // Contexts
 import { useApp } from '../context/AppContext';
 
 // MUI
-import { useTheme } from '@mui/material/styles';
+import { useTheme, styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 
 // Icons
@@ -16,6 +16,18 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Navigation from './Navigation';
 import Home from './Home';
 
+const Mask = styled(Box)(({ theme }) => ({
+  display: "block",
+  position: "absolute",
+  inset: "0",
+  backgroundColor: "rgba(0, 0, 0, 0.1)",
+  zIndex: "999",
+  backdropFilter: "blur(3px)",
+  cursor: "crosshair"
+}));
+
+const showBackdropBreakpoint = 600;
+
 export default function MapPanel() {
 
   const theme = useTheme();
@@ -23,6 +35,8 @@ export default function MapPanel() {
     isExpanded,
     setIsExpanded
   } = useApp();
+
+  const [showMask, setShowMask] = useState(false);
 
   const styles = useMemo(() => ({
     panel: {
@@ -70,28 +84,66 @@ export default function MapPanel() {
     }
   }), [theme, isExpanded]);
 
+  useEffect(() => {
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    }
+  }, [isExpanded]);
+
+  const handleResize = () => {
+    if (isExpanded) {
+      if (window.innerWidth < showBackdropBreakpoint) {
+        setShowMask(true);
+      } else {
+        setShowMask(false);
+      }
+    } else {
+      setShowMask(false);
+    }
+  }
+
   const handleExpanderClick = () => {
-    setIsExpanded(!isExpanded);
+    if (isExpanded) {
+      setIsExpanded(false);
+      setShowMask(false);
+    } else {
+      setIsExpanded(true);
+      if (window.innerWidth < showBackdropBreakpoint) {
+        setShowMask(true);
+      } else {
+        setShowMask(false);
+      }
+    }
+  }
+
+  const handleMaskClick = () => {
+    setShowMask(false);
+    setIsExpanded(false);
   }
 
   return (
-    <Box style={styles.panel} className="sff-panel">
-      <Box style={styles.expander} onClick={() => handleExpanderClick()}  className="sff-panel__expander">
-        {isExpanded ?
-          <ChevronLeftIcon />
-        :
-          <>
-            <MenuIcon />
-            <ChevronRightIcon />
-          </>
-        }
-      </Box>
-      <Box style={styles.interior} className="sff-panel__interior">
-        <Box style={styles.content} className="sff-panel__content">
-          <Navigation />
-          <Home />
+    <>
+      { showMask && <Mask className="sff-map__mask" onClick={() => handleMaskClick()} /> }
+      <Box style={styles.panel} className="sff-panel">
+        <Box style={styles.expander} onClick={() => handleExpanderClick()}  className="sff-panel__expander">
+          {isExpanded ?
+            <ChevronLeftIcon />
+          :
+            <>
+              <MenuIcon />
+              <ChevronRightIcon />
+            </>
+          }
+        </Box>
+        <Box style={styles.interior} className="sff-panel__interior">
+          <Box style={styles.content} className="sff-panel__content">
+            <Navigation />
+            <Home />
+          </Box>
         </Box>
       </Box>
-    </Box>
+    </>
   );
 }

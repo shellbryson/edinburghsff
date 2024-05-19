@@ -12,6 +12,42 @@ import Box from '@mui/material/Box';
 import EventIcon from '@mui/icons-material/Event';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
+const MetaBox = styled(Box)(({ theme }) => ({
+  display: "flex",
+  padding: "0.25rem",
+  gap: "1px",
+  alignItems: "center",
+  border: `1px solid ${theme.palette.brand.main}`,
+  backgroundColor: "#000",
+  justifyContent: "center",
+  color: theme.palette.brand.main,
+  maxWidth: "280px",
+  fontFamily: '"Chakra Petch", sans-serif',
+  "& > div": {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+    whiteSpace: "nowrap",
+  }
+}));
+
+const DisplayBox = styled(Box)(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  padding: "0.25rem 0.5rem",
+  gap: "0.25rem",
+  fontSize: "0.75rem",
+  backgroundColor: theme.palette.brand.main,
+  color: theme.palette.text.contrastText,
+  width: "100%",
+}));
+
+const SeparatorBox = styled(Box)(({ theme }) => ({
+  marginLeft: "0.5rem",
+  marginRight: "0.5rem"
+}));
+
 export default function DateBox({event}) {
 
   const theme = useTheme();
@@ -21,37 +57,6 @@ export default function DateBox({event}) {
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
   const [isAllDay, setIsAllDay] = useState(false);
-
-  const MetaBox = styled(Box)(({ theme }) => ({
-    display: "flex",
-    padding: "0.25rem",
-    gap: "1px",
-    alignItems: "center",
-    border: `1px solid ${theme.palette.brand.main}`,
-    backgroundColor: "#000",
-    justifyContent: "center",
-    color: theme.palette.brand.main,
-    maxWidth: "280px",
-    fontFamily: '"Chakra Petch", sans-serif',
-    "& > div": {
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      width: "100%",
-      whiteSpace: "nowrap",
-    }
-  }));
-
-  const DisplayBox = styled(Box)(({ theme }) => ({
-    display: "flex",
-    alignItems: "center",
-    padding: "0.25rem 0.5rem",
-    gap: "0.25rem",
-    fontSize: "0.75rem",
-    backgroundColor: theme.palette.brand.main,
-    color: theme.palette.text.contrastText,
-    width: "100%",
-  }));
 
   useEffect(() => {
     if (event.title) {
@@ -80,7 +85,7 @@ export default function DateBox({event}) {
           <DisplayBox>
             <EventIcon /> {startDate}
           </DisplayBox>
-          <Box style={{marginLeft: "2px", marginRight: "2px"}}>to</Box>
+          <SeparatorBox>to</SeparatorBox>
           <DisplayBox>
             <EventIcon /> {endDate}
           </DisplayBox>

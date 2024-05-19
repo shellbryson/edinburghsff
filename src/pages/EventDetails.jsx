@@ -20,6 +20,7 @@ import EventsDetailsImage from '../components/EventsDetailsImage';
 import LinkInterceptor from '../components/LinkInterceptor';
 import DateBox from '../components/DateBox';
 import StyledContent from '../components/StyledContent';
+import Loader from '../components/Loader';
 
 // Icons
 import PlaceIcon from '@mui/icons-material/Place';
@@ -31,7 +32,12 @@ import {
   fetchDocument,
   imageURL
 } from '../utils/utils';
-import Spinner from '../components/Spinner';
+
+const Page = styled(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  height: "100%",
+}));
 
 const Meta = styled(Box)(({ theme }) => ({
   display: "flex",
@@ -153,11 +159,6 @@ const EventDetails = ({ handleClose }) => {
   }));
 
   const style = {
-    page: {
-      display: "flex",
-      flexDirection: "column",
-      height: "100%",
-    },
     paper: {
       display: "flex",
       flexDirection: "column",
@@ -246,8 +247,8 @@ const EventDetails = ({ handleClose }) => {
   }
 
   return (
-    <Box style={style.page} className="sff-page">
-      { isLoading && <Spinner />}
+    <Page className="sff-page">
+      { isLoading && <Loader />}
       { !isLoading && <>
       <StyledContent>
         <Box style={style.content}>
@@ -286,7 +287,7 @@ const EventDetails = ({ handleClose }) => {
         </Box>
       </StyledContent>
       </>}
-    </Box>
+    </Page>
   );
 };
 
