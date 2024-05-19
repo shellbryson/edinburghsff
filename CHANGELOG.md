@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.0.12] - 2024-05-19 (beta)
+
+Map:
+  - Fix: untappable locations on Mobile
+
+## [2.0.11] - 2024-05-19 (beta)
+
+Map:
+  - Add: when focusing map pin, hide sidebar
+  - Fix: excessive zoom when focusing map pin
+
+Sidebar / Places:
+  - Improve: improve performance
+
 ## [2.0.10] - 2024-05-19 (beta)
 
 Map:

@@ -131,7 +131,7 @@ export default function Map() {
     mapRef.current.panTo({
       lat: parseFloat(pin.lat), lng: parseFloat(pin.lng)
     });
-    mapRef.current.setZoom(18);
+    mapRef.current.setZoom(16);
   }
 
   useEffect(() => {
