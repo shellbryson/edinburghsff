@@ -13,9 +13,6 @@ import BookIcon from '@mui/icons-material/Book';
 import CreateIcon from '@mui/icons-material/Create';
 import LocalLibraryIcon from '@mui/icons-material/LocalLibrary';
 
-// Theme helpers
-import useMediaQuery from '@mui/material/useMediaQuery';
-
 const PinBox = styled(Box)(({ theme }) => ({
   display: "flex",
   position: "relative",
@@ -80,10 +77,8 @@ const LabelBox = styled(Box)(({ theme, color }) => ({
 export default function MapPin({data, onClickPin}) {
 
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const [iconData, setIconData] = useState({ icon: null, color: "pinDefault" });
-  const [isDragging, setIsDragging] = useState(false);
 
   useEffect(() => {
     if (!data.tags) return;
@@ -101,38 +96,14 @@ export default function MapPin({data, onClickPin}) {
     setIconData({ icon, color: iconColor });
   }, [data.id]);
 
-  // We perform this set of event handling to avoid triggering the popups
-  // when the user is dragging the map to pan around.
-
-  // Mobile only
-
-  const handleMouseDown = () => {
-    isMobile && setIsDragging(false);
-  };
-
-  const handleMouseMove = () => {
-    isMobile && setIsDragging(true);
-  };
-
-  const handleMouseUp = () => {
-    if (!isDragging && isMobile) {
-      onClickPin(data);
-    }
-    setIsDragging(false);
-  };
-
-  // Desktop only
 
   const handleClick = () => {
-    !isMobile && onClickPin(data);
+    onClickPin(data);
   }
 
   return (
     <PinBox
       className="sff-map-pin"
-      onMouseDown={handleMouseDown}
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
       onClick={handleClick}
     >
       <IconBox color={iconData.color} isFocused={!!data.focus} className="sff-map-icon">{iconData.icon}</IconBox>
