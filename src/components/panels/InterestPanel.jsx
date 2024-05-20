@@ -73,7 +73,7 @@ export default function InterestPanel({hideSidebar}) {
       <Typeography component="h2" variant="h_small_lined">Map highlights</Typeography>
       {featured.map((place, index) => (
         <InterestBox key={index} className="sff-interesting__place">
-          <LocationLink component="a" variant="a_white" key={index} onClick={() => handleClickPointOfInterest(place.id)}>{place.name}</LocationLink>
+          <LocationLink component="a" variant="a_white" key={index} onClick={() => handleClickPointOfInterest(place.id)}>{place.name_short}</LocationLink>
           <PlaceIcon />
         </InterestBox>
       ))}

@@ -2,7 +2,7 @@
   "name": "edinburghsff",
   "description": "Edinburgh Science Fiction and Fantasy writing community",
   "homepage": ".",
-  "version": "2.0.14",
+  "version": "2.0.16",
   "license": "MIT",
   "type": "module",
   "scripts": {

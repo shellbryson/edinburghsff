@@ -116,6 +116,9 @@ const Heading = styled(Box)(({ theme }) => ({
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
+  textAlign: "center",
+  maxWidth: "40ch",
+  margin: "0 auto",
 }));
 
 const Section = styled(Box)(({ theme }) => ({

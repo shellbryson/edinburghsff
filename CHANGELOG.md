@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.0.16] - 2024-05-20 (beta)
+
+Locations:
+  - Improve: show short titles on map and map highlights
+  - Improve: location modal, restrict width of title & wrap
+
 ## [2.0.15] - 2024-05-20 (beta)
 
 Event:

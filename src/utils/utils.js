@@ -79,10 +79,10 @@ export async function fetchDocuments(collectionName, orderOn, callback) {
       id: doc.id,
       display: true,
     });
-    if (process.env.NODE_ENV === "development" || process.env.VERCEL_ENV === "development") {
-      console.log("Document data:", list);
-    }
   });
+  if (process.env.NODE_ENV === "development" || process.env.VERCEL_ENV === "development") {
+    console.log("Document data:", list);
+  }
   callback(list);
 }
 
@@ -94,6 +94,7 @@ export async function updateMapLocationsIndex(places, user, callback) {
     places.forEach((pin) => {
       newPlaces.push({
         name: pin.title,
+        name_short: pin?.title_short ? pin.title_short : pin.title,
         show: pin?.show || true,
         featured: pin?.featured || false,
         id: pin.id,
