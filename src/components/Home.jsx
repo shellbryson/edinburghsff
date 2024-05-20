@@ -16,6 +16,7 @@ import Logo from './Logo';
 import Background from './Background';
 import Footer from './Footer';
 import LinkInterceptor from './LinkInterceptor';
+import Kofi from './Kofi';
 
 export default function Home({hideSidebar}) {
 
@@ -88,6 +89,7 @@ export default function Home({hideSidebar}) {
       <InterestPanel hideSidebar={hideSidebar} />
       <EventsPanel />
       <SearchPanel />
+      <Kofi />
       <Footer />
     </Box>
   );

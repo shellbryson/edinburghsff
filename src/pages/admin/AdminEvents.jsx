@@ -194,7 +194,7 @@ export default function AdminEvents() {
     }
     try {
       const doc = await addDoc(collection(db, "events"), payload);
-      console.log("Saved Event", doc.id);
+      console.log("Saved Event", doc.id, payload);
       setIsLoading(false);
       navigate(`/admin/events/update/${doc.id}`, { replace: true });
     } catch (e) {
@@ -218,6 +218,7 @@ export default function AdminEvents() {
       title: title,
       description: description,
       summary: summary,
+      url: url,
       show: show,
       image: strippedImageUrl,
       eventStart: eventStart.$d,
@@ -242,6 +243,7 @@ export default function AdminEvents() {
       await updateDoc(l, payload);
       setIsDirty(false);
       setIsLoading(false);
+      console.log("Updated Event", payload);
     } catch (e) {
       setIsLoading(false);
       console.error("Error adding document: ", e);
