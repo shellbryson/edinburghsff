@@ -109,7 +109,7 @@ export default function MapPin({data, onClickPin}) {
       <IconBox color={iconData.color} isFocused={!!data.focus} className="sff-map-icon">{iconData.icon}</IconBox>
       {data.showLabel && (
         <LabelBox color={iconData.color} className="sff-map-label">
-          <Typography component="p">{data.name}</Typography>
+          <Typography component="p">{data.name_short}</Typography>
         </LabelBox>
       )}
     </PinBox>
