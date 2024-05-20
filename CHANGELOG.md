@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.0.15] - 2024-05-20 (beta)
+
+Event:
+  - Fix: unable to update event URLs
+
+App:
+  - Add: kofi support
+
+## [2.0.14] - 2024-05-20 (beta)
+
+Events & Events Panel:
+  - Fix: more logical event order with starting with the closest event
+
 ## [2.0.13] - 2024-05-20 (beta)
 
 App:

@@ -48,6 +48,9 @@ export default function AdminSettings() {
   const [settingsPanelIntro, setSettingsPanelIntro] = useState('');
   const [settingsEventIntro, setSettingsEventIntro] = useState('');
 
+  // Kofi
+  const [settingsKofiKey, setSettingsKofiKey] = useState('');
+
   // UI state
   const [error, setError] = useState('');
   const [isDirty, setIsDirty] = useState(false);
@@ -97,6 +100,7 @@ export default function AdminSettings() {
       textSuggestContent: settingsSuggestContentText,
       textPanelIntro: settingsPanelIntro,
       textEventIntro: settingsEventIntro,
+      kofi_key: settingsKofiKey,
       updated: {
         email: user.email,
         uid: user.uid,
@@ -146,6 +150,11 @@ export default function AdminSettings() {
     setSettingsSuggestGoogleForm(text);
   }
 
+  const handleChangeKofiKey = (text) => {
+    if (text !== settingsKofiKey) setIsDirty(true);
+    setSettingsKofiKey(text);
+  }
+
   const handleBack = () => {
     navigate(`/dashboard/`);
   }
@@ -175,6 +184,13 @@ export default function AdminSettings() {
           <Typography component="h2" variant="h2">Suggestions</Typography>
           <TextField value={settingsSuggestGoogleForm} required label="Feedback form" onChange={(e) => handleChangeSuggestGoogleForm(e.target.value)}  />
           <TextField value={settingsSuggestContentText} required multiline rows={8} label="Suggest Content" onChange={(e) => handleChangeSuggestContent(e.target.value)}  />
+        </Stack>
+        { error && <Alert severity="warning">{error}</Alert> }
+      </Box>
+      <Box style={{ marginTop: "2rem", marginBottom: "2rem"}}>
+        <Stack spacing={2}>
+          <Typography component="h2" variant="h2">Ko-fi</Typography>
+          <TextField value={settingsKofiKey} required label="Ko-fi key" onChange={(e) => handleChangeKofiKey(e.target.value)}  />
         </Stack>
         { error && <Alert severity="warning">{error}</Alert> }
       </Box>

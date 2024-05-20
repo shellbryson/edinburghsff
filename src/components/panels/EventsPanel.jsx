@@ -70,7 +70,7 @@ export default function EventsPanel() {
   }, [])
 
   const getEvents = async () => {
-    const q = query(collection(db, "events"), orderBy("eventStart", "desc"));
+    const q = query(collection(db, "events"), orderBy("eventStart", "asc"));
     const querySnapshot = await getDocs(q);
     const l = [];
     const today = dayjs();

@@ -79,6 +79,7 @@ const EventsGrid = ({ data }) => {
     });
 
     setEventsCurrent(eCurrent);
+    ePast.sort((b, a) => a.eventStart.toDate() - b.eventStart.toDate());
     setEventsPast(ePast);
     setEventsFuture(eFuture);
   }
