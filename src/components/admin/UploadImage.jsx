@@ -58,7 +58,7 @@ const UploadImage = ({imageUploadedCallback, imgUrl}) => {
     if (!file) return;
 
     const filename = encodeURI(file.name);
-    const storageRef = ref(storage, `links/${uuid()}___${filename}`);
+    const storageRef = ref(storage, `content_images/${uuid()}___${filename}`);
     const uploadTask = uploadBytesResumable(storageRef, file);
 
     uploadTask.on("state_changed",
