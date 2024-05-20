@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.0.13] - 2024-05-20 (beta)
+
+App:
+  - Fix: wrong location being used for storing generic images on upload
+
+Events Details:
+  - Improve:  support non-square images
+
 ## [2.0.12] - 2024-05-19 (beta)
 
 Map:

@@ -147,11 +147,10 @@ const EventDetails = ({ handleClose }) => {
 
   const FooterImageBox = styled(Box)(({ theme }) => ({
     width: '100%',
-    height: "400px",
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    background: currentEvent?.image ? `linear-gradient(to bottom, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.8) 100%), url(${imageURL(currentEvent?.image, 'large')})` : "none",
+    background: currentEvent?.image ? `linear-gradient(to bottom, rgba(0,0,0,0.75) 0%,rgba(0,0,0,0.95) 100%), url(${imageURL(currentEvent?.image, 'large')})` : "none",
     backgroundRepeat: 'no-repeat, no-repeat',
     backgroundPosition: 'center, center',
     backgroundSize: 'cover, cover',
@@ -254,7 +253,7 @@ const EventDetails = ({ handleClose }) => {
         <Box style={style.content}>
           { currentEvent?.image && (
             <MastheadImageBox className="sff-event-masthead">
-              <img src={imageURL(currentEvent?.image, 'medium')} alt={currentEvent?.title} style={{ width: "4rem", height: "auto" }}/>
+              <img src={currentEvent?.image} alt={currentEvent?.title} style={{ width: "4rem", height: "auto" }}/>
             </MastheadImageBox>
           )}
           <Typography component="h1" variant="h_large" style={{textAlign: "center", marginBottom: "0", paddingBottom: "1rem" }}>
@@ -281,7 +280,7 @@ const EventDetails = ({ handleClose }) => {
           </ActionsBox>
           { currentEvent?.image && (
             <FooterImageBox className="sff-event-footer">
-              <EventsDetailsImage image={imageURL(currentEvent?.image, 'medium')} alt={currentEvent?.title} />
+              <EventsDetailsImage image={currentEvent?.image} alt={currentEvent?.title} />
             </FooterImageBox>
           )}
         </Box>
