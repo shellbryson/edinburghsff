@@ -14,7 +14,11 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
     marginTop: "1rem",
+    marginBottom: "0",
     borderRadius: "0",
+    paddingLeft: "1rem",
+    paddingRight: "1rem",
+    paddingBottom: "1rem",
     '&::before': {
       position: "absolute",
       content: '""',
@@ -66,8 +70,8 @@ export default function ContentModal({ children }) {
       <DialogContent className="scroll-dialog">
         {children}
       </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose} color="brand">Close</Button>
+      <DialogActions style={{ borderTop: `2px solid ${theme.palette.highlight.main}`}}>
+        <Button onClick={handleClose} size="small" color="brand" variant="outlined">Close</Button>
       </DialogActions>
     </BootstrapDialog>
   );

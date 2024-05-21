@@ -59,6 +59,7 @@ const LocationBox = styled(Box)(({ theme }) => ({
 }));
 
 const Description = styled(Box)(({ theme }) => ({}));
+
 const Section = styled(Box)(({ theme }) => ({
   marginTop: "2rem",
 }));
@@ -101,6 +102,7 @@ const EventDetails = ({ handleClose }) => {
   const {
     setFocusMapPin,
     setMapLocations,
+    setIsExpanded,
     mapLocations
   } = useApp();
 
@@ -155,6 +157,7 @@ const EventDetails = ({ handleClose }) => {
     backgroundPosition: 'center, center',
     backgroundSize: 'cover, cover',
     marginTop: "2rem",
+    padding: "0"
   }));
 
   const style = {
@@ -166,8 +169,6 @@ const EventDetails = ({ handleClose }) => {
     },
     content: {
       textAlign: "left",
-      minHeight: "calc(100vh -2rem)",
-      padding: "0.5rem 1rem 0.5rem 0.5rem",
       overflow: "auto",
     },
     title: {
@@ -208,6 +209,7 @@ const EventDetails = ({ handleClose }) => {
     });
     setMapLocations(locations);
     setFocusMapPin(currentEvent.eventPin);
+    setIsExpanded(false);
     handleClose();
   }
 

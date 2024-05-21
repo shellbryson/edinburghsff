@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.0.17] - 2024-05-21 (beta)
+
+Events:
+  - Fix: tapping an event location in popup does not hide sidebar
+
 ## [2.0.16] - 2024-05-20 (beta)
 
 Locations:
