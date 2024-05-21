@@ -14,9 +14,24 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
 // Custom UI
-import Spinner from '../components/Spinner';
+import Loader from '../components/Loader';
 import LinkInterceptor from '../components/LinkInterceptor';
 import StyledContent from '../components/StyledContent';
+
+const style={
+  page: {
+    display: "flex",
+    flexDirection: "column",
+    height: "100%",
+    margin: "0",
+    padding: "0",
+  },
+  content: {
+    textAlign: "left",
+    padding: "0",
+    margin: "0",
+  },
+}
 
 export default function Pages() {
   const theme = useTheme();
@@ -25,21 +40,6 @@ export default function Pages() {
   const [isLoading, setIsLoading] = useState(false);
   const defaultPageTitle = "Edinburgh SFF"
   const defaultPageDescription = "Edinburgh Science Fiction and Fantasy writing community. New writers, events and community."
-
-  const style={
-    page: {
-      display: "flex",
-      flexDirection: "column",
-      height: "100%",
-      margin: "0",
-      padding: "0",
-    },
-    content: {
-      textAlign: "left",
-      padding: "0",
-      margin: "0",
-    },
-  }
 
   useHead({
     title: `${page[0]?.title} - Edinburgh SFF` || defaultPageTitle,
@@ -89,7 +89,7 @@ export default function Pages() {
 
   return (
     <>
-      { isLoading && <Spinner />}
+      { isLoading && <Loader />}
       { !isLoading && renderPage() }
     </>
   )
