@@ -5,14 +5,12 @@ import { db } from "../../firebase";
 import { useConfirm } from "material-ui-confirm";
 
 import SortableList, { SortableItem, SortableKnob } from 'react-easy-sort'
-import arrayMove from 'array-move'
+import arrayMove from 'array-move';
 
 // Contexts
 import { useAuth } from '../../context/AuthContext';
-import { useApp } from '../../context/AppContext';
 
 // MUI
-import { styled } from '@mui/material/styles';
 import Alert from '@mui/material/Alert';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -25,7 +23,7 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import { useTheme } from '@mui/material/styles';
+import { useTheme, styled } from '@mui/material/styles';
 
 // Icons
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -42,10 +40,10 @@ import EventIcon from '@mui/icons-material/Event'; // Event
 
 // Custom UI
 import AdminLayout from '../../layouts/AdminLayout';
+import Loader from '../../components/Loader';
 
 import {
   fetchDocument,
-  slugify
 } from '../../utils/utils';
 
 const SelectionItemBox = styled(Box)(({ theme }) => ({
@@ -103,11 +101,12 @@ export default function AdminLists() {
   const [items, setItems] = useState([])
 
   const { user } = useAuth();
-  const { setIsLoading } = useApp();
   const params = useParams();
 
   const confirm = useConfirm();
   const navigate = useNavigate();
+
+  const [isLoading, setIsLoading] = useState(false);
 
   // Common
   const [title, setTitle] = useState('');
@@ -115,7 +114,6 @@ export default function AdminLists() {
   // Per item
   const [itemEditID, setItemEditID] = useState("");
 
-  const [itemImgUrl, setItemImgUrl] = useState(null);
   const [itemUrl, setItemUrl] = useState('');
   const [itemContent, setItemContent] = useState('');
   const [itemTitle, setItemTitle] = useState('');
@@ -148,8 +146,10 @@ export default function AdminLists() {
 
   useEffect(() => {
     if (!params.updateId) return;
+    setIsLoading(true);
     fetchDocument("lists", params.updateId, (data) => {
       handleOpenUpdate(data);
+      setIsLoading(false);
     });
   }, [params.updateId]);
 
@@ -162,7 +162,7 @@ export default function AdminLists() {
     setItemTitle('');
     setItemContent('');
     setItemUrl('');
-    setItemImgUrl('');
+    setItemTag(data.tag || "");
 
     setIsUpdate(true);
   };
@@ -176,7 +176,6 @@ export default function AdminLists() {
       return;
     }
     setIsLoading(true);
-    //const strippedImageUrl = imgUrl ? imgUrl.split('&')[0] : '';
     const payload = {
       title: title,
       items: items,
@@ -267,7 +266,9 @@ export default function AdminLists() {
   };
 
   const onSortEnd = (oldIndex, newIndex) => {
-    setItems((array) => arrayMove(array, oldIndex, newIndex))
+    setItems((array) => arrayMove(array, oldIndex, newIndex));
+    setIsDirty(true);
+    setShowItemForm(false);
   }
 
   // ### FORM INPUTS: LIST
@@ -275,7 +276,6 @@ export default function AdminLists() {
   const handleChangeTitle = (text) => {
     if (text !== title) setIsDirty(true);
     setTitle(text);
-    setSlug(slugify(title));
   }
 
   // ### FORM INPUTS: ITEMS CREATE
@@ -307,6 +307,7 @@ export default function AdminLists() {
 
   const handleAddItem = () => {
     const newItem = {
+      id: items.length + 1,
       title: itemTitle,
       content: itemContent,
       url: itemUrl,
@@ -360,8 +361,8 @@ export default function AdminLists() {
     setItemContent(items[i].content);
     setItemUrl(items[i].url);
     setItemImgUrl(items[i].img);
-    setItemTag(items[i].tag);
-    setShowItemForm(!showItemForm);
+    setItemTag(items[i]?.tag || "");
+    setShowItemForm(true);
   }
 
   const addItem = () => {
@@ -371,7 +372,7 @@ export default function AdminLists() {
     setItemUrl("");
     setItemImgUrl("");
     setItemTag("");
-    setShowItemForm(!showItemForm);
+    setShowItemForm(true);
   }
 
   const renderItemForm = () => {
@@ -403,11 +404,13 @@ export default function AdminLists() {
                 ))}
               </Select>
             </FormControl>
-            <Box style={{ display: "flex", gap: "0.5rem"}}>
-              { itemEditID && <Button onClick={(e) => handleUpdateItem()} variant='outlined'>Update</Button> }
-              { !itemEditID && <Button onClick={(e) => handleAddItem()} variant='outlined'>Save</Button> }
-              <Button onClick={(e) => handleRemoveItem()} variant='outlined'>Remove</Button>
-              <Button onClick={(e) => setShowItemForm(false)} variant='outlined'>Close</Button>
+            <Box style={{ display: "flex", justifyContent: "space-between", gap: "0.5rem"}}>
+              <Button onClick={(e) => handleRemoveItem()} variant='outlined' size="small">Remove</Button>
+              <Box style={{ display: "flex", gap: "0.5rem"}}>
+                <Button onClick={(e) => setShowItemForm(false)} variant='outlined'>Close</Button>
+                { itemEditID && <Button onClick={(e) => handleUpdateItem()} variant='outlined' size="small">Update</Button> }
+                { !itemEditID && <Button onClick={(e) => handleAddItem()} variant='outlined' size="small">Save</Button> }
+              </Box>
             </Box>
           </Stack>
         </Box>
@@ -417,61 +420,64 @@ export default function AdminLists() {
 
   return (
     <AdminLayout>
-      <Box>
-        <Typography component="h1" variant="h1" style={{textAlign: "center"}}>
-          {isUpdate ? "Update List" : "Add List"}
-        </Typography>
-        <Stack spacing={2} sx={{ mt: 2}}>
-          <TextField value={title} required label="List Title" onChange={(e) => handleChangeTitle(e.target.value)} type='text' />
-          { error && <Alert severity="warning">{error}</Alert> }
-        </Stack>
-        { error && <Alert severity="warning">{error}</Alert> }
-        <Box style={{ border: "1px solid black", padding: "0.5rem", margin: "1rem 0"}}>
-          <Stack spacing={2} sx={{ mt: 2}}>
-            <Box style={{ display: "flex", justifyContent: "space-between", margin: "0 0.5rem"}}>
-              <Typography variant="h_small">List content</Typography>
-              <Button onClick={() => addItem()} size="small" variant='outlined'><PlaylistAddIcon /></Button>
-            </Box>
-            <SortableList
-              onSortEnd={onSortEnd}
-              draggedItemClassName="dragged">
-              {items.map((item, i) => (
-                <SortableItem key={i}>
-                  <Item>
-                    <Box style={{ marginLeft: "0.5rem"}}>
-                      {item.title}
-                    </Box>
-                    <Box style={{ display: "flex", gap: "4px", alignItems: "center" }}>
-                      <EntryEditButton onClick={(e)=>editItem(i)}>
-                        <SettingsIcon />
-                      </EntryEditButton>
-                      <SortableKnob>
-                        <EntryMoveButton>
-                          <DragHandleIcon />
-                        </EntryMoveButton>
-                      </SortableKnob>
-                    </Box>
-                  </Item>
-                </SortableItem>
-              ))}
-            </SortableList>
-          </Stack>
-        </Box>
-      </Box>
-
-      { renderItemForm() }
-
-      <Box style={style.actions}>
+      { isLoading && <Loader />}
+      { !isLoading && <>
         <Box>
-          { isUpdate && <Button onClick={() => handleDelete(updateId)} variant="outlined" color="warning" startIcon={<DeleteIcon />}>Delete</Button> }
+          <Typography component="h1" variant="h1" style={{textAlign: "center"}}>
+            {isUpdate ? "Update List" : "Add List"}
+          </Typography>
+          <Stack spacing={2} sx={{ mt: 2}}>
+            <TextField value={title} required label="List Title" onChange={(e) => handleChangeTitle(e.target.value)} type='text' />
+            { error && <Alert severity="warning">{error}</Alert> }
+          </Stack>
+          { error && <Alert severity="warning">{error}</Alert> }
+          <Box style={{ border: "1px solid black", padding: "0.5rem", margin: "1rem 0"}}>
+            <Stack spacing={2} sx={{ mt: 2}}>
+              <Box style={{ display: "flex", justifyContent: "space-between", margin: "0 0.5rem"}}>
+                <Typography variant="h_small">List content</Typography>
+                <Button onClick={() => addItem()} size="small" variant='outlined'><PlaylistAddIcon /></Button>
+              </Box>
+              <SortableList
+                onSortEnd={onSortEnd}
+                draggedItemClassName="dragged">
+                {items.map((item, i) => (
+                  <SortableItem key={i}>
+                    <Item>
+                      <Box style={{ marginLeft: "0.5rem"}}>
+                        {item.title}
+                      </Box>
+                      <Box style={{ display: "flex", gap: "4px", alignItems: "center" }}>
+                        <EntryEditButton onClick={(e)=>editItem(i)}>
+                          <SettingsIcon />
+                        </EntryEditButton>
+                        <SortableKnob>
+                          <EntryMoveButton>
+                            <DragHandleIcon />
+                          </EntryMoveButton>
+                        </SortableKnob>
+                      </Box>
+                    </Item>
+                  </SortableItem>
+                ))}
+              </SortableList>
+            </Stack>
+          </Box>
         </Box>
-        <Box style={{ display: "flex", gap: "0.5rem" }}>
-          { isDirty && <Typography sx={style.dirty} variant='p_small'>Unsaved changes</Typography> }
-          <Button onClick={handleBack} variant='outlined'>Back</Button>
-          { isUpdate && <Button onClick={handleUpdate} variant='contained'>Save</Button> }
-          { !isUpdate && <Button onClick={handleAdd} variant='contained'>Add List</Button> }
+
+        { renderItemForm() }
+
+        <Box style={style.actions}>
+          <Box>
+            { isUpdate && <Button onClick={() => handleDelete(updateId)} variant="outlined" color="warning" startIcon={<DeleteIcon />}>Delete</Button> }
+          </Box>
+          <Box style={{ display: "flex", gap: "0.5rem" }}>
+            { isDirty && <Typography sx={style.dirty} variant='p_small'>Unsaved changes</Typography> }
+            <Button onClick={handleBack} variant='outlined'>Back</Button>
+            { isUpdate && <Button onClick={handleUpdate} variant='contained'>Save</Button> }
+            { !isUpdate && <Button onClick={handleAdd} variant='contained'>Add List</Button> }
+          </Box>
         </Box>
-      </Box>
+      </>}
     </AdminLayout>
   )
 }
