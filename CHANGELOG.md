@@ -19,6 +19,9 @@ Events:
   - Add: button to take user to Events List on every event modal
   - Fix: don't display 'show on map' if no location set (digital events)
 
+Admin:
+  - Improve: admin navigation and styling
+
 ## [2.0.17] - 2024-05-21 (beta)
 
 Events:

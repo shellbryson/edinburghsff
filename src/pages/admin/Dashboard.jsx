@@ -41,9 +41,6 @@ const Dashboard = () => {
         Dashboard
       </Typography>
       <Stack spacing={2} maxWidth="sm" style={{ margin: "0 auto"}}>
-        <NavigationButton variant="outlined" component={Link} to="/">
-          Home
-        </NavigationButton>
         <NavigationButton variant="outlined" color="primary" component={Link} to="/admin/settings">
           Settings
         </NavigationButton>

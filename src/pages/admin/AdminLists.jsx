@@ -214,6 +214,7 @@ export default function AdminLists() {
     const payload = {
       title: title,
       items: items,
+      tag: itemTag,
       updated: {
         email: user.email,
         uid: user.uid,
@@ -269,6 +270,7 @@ export default function AdminLists() {
     setItems((array) => arrayMove(array, oldIndex, newIndex));
     setIsDirty(true);
     setShowItemForm(false);
+    setItemEditID("");
   }
 
   // ### FORM INPUTS: LIST
@@ -406,8 +408,8 @@ export default function AdminLists() {
               <Button onClick={(e) => handleRemoveItem()} variant='outlined' size="small">Remove</Button>
               <Box style={{ display: "flex", gap: "0.5rem"}}>
                 <Button onClick={(e) => setShowItemForm(false)} variant='outlined'>Close</Button>
-                { itemEditID && <Button onClick={(e) => handleUpdateItem()} variant='outlined' size="small">Update</Button> }
-                { !itemEditID && <Button onClick={(e) => handleAddItem()} variant='outlined' size="small">Save</Button> }
+                { itemEditID !== "" && <Button onClick={(e) => handleUpdateItem()} variant='outlined' size="small">Update</Button> }
+                { itemEditID === "" && <Button onClick={(e) => handleAddItem()} variant='outlined' size="small">Save</Button> }
               </Box>
             </Box>
           </Stack>
