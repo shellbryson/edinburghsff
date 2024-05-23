@@ -360,7 +360,6 @@ export default function AdminLists() {
     setItemTitle(items[i].title);
     setItemContent(items[i].content);
     setItemUrl(items[i].url);
-    setItemImgUrl(items[i].img);
     setItemTag(items[i]?.tag || "");
     setShowItemForm(true);
   }
@@ -370,7 +369,6 @@ export default function AdminLists() {
     setItemTitle("");
     setItemContent("");
     setItemUrl("");
-    setItemImgUrl("");
     setItemTag("");
     setShowItemForm(true);
   }
