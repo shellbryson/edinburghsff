@@ -56,6 +56,9 @@ const Dashboard = () => {
         <NavigationButton variant="outlined" color="primary" component={Link} to="/admin/pages">
           Pages
         </NavigationButton>
+        <NavigationButton variant="outlined" color="primary" component={Link} to="/admin/lists">
+          Lists
+        </NavigationButton>
         <NavigationButton variant='outlined' onClick={handleLogout}>
           Sign out
         </NavigationButton>

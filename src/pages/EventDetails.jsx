@@ -278,7 +278,7 @@ const EventDetails = ({ handleClose }) => {
           </Box>
           <ActionsBox>
             <Button onClick={() => handleView()} color='brand' variant="outlined" endIcon={<LaunchOutlinedIcon />}>Event site</Button>
-            <Button onClick={() => handleViewOnMap()} color='brand' variant="outlined" endIcon={<PlaceIcon />}>View on map</Button>
+            { currentEvent?.eventPin && <Button onClick={() => handleViewOnMap()} color='brand' variant="outlined" endIcon={<PlaceIcon />}>View on map</Button> }
           </ActionsBox>
           { currentEvent?.image && (
             <FooterImageBox className="sff-event-footer">
