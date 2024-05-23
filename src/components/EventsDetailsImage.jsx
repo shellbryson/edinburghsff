@@ -10,7 +10,6 @@ export default function EventsDetailsImage({ image, alt }) {
 
   const ImageContainerBox = styled(Box)(({ theme }) => ({
     display: "block",
-    //aspectRatio: "1/1",
     padding: 0,
     maxWidth: "400px",
     marginLeft: "auto",

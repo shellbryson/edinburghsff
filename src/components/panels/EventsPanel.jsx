@@ -13,7 +13,6 @@ import { useTheme, styled } from '@mui/material/styles';
 
 // Icons
 import EventIcon from '@mui/icons-material/Event';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
 import { slugify } from '../../utils/utils';
 

@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.1.0] - 2024-05-23 (beta)
+
+Pages:
+  - Add: Support for Lists
+
+Lists:
+  - Add: List... lists
+  - Add: Lists Admin page
+  - Add: List tags for displayable icons
+  - Add: Drag and drop sorting
+  - Add: Pages, pick list
+
+Events:
+  - Add: button to take user to Events List on every event modal
+  - Fix: don't display 'show on map' if no location set (digital events)
+
+Admin:
+  - Improve: admin navigation and styling
+
 ## [2.0.17] - 2024-05-21 (beta)
 
 Events:

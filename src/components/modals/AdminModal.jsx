@@ -14,8 +14,7 @@ import { useTheme, styled } from '@mui/material/styles';
 
 // Icons
 import MenuIcon from '@mui/icons-material/Menu';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-
+import CloseIcon from '@mui/icons-material/Close';
 
 // Helpers
 import ProtectedRoute from '../../helpers/ProtectedRoute';
@@ -62,10 +61,10 @@ export default function AdminModal({ children }) {
       display: fullScreen || isDashboard ? "none" : "flex",
       flexWrap: "wrap",
       justifyContent: "center",
-      gap: "0.5rem"
-    },
-    dashboardButton: {
-      display: !fullScreen || isDashboard ? "none" : "block"
+      gap: "0.5rem",
+      borderTop: "1px solid #ccc",
+      paddingTop: "1rem",
+      marginTop: "1rem",
     }
   }
   const handleClose = () => {
@@ -79,29 +78,29 @@ export default function AdminModal({ children }) {
       open={true} fullScreen={fullScreen}
       onClose={handleClose}>
       <DialogTitle>
-        <Box style={style.dashboardButton}>
+        <Box style={{ display: "flex", justifyContent: "space-between", gap: "0.5rem"}}>
           <IconButton aria-label="Admin menu" variant="outlined" size="small" color="primary" component={Link} to="/dashboard">
             <MenuIcon />
           </IconButton>
+          <Button variant="outlined" size="small" color="primary" component={Link} to="/">
+            <CloseIcon />
+          </Button>
         </Box>
         <Box style={style.navigation} className="sff-navigation">
-          <Button variant="outlined" size="small" color="primary" component={Link} to="/">
-            <ChevronLeftIcon />
-          </Button>
-          <Button variant="outlined" size="small" color="primary" component={Link} to="/dashboard">
-            Dashboard
-          </Button>
-          <Button variant="outlined" size="small" color="primary" component={Link} to="/admin/settings">
+          <Button variant="contained" size="small" color="primary" component={Link} to="/admin/settings">
             Settings
           </Button>
-          <Button variant="outlined" size="small" color="primary" component={Link} to="/admin/locations">
+          <Button variant="contained" size="small" color="primary" component={Link} to="/admin/locations">
             Locations
           </Button>
-          <Button variant="outlined" size="small" color="primary" component={Link} to="/admin/events">
+          <Button variant="contained" size="small" color="primary" component={Link} to="/admin/events">
             Events
           </Button>
-          <Button variant="outlined" size="small" color="primary" component={Link} to="/admin/pages">
+          <Button variant="contained" size="small" color="primary" component={Link} to="/admin/pages">
             Pages
+          </Button>
+          <Button variant="contained" size="small" color="primary" component={Link} to="/admin/lists">
+            Lists
           </Button>
         </Box>
       </DialogTitle>

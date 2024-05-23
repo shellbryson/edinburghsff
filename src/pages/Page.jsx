@@ -16,6 +16,7 @@ import Typography from '@mui/material/Typography';
 // Custom UI
 import Loader from '../components/Loader';
 import LinkInterceptor from '../components/LinkInterceptor';
+import List from './List';
 import StyledContent from '../components/StyledContent';
 
 const style={
@@ -71,15 +72,16 @@ export default function Pages() {
     if (!page.length) {
       return null;
     }
-    const firstMatchingPage = page[0];
+    const thisPage = page[0];
     const r = <Box style={style.page} className="sff-page">
       <StyledContent>
         <Box style={style.content} className="scroll">
           <Typography component="h1" variant='h_large' style={{ marginTop: "0", marginBottom: "0"}}>
-            {firstMatchingPage.title}
+            {thisPage.title}
           </Typography>
           <LinkInterceptor>
-            <ReactMarkdown children={firstMatchingPage.content} />
+            <ReactMarkdown children={thisPage.content} />
+            <List listID={thisPage?.list} />
           </LinkInterceptor>
         </Box>
       </StyledContent>

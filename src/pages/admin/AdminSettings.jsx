@@ -161,7 +161,7 @@ export default function AdminSettings() {
 
   return (
     <AdminLayout>
-      <Box style={{ marginTop: "2rem", marginBottom: "2rem"}}>
+      <Box>
         <Typography component="h1" variant="h1" style={{textAlign: "center"}}>
           Settings
         </Typography>

@@ -81,7 +81,7 @@ export default function ListContent() {
         setItems(data);
         setIsLoading(false);
       });
-    } else if (params.type === 'pages' || params.type === 'links') {
+    } else if (params.type === 'pages') {
       setIsLoading(true);
       setTableFilterOn('title');
       setTableStructure({ headings: ['Title', ""], keys: ['title', 'image'] });
@@ -92,15 +92,20 @@ export default function ListContent() {
         setItems(data);
         setIsLoading(false);
       });
+    } else if (params.type === 'lists') {
+      setIsLoading(true);
+      setTableFilterOn('title');
+      setTableStructure({ headings: ['Title'], keys: ['title'] });
+      fetchDocuments(params.type, {field:'title', mode:'asc'}, (data) => {
+        data.forEach((item) => {
+          item.display = true;
+        });
+        setItems(data);
+        setIsLoading(false);
+      });
     }
     handleFilter('');
   }, [params.type]);
-
-  useEffect(() => {
-    if (params.id) {
-      console.log("ID", params.id);
-    }
-  }, [items]);
 
   const handleFilter = (filterString) => {
     const PATTERN = filterString;

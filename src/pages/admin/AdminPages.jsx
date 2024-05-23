@@ -15,22 +15,36 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import InputLabel from '@mui/material/InputLabel';
 import FormGroup from '@mui/material/FormGroup';
+import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import { useTheme } from '@mui/material/styles';
 
 // Icons
 import DeleteIcon from '@mui/icons-material/Delete';
+import ListIcon from '@mui/icons-material/List';
 
 // Custom UI
 import UploadImage from '../../components/admin/UploadImage';
 import AdminLayout from '../../layouts/AdminLayout';
 
 import {
+  fetchDocuments,
   fetchDocument,
   slugify
 } from '../../utils/utils';
+
+const SelectionItemBox = styled(Box)(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  gap: "0.5rem",
+}));
 
 const SplitBox = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -55,8 +69,10 @@ export default function AdminPages() {
 
   // Specific to Pages
   const [slug, setSlug] = useState('');
-  const [url, setURL] = useState('');
   const [content, setContent] = useState('');
+
+  const [lists, setLists] = useState([]);
+  const [list, setList] = useState('');
 
   // Update
   const [isUpdate, setIsUpdate] = useState(false);
@@ -89,16 +105,22 @@ export default function AdminPages() {
     });
   }, [params.updateId]);
 
+  useEffect(() => {
+    fetchDocuments("lists", {field:'title', mode:'asc'}, (data) => {
+      setLists(data);
+    });
+  }, []);
+
   const handleOpenUpdate = (data) => {
     setUpdateId(params.updateId);
 
     setTitle(data.title);
     setDescription(data.description);
     setContent(data.content);
+    setList(data.list || '');
     setImgUrl(data.image);
     setShow(data.show);
     setSlug(data.slug);
-    setURL(data.url || '');
 
     setIsUpdate(true);
   };
@@ -117,10 +139,10 @@ export default function AdminPages() {
       title: title,
       description: description,
       content: content,
+      list: list,
       show: show,
       image: strippedImageUrl,
       slug: slug,
-      url: url,
       created: {
         email: user.email,
         uid: user.uid,
@@ -158,10 +180,10 @@ export default function AdminPages() {
       title: title,
       description: description,
       content: content,
+      list: list,
       show: show,
       image: strippedImageUrl,
       slug: slug,
-      url: url,
       updated: {
         email: user.email,
         uid: user.uid,
@@ -225,11 +247,6 @@ export default function AdminPages() {
     setDescription(text);
   };
 
-  const handleChangeUrl = (text) => {
-    if (text !== url) setIsDirty(true);
-    setURL(text);
-  }
-
   const handleFileUpload = (url) => {
     setImgUrl(url)
   }
@@ -244,6 +261,13 @@ export default function AdminPages() {
     setSlug(text);
   }
 
+  const handleChangeListSelection = (l) => {
+    // if (text !== slug) setIsDirty(true);
+    // setSlug(text);
+    setList(l);
+    console.log(l);
+  }
+
   const handleBack = () => {
     navigate(`/admin/pages`);
   }
@@ -256,7 +280,6 @@ export default function AdminPages() {
         </Typography>
         <Stack spacing={2} sx={{ mt: 2}}>
           <TextField value={title} required label="Title" onChange={(e) => handleChangeTitle(e.target.value)} type='text' />
-          <TextField value={url} required label="URL" onChange={(e) => handleChangeUrl(e.target.value)} type='text' />
           <TextField value={slug} required label="Slug" onChange={(e) => handleChangeSlug(e.target.value)} type='text' />
 
           <FormGroup>
@@ -265,6 +288,26 @@ export default function AdminPages() {
 
           <TextField value={description} required multiline rows={2} label="Description" onChange={(e) => handleChangeDescription(e.target.value)} />
           <TextField value={content} required multiline rows={16} label="Content" onChange={(e) => handleChangeContent(e.target.value)}  />
+
+          <FormControl fullWidth>
+            <InputLabel>Display a List</InputLabel>
+            <Select
+              value={list}
+              label="Display a List"
+              onChange={(e) => handleChangeListSelection(e.target.value)}
+            >
+              { lists.map((list, index) => (
+                <MenuItem key={index} value={list.id}>
+                  <SelectionItemBox>
+                    <ListItemIcon>
+                      <ListIcon />
+                    </ListItemIcon>
+                    <ListItemText primary={list.title} />
+                  </SelectionItemBox>
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
 
           <UploadImage imageUploadedCallback={handleFileUpload} imgUrl={imgUrl} />
 
@@ -277,10 +320,10 @@ export default function AdminPages() {
           { isUpdate && <Button onClick={() => handleDelete(updateId)} variant="outlined" color="warning" startIcon={<DeleteIcon />}>Delete</Button> }
         </Box>
         <Box style={{ display: "flex", gap: "0.5rem" }}>
-          { isDirty && <Typography sx={style.dirty} variant='p_small'>Unsaved changes</Typography> }
+          { isDirty && <Typography sx={style.dirty} variant='p_small'>Unsaved</Typography> }
           <Button onClick={handleBack} variant='outlined'>Back</Button>
-          { isUpdate && <Button onClick={handleUpdate} variant='contained'>Save Page</Button> }
-          { !isUpdate && <Button onClick={handleAdd} variant='contained'>Add Page</Button> }
+          { isUpdate && <Button onClick={handleUpdate} variant='contained'>Save</Button> }
+          { !isUpdate && <Button onClick={handleAdd} variant='contained'>Add</Button> }
         </Box>
       </Box>
     </AdminLayout>
