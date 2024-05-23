@@ -103,6 +103,9 @@ export default function AdminModal({ children }) {
           <Button variant="outlined" size="small" color="primary" component={Link} to="/admin/pages">
             Pages
           </Button>
+          <Button variant="outlined" size="small" color="primary" component={Link} to="/admin/lists">
+            Lists
+          </Button>
         </Box>
       </DialogTitle>
       <DialogContent dividers style={{ overflow: "hidden" }}>

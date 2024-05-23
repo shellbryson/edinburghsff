@@ -31,6 +31,7 @@ import { useTheme } from '@mui/material/styles';
 import DeleteIcon from '@mui/icons-material/Delete';
 import DragHandleIcon from '@mui/icons-material/DragHandle';
 import SettingsIcon from '@mui/icons-material/Settings';
+import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 
 // Icons: Tags
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';  // Link
@@ -58,22 +59,29 @@ const Item = styled(Box)(({ theme }) => ({
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
-  backgroundColor: 'rgb(84, 84, 241)',
+  backgroundColor: theme.palette.highlight.main,
   color: 'white',
-  margin: '8px',
-  height: '60px',
-  padding: '0.5rem',
+  margin: '4px',
+  padding: '4px',
   transition: 'scale 0.2s',
   // userSelect: "none",
   // pointerEvents: "none"
 }));
 
-const Handle = styled(Box)(({ theme }) => ({
+const EntryMoveButton = styled(Box)(({ theme }) => ({
   display: 'flex',
   padding: '0.25rem',
   color: theme.palette.brand.main,
   border: `1px solid ${theme.palette.brand.main}`,
   cursor: 'grab',
+}));
+
+const EntryEditButton = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  padding: '0.25rem',
+  color: theme.palette.brand.main,
+  border: `1px solid ${theme.palette.brand.main}`,
+  cursor: 'pointer',
 }));
 
 const SplitBox = styled(Box)(({ theme }) => ({
@@ -277,10 +285,6 @@ export default function AdminLists() {
     setItemUrl(text);
   }
 
-  const handleItemFileUpload = (url) => {
-    setItemImgUrl(url)
-  }
-
   const handleItemChangeTitle = (text) => {
     if (text !== itemTitle) setIsDirty(true);
     setItemTitle(text);
@@ -330,7 +334,7 @@ export default function AdminLists() {
     currentItems.splice(itemEditID, 1);
     setItemEditID(null);
     setItems(currentItems);
-    setShowEditItemForm(false);
+    setShowItemForm(false);
   }
 
   const IconComponent = ({tagName}) => {
@@ -350,12 +354,32 @@ export default function AdminLists() {
     }
   }
 
+  const editItem = (i) => {
+    setItemEditID(i)
+    setItemTitle(items[i].title);
+    setItemContent(items[i].content);
+    setItemUrl(items[i].url);
+    setItemImgUrl(items[i].img);
+    setItemTag(items[i].tag);
+    setShowItemForm(!showItemForm);
+  }
+
+  const addItem = () => {
+    setItemEditID("");
+    setItemTitle("");
+    setItemContent("");
+    setItemUrl("");
+    setItemImgUrl("");
+    setItemTag("");
+    setShowItemForm(!showItemForm);
+  }
+
   const renderItemForm = () => {
     if (showItemForm) {
       return (
-        <Box style={{backgroundColor: "rgba(0,0,0,0.05", padding: "1rem", marginTop: "1rem"}}>
-          { itemEditID !== "" && <Typography variant="h2">Update entry</Typography> }
-          { itemEditID === ""&& <Typography variant="h2">Add entry</Typography> }
+        <Box style={{backgroundColor: "rgba(0,0,0,0.05", padding: "1rem", margin: "1rem 0"}}>
+          { itemEditID !== "" && <Typography variant="h_small">Update entry</Typography> }
+          { itemEditID === ""&& <Typography variant="h_small">Add entry</Typography> }
           <Stack spacing={2} sx={{ mt: 2}}>
             <TextField value={itemTitle || ''} required label="Title" onChange={(e) => handleItemChangeTitle(e.target.value)}  />
             <TextField value={itemContent || ''} required multiline rows={3} label="Content" onChange={(e) => handleItemChangeContent(e.target.value)}  />
@@ -379,34 +403,16 @@ export default function AdminLists() {
                 ))}
               </Select>
             </FormControl>
-            { itemEditID && <Button onClick={(e) => handleUpdateItem()} variant='outlined'>Update</Button> }
-            { !itemEditID && <Button onClick={(e) => handleAddItem()} variant='outlined'>Save</Button> }
-            <Button onClick={(e) => handleRemoveItem()} variant='outlined'>Remove</Button>
-            <Button onClick={(e) => setShowItemForm(false)} variant='outlined'>Close</Button>
+            <Box style={{ display: "flex", gap: "0.5rem"}}>
+              { itemEditID && <Button onClick={(e) => handleUpdateItem()} variant='outlined'>Update</Button> }
+              { !itemEditID && <Button onClick={(e) => handleAddItem()} variant='outlined'>Save</Button> }
+              <Button onClick={(e) => handleRemoveItem()} variant='outlined'>Remove</Button>
+              <Button onClick={(e) => setShowItemForm(false)} variant='outlined'>Close</Button>
+            </Box>
           </Stack>
         </Box>
       )
     }
-  }
-
-  const editItem = (i) => {
-    setItemEditID(i)
-    setItemTitle(items[i].title);
-    setItemContent(items[i].content);
-    setItemUrl(items[i].url);
-    setItemImgUrl(items[i].img);
-    setItemTag(items[i].tag);
-    setShowItemForm(true);
-  }
-
-  const addItem = () => {
-    setItemEditID("");
-    setItemTitle("");
-    setItemContent("");
-    setItemUrl("");
-    setItemImgUrl("");
-    setItemTag("");
-    setShowItemForm(true);
   }
 
   return (
@@ -415,42 +421,46 @@ export default function AdminLists() {
         <Typography component="h1" variant="h1" style={{textAlign: "center"}}>
           {isUpdate ? "Update List" : "Add List"}
         </Typography>
-
         <Stack spacing={2} sx={{ mt: 2}}>
-          <TextField value={title} required label="Title" onChange={(e) => handleChangeTitle(e.target.value)} type='text' />
+          <TextField value={title} required label="List Title" onChange={(e) => handleChangeTitle(e.target.value)} type='text' />
           { error && <Alert severity="warning">{error}</Alert> }
         </Stack>
-
-        <Button onClick={() => addItem()} variant='outlined'>Add Item</Button>
-
-        { renderItemForm() }
-
-        <Stack spacing={2} sx={{ mt: 2}}>
-          <Typography variant="h2">List</Typography>
-          <SortableList
-            onSortEnd={onSortEnd}
-            draggedItemClassName="dragged">
-            {items.map((item, i) => (
-              <SortableItem key={i}>
-                <Item>
-                  <SortableKnob>
-                    <Handle>
-                      <DragHandleIcon />
-                    </Handle>
-                  </SortableKnob>
-                  <Box onClick={(e)=>editItem(i)}>
-                    <SettingsIcon />
-                  </Box>
-                  {item.title}
-                </Item>
-              </SortableItem>
-            ))}
-          </SortableList>
-
-          { error && <Alert severity="warning">{error}</Alert> }
-
-        </Stack>
+        { error && <Alert severity="warning">{error}</Alert> }
+        <Box style={{ border: "1px solid black", padding: "0.5rem", margin: "1rem 0"}}>
+          <Stack spacing={2} sx={{ mt: 2}}>
+            <Box style={{ display: "flex", justifyContent: "space-between", margin: "0 0.5rem"}}>
+              <Typography variant="h_small">List content</Typography>
+              <Button onClick={() => addItem()} size="small" variant='outlined'><PlaylistAddIcon /></Button>
+            </Box>
+            <SortableList
+              onSortEnd={onSortEnd}
+              draggedItemClassName="dragged">
+              {items.map((item, i) => (
+                <SortableItem key={i}>
+                  <Item>
+                    <Box style={{ marginLeft: "0.5rem"}}>
+                      {item.title}
+                    </Box>
+                    <Box style={{ display: "flex", gap: "4px", alignItems: "center" }}>
+                      <EntryEditButton onClick={(e)=>editItem(i)}>
+                        <SettingsIcon />
+                      </EntryEditButton>
+                      <SortableKnob>
+                        <EntryMoveButton>
+                          <DragHandleIcon />
+                        </EntryMoveButton>
+                      </SortableKnob>
+                    </Box>
+                  </Item>
+                </SortableItem>
+              ))}
+            </SortableList>
+          </Stack>
+        </Box>
       </Box>
+
+      { renderItemForm() }
+
       <Box style={style.actions}>
         <Box>
           { isUpdate && <Button onClick={() => handleDelete(updateId)} variant="outlined" color="warning" startIcon={<DeleteIcon />}>Delete</Button> }
