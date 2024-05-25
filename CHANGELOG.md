@@ -7,6 +7,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 Pages:
   - Add: Support for Lists
+  - Add: Back button
 
 Lists:
   - Add: List... lists

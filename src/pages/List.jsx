@@ -63,22 +63,22 @@ export default function List({listID}) {
     let icon = null;
     switch(tagName) {
       case "link":
-        icon = <OpenInNewIcon color="brand" style={{ pointerEvents: "none"}} />
+        icon = <OpenInNewIcon color="brand" fontSize="large" style={{ pointerEvents: "none"}} />
         break;
       case "event":
-        icon = <EventIcon color="brand"  style={{ pointerEvents: "none"}} />
+        icon = <EventIcon color="brand" fontSize="large" style={{ pointerEvents: "none"}} />
         break;
       case "page":
-        icon = <DescriptionIcon color="brand" style={{ pointerEvents: "none"}} />
+        icon = <DescriptionIcon color="brand" fontSize="large" style={{ pointerEvents: "none"}} />
         break;
       case "podcast":
-        icon = <PodcastsIcon color="brand" style={{ pointerEvents: "none"}}  />
+        icon = <PodcastsIcon color="brand" fontSize="large" style={{ pointerEvents: "none"}}  />
         break;
       case "location":
-        icon = <PlaceIcon color="brand"  style={{ pointerEvents: "none"}} />
+        icon = <PlaceIcon color="brand" fontSize="large" style={{ pointerEvents: "none"}} />
         break;
       default:
-        icon = <OpenInNewIcon color="brand"  style={{ pointerEvents: "none"}} />
+        icon = <OpenInNewIcon color="brand" fontSize="large" style={{ pointerEvents: "none"}} />
     }
     return icon;
   }
