@@ -8,6 +8,9 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import { useTheme, styled } from '@mui/material/styles';
 
+// ICONS
+import ChevronLeft from '@mui/icons-material/ChevronLeft';
+
 // Theme helpers
 import useMediaQuery from '@mui/material/useMediaQuery';
 
@@ -57,6 +60,10 @@ export default function ContentModal({ children }) {
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const navigate = useNavigate();
 
+  const handleBack = () => {
+    navigate(-1);
+  };
+
   const handleClose = () => {
     navigate(`/`);
   };
@@ -70,7 +77,8 @@ export default function ContentModal({ children }) {
       <DialogContent className="scroll-dialog">
         {children}
       </DialogContent>
-      <DialogActions style={{ borderTop: `2px solid ${theme.palette.highlight.main}`}}>
+      <DialogActions style={{ display: "flex", justifyContent: "space-between", borderTop: `2px solid ${theme.palette.highlight.main}`}}>
+        <Button onClick={handleBack} size="small" color="brand" variant="contained" startIcon={<ChevronLeft />}>Back</Button>
         <Button onClick={handleClose} size="small" color="brand" variant="outlined">Close</Button>
       </DialogActions>
     </BootstrapDialog>
