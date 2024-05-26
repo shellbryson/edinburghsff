@@ -179,6 +179,7 @@ export default function AdminLists() {
     const payload = {
       title: title,
       items: items,
+      tag: itemTag,
       created: {
         email: user.email,
         uid: user.uid,
@@ -194,6 +195,7 @@ export default function AdminLists() {
       const doc = await addDoc(collection(db, "lists"), payload);
       console.log("Saved List", doc.id, payload);
       setIsLoading(false);
+      setIsDirty(false);
       navigate(`/admin/lists/update/${doc.id}`, { replace: true });
     } catch (e) {
       setIsLoading(false);
@@ -317,6 +319,9 @@ export default function AdminLists() {
     }
     setItems([newItem, ...items]);
     setShowItemForm(false);
+
+    // Trigger saving of the list
+    isUpdate ? handleUpdate() : handleAdd();
   }
 
   const handleUpdateItem = () => {
