@@ -6,19 +6,40 @@ import { useAuth } from '../../context/AuthContext';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
+
+import HomeIcon from '@mui/icons-material/Home';
+import DescriptionIcon from '@mui/icons-material/Description';
+import ListIcon from '@mui/icons-material/List';
+import EventIcon from '@mui/icons-material/Event';
+import PlaceIcon from '@mui/icons-material/Place';
+import SettingsIcon from '@mui/icons-material/Settings';
 
 const NavigationMenu = styled(Box)(({ theme }) => ({
   display: "flex",
   height: "100%",
   flexDirection: "column",
-  justifyContent: "center",
-  alignItems: "center"
+  alignItems: "center",
+  marginTop: "2rem",
 }));
 
 const NavigationButton = styled(Button)(({ theme }) => ({
-  minWidth: "100%"
+  minWidth: "100%",
+  justifyContent: "space-between",
+}));
+
+const NavigationList = styled(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  gap: "1rem",
+  margin: "1rem",
+  minWidth: "300px"
+}));
+
+const UserBox = styled(Box)(({ theme }) => ({
+  padding: "1rem",
+  backgroundColor: "rgba(0,0,0,0.1)",
+  margin: "1rem",
 }));
 
 const Dashboard = () => {
@@ -40,27 +61,33 @@ const Dashboard = () => {
       <Typography component="h1" variant="h1" style={{textAlign: "center", textTransform: "capitalize",}}>
         Dashboard
       </Typography>
-      <Stack spacing={2} maxWidth="sm" style={{ margin: "0 auto"}}>
-        <NavigationButton variant="outlined" color="primary" component={Link} to="/admin/settings">
-          Settings
-        </NavigationButton>
-        <NavigationButton variant="outlined" color="primary" component={Link} to="/admin/locations">
+      <NavigationList>
+        <NavigationButton variant="contained" color="primary" endIcon={<PlaceIcon />} component={Link} to="/admin/locations">
           Locations
         </NavigationButton>
-        <NavigationButton variant="outlined" color="primary" component={Link} to="/admin/events">
+        <NavigationButton variant="contained" color="primary" endIcon={<EventIcon />} component={Link} to="/admin/events">
           Events
         </NavigationButton>
-        <NavigationButton variant="outlined" color="primary" component={Link} to="/admin/pages">
+        <NavigationButton variant="contained" color="primary" endIcon={<DescriptionIcon />} component={Link} to="/admin/pages">
           Pages
         </NavigationButton>
-        <NavigationButton variant="outlined" color="primary" component={Link} to="/admin/lists">
+        <NavigationButton variant="contained" color="primary" endIcon={<ListIcon />} component={Link} to="/admin/lists">
           Lists
         </NavigationButton>
-        <NavigationButton variant='outlined' onClick={handleLogout}>
-          Sign out
+        <NavigationButton variant="contained" color="primary" endIcon={<SettingsIcon />} component={Link} to="/admin/settings">
+          Settings
         </NavigationButton>
-        <Typography  sx={{ mt: 6, mb: 2, textAlign: "center"}} component="p" variant='p'>Signed in as {user && user.email}</Typography>
-      </Stack>
+        <Button variant='outlined' onClick={handleLogout}>
+          Sign out
+        </Button>
+        <Button variant='outlined' component={Link} to="/">
+          Home
+        </Button>
+        <UserBox>
+          <Typography component="p" variant='p'>Signed in as:</Typography>
+          <Typography component="p" variant='p'>{user && user.email}</Typography>
+        </UserBox>
+      </NavigationList>
     </NavigationMenu>
   );
 };

@@ -97,8 +97,10 @@ export default function List({listID}) {
                   <ListEntryTitle component="h2" style={{marginBottom: "0"}}>
                     {item.title}
                   </ListEntryTitle>
-                  <ReactMarkdown>{item.content}</ReactMarkdown>
-                  { item.url && <a href={item.url} target="_blank" rel="noreferrer">Link</a> }
+                  <div>
+                    <ReactMarkdown>{item.content}</ReactMarkdown>
+                    View { item.url && <a href={item.url} target="_blank" rel="noreferrer">{item.title}</a> }
+                  </div>
                 </Box>
               </ListEntry>
             })}

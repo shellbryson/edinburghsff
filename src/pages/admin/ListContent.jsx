@@ -21,7 +21,7 @@ import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 
 // Custom UI
 import EventsListImage from '../../components/admin/ListImage';
-import Spinner from '../../components/Spinner';
+import Loader from '../../components/Loader';
 import AdminLayout from '../../layouts/AdminLayout';
 
 import {
@@ -195,11 +195,11 @@ export default function ListContent() {
 
   return (
     <AdminLayout>
+      {isLoading && <Loader />}
+      {!isLoading && <>
       <Typography component="h1" variant="h1" style={{textAlign: "center", textTransform: "capitalize",}}>
         {params.type}
       </Typography>
-      {isLoading && <Spinner />}
-      {!isLoading && <>
         <Box style={style.actionbar}>
           <TextField
             value={filter}
