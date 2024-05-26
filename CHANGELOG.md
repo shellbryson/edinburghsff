@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.1.1] - 2024-05-26 (beta)
+
+Admin / List Content:
+  - Fix: Wrong Loading UI displayed
+  - Fix: Lists should be entirely hidden until loaded
+
+Admin / Lists:
+  - Fix: Should save when adding/updating list entry, not only when saving the list
+  - Fix: Confusing "save" button on adding items (rename to "Add")
+
+Pages / Lists:
+  - Fix: Links should be titled, rather than "link"
+
 ## [2.1.0] - 2024-05-23 (beta)
 
 Pages:

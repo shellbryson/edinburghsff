@@ -179,6 +179,7 @@ export default function AdminLists() {
     const payload = {
       title: title,
       items: items,
+      tag: itemTag,
       created: {
         email: user.email,
         uid: user.uid,
@@ -194,6 +195,7 @@ export default function AdminLists() {
       const doc = await addDoc(collection(db, "lists"), payload);
       console.log("Saved List", doc.id, payload);
       setIsLoading(false);
+      setIsDirty(false);
       navigate(`/admin/lists/update/${doc.id}`, { replace: true });
     } catch (e) {
       setIsLoading(false);
@@ -317,6 +319,9 @@ export default function AdminLists() {
     }
     setItems([newItem, ...items]);
     setShowItemForm(false);
+
+    // Trigger saving of the list
+    isUpdate ? handleUpdate() : handleAdd();
   }
 
   const handleUpdateItem = () => {
@@ -330,6 +335,9 @@ export default function AdminLists() {
     currentItems[itemEditID] = newItem;
     setItems(currentItems);
     setShowItemForm(false);
+
+    // Trigger saving of the list
+    handleUpdate();
   }
 
   const handleRemoveItem = () => {
@@ -409,7 +417,7 @@ export default function AdminLists() {
               <Box style={{ display: "flex", gap: "0.5rem"}}>
                 <Button onClick={(e) => setShowItemForm(false)} variant='outlined'>Close</Button>
                 { itemEditID !== "" && <Button onClick={(e) => handleUpdateItem()} variant='outlined' size="small">Update</Button> }
-                { itemEditID === "" && <Button onClick={(e) => handleAddItem()} variant='outlined' size="small">Save</Button> }
+                { itemEditID === "" && <Button onClick={(e) => handleAddItem()} variant='outlined' size="small">Add</Button> }
               </Box>
             </Box>
           </Stack>
@@ -430,7 +438,6 @@ export default function AdminLists() {
             <TextField value={title} required label="List Title" onChange={(e) => handleChangeTitle(e.target.value)} type='text' />
             { error && <Alert severity="warning">{error}</Alert> }
           </Stack>
-          { error && <Alert severity="warning">{error}</Alert> }
           <Box style={{ border: "1px solid black", padding: "0.5rem", margin: "1rem 0"}}>
             <Stack spacing={2} sx={{ mt: 2}}>
               <Box style={{ display: "flex", justifyContent: "space-between", margin: "0 0.5rem"}}>

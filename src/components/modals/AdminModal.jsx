@@ -14,7 +14,12 @@ import { useTheme, styled } from '@mui/material/styles';
 
 // Icons
 import MenuIcon from '@mui/icons-material/Menu';
-import CloseIcon from '@mui/icons-material/Close';
+import HomeIcon from '@mui/icons-material/Home';
+import DescriptionIcon from '@mui/icons-material/Description';
+import ListIcon from '@mui/icons-material/List';
+import EventIcon from '@mui/icons-material/Event';
+import PlaceIcon from '@mui/icons-material/Place';
+import SettingsIcon from '@mui/icons-material/Settings';
 
 // Helpers
 import ProtectedRoute from '../../helpers/ProtectedRoute';
@@ -82,25 +87,25 @@ export default function AdminModal({ children }) {
           <IconButton aria-label="Admin menu" variant="outlined" size="small" color="primary" component={Link} to="/dashboard">
             <MenuIcon />
           </IconButton>
-          <Button variant="outlined" size="small" color="primary" component={Link} to="/">
-            <CloseIcon />
-          </Button>
         </Box>
         <Box style={style.navigation} className="sff-navigation">
-          <Button variant="contained" size="small" color="primary" component={Link} to="/admin/settings">
-            Settings
+          <Button variant="outlined" size="small" color="primary" component={Link} to="/dashboard">
+            <HomeIcon />
           </Button>
-          <Button variant="contained" size="small" color="primary" component={Link} to="/admin/locations">
+          <Button variant="contained" size="small" color="primary" startIcon={<PlaceIcon />} component={Link} to="/admin/locations">
             Locations
           </Button>
-          <Button variant="contained" size="small" color="primary" component={Link} to="/admin/events">
+          <Button variant="contained" size="small" color="primary" startIcon={<EventIcon />} component={Link} to="/admin/events">
             Events
           </Button>
-          <Button variant="contained" size="small" color="primary" component={Link} to="/admin/pages">
-            Pages
+          <Button variant="contained" size="small" color="primary" startIcon={<DescriptionIcon />} component={Link} to="/admin/pages">
+           Pages
           </Button>
-          <Button variant="contained" size="small" color="primary" component={Link} to="/admin/lists">
+          <Button variant="contained" size="small" color="primary" startIcon={<ListIcon />}component={Link} to="/admin/lists">
             Lists
+          </Button>
+          <Button variant="contained" size="small" color="primary" component={Link} to="/admin/settings">
+            <SettingsIcon />
           </Button>
         </Box>
       </DialogTitle>
