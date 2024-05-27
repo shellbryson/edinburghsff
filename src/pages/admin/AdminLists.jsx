@@ -346,7 +346,7 @@ export default function AdminLists() {
     const currentItems = items;
     const newItem = {
       title: itemTitle,
-      type: itemType,
+      type: itemType || "item",
       content: itemContent,
       highlight: itemHighlight || false,
       url: itemUrl,
@@ -390,7 +390,7 @@ export default function AdminLists() {
   const editItem = (i) => {
     setItemEditID(i)
     setItemTitle(items[i].title);
-    setItemType(items[i].type);
+    setItemType(items[i].type || "item");
     setItemContent(items[i].content);
     setItemUrl(items[i].url);
     setItemTag(items[i]?.tag || "");
