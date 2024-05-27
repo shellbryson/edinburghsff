@@ -25,17 +25,22 @@ import {
 const ListBox = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
-  gap: "2rem",
+  gap: "1rem",
   position: "relative",
   marginTop: "0",
-  marginBottom: "0"
+  marginBottom: "2rem"
 }));
 
-const ListEntry = styled(Box)(({ theme }) => ({
+const ListEntry = styled(({ highlightItem, ...otherProps }) => <Box {...otherProps} />)(({ theme, highlightItem }) => ({
   display: "flex",
   position: "relative",
   gap: "1rem",
-  width: "100%"
+  padding: "1rem",
+  background: highlightItem ? theme.palette.highlight.main : "transparent",
+  border: highlightItem ? "none" : `2px solid ${theme.palette.highlight.main}`,
+  '& p:last-child': {
+    marginBottom: "0"
+  }
 }));
 
 const ListContent = styled(Box)(({ theme }) => ({
@@ -73,22 +78,22 @@ export default function List({listID}) {
     let icon = null;
     switch(tagName) {
       case "link":
-        icon = <OpenInNewIcon color="brand" fontSize="large" style={{ pointerEvents: "none"}} />
+        icon = <OpenInNewIcon color="brand" style={{ pointerEvents: "none"}} />
         break;
       case "event":
-        icon = <EventIcon color="brand" fontSize="large" style={{ pointerEvents: "none"}} />
+        icon = <EventIcon color="brand" style={{ pointerEvents: "none"}} />
         break;
       case "page":
-        icon = <DescriptionIcon color="brand" fontSize="large" style={{ pointerEvents: "none"}} />
+        icon = <DescriptionIcon color="brand" style={{ pointerEvents: "none"}} />
         break;
       case "podcast":
-        icon = <PodcastsIcon color="brand" fontSize="large" style={{ pointerEvents: "none"}}  />
+        icon = <PodcastsIcon color="brand" style={{ pointerEvents: "none"}}  />
         break;
       case "location":
-        icon = <PlaceIcon color="brand" fontSize="large" style={{ pointerEvents: "none"}} />
+        icon = <PlaceIcon color="brand" style={{ pointerEvents: "none"}} />
         break;
       default:
-        icon = <OpenInNewIcon color="brand" fontSize="large" style={{ pointerEvents: "none"}} />
+        icon = <OpenInNewIcon color="brand" style={{ pointerEvents: "none"}} />
     }
     return icon;
   }
@@ -101,23 +106,23 @@ export default function List({listID}) {
           <ListBox>
             { listData.items.map((item, index) => {
 
-              if (!item?.type === "Section") return <Box>
-                <Typography variant="h2" component="h2" style={{textAlign: "center", textTransform: "capitalize",}}>
-                  --- {item.title} ---
+              if (item?.type === "section") return <Box key={index}>
+                <Typography variant="h_medium" style={{ display: "block", marginTop: "1rem", paddingBottom: "0"}}>
+                  {item.title}
                 </Typography>
               </Box>
 
-              return <ListEntry key={index}>
+              return <ListEntry key={index} highlightItem={item?.highlight}>
                 { item.url && <a href={item.url} target="_blank" rel="noreferrer"><IconComponent tagName={item?.tag} /></a> }
                 { !item.url && <IconComponent tagName={item?.tag} /> }
                 <ListContent>
-                  <ListEntryTitle component="h2" style={{marginBottom: "0"}}>
+                  <ListEntryTitle variant="h_medium" style={{marginBottom: "0", lineHeight: "1"}}>
                     {item.title}
                   </ListEntryTitle>
-                  <div>
+                  <Box>
                     <ReactMarkdown>{item.content}</ReactMarkdown>
-                    View { item.url && <a href={item.url} target="_blank" rel="noreferrer">{item.title}</a> }
-                  </div>
+                    { item.url && <> View <a href={item.url} target="_blank" rel="noreferrer">{item.title}</a></> }
+                  </Box>
                 </ListContent>
               </ListEntry>
 
