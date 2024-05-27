@@ -396,6 +396,7 @@ export default function AdminLists() {
     setItemTag(items[i]?.tag || "");
     setItemHighlight(items[i]?.highlight || false);
     setShowItemForm(true);
+    window.location.href = "#top";
   }
 
   const addItem = () => {
@@ -407,6 +408,7 @@ export default function AdminLists() {
     setItemTag("");
     setItemHighlight(false);
     setShowItemForm(true);
+    window.location.href = "#top";
   }
 
   const renderItemForm = () => {
@@ -479,6 +481,9 @@ export default function AdminLists() {
     <AdminLayout>
       { isLoading && <Loader />}
       { !isLoading && <>
+        <span id="top" />
+        { renderItemForm() }
+
         <Box>
           <Typography component="h1" variant="h1" style={{textAlign: "center"}}>
             {isUpdate ? "Update List" : "Add List"}
@@ -520,8 +525,6 @@ export default function AdminLists() {
             </Stack>
           </Box>
         </Box>
-
-        { renderItemForm() }
 
         <Box style={style.actions}>
           <Box>

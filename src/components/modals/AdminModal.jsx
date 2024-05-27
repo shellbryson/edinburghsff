@@ -32,7 +32,10 @@ const BootstrapAdminDialog = styled(Dialog)(({ theme }) => ({
     backgroundColor: '#fff',
     color: '#000',
     height: "100%",
-    padding: "0"
+    padding: "0",
+  },
+  '& .MuiContainer-root': {
+    scrollBehavior: "smooth"
   },
   '& .MuiDialogActions-root': {
     padding: theme.spacing(1),
