@@ -348,7 +348,7 @@ export default function AdminLists() {
       title: itemTitle,
       type: itemType,
       content: itemContent,
-      highlight: itemHighlight,
+      highlight: itemHighlight || false,
       url: itemUrl,
       tag: itemType === "section" ? "section" : itemTag,
     }
