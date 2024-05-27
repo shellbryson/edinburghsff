@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.2.0] - 2024-05-27 (beta)
+
+Admin / List Content:
+  - Add: Show list entry icons
+  - Add: Support section dividers with titles between list items
+
 ## [2.1.1] - 2024-05-26 (beta)
 
 Admin / List Content:

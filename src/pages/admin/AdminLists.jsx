@@ -18,6 +18,9 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormGroup from '@mui/material/FormGroup';
+import Checkbox from '@mui/material/Checkbox';
 import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
@@ -37,6 +40,7 @@ import DescriptionIcon from '@mui/icons-material/Description'; // Page
 import PodcastsIcon from '@mui/icons-material/Podcasts'; // Podcast
 import PlaceIcon from '@mui/icons-material/Place'; // Location
 import EventIcon from '@mui/icons-material/Event'; // Event
+import HorizontalRule from '@mui/icons-material/HorizontalRule';
 
 // Custom UI
 import AdminLayout from '../../layouts/AdminLayout';
@@ -60,7 +64,7 @@ const Item = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.highlight.main,
   color: 'white',
   margin: '4px',
-  padding: '4px',
+  padding: '4px 4px 4px 0.5rem',
   transition: 'scale 0.2s',
   // userSelect: "none",
   // pointerEvents: "none"
@@ -82,18 +86,17 @@ const EntryEditButton = styled(Box)(({ theme }) => ({
   cursor: 'pointer',
 }));
 
-const SplitBox = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'row',
-  gap: "1rem",
-}));
-
 const tags = [
   { id: "link", title: "Link" },
   { id: "event", title: "Event" },
   { id: "page", title: "Page" },
   { id: "podcast", title: "Podcast" },
   { id: "location", title: "Location" }
+]
+
+const itemTypes = [
+  { id: "item", title: "Item" },
+  { id: "section", title: "Section" },
 ]
 
 export default function AdminLists() {
@@ -114,10 +117,12 @@ export default function AdminLists() {
   // Per item
   const [itemEditID, setItemEditID] = useState("");
 
+  const [itemType, setItemType] = useState("item");
   const [itemUrl, setItemUrl] = useState('');
   const [itemContent, setItemContent] = useState('');
   const [itemTitle, setItemTitle] = useState('');
   const [itemTag, setItemTag] = useState("");
+  const [itemHighlight, setItemHighlight] = useState(false);
 
   // Update
   const [isUpdate, setIsUpdate] = useState(false);
@@ -162,7 +167,8 @@ export default function AdminLists() {
     setItemTitle('');
     setItemContent('');
     setItemUrl('');
-    setItemTag(data.tag || "");
+    setItemTag('');
+    setItemHighlight(false);
 
     setIsUpdate(true);
   };
@@ -216,7 +222,6 @@ export default function AdminLists() {
     const payload = {
       title: title,
       items: items,
-      tag: itemTag,
       updated: {
         email: user.email,
         uid: user.uid,
@@ -303,6 +308,17 @@ export default function AdminLists() {
     setItemTag(tag);
   }
 
+  const handleItemChangeHighlight = (val) => {
+    setItemHighlight(val);
+  }
+
+  const handleTypeChange = (itemType) => {
+    if (itemType === "section") {
+      setItemTag("section");
+    }
+    setItemType(itemType);
+  }
+
   // OTHER EVENTS
 
   const handleBack = () => {
@@ -312,10 +328,12 @@ export default function AdminLists() {
   const handleAddItem = () => {
     const newItem = {
       id: items.length + 1,
+      type: itemType,
       title: itemTitle,
       content: itemContent,
+      highlight: itemHighlight,
       url: itemUrl,
-      tag: itemTag,
+      tag: itemType === "section" ? "section" : itemTag,
     }
     setItems([newItem, ...items]);
     setShowItemForm(false);
@@ -328,9 +346,11 @@ export default function AdminLists() {
     const currentItems = items;
     const newItem = {
       title: itemTitle,
+      type: itemType,
       content: itemContent,
+      highlight: itemHighlight,
       url: itemUrl,
-      tag: itemTag,
+      tag: itemType === "section" ? "section" : itemTag,
     }
     currentItems[itemEditID] = newItem;
     setItems(currentItems);
@@ -360,6 +380,8 @@ export default function AdminLists() {
         return <PodcastsIcon />
       case "location":
         return <PlaceIcon />
+      case "section":
+        return <HorizontalRule />
       default:
         return <OpenInNewIcon />
     }
@@ -368,18 +390,22 @@ export default function AdminLists() {
   const editItem = (i) => {
     setItemEditID(i)
     setItemTitle(items[i].title);
+    setItemType(items[i].type);
     setItemContent(items[i].content);
     setItemUrl(items[i].url);
     setItemTag(items[i]?.tag || "");
+    setItemHighlight(items[i]?.highlight || false);
     setShowItemForm(true);
   }
 
   const addItem = () => {
     setItemEditID("");
     setItemTitle("");
+    setItemType("item");
     setItemContent("");
     setItemUrl("");
     setItemTag("");
+    setItemHighlight(false);
     setShowItemForm(true);
   }
 
@@ -390,28 +416,51 @@ export default function AdminLists() {
           { itemEditID !== "" && <Typography variant="h_small">Update entry</Typography> }
           { itemEditID === ""&& <Typography variant="h_small">Add entry</Typography> }
           <Stack spacing={2} sx={{ mt: 2}}>
-            <TextField value={itemTitle || ''} required label="Title" onChange={(e) => handleItemChangeTitle(e.target.value)}  />
-            <TextField value={itemContent || ''} required multiline rows={3} label="Content" onChange={(e) => handleItemChangeContent(e.target.value)}  />
-            <TextField value={itemUrl || ''} required label="URL" onChange={(e) => handleItemChangeUrl(e.target.value)} type='text' />
             <FormControl fullWidth>
-              <InputLabel>Tag</InputLabel>
+              <InputLabel>Entry Type</InputLabel>
               <Select
-                value={itemTag}
-                label="Tag"
-                onChange={(e) => handleTagChange(e.target.value)}
+                value={itemType}
+                label="Entry Type"
+                onChange={(e) => handleTypeChange(e.target.value)}
               >
-                { tags.map((tag, index) => (
-                  <MenuItem key={index} value={tag.id}>
-                    <SelectionItemBox>
-                      <ListItemIcon>
-                        <IconComponent tagName={tag.id} />
-                      </ListItemIcon>
-                      <ListItemText primary={tag.title} />
-                    </SelectionItemBox>
+                { itemTypes.map((t, index) => (
+                  <MenuItem key={index} value={t.id}>
+                    <ListItemText primary={t.title} />
                   </MenuItem>
                 ))}
               </Select>
             </FormControl>
+            <TextField value={itemTitle || ''} required label="Title" onChange={(e) => handleItemChangeTitle(e.target.value)}  />
+
+            { itemType !== "section" && (
+              <>
+                <TextField value={itemContent || ''} required multiline rows={3} label="Content" onChange={(e) => handleItemChangeContent(e.target.value)}  />
+                <TextField value={itemUrl || ''} required label="URL" onChange={(e) => handleItemChangeUrl(e.target.value)} type='text' />
+                <FormGroup>
+                  <FormControlLabel onChange={(e) => handleItemChangeHighlight(e.target.checked)} control={<Checkbox checked={itemHighlight} />} label="Highlight" />
+                </FormGroup>
+                <FormControl fullWidth>
+                  <InputLabel>Tag</InputLabel>
+                  <Select
+                    value={itemTag}
+                    label="Tag"
+                    onChange={(e) => handleTagChange(e.target.value)}
+                  >
+                    { tags.map((tag, index) => (
+                      <MenuItem key={index} value={tag.id}>
+                        <SelectionItemBox>
+                          <ListItemIcon>
+                            <IconComponent tagName={tag.id} />
+                          </ListItemIcon>
+                          <ListItemText primary={tag.title} />
+                        </SelectionItemBox>
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </>
+            )}
+
             <Box style={{ display: "flex", justifyContent: "space-between", gap: "0.5rem"}}>
               <Button onClick={(e) => handleRemoveItem()} variant='outlined' size="small">Remove</Button>
               <Box style={{ display: "flex", gap: "0.5rem"}}>
@@ -450,7 +499,8 @@ export default function AdminLists() {
                 {items.map((item, i) => (
                   <SortableItem key={i}>
                     <Item>
-                      <Box style={{ marginLeft: "0.5rem"}}>
+                      {<IconComponent tagName={item.tag} />}
+                      <Box style={{ marginLeft: "0.5rem", width: "100%"}}>
                         {item.title}
                       </Box>
                       <Box style={{ display: "flex", gap: "4px", alignItems: "center" }}>

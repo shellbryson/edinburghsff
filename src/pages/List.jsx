@@ -32,7 +32,17 @@ const ListBox = styled(Box)(({ theme }) => ({
 }));
 
 const ListEntry = styled(Box)(({ theme }) => ({
-  display: "flex", position: "relative", gap: "1rem", width: "100%"
+  display: "flex",
+  position: "relative",
+  gap: "1rem",
+  width: "100%"
+}));
+
+const ListContent = styled(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  position: "relative",
+  width: "100%"
 }));
 
 const ListEntryTitle = styled(Typography)(({ theme }) => ({
@@ -90,10 +100,17 @@ export default function List({listID}) {
         <StyledContent>
           <ListBox>
             { listData.items.map((item, index) => {
+
+              if (!item?.type === "Section") return <Box>
+                <Typography variant="h2" component="h2" style={{textAlign: "center", textTransform: "capitalize",}}>
+                  --- {item.title} ---
+                </Typography>
+              </Box>
+
               return <ListEntry key={index}>
                 { item.url && <a href={item.url} target="_blank" rel="noreferrer"><IconComponent tagName={item?.tag} /></a> }
                 { !item.url && <IconComponent tagName={item?.tag} /> }
-                <Box style={{ display: "flex", flexDirection: "column", position: "relative", width: "100% "}}>
+                <ListContent>
                   <ListEntryTitle component="h2" style={{marginBottom: "0"}}>
                     {item.title}
                   </ListEntryTitle>
@@ -101,8 +118,9 @@ export default function List({listID}) {
                     <ReactMarkdown>{item.content}</ReactMarkdown>
                     View { item.url && <a href={item.url} target="_blank" rel="noreferrer">{item.title}</a> }
                   </div>
-                </Box>
+                </ListContent>
               </ListEntry>
+
             })}
           </ListBox>
         </StyledContent>
