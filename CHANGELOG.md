@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.2.1] - 2024-05-29 (beta)
+
+Admin / Events:
+  - Fix: END date should automatically be set to START date if not set
+  - Fix: If END date is before start date, reset it to START
+
 ## [2.2.0] - 2024-05-27 (beta)
 
 Admin / List Content:
