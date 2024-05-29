@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.2.2] - 2024-05-29 (beta)
+
+Admin / Lists:
+  - Fix: ensure Add Item is disabled until user has saved the list itself
+
 ## [2.2.1] - 2024-05-29 (beta)
 
 Admin / Events:

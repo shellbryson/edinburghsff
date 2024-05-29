@@ -56,6 +56,21 @@ const SelectionItemBox = styled(Box)(({ theme }) => ({
   gap: "0.5rem",
 }));
 
+const ListEntryForm = styled(Box)(({ theme }) => ({
+  backgroundColor: "rgba(0,0,0,0.05",
+  padding: "1rem",
+  margin: "1rem 0"
+}));
+
+const Dirty = styled(Box)(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  textTransform: 'uppercase',
+  color: "red",
+  marginRight: "1rem"
+}));
+
 const Item = styled(Box)(({ theme }) => ({
   flexShrink: 0,
   display: 'flex',
@@ -141,11 +156,6 @@ export default function AdminLists() {
       display: "flex",
       justifyContent: "space-between",
       gap: "0.5rem",
-    },
-    dirty: {
-      textTransform: 'uppercase',
-      color: "red",
-      marginRight: "1rem"
     }
   }
 
@@ -414,7 +424,7 @@ export default function AdminLists() {
   const renderItemForm = () => {
     if (showItemForm) {
       return (
-        <Box style={{backgroundColor: "rgba(0,0,0,0.05", padding: "1rem", margin: "1rem 0"}}>
+        <ListEntryForm>
           { itemEditID !== "" && <Typography variant="h_small">Update entry</Typography> }
           { itemEditID === ""&& <Typography variant="h_small">Add entry</Typography> }
           <Stack spacing={2} sx={{ mt: 2}}>
@@ -472,7 +482,7 @@ export default function AdminLists() {
               </Box>
             </Box>
           </Stack>
-        </Box>
+        </ListEntryForm>
       )
     }
   }
@@ -496,7 +506,8 @@ export default function AdminLists() {
             <Stack spacing={2} sx={{ mt: 2}}>
               <Box style={{ display: "flex", justifyContent: "space-between", margin: "0 0.5rem"}}>
                 <Typography variant="h_small">List content</Typography>
-                <Button onClick={() => addItem()} size="small" variant='outlined'><PlaylistAddIcon /></Button>
+                { isUpdate && <Button onClick={() => addItem()} size="small" variant='outlined'><PlaylistAddIcon /></Button> }
+                { !isUpdate && <Button disabled size="small" variant='outlined'><PlaylistAddIcon /></Button> }
               </Box>
               <SortableList
                 onSortEnd={onSortEnd}
@@ -531,10 +542,10 @@ export default function AdminLists() {
             { isUpdate && <Button onClick={() => handleDelete(updateId)} variant="outlined" color="warning" startIcon={<DeleteIcon />}>Delete</Button> }
           </Box>
           <Box style={{ display: "flex", gap: "0.5rem" }}>
-            { isDirty && <Typography sx={style.dirty} variant='p_small'>Unsaved changes</Typography> }
+            { isDirty && <Dirty><Typography variant='p_small'>Unsaved</Typography></Dirty>}
             <Button onClick={handleBack} variant='outlined'>Back</Button>
-            { isUpdate && <Button onClick={handleUpdate} variant='contained'>Save</Button> }
-            { !isUpdate && <Button onClick={handleAdd} variant='contained'>Add List</Button> }
+            { isUpdate && <Button onClick={handleUpdate} variant='contained'>Update</Button> }
+            { !isUpdate && <Button onClick={handleAdd} variant='contained'>Save</Button> }
           </Box>
         </Box>
       </>}
