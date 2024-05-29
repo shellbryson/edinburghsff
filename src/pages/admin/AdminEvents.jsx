@@ -312,11 +312,16 @@ export default function AdminEvents() {
   const handleChangeEventStart = (d) => {
     if (d !== eventStart) setIsDirty(true);
     setEventStart(d);
+    setEventEnd(d);
   }
 
   const handleChangeEventEnd = (d) => {
     if (d !== eventEnd) setIsDirty(true);
-    setEventEnd(d);
+    if (d.isBefore(eventStart)) {
+      d = eventStart;
+    } else {
+      setEventEnd(d);
+    }
   }
 
   const handleChangeLocation = (d) => {
