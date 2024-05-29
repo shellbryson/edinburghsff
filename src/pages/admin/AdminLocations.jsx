@@ -84,7 +84,7 @@ const HelpText = styled(Typography)(({ theme }) => ({
 export default function AdminMap() {
 
   const { user } = useAuth();
-  const { setIsLoading, mapLocations } = useApp();
+  const { setAdminDialogTitle} = useApp();
   const params = useParams();
 
   const confirm = useConfirm();
@@ -134,7 +134,12 @@ export default function AdminMap() {
   }
 
   useEffect(() => {
-    if (!params.updateId) return;
+    if (!params.updateId) {
+      setAdminDialogTitle("Location: Add");
+      return;
+    } else {
+      setAdminDialogTitle("Location: Update");
+    }
     fetchDocument("locations", params.updateId, (data) => {
       handleOpenUpdate(data);
     });
@@ -381,9 +386,6 @@ export default function AdminMap() {
   return (
     <AdminLayout>
       <Box>
-        <Typography component="h1" variant="h1" style={{textAlign: "center"}}>
-          {isUpdate ? "Update Location" : "Add Location"}
-        </Typography>
         <Stack spacing={2} sx={{ mt: 2}}>
 
           <TextField value={title} required label="Title" onChange={(e) => handleChangeTitle(e.target.value)} type='text'/>

@@ -4,6 +4,7 @@ import { doc, addDoc, updateDoc, deleteDoc, collection } from 'firebase/firestor
 import { db } from "../../firebase";
 import { useConfirm } from "material-ui-confirm";
 
+// Contexts
 import { useAuth } from '../../context/AuthContext';
 import { useApp } from '../../context/AppContext';
 
@@ -46,16 +47,10 @@ const SelectionItemBox = styled(Box)(({ theme }) => ({
   gap: "0.5rem",
 }));
 
-const SplitBox = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'row',
-  gap: "1rem",
-}));
-
 export default function AdminPages() {
 
   const { user } = useAuth();
-  const { setIsLoading } = useApp();
+  const { setAdminDialogTitle } = useApp();
   const params = useParams();
 
   const confirm = useConfirm();
@@ -99,7 +94,12 @@ export default function AdminPages() {
   }
 
   useEffect(() => {
-    if (!params.updateId) return;
+    if (!params.updateId) {
+      setAdminDialogTitle("Page: Add");
+      return;
+    } else {
+      setAdminDialogTitle("Page: Update");
+    }
     fetchDocument("pages", params.updateId, (data) => {
       handleOpenUpdate(data);
     });
@@ -112,6 +112,7 @@ export default function AdminPages() {
   }, []);
 
   const handleOpenUpdate = (data) => {
+
     setUpdateId(params.updateId);
 
     setTitle(data.title);
@@ -275,9 +276,6 @@ export default function AdminPages() {
   return (
     <AdminLayout>
       <Box>
-        <Typography component="h1" variant="h1" style={{textAlign: "center"}}>
-          {isUpdate ? "Update Page" : "Add Page"}
-        </Typography>
         <Stack spacing={2} sx={{ mt: 2}}>
           <TextField value={title} required label="Title" onChange={(e) => handleChangeTitle(e.target.value)} type='text' />
           <TextField value={slug} required label="Slug" onChange={(e) => handleChangeSlug(e.target.value)} type='text' />

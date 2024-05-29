@@ -3,9 +3,13 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 import { Link } from "react-router-dom";
 
+// Contexts
+import { useApp } from '../../context/AppContext';
+
 // MUI
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -55,6 +59,8 @@ export default function AdminModal({ children }) {
 
   const isDashboard = location.pathname.includes("dashboard");
 
+  const { adminDialogTitle } = useApp();
+
   const style={
     page: {
       display: "flex",
@@ -87,6 +93,9 @@ export default function AdminModal({ children }) {
       onClose={handleClose}>
       <DialogTitle>
         <Box style={{ display: "flex", justifyContent: "space-between", gap: "0.5rem"}}>
+          <Typography variant="h_medium" style={{ paddingBottom: "0"}}>
+            {adminDialogTitle}
+          </Typography>
           <IconButton aria-label="Admin menu" variant="outlined" size="small" color="primary" component={Link} to="/dashboard">
             <MenuIcon />
           </IconButton>

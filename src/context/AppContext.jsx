@@ -13,6 +13,7 @@ export const AppContextProvider = ({ children }) => {
   const [mapLocations, setMapLocations] = useState([]);
   const [mapSearchText, setMapSearchText] = useState("");
   const [focusMapPin, setFocusMapPin] = useState("");
+  const [adminDialogTitle, setAdminDialogTitle] = useState("");
 
   return (
     <AppContext.Provider value={{
@@ -32,6 +33,8 @@ export const AppContextProvider = ({ children }) => {
       setMapSearchText,
       config,
       setConfig,
+      adminDialogTitle,
+      setAdminDialogTitle,
     }}>
       {children}
     </AppContext.Provider>

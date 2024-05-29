@@ -8,6 +8,7 @@ import SortableList, { SortableItem, SortableKnob } from 'react-easy-sort'
 import arrayMove from 'array-move';
 
 // Contexts
+import { useApp } from '../../context/AppContext';
 import { useAuth } from '../../context/AuthContext';
 
 // MUI
@@ -119,6 +120,7 @@ export default function AdminLists() {
   const [items, setItems] = useState([])
 
   const { user } = useAuth();
+  const { setAdminDialogTitle } = useApp();
   const params = useParams();
 
   const confirm = useConfirm();
@@ -160,7 +162,12 @@ export default function AdminLists() {
   }
 
   useEffect(() => {
-    if (!params.updateId) return;
+    if (!params.updateId) {
+      setAdminDialogTitle("List: Add");
+      return;
+    } else {
+      setAdminDialogTitle("List: Update");
+    }
     setIsLoading(true);
     fetchDocument("lists", params.updateId, (data) => {
       handleOpenUpdate(data);
@@ -169,6 +176,7 @@ export default function AdminLists() {
   }, [params.updateId]);
 
   const handleOpenUpdate = (data) => {
+
     setUpdateId(params.updateId);
 
     setTitle(data.title);

@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.2.3] - 2024-05-29 (beta)
+
+Admin:
+  - Improve: clearer titles that that up less screenspace when moving between Content forms
+
 ## [2.2.2] - 2024-05-29 (beta)
 
 Admin / Lists:
