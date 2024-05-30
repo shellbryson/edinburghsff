@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.3.0] - 2024-05-30 (beta)
+
+Pages:
+  - Add: support for Gallery images
+
+Admin / Pages:
+  - Add: insert from gallery
+
+App:
+  - Add: admi gallery component
+
 ## [2.2.3] - 2024-05-29 (beta)
 
 Admin:

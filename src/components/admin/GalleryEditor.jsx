@@ -24,7 +24,7 @@ const ImageBox = styled(Box)(({ theme }) => ({
   }
 }));
 
-export default function GalleryEditor({galleryImages, onUpdate}) {
+export default function GalleryEditor({galleryImages, onUpdate, onClickImage}) {
 
   const [images, setImages] = useState([...galleryImages]);
 
@@ -43,13 +43,17 @@ export default function GalleryEditor({galleryImages, onUpdate}) {
     setImages(newImages);
   }
 
+  const handleOnClick = (image) => () => {
+    onClickImage(image);
+  }
+
   return (
     <Box>
       <Typography variant="h_medium">Gallery Editor</Typography>
       <UploadImage imageUploadedCallback={handleFileUpload} />
       <GalleryGrid>
         {images.map((image, index) => (
-          <ImageBox key={index}>
+          <ImageBox key={index} onClick={handleOnClick(image)}>
             <img src={image.url} alt={image.alt} title={image.title} />
           </ImageBox>
         ))}

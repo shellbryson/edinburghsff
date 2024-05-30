@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate } from "react-router-dom";
 import { doc, addDoc, updateDoc, deleteDoc, collection } from 'firebase/firestore';
 import { db } from "../../firebase";
@@ -49,6 +49,8 @@ const SelectionItemBox = styled(Box)(({ theme }) => ({
 }));
 
 export default function AdminPages() {
+
+  const inputRef = useRef(null);
 
   const { user } = useAuth();
   const { setAdminDialogTitle } = useApp();
@@ -279,12 +281,30 @@ export default function AdminPages() {
     navigate(`/admin/pages`);
   }
 
+  const handleInsertImage = (image) => {
+    if (inputRef.current) {
+      const cursorPosition = inputRef.current.selectionStart;
+      const imageUrl = image.url.split('&')[0];
+      const imageMardown = `![${image?.alt}](${imageUrl} "${image?.title}")`
+      const newContent = content.slice(0, cursorPosition) + imageMardown + content.slice(cursorPosition);
+
+      setContent(newContent);
+
+      setTimeout(() => {
+        inputRef.current.selectionStart = cursorPosition + imageMardown.length;
+        inputRef.current.selectionEnd = cursorPosition + imageMardown.length;
+        inputRef.current.focus();
+      }, 0);
+    }
+  };
+
+
   const onUpdateGallery = (images) => {
-    console.log("On update gallery", images);
     setGalleryImages(images);
+  }
 
-    // save document with galleryImages
-
+  const onClickImage = (imageRef) => {
+    handleInsertImage(imageRef);
   }
 
   return (
@@ -299,7 +319,7 @@ export default function AdminPages() {
           </FormGroup>
 
           <TextField value={description} required multiline rows={2} label="Description" onChange={(e) => handleChangeDescription(e.target.value)} />
-          <TextField value={content} required multiline rows={16} label="Content" onChange={(e) => handleChangeContent(e.target.value)}  />
+          <TextField value={content} ref={inputRef} required multiline rows={16} label="Content" onChange={(e) => handleChangeContent(e.target.value)}  />
 
           <FormControl fullWidth>
             <InputLabel>Display a List</InputLabel>
@@ -321,7 +341,7 @@ export default function AdminPages() {
             </Select>
           </FormControl>
 
-          <GalleryEditor galleryImages={galleryImages} onUpdate={onUpdateGallery} />
+          <GalleryEditor galleryImages={galleryImages} onUpdate={onUpdateGallery} onClickImage={onClickImage} />
 
           {/* <UploadImage imageUploadedCallback={handleFileUpload} imgUrl={imgUrl} /> */}
 
