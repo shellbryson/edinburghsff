@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { doc, updateDoc } from 'firebase/firestore';
 import { db } from "../../firebase";
 
+// Contexts
 import { useAuth } from '../../context/AuthContext';
 import { useApp } from '../../context/AppContext';
 

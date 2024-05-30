@@ -33,6 +33,7 @@ import ListIcon from '@mui/icons-material/List';
 
 // Custom UI
 import UploadImage from '../../components/admin/UploadImage';
+import GalleryEditor from '../../components/admin/GalleryEditor';
 import AdminLayout from '../../layouts/AdminLayout';
 
 import {
@@ -56,11 +57,15 @@ export default function AdminPages() {
   const confirm = useConfirm();
   const navigate = useNavigate();
 
+  const [isLoading, setIsLoading] = useState(false);
+
   // Common
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [show, setShow] = useState(true);
   const [imgUrl, setImgUrl] = useState(null);
+
+  const [galleryImages, setGalleryImages] = useState([]);
 
   // Specific to Pages
   const [slug, setSlug] = useState('');
@@ -122,6 +127,7 @@ export default function AdminPages() {
     setImgUrl(data.image);
     setShow(data.show);
     setSlug(data.slug);
+    setGalleryImages(data.gallery || []);
 
     setIsUpdate(true);
   };
@@ -144,6 +150,7 @@ export default function AdminPages() {
       show: show,
       image: strippedImageUrl,
       slug: slug,
+      gallery: galleryImages,
       created: {
         email: user.email,
         uid: user.uid,
@@ -185,6 +192,7 @@ export default function AdminPages() {
       show: show,
       image: strippedImageUrl,
       slug: slug,
+      gallery: galleryImages,
       updated: {
         email: user.email,
         uid: user.uid,
@@ -263,14 +271,20 @@ export default function AdminPages() {
   }
 
   const handleChangeListSelection = (l) => {
-    // if (text !== slug) setIsDirty(true);
-    // setSlug(text);
     setList(l);
     console.log(l);
   }
 
   const handleBack = () => {
     navigate(`/admin/pages`);
+  }
+
+  const onUpdateGallery = (images) => {
+    console.log("On update gallery", images);
+    setGalleryImages(images);
+
+    // save document with galleryImages
+
   }
 
   return (
@@ -307,7 +321,9 @@ export default function AdminPages() {
             </Select>
           </FormControl>
 
-          <UploadImage imageUploadedCallback={handleFileUpload} imgUrl={imgUrl} />
+          <GalleryEditor galleryImages={galleryImages} onUpdate={onUpdateGallery} />
+
+          {/* <UploadImage imageUploadedCallback={handleFileUpload} imgUrl={imgUrl} /> */}
 
           { error && <Alert severity="warning">{error}</Alert> }
 
