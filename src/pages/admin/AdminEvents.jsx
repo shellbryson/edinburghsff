@@ -62,7 +62,7 @@ const SelectionItemBox = styled(Box)(({ theme }) => ({
 export default function AdminEvents() {
 
   const { user } = useAuth();
-  const { mapLocations, setAdminDialogTitle } = useApp();
+  const { mapLocations, setAdminDialogTitle, setIsLoading } = useApp();
   const params = useParams();
 
   const confirm = useConfirm();

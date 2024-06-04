@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.3.4] - 2024-06-04 (beta)
+
+Events:
+  - Fix: Events with start dates that have passed are not listed even if current
+  - Fix: Crash when updating Events
+
 ## [2.3.3] - 2024-06-04 (beta)
 
 Lists:
