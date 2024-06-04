@@ -145,6 +145,7 @@ export default function AdminLists() {
 
   const [itemType, setItemType] = useState("item");
   const [itemUrl, setItemUrl] = useState('');
+  const [itemUrlTitle, setItemUrlTitle] = useState('');
   const [itemContent, setItemContent] = useState('');
   const [itemTitle, setItemTitle] = useState('');
   const [itemTag, setItemTag] = useState("");
@@ -321,6 +322,11 @@ export default function AdminLists() {
     setItemUrl(text);
   }
 
+  const handleItemChangeUrlTitle = (text) => {
+    if (text !== itemUrlTitle) setIsDirty(true);
+    setItemUrlTitle(text);
+  }
+
   const handleItemChangeTitle = (text) => {
     if (text !== itemTitle) setIsDirty(true);
     setItemTitle(text);
@@ -360,6 +366,7 @@ export default function AdminLists() {
       content: itemContent,
       highlight: itemHighlight,
       url: itemUrl,
+      urlTitle: itemUrlTitle,
       tag: itemType === "section" ? "section" : itemTag,
     }
     setItems([newItem, ...items]);
@@ -377,6 +384,7 @@ export default function AdminLists() {
       content: itemContent,
       highlight: itemHighlight || false,
       url: itemUrl,
+      urlTitle: itemUrlTitle || "",
       tag: itemType === "section" ? "section" : itemTag,
     }
     currentItems[itemEditID] = newItem;
@@ -467,7 +475,8 @@ export default function AdminLists() {
             { itemType !== "section" && (
               <>
                 <TextField value={itemContent || ''} required multiline rows={3} label="Content" onChange={(e) => handleItemChangeContent(e.target.value)}  />
-                <TextField value={itemUrl || ''} required label="URL" onChange={(e) => handleItemChangeUrl(e.target.value)} type='text' />
+                <TextField value={itemUrl || ''} label="URL" onChange={(e) => handleItemChangeUrl(e.target.value)} type='text' />
+                <TextField value={itemUrlTitle || ''} label="URL label" onChange={(e) => handleItemChangeUrlTitle(e.target.value)} type='text' />
                 <FormGroup>
                   <FormControlLabel onChange={(e) => handleItemChangeHighlight(e.target.checked)} control={<Checkbox checked={itemHighlight} />} label="Highlight" />
                 </FormGroup>

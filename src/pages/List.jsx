@@ -125,7 +125,7 @@ export default function List({listID}) {
                   </ListEntryTitle>
                   <Box>
                     <ReactMarkdown>{item.content}</ReactMarkdown>
-                    { item.url && <> View <a href={item.url} target="_blank" rel="noreferrer">{item.title}</a></> }
+                    { item.url && <> View <a href={item.url} target="_blank" rel="noreferrer">{item?.urlTitle !== "" ? item.urlTitle : item.title}</a></> }
                   </Box>
                 </ListContent>
               </ListEntry>
