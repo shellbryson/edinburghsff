@@ -81,7 +81,7 @@ export default function Pages() {
           </Typography>
           <LinkInterceptor>
             <ReactMarkdown children={thisPage.content} />
-            <List listID={thisPage?.list} />
+            {thisPage?.list && <List listID={thisPage.list} />}
           </LinkInterceptor>
         </Box>
       </StyledContent>

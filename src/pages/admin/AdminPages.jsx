@@ -335,6 +335,14 @@ export default function AdminPages() {
               label="Display a List"
               onChange={(e) => handleChangeListSelection(e.target.value)}
             >
+              <MenuItem key={0} value={''}>
+                <SelectionItemBox>
+                  <ListItemIcon>
+                    <ListIcon />
+                  </ListItemIcon>
+                  <ListItemText primary={"None"} />
+                </SelectionItemBox>
+              </MenuItem>
               { lists.map((list, index) => (
                 <MenuItem key={index} value={list.id}>
                   <SelectionItemBox>
