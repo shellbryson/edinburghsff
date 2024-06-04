@@ -58,9 +58,8 @@ const SelectionItemBox = styled(Box)(({ theme }) => ({
 }));
 
 const ListEntryForm = styled(Box)(({ theme }) => ({
-  backgroundColor: "rgba(0,0,0,0.05",
+  backgroundColor: "rgba(0,0,0,0.05)",
   padding: "1rem",
-  margin: "1rem 0"
 }));
 
 const Dirty = styled(Box)(({ theme }) => ({
@@ -92,6 +91,14 @@ const EntryMoveButton = styled(Box)(({ theme }) => ({
   color: theme.palette.brand.main,
   border: `1px solid ${theme.palette.brand.main}`,
   cursor: 'grab',
+}));
+
+const EntryTitle = styled(Box)(({ theme }) => ({
+  marginLeft: "0.5rem", width: "100%"
+}));
+
+const EntryContent = styled(Box)(({ theme }) => ({
+  display: "flex", gap: "4px", alignItems: "center"
 }));
 
 const EntryEditButton = styled(Box)(({ theme }) => ({
@@ -433,8 +440,9 @@ export default function AdminLists() {
     if (showItemForm) {
       return (
         <ListEntryForm>
-          { itemEditID !== "" && <Typography variant="h_small">Update entry</Typography> }
-          { itemEditID === ""&& <Typography variant="h_small">Add entry</Typography> }
+          <Typography component="h1" variant="h1" style={{textAlign: "center"}}>
+            {itemEditID !== "" ? "Update List Entry" : "Add List Entry"}
+          </Typography>
           <Stack spacing={2} sx={{ mt: 2}}>
             <FormControl fullWidth>
               <InputLabel>Entry Type</InputLabel>
@@ -485,8 +493,8 @@ export default function AdminLists() {
               <Button onClick={(e) => handleRemoveItem()} variant='outlined' size="small">Remove</Button>
               <Box style={{ display: "flex", gap: "0.5rem"}}>
                 <Button onClick={(e) => setShowItemForm(false)} variant='outlined'>Close</Button>
-                { itemEditID !== "" && <Button onClick={(e) => handleUpdateItem()} variant='outlined' size="small">Update</Button> }
-                { itemEditID === "" && <Button onClick={(e) => handleAddItem()} variant='outlined' size="small">Add</Button> }
+                { itemEditID !== "" && <Button onClick={(e) => handleUpdateItem()} variant='outlined' size="small">Update entry</Button> }
+                { itemEditID === "" && <Button onClick={(e) => handleAddItem()} variant='outlined' size="small">Add entry</Button> }
               </Box>
             </Box>
           </Stack>
@@ -501,7 +509,7 @@ export default function AdminLists() {
       { !isLoading && <>
         <span id="top" />
         { renderItemForm() }
-
+        { !showItemForm && (<>
         <Box>
           <Typography component="h1" variant="h1" style={{textAlign: "center"}}>
             {isUpdate ? "Update List" : "Add List"}
@@ -524,10 +532,10 @@ export default function AdminLists() {
                   <SortableItem key={i}>
                     <Item>
                       {<IconComponent tagName={item.tag} />}
-                      <Box style={{ marginLeft: "0.5rem", width: "100%"}}>
+                      <EntryTitle>
                         {item.title}
-                      </Box>
-                      <Box style={{ display: "flex", gap: "4px", alignItems: "center" }}>
+                      </EntryTitle>
+                      <EntryContent>
                         <EntryEditButton onClick={(e)=>editItem(i)}>
                           <SettingsIcon />
                         </EntryEditButton>
@@ -536,7 +544,7 @@ export default function AdminLists() {
                             <DragHandleIcon />
                           </EntryMoveButton>
                         </SortableKnob>
-                      </Box>
+                      </EntryContent>
                     </Item>
                   </SortableItem>
                 ))}
@@ -544,7 +552,6 @@ export default function AdminLists() {
             </Stack>
           </Box>
         </Box>
-
         <Box style={style.actions}>
           <Box>
             { isUpdate && <Button onClick={() => handleDelete(updateId)} variant="outlined" color="warning" startIcon={<DeleteIcon />}>Delete</Button> }
@@ -556,6 +563,7 @@ export default function AdminLists() {
             { !isUpdate && <Button onClick={handleAdd} variant='contained'>Save</Button> }
           </Box>
         </Box>
+        </>)}
       </>}
     </AdminLayout>
   )

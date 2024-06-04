@@ -102,12 +102,12 @@ const UploadImage = ({imageUploadedCallback, imgUrl}) => {
       }
 
       { showImageField &&
-          <form onSubmit={handleFileUpload} className='form'>
-            <input type='file' accept=".png,.jpg,.svg,.gif" />
-            <IconButton type='submit'>
-              <CloudUploadOutlinedIcon />
-            </IconButton>
-          </form>
+        <form onSubmit={handleFileUpload} className='form'>
+          <input type='file' accept=".png,.jpg,.svg,.gif" />
+          <IconButton type='submit'>
+            <CloudUploadOutlinedIcon />
+          </IconButton>
+        </form>
       }
 
       <Box sx={toggleUploadStyle}>

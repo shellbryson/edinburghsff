@@ -12,12 +12,15 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
 // Custom Components
+import Loader from '../components/Loader';
 import PageHeading from '../components/PageHeading';
 import LinkInterceptor from '../components/LinkInterceptor';
 import StyledContent from '../components/StyledContent';
 
+// Assets
+import Masthead from '../assets/DiscordMasthead.png';
+
 const ContentBox = styled(Box)(({ theme }) => ({
-  padding: "0 1rem",
   color: theme.palette.text.main
 }));
 
@@ -35,7 +38,7 @@ const DiscordBox = styled(Box)(({ theme }) => ({
 
 export default function Community() {
 
-  const { config } = useApp();
+  const { config, isLoadingConfig } = useApp();
   const theme = useTheme();
   const [showDiscord, setShowDiscord] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
@@ -45,17 +48,13 @@ export default function Community() {
       display: "flex",
       flexDirection: "column",
       height: "100%",
-      overflow: "hidden",
-    },
-    paper: {
-      display: "flex",
-      flexDirection: "column",
-      height: "100%",
-      overflow: "hidden",
+      margin: "0",
+      padding: "0",
     },
     content: {
       textAlign: "left",
-      overflow: "auto",
+      padding: "0",
+      margin: "0",
     },
     code: {
       display: "block",
@@ -87,10 +86,17 @@ export default function Community() {
   }
 
   return (
-    <Box style={style.page} className="sff-page">
-      <Box style={style.paper}>
+    <>
+      { isLoadingConfig && <Loader />}
+      { !isLoadingConfig && (
+      <Box style={style.page} className="sff-page">
         <Box style={style.content} className="scroll-dialog">
-          <PageHeading heading="Community" />
+
+          <Box style={{display: "flex", justifyContent: "center"}}>
+            <img src={Masthead} alt="Discord Masthead" style={{width: "100%", height: "auto", marginBottom: "1rem"}} />
+          </Box>
+
+          <PageHeading heading="Edinburgh SFF Community" />
           <ContentBox>
             <LinkInterceptor>
               <StyledContent>
@@ -118,7 +124,8 @@ export default function Community() {
           </ContentBox>
         </Box>
       </Box>
-    </Box>
+      )}
+    </>
   )
 }
 

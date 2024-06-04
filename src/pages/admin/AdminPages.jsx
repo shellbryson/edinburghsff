@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate } from "react-router-dom";
 import { doc, addDoc, updateDoc, deleteDoc, collection } from 'firebase/firestore';
 import { db } from "../../firebase";
@@ -33,6 +33,7 @@ import ListIcon from '@mui/icons-material/List';
 
 // Custom UI
 import UploadImage from '../../components/admin/UploadImage';
+import GalleryEditor from '../../components/admin/GalleryEditor';
 import AdminLayout from '../../layouts/AdminLayout';
 
 import {
@@ -47,7 +48,23 @@ const SelectionItemBox = styled(Box)(({ theme }) => ({
   gap: "0.5rem",
 }));
 
+const style = {
+  actions: {
+    display: "flex",
+    justifyContent: "space-between",
+    gap: "0.5rem",
+    bottom: "0"
+  },
+  dirty: {
+    textTransform: 'uppercase',
+    color: "red",
+    marginRight: "1rem"
+  }
+}
+
 export default function AdminPages() {
+
+  const inputRef = useRef(null);
 
   const { user } = useAuth();
   const { setAdminDialogTitle } = useApp();
@@ -56,11 +73,15 @@ export default function AdminPages() {
   const confirm = useConfirm();
   const navigate = useNavigate();
 
+  const [isLoading, setIsLoading] = useState(false);
+
   // Common
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [show, setShow] = useState(true);
   const [imgUrl, setImgUrl] = useState(null);
+
+  const [galleryImages, setGalleryImages] = useState([]);
 
   // Specific to Pages
   const [slug, setSlug] = useState('');
@@ -79,19 +100,6 @@ export default function AdminPages() {
 
   // Theme
   const theme = useTheme();
-
-  const style = {
-    actions: {
-      display: "flex",
-      justifyContent: "space-between",
-      gap: "0.5rem",
-    },
-    dirty: {
-      textTransform: 'uppercase',
-      color: "red",
-      marginRight: "1rem"
-    }
-  }
 
   useEffect(() => {
     if (!params.updateId) {
@@ -122,6 +130,7 @@ export default function AdminPages() {
     setImgUrl(data.image);
     setShow(data.show);
     setSlug(data.slug);
+    setGalleryImages(data.gallery || []);
 
     setIsUpdate(true);
   };
@@ -144,6 +153,7 @@ export default function AdminPages() {
       show: show,
       image: strippedImageUrl,
       slug: slug,
+      gallery: galleryImages,
       created: {
         email: user.email,
         uid: user.uid,
@@ -185,6 +195,7 @@ export default function AdminPages() {
       show: show,
       image: strippedImageUrl,
       slug: slug,
+      gallery: galleryImages,
       updated: {
         email: user.email,
         uid: user.uid,
@@ -263,14 +274,38 @@ export default function AdminPages() {
   }
 
   const handleChangeListSelection = (l) => {
-    // if (text !== slug) setIsDirty(true);
-    // setSlug(text);
     setList(l);
     console.log(l);
   }
 
   const handleBack = () => {
     navigate(`/admin/pages`);
+  }
+
+  const handleInsertImage = (image) => {
+    if (inputRef.current) {
+      const cursorPosition = inputRef.current.selectionStart;
+      const imageUrl = image.url.split('&')[0];
+      const imageMardown = `![${image?.alt}](${imageUrl} "${image?.title}")`
+      const newContent = content.slice(0, cursorPosition) + imageMardown + content.slice(cursorPosition);
+
+      setContent(newContent);
+
+      setTimeout(() => {
+        inputRef.current.selectionStart = cursorPosition + imageMardown.length;
+        inputRef.current.selectionEnd = cursorPosition + imageMardown.length;
+        inputRef.current.focus();
+      }, 0);
+    }
+  };
+
+
+  const onUpdateGallery = (images) => {
+    setGalleryImages(images);
+  }
+
+  const onClickImage = (imageRef) => {
+    handleInsertImage(imageRef);
   }
 
   return (
@@ -285,7 +320,13 @@ export default function AdminPages() {
           </FormGroup>
 
           <TextField value={description} required multiline rows={2} label="Description" onChange={(e) => handleChangeDescription(e.target.value)} />
-          <TextField value={content} required multiline rows={16} label="Content" onChange={(e) => handleChangeContent(e.target.value)}  />
+
+          <Box>
+            <Typography variant="p">Masthead image</Typography>
+            <UploadImage imageUploadedCallback={handleFileUpload} imgUrl={imgUrl} />
+          </Box>
+
+          <TextField value={content} ref={inputRef} required multiline fullWidth rows={10} label="Content" onChange={(e) => handleChangeContent(e.target.value)}  />
 
           <FormControl fullWidth>
             <InputLabel>Display a List</InputLabel>
@@ -307,7 +348,7 @@ export default function AdminPages() {
             </Select>
           </FormControl>
 
-          <UploadImage imageUploadedCallback={handleFileUpload} imgUrl={imgUrl} />
+          <GalleryEditor galleryImages={galleryImages} onUpdate={onUpdateGallery} onClickImage={onClickImage} />
 
           { error && <Alert severity="warning">{error}</Alert> }
 

@@ -17,6 +17,7 @@ import Background from './Background';
 import Footer from './Footer';
 import LinkInterceptor from './LinkInterceptor';
 import Kofi from './Kofi';
+import Discord from './Discord';
 
 export default function Home({hideSidebar}) {
 
@@ -86,8 +87,9 @@ export default function Home({hideSidebar}) {
           <ReactMarkdown children={config.textPanelIntro} />
         </LinkInterceptor>
       </ContentBox>
-      <InterestPanel hideSidebar={hideSidebar} />
       <EventsPanel />
+      <Discord />
+      <InterestPanel hideSidebar={hideSidebar} />
       <SearchPanel />
       <Kofi />
       <Footer />

@@ -60,7 +60,7 @@ const EdinburghSFF = styled(Box)(({ theme }) => ({
 }));
 
 export default function App() {
-  const { config, setConfig } = useApp();
+  const { config, setConfig, setIsLoadingConfig } = useApp();
   const theme = useTheme();
   const navigate = useNavigate();
 
@@ -76,9 +76,11 @@ export default function App() {
 
   useEffect(() => {
     splashMessage();
+    setIsLoadingConfig(true);
 
     fetchDocument("settings", "config", (data) => {
       setConfig(data);
+      setIsLoadingConfig(false);
     });
   }, []);
 
