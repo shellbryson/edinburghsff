@@ -17,6 +17,7 @@ import Background from './Background';
 import Footer from './Footer';
 import LinkInterceptor from './LinkInterceptor';
 import Kofi from './Kofi';
+import Discord from './Discord';
 
 export default function Home({hideSidebar}) {
 
@@ -89,6 +90,7 @@ export default function Home({hideSidebar}) {
       <InterestPanel hideSidebar={hideSidebar} />
       <EventsPanel />
       <SearchPanel />
+      <Discord />
       <Kofi />
       <Footer />
     </Box>
