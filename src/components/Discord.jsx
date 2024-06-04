@@ -4,19 +4,30 @@ import { useNavigate } from "react-router-dom";
 // MUI Components
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import { Typography } from '@mui/material';
+import Typography from '@mui/material/Typography';
+
+// Icons
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 // Assets
-import DiscordIcon from '../assets/discord.svg';
+import Masthead from '../assets/DiscordMasthead.png';
 
 const DiscordBox = styled(Box)(({ theme }) => ({
+  background: theme.palette.brand.main,
+  marginBottom: "2rem",
+}));
+
+const LinkBox = styled(Box)(({ theme }) => ({
   display: "flex",
-  justifyContent: "center",
-  flexDirection: "column",
-  margin: "2rem 0",
+  position: "relative",
+  gap: "0.5rem",
   cursor: "pointer",
-  textAlign: "center",
   alignItems: "center",
+  justifyContent: "space-between",
+  backgroundColor: theme.palette.brand.main,
+  color: theme.palette.brand.contrastText,
+  padding: "0.5rem",
+  width: "100%",
 }));
 
 export default function Discord() {
@@ -29,8 +40,13 @@ export default function Discord() {
 
   return (
     <DiscordBox onClick={()=>handleOnClick()}>
-      <img src={DiscordIcon} alt="Discord" style={{display: "block", width: "24px", height: "24px"}} />
-      <Typography>ESFF Discord</Typography>
+      <Box style={{display: "flex", justifyContent: "center"}}>
+        <img src={Masthead} alt="Discord Masthead" style={{width: "100%", height: "auto" }} />
+      </Box>
+      <LinkBox>
+        <Typography style={{ color: "black"}}>ESFF Discord</Typography>
+        <ArrowForwardIcon style={{ color: "black"}} />
+      </LinkBox>
     </DiscordBox>
   );
 };

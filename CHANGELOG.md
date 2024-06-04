@@ -30,6 +30,7 @@ Community:
   - Fix: Shift of content while Config loading (no loader displayed)
 
 App:
+  - Fix: crash when saving Config
   - Add: admin gallery component
   - Add: track loading state while fetching config
 

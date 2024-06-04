@@ -93,6 +93,14 @@ const EntryMoveButton = styled(Box)(({ theme }) => ({
   cursor: 'grab',
 }));
 
+const EntryTitle = styled(Box)(({ theme }) => ({
+  marginLeft: "0.5rem", width: "100%"
+}));
+
+const EntryContent = styled(Box)(({ theme }) => ({
+  display: "flex", gap: "4px", alignItems: "center"
+}));
+
 const EntryEditButton = styled(Box)(({ theme }) => ({
   display: 'flex',
   padding: '0.25rem',
@@ -524,10 +532,10 @@ export default function AdminLists() {
                   <SortableItem key={i}>
                     <Item>
                       {<IconComponent tagName={item.tag} />}
-                      <Box style={{ marginLeft: "0.5rem", width: "100%"}}>
+                      <EntryTitle>
                         {item.title}
-                      </Box>
-                      <Box style={{ display: "flex", gap: "4px", alignItems: "center" }}>
+                      </EntryTitle>
+                      <EntryContent>
                         <EntryEditButton onClick={(e)=>editItem(i)}>
                           <SettingsIcon />
                         </EntryEditButton>
@@ -536,7 +544,7 @@ export default function AdminLists() {
                             <DragHandleIcon />
                           </EntryMoveButton>
                         </SortableKnob>
-                      </Box>
+                      </EntryContent>
                     </Item>
                   </SortableItem>
                 ))}

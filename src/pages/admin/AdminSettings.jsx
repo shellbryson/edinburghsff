@@ -27,7 +27,7 @@ import {
 export default function AdminSettings() {
 
   const { user } = useAuth();
-  const { setAdminDialogTitle } = useApp();
+  const { setAdminDialogTitle, setIsLoading } = useApp();
 
   const navigate = useNavigate();
 

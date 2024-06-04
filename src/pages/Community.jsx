@@ -17,8 +17,10 @@ import PageHeading from '../components/PageHeading';
 import LinkInterceptor from '../components/LinkInterceptor';
 import StyledContent from '../components/StyledContent';
 
+// Assets
+import Masthead from '../assets/DiscordMasthead.png';
+
 const ContentBox = styled(Box)(({ theme }) => ({
-  padding: "0 1rem",
   color: theme.palette.text.main
 }));
 
@@ -46,17 +48,13 @@ export default function Community() {
       display: "flex",
       flexDirection: "column",
       height: "100%",
-      overflow: "hidden",
-    },
-    paper: {
-      display: "flex",
-      flexDirection: "column",
-      height: "100%",
-      overflow: "hidden",
+      margin: "0",
+      padding: "0",
     },
     content: {
       textAlign: "left",
-      overflow: "auto",
+      padding: "0",
+      margin: "0",
     },
     code: {
       display: "block",
@@ -92,35 +90,38 @@ export default function Community() {
       { isLoadingConfig && <Loader />}
       { !isLoadingConfig && (
       <Box style={style.page} className="sff-page">
-        <Box style={style.paper}>
-          <Box style={style.content} className="scroll-dialog">
-            <PageHeading heading="Community" />
-            <ContentBox>
-              <LinkInterceptor>
-                <StyledContent>
-                  <ReactMarkdown children={config.textCommunity} />
-                </StyledContent>
-              </LinkInterceptor>
+        <Box style={style.content} className="scroll-dialog">
 
-              {!showDiscord && (
-                <Box style={{display: "flex", justifyContent: "center", marginTop: "2rem"}}>
-                  <Button variant="outlined" color="brand" onClick={(e) => handleViewDiscord(e)}>Access Discord</Button>
-                </Box>
-              )}
-
-              {showDiscord && (
-                <DiscordBox>
-                  <code style={style.code} onClick={() => handleDiscordClick() }>{config.discordLink.replace('https://', '')}</code>
-                  <Typography variant="body2">Tap code copy, or hit the button below.</Typography>
-                  { isCopied && <Typography variant="body2">Copied!</Typography>}
-                  <Box style={{marginTop: "1rem"}}>
-                    <Button variant="outlined" color="brand" onClick={(e) => handleVisitDiscord(e)}>Open Discord</Button>
-                  </Box>
-                </DiscordBox>
-              )}
-
-            </ContentBox>
+          <Box style={{display: "flex", justifyContent: "center"}}>
+            <img src={Masthead} alt="Discord Masthead" style={{width: "100%", height: "auto", marginBottom: "1rem"}} />
           </Box>
+
+          <PageHeading heading="Edinburgh SFF Community" />
+          <ContentBox>
+            <LinkInterceptor>
+              <StyledContent>
+                <ReactMarkdown children={config.textCommunity} />
+              </StyledContent>
+            </LinkInterceptor>
+
+            {!showDiscord && (
+              <Box style={{display: "flex", justifyContent: "center", marginTop: "2rem"}}>
+                <Button variant="outlined" color="brand" onClick={(e) => handleViewDiscord(e)}>Access Discord</Button>
+              </Box>
+            )}
+
+            {showDiscord && (
+              <DiscordBox>
+                <code style={style.code} onClick={() => handleDiscordClick() }>{config.discordLink.replace('https://', '')}</code>
+                <Typography variant="body2">Tap code copy, or hit the button below.</Typography>
+                { isCopied && <Typography variant="body2">Copied!</Typography>}
+                <Box style={{marginTop: "1rem"}}>
+                  <Button variant="outlined" color="brand" onClick={(e) => handleVisitDiscord(e)}>Open Discord</Button>
+                </Box>
+              </DiscordBox>
+            )}
+
+          </ContentBox>
         </Box>
       </Box>
       )}
