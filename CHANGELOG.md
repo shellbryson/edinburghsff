@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.3.2] - 2024-06-04 (beta)
+
+Lists:
+  - Fix: Missing info icon & option to support FAQs and other lists
+
 ## [2.3.1] - 2024-06-04 (beta)
 
 Sidebar:
