@@ -42,6 +42,7 @@ import PodcastsIcon from '@mui/icons-material/Podcasts'; // Podcast
 import PlaceIcon from '@mui/icons-material/Place'; // Location
 import EventIcon from '@mui/icons-material/Event'; // Event
 import HorizontalRule from '@mui/icons-material/HorizontalRule';
+import InfoIcon from '@mui/icons-material/Info';
 
 // Custom UI
 import AdminLayout from '../../layouts/AdminLayout';
@@ -113,6 +114,7 @@ const tags = [
   { id: "link", title: "Link" },
   { id: "event", title: "Event" },
   { id: "page", title: "Page" },
+  { id: "info", title: "Information" },
   { id: "podcast", title: "Podcast" },
   { id: "location", title: "Location" }
 ]
@@ -407,6 +409,8 @@ export default function AdminLists() {
         return <PlaceIcon />
       case "section":
         return <HorizontalRule />
+      case "info":
+        return <InfoIcon />
       default:
         return <OpenInNewIcon />
     }

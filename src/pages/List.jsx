@@ -12,6 +12,7 @@ import DescriptionIcon from '@mui/icons-material/Description'; // Page
 import PodcastsIcon from '@mui/icons-material/Podcasts'; // Podcast
 import PlaceIcon from '@mui/icons-material/Place'; // Location
 import EventIcon from '@mui/icons-material/Event'; // Event
+import InfoIcon from '@mui/icons-material/Info';
 
 // Custom UI
 import Loader from '../components/Loader';
@@ -91,6 +92,9 @@ export default function List({listID}) {
         break;
       case "location":
         icon = <PlaceIcon color="brand" style={{ pointerEvents: "none"}} />
+        break;
+      case "info":
+        icon = <InfoIcon color="brand" style={{ pointerEvents: "none"}} />
         break;
       default:
         icon = <OpenInNewIcon color="brand" style={{ pointerEvents: "none"}} />
