@@ -122,7 +122,7 @@ export default function GalleryEditor({galleryImages, onUpdate, onClickImage}) {
 
   return (
     <Box>
-      <Typography variant="h_medium">Gallery Editor</Typography>
+      <Typography variant="h_medium">Gallery</Typography>
       <UploadImage imageUploadedCallback={handleFileUpload} />
       <GalleryGrid>
         {images.map((image, index) => (

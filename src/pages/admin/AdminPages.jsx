@@ -48,6 +48,20 @@ const SelectionItemBox = styled(Box)(({ theme }) => ({
   gap: "0.5rem",
 }));
 
+const style = {
+  actions: {
+    display: "flex",
+    justifyContent: "space-between",
+    gap: "0.5rem",
+    bottom: "0"
+  },
+  dirty: {
+    textTransform: 'uppercase',
+    color: "red",
+    marginRight: "1rem"
+  }
+}
+
 export default function AdminPages() {
 
   const inputRef = useRef(null);
@@ -86,19 +100,6 @@ export default function AdminPages() {
 
   // Theme
   const theme = useTheme();
-
-  const style = {
-    actions: {
-      display: "flex",
-      justifyContent: "space-between",
-      gap: "0.5rem",
-    },
-    dirty: {
-      textTransform: 'uppercase',
-      color: "red",
-      marginRight: "1rem"
-    }
-  }
 
   useEffect(() => {
     if (!params.updateId) {
@@ -319,7 +320,13 @@ export default function AdminPages() {
           </FormGroup>
 
           <TextField value={description} required multiline rows={2} label="Description" onChange={(e) => handleChangeDescription(e.target.value)} />
-          <TextField value={content} ref={inputRef} required multiline rows={16} label="Content" onChange={(e) => handleChangeContent(e.target.value)}  />
+
+          <Box>
+            <Typography variant="p">Masthead image</Typography>
+            <UploadImage imageUploadedCallback={handleFileUpload} imgUrl={imgUrl} />
+          </Box>
+
+          <TextField value={content} ref={inputRef} required multiline fullWidth rows={10} label="Content" onChange={(e) => handleChangeContent(e.target.value)}  />
 
           <FormControl fullWidth>
             <InputLabel>Display a List</InputLabel>
@@ -342,8 +349,6 @@ export default function AdminPages() {
           </FormControl>
 
           <GalleryEditor galleryImages={galleryImages} onUpdate={onUpdateGallery} onClickImage={onClickImage} />
-
-          {/* <UploadImage imageUploadedCallback={handleFileUpload} imgUrl={imgUrl} /> */}
 
           { error && <Alert severity="warning">{error}</Alert> }
 
