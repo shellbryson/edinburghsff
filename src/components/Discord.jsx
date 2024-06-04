@@ -27,7 +27,6 @@ const LinkBox = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.brand.main,
   color: theme.palette.brand.contrastText,
   padding: "0.5rem",
-  width: "100%",
 }));
 
 export default function Discord() {
