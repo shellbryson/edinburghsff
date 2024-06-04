@@ -28,6 +28,7 @@ export default function Footer() {
     <>
       <Box style={style.footer} className="sff-footer">
         <Link to='/pages/about'>About</Link>
+        <Link to='/pages/faq'>FAQ</Link>
         {!user?.uid &&
           <Link to='/signin'>Sign in</Link>
         }

@@ -8,6 +8,12 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 Lists:
   - Fix: Missing info icon & option to support FAQs and other lists
 
+Admin / Pages:
+  - Fix: Remove requirement for content to support pages that are just containers for Lists
+
+Sidebar:
+  - Fix: Missing link to FAQs
+
 ## [2.3.1] - 2024-06-04 (beta)
 
 Sidebar:

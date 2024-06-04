@@ -180,7 +180,7 @@ export default function AdminPages() {
 
   const handleUpdate = async () => {
     setError('');
-    if (!title || !description || !content) {
+    if (!title || !description) {
       setError('Please fill out all fields');
       return;
     }
@@ -319,7 +319,7 @@ export default function AdminPages() {
             <FormControlLabel onChange={(e) => setShow(e.target.checked)} control={<Checkbox checked />} label="Display on site" />
           </FormGroup>
 
-          <TextField value={description} required multiline rows={2} label="Description" onChange={(e) => handleChangeDescription(e.target.value)} />
+          <TextField value={description} multiline rows={2} label="Description" onChange={(e) => handleChangeDescription(e.target.value)} />
 
           <Box>
             <Typography variant="p">Masthead image</Typography>
