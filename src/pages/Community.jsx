@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useHead } from 'hoofd';
 import ReactMarkdown from 'react-markdown';
 
@@ -18,7 +18,7 @@ import LinkInterceptor from '../components/LinkInterceptor';
 import StyledContent from '../components/StyledContent';
 
 // Assets
-import Masthead from '../assets/DiscordMasthead.png';
+import Masthead from '../assets/DiscordMastheadPanel.png';
 
 const ContentBox = styled(Box)(({ theme }) => ({
   color: theme.palette.text.main
@@ -92,11 +92,12 @@ export default function Community() {
       <Box style={style.page} className="sff-page">
         <Box style={style.content} className="scroll-dialog">
 
+          <PageHeading heading="Edinburgh SFF Community" />
+
           <Box style={{display: "flex", justifyContent: "center"}}>
             <img src={Masthead} alt="Discord Masthead" style={{width: "100%", height: "auto", marginBottom: "1rem"}} />
           </Box>
 
-          <PageHeading heading="Edinburgh SFF Community" />
           <ContentBox>
             <LinkInterceptor>
               <StyledContent>

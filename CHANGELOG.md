@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.3.1] - 2024-06-04 (beta)
+
+Sidebar:
+  - Fix: Wasted space in sidebar, make entire panel scroll
+  - Fix: Not enough space above navigation
+  - Improve: Improve Discord image
+
+Comunity:
+  - Improve: New Discord masthead
+
 ## [2.3.0] - 2024-06-04 (beta)
 
 Sidebar:
