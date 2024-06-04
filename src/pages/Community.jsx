@@ -12,6 +12,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
 // Custom Components
+import Loader from '../components/Loader';
 import PageHeading from '../components/PageHeading';
 import LinkInterceptor from '../components/LinkInterceptor';
 import StyledContent from '../components/StyledContent';
@@ -35,7 +36,7 @@ const DiscordBox = styled(Box)(({ theme }) => ({
 
 export default function Community() {
 
-  const { config } = useApp();
+  const { config, isLoadingConfig } = useApp();
   const theme = useTheme();
   const [showDiscord, setShowDiscord] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
@@ -87,38 +88,43 @@ export default function Community() {
   }
 
   return (
-    <Box style={style.page} className="sff-page">
-      <Box style={style.paper}>
-        <Box style={style.content} className="scroll-dialog">
-          <PageHeading heading="Community" />
-          <ContentBox>
-            <LinkInterceptor>
-              <StyledContent>
-                <ReactMarkdown children={config.textCommunity} />
-              </StyledContent>
-            </LinkInterceptor>
+    <>
+      { isLoadingConfig && <Loader />}
+      { !isLoadingConfig && (
+      <Box style={style.page} className="sff-page">
+        <Box style={style.paper}>
+          <Box style={style.content} className="scroll-dialog">
+            <PageHeading heading="Community" />
+            <ContentBox>
+              <LinkInterceptor>
+                <StyledContent>
+                  <ReactMarkdown children={config.textCommunity} />
+                </StyledContent>
+              </LinkInterceptor>
 
-            {!showDiscord && (
-              <Box style={{display: "flex", justifyContent: "center", marginTop: "2rem"}}>
-                <Button variant="outlined" color="brand" onClick={(e) => handleViewDiscord(e)}>Access Discord</Button>
-              </Box>
-            )}
-
-            {showDiscord && (
-              <DiscordBox>
-                <code style={style.code} onClick={() => handleDiscordClick() }>{config.discordLink.replace('https://', '')}</code>
-                <Typography variant="body2">Tap code copy, or hit the button below.</Typography>
-                { isCopied && <Typography variant="body2">Copied!</Typography>}
-                <Box style={{marginTop: "1rem"}}>
-                  <Button variant="outlined" color="brand" onClick={(e) => handleVisitDiscord(e)}>Open Discord</Button>
+              {!showDiscord && (
+                <Box style={{display: "flex", justifyContent: "center", marginTop: "2rem"}}>
+                  <Button variant="outlined" color="brand" onClick={(e) => handleViewDiscord(e)}>Access Discord</Button>
                 </Box>
-              </DiscordBox>
-            )}
+              )}
 
-          </ContentBox>
+              {showDiscord && (
+                <DiscordBox>
+                  <code style={style.code} onClick={() => handleDiscordClick() }>{config.discordLink.replace('https://', '')}</code>
+                  <Typography variant="body2">Tap code copy, or hit the button below.</Typography>
+                  { isCopied && <Typography variant="body2">Copied!</Typography>}
+                  <Box style={{marginTop: "1rem"}}>
+                    <Button variant="outlined" color="brand" onClick={(e) => handleVisitDiscord(e)}>Open Discord</Button>
+                  </Box>
+                </DiscordBox>
+              )}
+
+            </ContentBox>
+          </Box>
         </Box>
       </Box>
-    </Box>
+      )}
+    </>
   )
 }
 
