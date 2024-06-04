@@ -13,7 +13,6 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import MenuIcon from '@mui/icons-material/Menu';
 
 // Custom UI
-import Navigation from './Navigation';
 import Home from './Home';
 
 const Mask = styled(Box)(({ theme }) => ({
@@ -144,7 +143,6 @@ export default function MapPanel() {
         </Box>
         <Box style={styles.interior} className="sff-panel__interior">
           <Box style={styles.content} className="sff-panel__content">
-            <Navigation />
             <Home hideSidebar={hideSidebar} />
           </Box>
         </Box>

@@ -18,6 +18,7 @@ import Footer from './Footer';
 import LinkInterceptor from './LinkInterceptor';
 import Kofi from './Kofi';
 import Discord from './Discord';
+import Navigation from './Navigation';
 
 export default function Home({hideSidebar}) {
 
@@ -74,6 +75,7 @@ export default function Home({hideSidebar}) {
 
   return (
     <Box style={styles.home} className="sff-home scroll">
+      <Navigation />
       <Box style={styles.masthead} className="sff-masthead">
         <Background />
         <Box elevation={1} style={styles.splash}>
