@@ -22,6 +22,10 @@ Admin / Pages:
 Lists:
   - Fix: entry titles get lost in page, and should also be links
 
+Lists / Admin:
+  - Fix: hide main content when adding/updating list entry to avoid excessive scrolling
+  - Fix: titles sometimes shift between screens
+
 Community:
   - Fix: Shift of content while Config loading (no loader displayed)
 

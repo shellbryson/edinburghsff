@@ -11,7 +11,6 @@ const style={
     flexDirection: "column",
     height: "100%",
     overflow: "hidden",
-    marginBottom: "1rem",
     paddingLeft: "0.5rem",
     paddingRight: "0.5rem",
   },
