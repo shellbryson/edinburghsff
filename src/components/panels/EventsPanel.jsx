@@ -79,7 +79,7 @@ export default function EventsPanel() {
       const start = dayjs(c.eventStart.toDate());
       const end = dayjs(c.eventEnd.toDate());
       if (!start || !end) return;
-      if (start.isAfter(today) || start.isSame(today)) {
+      if (end.isAfter(today) && c.eventIsFeatured) {
         l.push({
           ...doc.data(),
           id: doc.id
@@ -100,7 +100,7 @@ export default function EventsPanel() {
   return (
     <Box style={style.events} className="sff-panel-events">
       <Typeography component="h2" variant="h_small_lined">Events</Typeography>
-      {events.filter(event => event.eventIsFeatured).map((event, index) => (
+      {events.map((event, index) => (
         <EventBox key={index} className="sff-panel-events__event">
           <EventLink component="a" onClick={() => handleClickEvent(event)}>{event.title}</EventLink>
           <EventIcon />
