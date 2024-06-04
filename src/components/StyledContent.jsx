@@ -81,6 +81,14 @@ export default function StyledContent({ children}) {
       color: theme.palette.brand.dark,
       fontWeight: "var(--font-body-bold-weight)"
     },
+    '& img': {
+      display: "inline-block",
+      maxWidth: "100%",
+      marginTop: "1rem",
+      marginBottom: "1rem",
+      border: theme.palette.highlight.main,
+      padding: "2px",
+    },
   }));
 
   return (

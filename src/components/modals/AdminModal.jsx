@@ -3,9 +3,13 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 import { Link } from "react-router-dom";
 
+// Contexts
+import { useApp } from '../../context/AppContext';
+
 // MUI
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -55,6 +59,8 @@ export default function AdminModal({ children }) {
 
   const isDashboard = location.pathname.includes("dashboard");
 
+  const { adminDialogTitle } = useApp();
+
   const style={
     page: {
       display: "flex",
@@ -87,6 +93,9 @@ export default function AdminModal({ children }) {
       onClose={handleClose}>
       <DialogTitle>
         <Box style={{ display: "flex", justifyContent: "space-between", gap: "0.5rem"}}>
+          <Typography variant="h_medium" style={{ paddingBottom: "0"}}>
+            {adminDialogTitle}
+          </Typography>
           <IconButton aria-label="Admin menu" variant="outlined" size="small" color="primary" component={Link} to="/dashboard">
             <MenuIcon />
           </IconButton>
@@ -95,19 +104,19 @@ export default function AdminModal({ children }) {
           <Button variant="outlined" size="small" color="primary" component={Link} to="/dashboard">
             <HomeIcon />
           </Button>
-          <Button variant="contained" size="small" color="primary" startIcon={<PlaceIcon />} component={Link} to="/admin/locations">
+          <Button variant="contained" size="small" startIcon={<PlaceIcon />} component={Link} to="/admin/locations" color={location.pathname.includes("/admin/locations") ? "secondary" : "primary"}>
             Locations
           </Button>
-          <Button variant="contained" size="small" color="primary" startIcon={<EventIcon />} component={Link} to="/admin/events">
+          <Button variant="contained" size="small" startIcon={<EventIcon />} component={Link} to="/admin/events" color={location.pathname.includes("/admin/events") ? "secondary" : "primary"}>
             Events
           </Button>
-          <Button variant="contained" size="small" color="primary" startIcon={<DescriptionIcon />} component={Link} to="/admin/pages">
+          <Button variant="contained" size="small" startIcon={<DescriptionIcon />} component={Link} to="/admin/pages" color={location.pathname.includes("/admin/pages") ? "secondary" : "primary"}>
            Pages
           </Button>
-          <Button variant="contained" size="small" color="primary" startIcon={<ListIcon />}component={Link} to="/admin/lists">
+          <Button variant="contained" size="small" startIcon={<ListIcon />} component={Link} to="/admin/lists" color={location.pathname.includes("/admin/lists") ? "secondary" : "primary"}>
             Lists
           </Button>
-          <Button variant="contained" size="small" color="primary" component={Link} to="/admin/settings">
+          <Button variant="contained" size="small" component={Link} to="/admin/settings" color={location.pathname.includes("/admin/settings") ? "secondary" : "primary"}>
             <SettingsIcon />
           </Button>
         </Box>

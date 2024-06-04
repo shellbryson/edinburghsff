@@ -117,7 +117,7 @@ export default function List({listID}) {
                 { !item.url && <IconComponent tagName={item?.tag} /> }
                 <ListContent>
                   <ListEntryTitle variant="h_medium" style={{marginBottom: "0", lineHeight: "1"}}>
-                    {item.title}
+                    { item.url ? <a href={item.url} target="_blank" rel="noreferrer">{item.title}</a> : item.title }
                   </ListEntryTitle>
                   <Box>
                     <ReactMarkdown>{item.content}</ReactMarkdown>

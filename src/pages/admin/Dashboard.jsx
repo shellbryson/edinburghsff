@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+
+// Conte
 import { useAuth } from '../../context/AuthContext';
+import { useApp } from '../../context/AppContext';
 
 // MUI
 import { styled } from '@mui/material/styles';
@@ -8,7 +11,6 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 
-import HomeIcon from '@mui/icons-material/Home';
 import DescriptionIcon from '@mui/icons-material/Description';
 import ListIcon from '@mui/icons-material/List';
 import EventIcon from '@mui/icons-material/Event';
@@ -46,6 +48,12 @@ const Dashboard = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
+  const { setAdminDialogTitle } = useApp();
+
+  useEffect(() => {
+    setAdminDialogTitle('Dashboard');
+  }, []);
+
   const handleLogout = async () => {
     try {
       await logout();
@@ -58,9 +66,6 @@ const Dashboard = () => {
 
   return (
     <NavigationMenu>
-      <Typography component="h1" variant="h1" style={{textAlign: "center", textTransform: "capitalize",}}>
-        Dashboard
-      </Typography>
       <NavigationList>
         <NavigationButton variant="contained" color="primary" endIcon={<PlaceIcon />} component={Link} to="/admin/locations">
           Locations

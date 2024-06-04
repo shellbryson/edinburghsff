@@ -8,6 +8,7 @@ import SortableList, { SortableItem, SortableKnob } from 'react-easy-sort'
 import arrayMove from 'array-move';
 
 // Contexts
+import { useApp } from '../../context/AppContext';
 import { useAuth } from '../../context/AuthContext';
 
 // MUI
@@ -56,6 +57,20 @@ const SelectionItemBox = styled(Box)(({ theme }) => ({
   gap: "0.5rem",
 }));
 
+const ListEntryForm = styled(Box)(({ theme }) => ({
+  backgroundColor: "rgba(0,0,0,0.05)",
+  padding: "1rem",
+}));
+
+const Dirty = styled(Box)(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  textTransform: 'uppercase',
+  color: "red",
+  marginRight: "1rem"
+}));
+
 const Item = styled(Box)(({ theme }) => ({
   flexShrink: 0,
   display: 'flex',
@@ -76,6 +91,14 @@ const EntryMoveButton = styled(Box)(({ theme }) => ({
   color: theme.palette.brand.main,
   border: `1px solid ${theme.palette.brand.main}`,
   cursor: 'grab',
+}));
+
+const EntryTitle = styled(Box)(({ theme }) => ({
+  marginLeft: "0.5rem", width: "100%"
+}));
+
+const EntryContent = styled(Box)(({ theme }) => ({
+  display: "flex", gap: "4px", alignItems: "center"
 }));
 
 const EntryEditButton = styled(Box)(({ theme }) => ({
@@ -104,6 +127,7 @@ export default function AdminLists() {
   const [items, setItems] = useState([])
 
   const { user } = useAuth();
+  const { setAdminDialogTitle } = useApp();
   const params = useParams();
 
   const confirm = useConfirm();
@@ -141,16 +165,16 @@ export default function AdminLists() {
       display: "flex",
       justifyContent: "space-between",
       gap: "0.5rem",
-    },
-    dirty: {
-      textTransform: 'uppercase',
-      color: "red",
-      marginRight: "1rem"
     }
   }
 
   useEffect(() => {
-    if (!params.updateId) return;
+    if (!params.updateId) {
+      setAdminDialogTitle("List: Add");
+      return;
+    } else {
+      setAdminDialogTitle("List: Update");
+    }
     setIsLoading(true);
     fetchDocument("lists", params.updateId, (data) => {
       handleOpenUpdate(data);
@@ -159,6 +183,7 @@ export default function AdminLists() {
   }, [params.updateId]);
 
   const handleOpenUpdate = (data) => {
+
     setUpdateId(params.updateId);
 
     setTitle(data.title);
@@ -414,9 +439,10 @@ export default function AdminLists() {
   const renderItemForm = () => {
     if (showItemForm) {
       return (
-        <Box style={{backgroundColor: "rgba(0,0,0,0.05", padding: "1rem", margin: "1rem 0"}}>
-          { itemEditID !== "" && <Typography variant="h_small">Update entry</Typography> }
-          { itemEditID === ""&& <Typography variant="h_small">Add entry</Typography> }
+        <ListEntryForm>
+          <Typography component="h1" variant="h1" style={{textAlign: "center"}}>
+            {itemEditID !== "" ? "Update List Entry" : "Add List Entry"}
+          </Typography>
           <Stack spacing={2} sx={{ mt: 2}}>
             <FormControl fullWidth>
               <InputLabel>Entry Type</InputLabel>
@@ -467,12 +493,12 @@ export default function AdminLists() {
               <Button onClick={(e) => handleRemoveItem()} variant='outlined' size="small">Remove</Button>
               <Box style={{ display: "flex", gap: "0.5rem"}}>
                 <Button onClick={(e) => setShowItemForm(false)} variant='outlined'>Close</Button>
-                { itemEditID !== "" && <Button onClick={(e) => handleUpdateItem()} variant='outlined' size="small">Update</Button> }
-                { itemEditID === "" && <Button onClick={(e) => handleAddItem()} variant='outlined' size="small">Add</Button> }
+                { itemEditID !== "" && <Button onClick={(e) => handleUpdateItem()} variant='outlined' size="small">Update entry</Button> }
+                { itemEditID === "" && <Button onClick={(e) => handleAddItem()} variant='outlined' size="small">Add entry</Button> }
               </Box>
             </Box>
           </Stack>
-        </Box>
+        </ListEntryForm>
       )
     }
   }
@@ -483,7 +509,7 @@ export default function AdminLists() {
       { !isLoading && <>
         <span id="top" />
         { renderItemForm() }
-
+        { !showItemForm && (<>
         <Box>
           <Typography component="h1" variant="h1" style={{textAlign: "center"}}>
             {isUpdate ? "Update List" : "Add List"}
@@ -496,7 +522,8 @@ export default function AdminLists() {
             <Stack spacing={2} sx={{ mt: 2}}>
               <Box style={{ display: "flex", justifyContent: "space-between", margin: "0 0.5rem"}}>
                 <Typography variant="h_small">List content</Typography>
-                <Button onClick={() => addItem()} size="small" variant='outlined'><PlaylistAddIcon /></Button>
+                { isUpdate && <Button onClick={() => addItem()} size="small" variant='outlined'><PlaylistAddIcon /></Button> }
+                { !isUpdate && <Button disabled size="small" variant='outlined'><PlaylistAddIcon /></Button> }
               </Box>
               <SortableList
                 onSortEnd={onSortEnd}
@@ -505,10 +532,10 @@ export default function AdminLists() {
                   <SortableItem key={i}>
                     <Item>
                       {<IconComponent tagName={item.tag} />}
-                      <Box style={{ marginLeft: "0.5rem", width: "100%"}}>
+                      <EntryTitle>
                         {item.title}
-                      </Box>
-                      <Box style={{ display: "flex", gap: "4px", alignItems: "center" }}>
+                      </EntryTitle>
+                      <EntryContent>
                         <EntryEditButton onClick={(e)=>editItem(i)}>
                           <SettingsIcon />
                         </EntryEditButton>
@@ -517,7 +544,7 @@ export default function AdminLists() {
                             <DragHandleIcon />
                           </EntryMoveButton>
                         </SortableKnob>
-                      </Box>
+                      </EntryContent>
                     </Item>
                   </SortableItem>
                 ))}
@@ -525,18 +552,18 @@ export default function AdminLists() {
             </Stack>
           </Box>
         </Box>
-
         <Box style={style.actions}>
           <Box>
             { isUpdate && <Button onClick={() => handleDelete(updateId)} variant="outlined" color="warning" startIcon={<DeleteIcon />}>Delete</Button> }
           </Box>
           <Box style={{ display: "flex", gap: "0.5rem" }}>
-            { isDirty && <Typography sx={style.dirty} variant='p_small'>Unsaved changes</Typography> }
+            { isDirty && <Dirty><Typography variant='p_small'>Unsaved</Typography></Dirty>}
             <Button onClick={handleBack} variant='outlined'>Back</Button>
-            { isUpdate && <Button onClick={handleUpdate} variant='contained'>Save</Button> }
-            { !isUpdate && <Button onClick={handleAdd} variant='contained'>Add List</Button> }
+            { isUpdate && <Button onClick={handleUpdate} variant='contained'>Update</Button> }
+            { !isUpdate && <Button onClick={handleAdd} variant='contained'>Save</Button> }
           </Box>
         </Box>
+        </>)}
       </>}
     </AdminLayout>
   )

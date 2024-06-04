@@ -4,6 +4,7 @@ import { doc, addDoc, updateDoc, deleteDoc, collection } from 'firebase/firestor
 import { db } from "../../firebase";
 import { useConfirm } from "material-ui-confirm";
 
+// Contexts
 import { useAuth } from '../../context/AuthContext';
 import { useApp } from '../../context/AppContext';
 
@@ -61,7 +62,7 @@ const SelectionItemBox = styled(Box)(({ theme }) => ({
 export default function AdminEvents() {
 
   const { user } = useAuth();
-  const { mapLocations, setIsLoading } = useApp();
+  const { mapLocations, setAdminDialogTitle } = useApp();
   const params = useParams();
 
   const confirm = useConfirm();
@@ -113,7 +114,12 @@ export default function AdminEvents() {
   }
 
   useEffect(() => {
-    if (!params.updateId) return;
+    if (!params.updateId) {
+      setAdminDialogTitle("Event: Add");
+      return;
+    } else {
+      setAdminDialogTitle("Event: Update");
+    }
     fetchDocument("events", params.updateId, (data) => {
       handleOpenUpdate(data);
     });
@@ -361,9 +367,6 @@ export default function AdminEvents() {
   return (
     <AdminLayout>
       <Box>
-        <Typography component="h1" variant="h1" style={{textAlign: "center"}}>
-          {isUpdate ? "Update Event" : "Add Event"}
-        </Typography>
 
         <Stack spacing={2} sx={{ mt: 2}}>
           <TextField required value={title} label="Title" onChange={(e) => handleChangeTitle(e.target.value)} type='text' />

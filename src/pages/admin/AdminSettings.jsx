@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { doc, updateDoc } from 'firebase/firestore';
 import { db } from "../../firebase";
 
+// Contexts
 import { useAuth } from '../../context/AuthContext';
 import { useApp } from '../../context/AppContext';
 
@@ -23,16 +24,10 @@ import {
   fetchDocument
 } from '../../utils/utils';
 
-const SplitBox = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'row',
-  gap: "1rem",
-}));
-
 export default function AdminSettings() {
 
   const { user } = useAuth();
-  const { setIsLoading } = useApp();
+  const { setAdminDialogTitle, setIsLoading } = useApp();
 
   const navigate = useNavigate();
 
@@ -73,6 +68,7 @@ export default function AdminSettings() {
   }
 
   useEffect(() => {
+    setAdminDialogTitle("Settings");
     fetchDocument("settings", "config", (data) => {
       handleOpenUpdate(data);
     });
@@ -162,9 +158,6 @@ export default function AdminSettings() {
   return (
     <AdminLayout>
       <Box>
-        <Typography component="h1" variant="h1" style={{textAlign: "center"}}>
-          Settings
-        </Typography>
         <Stack spacing={2}>
           <Typography component="h2" variant="h2">Community</Typography>
           <TextField value={settingsDiscordLink} required rows={8} label="Discord Link" onChange={(e) => handleChangeDiscordLink(e.target.value)}  />

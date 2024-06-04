@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate } from "react-router-dom";
 import { doc, addDoc, updateDoc, deleteDoc, collection } from 'firebase/firestore';
 import { db } from "../../firebase";
 import { useConfirm } from "material-ui-confirm";
 
+// Contexts
 import { useAuth } from '../../context/AuthContext';
 import { useApp } from '../../context/AppContext';
 
@@ -32,6 +33,7 @@ import ListIcon from '@mui/icons-material/List';
 
 // Custom UI
 import UploadImage from '../../components/admin/UploadImage';
+import GalleryEditor from '../../components/admin/GalleryEditor';
 import AdminLayout from '../../layouts/AdminLayout';
 
 import {
@@ -46,26 +48,40 @@ const SelectionItemBox = styled(Box)(({ theme }) => ({
   gap: "0.5rem",
 }));
 
-const SplitBox = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'row',
-  gap: "1rem",
-}));
+const style = {
+  actions: {
+    display: "flex",
+    justifyContent: "space-between",
+    gap: "0.5rem",
+    bottom: "0"
+  },
+  dirty: {
+    textTransform: 'uppercase',
+    color: "red",
+    marginRight: "1rem"
+  }
+}
 
 export default function AdminPages() {
 
+  const inputRef = useRef(null);
+
   const { user } = useAuth();
-  const { setIsLoading } = useApp();
+  const { setAdminDialogTitle } = useApp();
   const params = useParams();
 
   const confirm = useConfirm();
   const navigate = useNavigate();
+
+  const [isLoading, setIsLoading] = useState(false);
 
   // Common
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [show, setShow] = useState(true);
   const [imgUrl, setImgUrl] = useState(null);
+
+  const [galleryImages, setGalleryImages] = useState([]);
 
   // Specific to Pages
   const [slug, setSlug] = useState('');
@@ -85,21 +101,13 @@ export default function AdminPages() {
   // Theme
   const theme = useTheme();
 
-  const style = {
-    actions: {
-      display: "flex",
-      justifyContent: "space-between",
-      gap: "0.5rem",
-    },
-    dirty: {
-      textTransform: 'uppercase',
-      color: "red",
-      marginRight: "1rem"
-    }
-  }
-
   useEffect(() => {
-    if (!params.updateId) return;
+    if (!params.updateId) {
+      setAdminDialogTitle("Page: Add");
+      return;
+    } else {
+      setAdminDialogTitle("Page: Update");
+    }
     fetchDocument("pages", params.updateId, (data) => {
       handleOpenUpdate(data);
     });
@@ -112,6 +120,7 @@ export default function AdminPages() {
   }, []);
 
   const handleOpenUpdate = (data) => {
+
     setUpdateId(params.updateId);
 
     setTitle(data.title);
@@ -121,6 +130,7 @@ export default function AdminPages() {
     setImgUrl(data.image);
     setShow(data.show);
     setSlug(data.slug);
+    setGalleryImages(data.gallery || []);
 
     setIsUpdate(true);
   };
@@ -143,6 +153,7 @@ export default function AdminPages() {
       show: show,
       image: strippedImageUrl,
       slug: slug,
+      gallery: galleryImages,
       created: {
         email: user.email,
         uid: user.uid,
@@ -184,6 +195,7 @@ export default function AdminPages() {
       show: show,
       image: strippedImageUrl,
       slug: slug,
+      gallery: galleryImages,
       updated: {
         email: user.email,
         uid: user.uid,
@@ -262,8 +274,6 @@ export default function AdminPages() {
   }
 
   const handleChangeListSelection = (l) => {
-    // if (text !== slug) setIsDirty(true);
-    // setSlug(text);
     setList(l);
     console.log(l);
   }
@@ -272,12 +282,35 @@ export default function AdminPages() {
     navigate(`/admin/pages`);
   }
 
+  const handleInsertImage = (image) => {
+    if (inputRef.current) {
+      const cursorPosition = inputRef.current.selectionStart;
+      const imageUrl = image.url.split('&')[0];
+      const imageMardown = `![${image?.alt}](${imageUrl} "${image?.title}")`
+      const newContent = content.slice(0, cursorPosition) + imageMardown + content.slice(cursorPosition);
+
+      setContent(newContent);
+
+      setTimeout(() => {
+        inputRef.current.selectionStart = cursorPosition + imageMardown.length;
+        inputRef.current.selectionEnd = cursorPosition + imageMardown.length;
+        inputRef.current.focus();
+      }, 0);
+    }
+  };
+
+
+  const onUpdateGallery = (images) => {
+    setGalleryImages(images);
+  }
+
+  const onClickImage = (imageRef) => {
+    handleInsertImage(imageRef);
+  }
+
   return (
     <AdminLayout>
       <Box>
-        <Typography component="h1" variant="h1" style={{textAlign: "center"}}>
-          {isUpdate ? "Update Page" : "Add Page"}
-        </Typography>
         <Stack spacing={2} sx={{ mt: 2}}>
           <TextField value={title} required label="Title" onChange={(e) => handleChangeTitle(e.target.value)} type='text' />
           <TextField value={slug} required label="Slug" onChange={(e) => handleChangeSlug(e.target.value)} type='text' />
@@ -287,7 +320,13 @@ export default function AdminPages() {
           </FormGroup>
 
           <TextField value={description} required multiline rows={2} label="Description" onChange={(e) => handleChangeDescription(e.target.value)} />
-          <TextField value={content} required multiline rows={16} label="Content" onChange={(e) => handleChangeContent(e.target.value)}  />
+
+          <Box>
+            <Typography variant="p">Masthead image</Typography>
+            <UploadImage imageUploadedCallback={handleFileUpload} imgUrl={imgUrl} />
+          </Box>
+
+          <TextField value={content} ref={inputRef} required multiline fullWidth rows={10} label="Content" onChange={(e) => handleChangeContent(e.target.value)}  />
 
           <FormControl fullWidth>
             <InputLabel>Display a List</InputLabel>
@@ -309,7 +348,7 @@ export default function AdminPages() {
             </Select>
           </FormControl>
 
-          <UploadImage imageUploadedCallback={handleFileUpload} imgUrl={imgUrl} />
+          <GalleryEditor galleryImages={galleryImages} onUpdate={onUpdateGallery} onClickImage={onClickImage} />
 
           { error && <Alert severity="warning">{error}</Alert> }
 

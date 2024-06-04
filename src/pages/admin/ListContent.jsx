@@ -4,8 +4,10 @@ import { useParams, useNavigate } from "react-router-dom";
 import dayjs from 'dayjs';
 import 'dayjs/locale/en-gb';
 
+// Contexts
+import { useApp } from '../../context/AppContext';
+
 // MUI
-import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -34,6 +36,8 @@ export default function ListContent() {
 
   const params = useParams();
   const navigate = useNavigate();
+
+  const { setAdminDialogTitle } = useApp();
 
   const [tableStructure, setTableStructure] = useState({});
   const [tableFilterOn, setTableFilterOn] = useState("title");
@@ -105,6 +109,7 @@ export default function ListContent() {
       });
     }
     handleFilter('');
+    setAdminDialogTitle(params.type);
   }, [params.type]);
 
   const handleFilter = (filterString) => {
@@ -197,9 +202,6 @@ export default function ListContent() {
     <AdminLayout>
       {isLoading && <Loader />}
       {!isLoading && <>
-      <Typography component="h1" variant="h1" style={{textAlign: "center", textTransform: "capitalize",}}>
-        {params.type}
-      </Typography>
         <Box style={style.actionbar}>
           <TextField
             value={filter}
