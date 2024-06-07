@@ -506,8 +506,8 @@ export default function AdminLists() {
               <Button onClick={(e) => handleRemoveItem()} variant='outlined' size="small">Remove</Button>
               <Box style={{ display: "flex", gap: "0.5rem"}}>
                 <Button onClick={(e) => setShowItemForm(false)} variant='outlined'>Close</Button>
-                { itemEditID !== "" && <Button onClick={(e) => handleUpdateItem()} variant='outlined' size="small">Update entry</Button> }
-                { itemEditID === "" && <Button onClick={(e) => handleAddItem()} variant='outlined' size="small">Add entry</Button> }
+                { itemEditID !== "" && <Button onClick={(e) => handleUpdateItem()} variant='contained' size="small">Update entry</Button> }
+                { itemEditID === "" && <Button onClick={(e) => handleAddItem()} variant='contained' size="small">Add entry</Button> }
               </Box>
             </Box>
           </Stack>
@@ -524,9 +524,6 @@ export default function AdminLists() {
         { renderItemForm() }
         { !showItemForm && (<>
         <Box>
-          <Typography component="h1" variant="h1" style={{textAlign: "center"}}>
-            {isUpdate ? "Update List" : "Add List"}
-          </Typography>
           <Stack spacing={2} sx={{ mt: 2}}>
             <TextField value={title} required label="List Title" onChange={(e) => handleChangeTitle(e.target.value)} type='text' />
             { error && <Alert severity="warning">{error}</Alert> }
@@ -572,8 +569,8 @@ export default function AdminLists() {
           <Box style={{ display: "flex", gap: "0.5rem" }}>
             { isDirty && <Dirty><Typography variant='p_small'>Unsaved</Typography></Dirty>}
             <Button onClick={handleBack} variant='outlined'>Back</Button>
-            { isUpdate && <Button onClick={handleUpdate} variant='contained'>Update</Button> }
-            { !isUpdate && <Button onClick={handleAdd} variant='contained'>Save</Button> }
+            { isUpdate && <Button onClick={handleUpdate} variant='contained'>Save List</Button> }
+            { !isUpdate && <Button onClick={handleAdd} variant='contained'>Add List</Button> }
           </Box>
         </Box>
         </>)}

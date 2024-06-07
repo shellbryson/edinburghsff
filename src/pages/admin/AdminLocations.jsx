@@ -84,7 +84,7 @@ const HelpText = styled(Typography)(({ theme }) => ({
 export default function AdminMap() {
 
   const { user } = useAuth();
-  const { setAdminDialogTitle} = useApp();
+  const { setAdminDialogTitle, setIsLoading } = useApp();
   const params = useParams();
 
   const confirm = useConfirm();

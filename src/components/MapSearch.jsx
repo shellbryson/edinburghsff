@@ -36,8 +36,14 @@ export default function MapSearch() {
     width: "100%",
   }
 
-  const handleSearchChange = (text) => {
-    setMapSearchText(text);
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+    }
+  };
+
+  const handleSearchChange = (e) => {
+    setMapSearchText(e.target.value);
   }
 
   return (
@@ -50,7 +56,9 @@ export default function MapSearch() {
           sx={{ width: "100%", ml: 1, flex: 1, color: "#fff"}}
           placeholder=""
           inputProps={{ 'aria-label': 'Search map' }}
-          value={mapSearchText} onChange={(e) => handleSearchChange(e.target.value)}
+          value={mapSearchText}
+          onKeyDown={handleKeyDown}
+          onChange={(e) => handleSearchChange(e)}
         />
         <IconButton type="button" sx={{ p: '10px', color: theme.palette.brand.main }} aria-label="search">
           <SearchIcon />

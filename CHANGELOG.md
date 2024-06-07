@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.3.5] - 2024-06-07 (beta)
+
+Search:
+  - Fix: Enter causes page to refresh
+  - Fix: When map loaded with a location loaded, the map pins are no longer filtered when you close the location popup
+
 ## [2.3.4] - 2024-06-04 (beta)
 
 Events:
