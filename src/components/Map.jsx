@@ -159,9 +159,12 @@ export default function Map() {
       fetchDocument("locations", selectedLocation, (pin) => {
         setPinData(pin);
         setIsOpenDialog(true);
+
+        // hide all other pins
+        setFilteredLocations([pin]);
       });
     }
-  }, [mapSearchText, focusMapPin, mapLocations]);
+  }, [mapSearchText, focusMapPin, mapLocations, location.search]);
 
   const onGoogleApiLoaded = ({map}) => {
     mapRef.current = map;
