@@ -20,19 +20,37 @@ import Kofi from './Kofi';
 import Discord from './Discord';
 import Navigation from './Navigation';
 
+const ContentBox = styled(Box)(({ theme }) => ({
+  color: theme.palette.brand.main,
+  textAlign: "center",
+  margin: "2rem 0",
+  '& p + p' :{
+    padding: "0",
+  }
+}));
+
+const MastheadBox = styled(Box)(({ theme }) => ({
+  display: "block",
+  position: "relative",
+  width: "100%",
+  height: "180px",
+  marginTop: "1rem",
+  marginBottom: "1rem",
+}));
+
+const SplashBox = styled(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  alignItems: "center",
+  position: "absolute",
+  inset: "0",
+}));
+
 export default function Home({hideSidebar}) {
 
   const { config } = useApp();
   const theme = useTheme();
-
-  const ContentBox = styled(Box)(({ theme }) => ({
-    color: theme.palette.brand.main,
-    textAlign: "center",
-    margin: "2rem 0",
-    '& p + p' :{
-      padding: "0",
-    }
-  }));
 
   const styles = {
     home: {
@@ -43,47 +61,19 @@ export default function Home({hideSidebar}) {
       maxWidth: "calc(300px - 2rem)",
       color: theme.palette.brand.main,
     },
-    masthead: {
-      display: "block",
-      position: "relative",
-      width: "100%",
-      height: "180px",
-      marginTop: "1rem",
-      marginBottom: "1rem",
-    },
-    splash: {
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "center",
-      position: "absolute",
-      inset: "0",
-    },
-    splashText: {
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "center",
-      textAlign: "center",
-      position: "absolute",
-      left: "0",
-      right: "0",
-      bottom: "1.5rem",
-      textShadow: "1px 1px 1px rgba(0, 0, 0, 0.9)",
-    },
   }
 
   return (
     <Box style={styles.home} className="sff-home scroll">
       <Navigation />
-      <Box style={styles.masthead} className="sff-masthead">
+      <MastheadBox className="sff-masthead">
         <Background />
-        <Box elevation={1} style={styles.splash}>
+        <SplashBox elevation={1}>
           <Box style={{ display: "flex", justifyContent: "center"}}>
             <Logo size={5}/>
           </Box>
-        </Box>
-      </Box>
+        </SplashBox>
+      </MastheadBox>
       <ContentBox>
         <LinkInterceptor>
           <ReactMarkdown children={config.textPanelIntro} />
