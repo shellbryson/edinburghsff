@@ -369,8 +369,8 @@ export default function AdminPages() {
         <Box style={{ display: "flex", gap: "0.5rem" }}>
           { isDirty && <Typography sx={style.dirty} variant='p_small'>Unsaved</Typography> }
           <Button onClick={handleBack} variant='outlined'>Back</Button>
-          { isUpdate && <Button onClick={handleUpdate} variant='contained'>Save</Button> }
-          { !isUpdate && <Button onClick={handleAdd} variant='contained'>Add</Button> }
+          { isUpdate && <Button onClick={handleUpdate} variant='contained'>Update Page</Button> }
+          { !isUpdate && <Button onClick={handleAdd} variant='contained'>Add Page</Button> }
         </Box>
       </Box>
     </AdminLayout>
