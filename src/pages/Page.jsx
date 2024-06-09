@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from "react-router-dom";
 
-import { useHead } from 'hoofd';
-
 import ReactMarkdown from 'react-markdown';
 
 import { getDocs, collection, query, where  } from 'firebase/firestore';
@@ -14,6 +12,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
 // Custom UI
+import Header from '../components/Header';
 import Loader from '../components/Loader';
 import LinkInterceptor from '../components/LinkInterceptor';
 import List from './List';
@@ -39,14 +38,6 @@ export default function Pages() {
   const params = useParams();
   const [page, setPage] = useState({});
   const [isLoading, setIsLoading] = useState(false);
-  const defaultPageTitle = "Edinburgh SFF"
-  const defaultPageDescription = "Edinburgh Science Fiction and Fantasy writing community. New writers, events and community."
-
-  useHead({
-    title: `${page[0]?.title} - Edinburgh SFF` || defaultPageTitle,
-    language: 'en',
-    metas: [{ name: 'description', content: page[0]?.description || defaultPageDescription }],
-  });
 
   useEffect(() => {
     if (!params.pageSlug) return;
@@ -74,9 +65,10 @@ export default function Pages() {
     }
     const thisPage = page[0];
     const r = <Box style={style.page} className="sff-page">
+      <Header meta={{title: thisPage.title, description: thisPage.description, image: thisPage?.image}} />
       <StyledContent>
         <Box style={style.content} className="scroll">
-          <Typography component="h1" variant='h_large' style={{ marginTop: "0", marginBottom: "0"}}>
+          <Typography component="h1" variant='h_large' style={{marginTop: "0", marginBottom: "0"}}>
             {thisPage.title}
           </Typography>
           <LinkInterceptor>

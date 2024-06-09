@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.4.0] - 2024-06-09 (beta)
+
+Events:
+  - Add: Events can now be duplicated (with confirmation)
+  - Fix: Change delete button to be smaller and less prominent
+
+Pages:
+  - Fix: Blank OG for some sharing cards
+
+## [2.3.6] - 2024-06-07 (beta)
+
+Pages:
+  - Fix: Open Graph now updating with page content
+  - Fix: Correctly size OG twitter card image
+
 ## [2.3.5] - 2024-06-07 (beta)
 
 Search:

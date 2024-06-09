@@ -23,6 +23,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import TextField from '@mui/material/TextField';
@@ -57,6 +58,7 @@ const SelectionItemBox = styled(Box)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   gap: "0.5rem",
+  justifyContent: "left",
 }));
 
 export default function AdminEvents() {
@@ -288,6 +290,27 @@ export default function AdminEvents() {
     });
   };
 
+  const handleDuplicate = () => {
+    const settings = {
+      title: "Duplicate Event",
+      description: "Duplicating this event will create a new event with the same details. Are you sure you want to duplicate this event?",
+      confirmationText: "Duplicate",
+      confirmationButtonProps: {
+        variant: "contained"
+      },
+      cancellationButtonProps: {
+        variant: "outlined"
+      }
+    }
+    confirm(settings)
+    .then(() => {
+      handleAdd();
+    })
+    .catch(() => {
+      /* ... */
+    });
+  };
+
   // ### FORM INPUTS
 
   const handleChangeTitle = (text) => {
@@ -445,13 +468,14 @@ export default function AdminEvents() {
         </Stack>
       </Box>
       <Box style={style.actions}>
-        <Box>
-          { isUpdate && <Button onClick={() => handleDelete(updateId)} variant="outlined" color="warning" startIcon={<DeleteIcon />}>Delete</Button> }
+        <Box style={{ display: "flex", gap: "0.5rem" }}>
+          { isUpdate && <IconButton onClick={() => handleDelete(updateId)} variant="outlined" color="warning"><DeleteIcon /></IconButton> }
+          { isUpdate && <Button onClick={handleDuplicate} variant='outlined'>Duplicate</Button> }
         </Box>
         <Box style={{ display: "flex", gap: "0.5rem" }}>
           { isDirty && <Typography sx={style.dirty} variant='p_small'>Unsaved changes</Typography> }
           <Button onClick={handleBack} variant='outlined'>Back</Button>
-          { isUpdate && <Button onClick={handleUpdate} variant='contained'>Save Event</Button> }
+          { isUpdate && <Button onClick={handleUpdate} variant='contained'>Save</Button> }
           { !isUpdate && <Button onClick={handleAdd} variant='contained'>Add Event</Button> }
         </Box>
       </Box>
