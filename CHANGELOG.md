@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.5.0] - 2024-06-10 (beta)
+
+Sign In:
+  - Fix: Layout and colours of sign-in page
+
 ## [2.4.0] - 2024-06-09 (beta)
 
 Events:

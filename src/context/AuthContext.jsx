@@ -13,15 +13,6 @@ export const AuthContextProvider = ({ children }) => {
 
   const [user, setUser] = useState({});
 
-  const signIn = (email, password) =>  {
-    return signInWithEmailAndPassword(auth, email, password)
-  }
-
-  const logout = () => {
-    return signOut(auth)
-  }
-
-
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       console.log("SFF: currentUser", auth.currentUser);
@@ -31,6 +22,14 @@ export const AuthContextProvider = ({ children }) => {
       unsubscribe();
     };
   }, []);
+
+  const signIn = (email, password) =>  {
+    return signInWithEmailAndPassword(auth, email, password)
+  }
+
+  const logout = () => {
+    return signOut(auth)
+  }
 
   return (
     <AuthContext.Provider value={{ user, logout, signIn }}>

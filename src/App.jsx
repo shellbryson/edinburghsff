@@ -97,12 +97,12 @@ export default function App() {
           <ConfirmProvider>
             <Map />
             <Routes>
-              <Route path="signin" element={<ContentModal><Signin /></ContentModal>} />
               <Route path="events/:eventID/:eventTitle" element={<EventModal><EventDetails handleClose={handleClose}/></EventModal>} />
               <Route path="events" element={<ContentModal><Events /></ContentModal>} />
               <Route path="community" element={<ContentModal><Community /></ContentModal>} />
               <Route path="feedback" element={<ContentModal><Suggestions /></ContentModal>} />
               <Route path="pages/:pageSlug" element={<ContentModal><Page /></ContentModal>} />
+              <Route path="signin" element={<ContentModal><Signin /></ContentModal>} />
               <Route path="/dashboard" element={<AdminModal><Dashboard /></AdminModal>} />
               <Route path='/admin/locations/update/:updateId' element={<AdminModal><AdminLocations /></AdminModal>} />
               <Route path='/admin/locations/add' element={<AdminModal><AdminLocations /></AdminModal>} />
