@@ -3,10 +3,19 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [2.5.0] - 2024-06-10 (beta)
+## [2.5.0] - 2024-06-24 (beta)
+
+Events:
+  - Add: Sidebar support
+
+Content modals:
+  - Add: Wider content modals when screenspace allows
 
 Sign In:
   - Fix: Layout and colours of sign-in page
+
+App:
+  - Fix: Prevent Sentry reporting on localhost/dev environments
 
 ## [2.4.0] - 2024-06-09 (beta)
 

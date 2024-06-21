@@ -16,7 +16,7 @@ import EventIcon from '@mui/icons-material/Event';
 
 import { slugify } from '../../utils/utils';
 
-export default function EventsPanel() {
+export default function EventsPanel({showAction}) {
 
   const theme = useTheme();
   const navigate = useNavigate();
@@ -99,17 +99,19 @@ export default function EventsPanel() {
 
   return (
     <Box style={style.events} className="sff-panel-events">
-      <Typeography component="h2" variant="h_small_lined">Events</Typeography>
+      <Typeography component="h2" variant="h_small_lined">Featured Events</Typeography>
       {events.map((event, index) => (
         <EventBox key={index} className="sff-panel-events__event">
           <EventLink component="a" onClick={() => handleClickEvent(event)}>{event.title}</EventLink>
           <EventIcon />
         </EventBox>
       ))}
-      <MoreBox className="sff-interesting__place" onClick={() => handleClickExpand()}>
-        <Typeography>View all</Typeography>
-        <EventIcon />
-      </MoreBox>
+      { showAction &&
+        <MoreBox className="sff-interesting__place" onClick={() => handleClickExpand()}>
+          <Typeography>View all</Typeography>
+          <EventIcon />
+        </MoreBox>
+      }
     </Box>
   );
 }

@@ -79,7 +79,7 @@ export default function Home({hideSidebar}) {
           <ReactMarkdown children={config.textPanelIntro} />
         </LinkInterceptor>
       </ContentBox>
-      <EventsPanel />
+      <EventsPanel showAction={true} />
       <Discord />
       <InterestPanel hideSidebar={hideSidebar} />
       <SearchPanel />

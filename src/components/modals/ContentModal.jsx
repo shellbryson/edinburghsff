@@ -58,6 +58,8 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 export default function ContentModal({ children }) {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const wide = useMediaQuery(theme.breakpoints.down('md'));
+
   const navigate = useNavigate();
 
   const handleBack = () => {
@@ -71,7 +73,7 @@ export default function ContentModal({ children }) {
   return (
     <BootstrapDialog
       fullWidth
-      maxWidth="sm"
+      maxWidth={wide ? "sm" : "lg"}
       open={true} fullScreen={fullScreen}
       onClose={handleClose}>
       <DialogContent className="scroll-dialog">
