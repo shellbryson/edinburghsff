@@ -28,6 +28,7 @@ import EventDetails from './pages/EventDetails';
 import Community from './pages/Community';
 import Suggestions from './pages/Suggestions';
 import Page from './pages/Page';
+import Join from './pages/Join';
 
 // Modals
 import AdminModal from './components/modals/AdminModal';
@@ -102,6 +103,7 @@ export default function App() {
               <Route path="events/:eventID/:eventTitle" element={<EventModal><EventDetails handleClose={handleClose}/></EventModal>} />
               <Route path="events" element={<ContentModal><Events /></ContentModal>} />
               <Route path="community" element={<ContentModal><Community /></ContentModal>} />
+              <Route path="join" element={<ContentModal><Join /></ContentModal>} />
               <Route path="feedback" element={<ContentModal><Suggestions /></ContentModal>} />
               <Route path="pages/:pageSlug" element={<ContentModal><Page /></ContentModal>} />
               <Route path="/dashboard" element={<AdminModal><Dashboard /></AdminModal>} />

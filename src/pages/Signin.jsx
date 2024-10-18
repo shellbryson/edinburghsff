@@ -52,8 +52,8 @@ export default function Signin() {
     setError('');
 
     try {
-      await signIn(email, password)
-      navigate('/dashboard')
+      await signIn(email, password);
+      navigate('/dashboard');
     } catch (e) {
       setError("Couldn't sign in. Please check your email and password.")
     }
@@ -81,6 +81,10 @@ export default function Signin() {
       setError("Unable to find an account with that email address. Did you type it correctly?");
       console.log(errorCode, errorMessage);
     });
+  }
+
+  const handleJoin = () => {
+    navigate('/join');
   }
 
   return (<>
@@ -135,6 +139,9 @@ export default function Signin() {
               </Button>
               <Button variant='outlines' onClick={() => handlePasswordReset()}>
                 Forgotten password?
+              </Button>
+              <Button variant='outlines' onClick={() => handleJoin()}>
+                Join
               </Button>
             </Stack>
           </form>

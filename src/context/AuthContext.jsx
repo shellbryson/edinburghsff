@@ -5,6 +5,10 @@ import {
   onAuthStateChanged,
 } from 'firebase/auth';
 
+import {
+  fetchDocument
+} from '../utils/utils';
+
 import { auth } from '../firebase';
 
 const AuthContext = createContext();
@@ -12,6 +16,7 @@ const AuthContext = createContext();
 export const AuthContextProvider = ({ children }) => {
 
   const [user, setUser] = useState({});
+  const [userDocuments, setUserDocuments] = useState({});
 
   const signIn = (email, password) =>  {
     return signInWithEmailAndPassword(auth, email, password)
@@ -21,11 +26,16 @@ export const AuthContextProvider = ({ children }) => {
     return signOut(auth)
   }
 
-
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       console.log("SFF: currentUser", auth.currentUser);
       setUser(auth.currentUser);
+
+      if (!currentUser) return;
+
+      fetchDocument("users", currentUser.uid, (data) => {
+        setUserDocuments(data);
+      });
     });
     return () => {
       unsubscribe();
@@ -33,7 +43,7 @@ export const AuthContextProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, logout, signIn }}>
+    <AuthContext.Provider value={{ user, userDocuments, logout, signIn }}>
       {children}
     </AuthContext.Provider>
   );

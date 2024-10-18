@@ -110,7 +110,7 @@ export default function ListContent() {
     } else if (params.type === 'accounts') {
       setIsLoading(true);
       setTableFilterOn('name');
-      setTableStructure({ headings: ['Name', 'Role'], keys: ['name', 'role'] });
+      setTableStructure({ headings: ['Name', 'Email', 'Role'], keys: ['name', 'email', 'role'] });
       fetchDocuments("users", {field:'name', mode:'asc'}, (data) => {
         data.forEach((item) => {
           item.display = true;

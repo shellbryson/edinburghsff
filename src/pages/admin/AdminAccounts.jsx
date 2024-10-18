@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate } from "react-router-dom";
-import { doc, addDoc, updateDoc, deleteDoc, collection } from 'firebase/firestore';
+import { doc, setDoc, addDoc, updateDoc, deleteDoc, collection } from 'firebase/firestore';
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { db } from "../../firebase";
 import { useConfirm } from "material-ui-confirm";
 
@@ -21,20 +22,14 @@ import ListItemText from '@mui/material/ListItemText';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
-import FormGroup from '@mui/material/FormGroup';
 import FormControl from '@mui/material/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import { useTheme } from '@mui/material/styles';
 
 // Icons
 import DeleteIcon from '@mui/icons-material/Delete';
-import ListIcon from '@mui/icons-material/List';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 
 // Custom UI
-import UploadImage from '../../components/admin/UploadImage';
-import GalleryEditor from '../../components/admin/GalleryEditor';
 import AdminLayout from '../../layouts/AdminLayout';
 
 import {
@@ -83,6 +78,8 @@ export default function AdminAccounts() {
 
   // Common
   const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [role, setRole] = useState('');
 
   // Update
@@ -118,38 +115,7 @@ export default function AdminAccounts() {
   };
 
   // ### ADD
-
-  const handleAdd = async (e) => {
-    setError('');
-    if (!name) {
-      setError('Account name is required');
-      return;
-    }
-    setIsLoading(true);
-    const payload = {
-      title: name,
-      role: role,
-      created: {
-        email: user.email,
-        uid: user.uid,
-        timestamp: new Date()
-      },
-      updated: {
-        email: user.email,
-        uid: user.uid,
-        timestamp: new Date()
-      }
-    }
-    try {
-      const doc = await addDoc(collection(db, "users"), payload);
-      console.log("Saved Account", doc.id);
-      setIsLoading(false);
-      navigate(`/admin/account/update/${doc.id}`, { replace: true });
-    } catch (e) {
-      setIsLoading(false);
-      console.error("Error adding document: ", e);
-    }
-  };
+  // Accounts are added in the User facing app, not here
 
   // ### UPDATE
 
@@ -164,6 +130,7 @@ export default function AdminAccounts() {
     const payload = {
       name: name,
       role: role,
+      email: email,
       updated: {
         email: user.email,
         uid: user.uid,
@@ -221,6 +188,16 @@ export default function AdminAccounts() {
     setName(text);
   }
 
+  const handleChangeEmail = (text) => {
+    if (text !== email) setIsDirty(true);
+    setEmail(text);
+  }
+
+  const handleChangePassword = (text) => {
+    if (text !== password) setIsDirty(true);
+    setPassword(text);
+  }
+
   const handleChangeRole = (text) => {
     if (text !== role) setIsDirty(true);
     setRole(text);
@@ -235,6 +212,8 @@ export default function AdminAccounts() {
       <Box>
         <Stack spacing={2} sx={{ mt: 2}}>
           <TextField value={name} required label="Name" onChange={(e) => handleChangeName(e.target.value)} type='text' />
+          <TextField value={email} required label="Email" onChange={(e) => handleChangeEmail(e.target.value)} type='email' />
+          <TextField value={password} required label="Password" onChange={(e) => handleChangePassword(e.target.value)} type='password' />
 
           <FormControl fullWidth>
             <InputLabel>Role</InputLabel>
@@ -262,13 +241,12 @@ export default function AdminAccounts() {
       </Box>
       <Box style={style.actions}>
         <Box>
-          { isUpdate && <Button onClick={() => handleDelete(updateId)} variant="outlined" color="warning" startIcon={<DeleteIcon />}>Delete</Button> }
+          <Button onClick={() => handleDelete(updateId)} variant="outlined" color="warning" startIcon={<DeleteIcon />}>Delete</Button>
         </Box>
         <Box style={{ display: "flex", gap: "0.5rem" }}>
           { isDirty && <Typography sx={style.dirty} variant='p_small'>Unsaved</Typography> }
           <Button onClick={handleBack} variant='outlined'>Back</Button>
-          { isUpdate && <Button onClick={handleUpdate} variant='contained'>Update Account</Button> }
-          { !isUpdate && <Button onClick={handleAdd} variant='contained'>Add Account</Button> }
+          <Button onClick={handleUpdate} variant='contained'>Update Account</Button>
         </Box>
       </Box>
     </AdminLayout>

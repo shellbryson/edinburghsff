@@ -46,14 +46,20 @@ const UserBox = styled(Box)(({ theme }) => ({
 }));
 
 const Dashboard = () => {
-  const { user, logout } = useAuth();
+  const { user, userDocuments, logout } = useAuth();
   const navigate = useNavigate();
 
   const { setAdminDialogTitle } = useApp();
 
   useEffect(() => {
     setAdminDialogTitle('Dashboard');
+    console.log("User documents", userDocuments);
   }, []);
+
+  useEffect(() => {
+    setAdminDialogTitle('Dashboard');
+    console.log("User documents", userDocuments);
+  }, [userDocuments?.role]);
 
   const handleLogout = async () => {
     try {

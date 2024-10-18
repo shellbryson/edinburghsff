@@ -7,7 +7,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 Admin:
   - Add: View Accounts
+  - Add: If role not admin, redirect to root
   - Fix: If no account type set (bad url), redirect to Dashboard
+
+Join:
+  - Add: Join page
 
 App:
   - Fix: Do not apply Sentry to development builds
