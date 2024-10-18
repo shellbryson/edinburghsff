@@ -15,6 +15,7 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import ListIcon from '@mui/icons-material/List';
 import EventIcon from '@mui/icons-material/Event';
 import PlaceIcon from '@mui/icons-material/Place';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import SettingsIcon from '@mui/icons-material/Settings';
 
 const NavigationMenu = styled(Box)(({ theme }) => ({
@@ -78,6 +79,9 @@ const Dashboard = () => {
         </NavigationButton>
         <NavigationButton variant="contained" color="primary" endIcon={<ListIcon />} component={Link} to="/admin/lists">
           Lists
+        </NavigationButton>
+        <NavigationButton variant="contained" color="primary" endIcon={<ManageAccountsIcon />} component={Link} to="/admin/accounts">
+          Accounts
         </NavigationButton>
         <NavigationButton variant="contained" color="primary" endIcon={<SettingsIcon />} component={Link} to="/admin/settings">
           Settings

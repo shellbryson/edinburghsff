@@ -24,6 +24,7 @@ import ListIcon from '@mui/icons-material/List';
 import EventIcon from '@mui/icons-material/Event';
 import PlaceIcon from '@mui/icons-material/Place';
 import SettingsIcon from '@mui/icons-material/Settings';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 
 // Helpers
 import ProtectedRoute from '../../helpers/ProtectedRoute';
@@ -104,17 +105,20 @@ export default function AdminModal({ children }) {
           <Button variant="outlined" size="small" color="primary" component={Link} to="/dashboard">
             <HomeIcon />
           </Button>
-          <Button variant="contained" size="small" startIcon={<PlaceIcon />} component={Link} to="/admin/locations" color={location.pathname.includes("/admin/locations") ? "secondary" : "primary"}>
-            Locations
+          <Button variant="contained" size="small" component={Link} to="/admin/locations" color={location.pathname.includes("/admin/locations") ? "secondary" : "primary"}>
+            <PlaceIcon />
           </Button>
-          <Button variant="contained" size="small" startIcon={<EventIcon />} component={Link} to="/admin/events" color={location.pathname.includes("/admin/events") ? "secondary" : "primary"}>
-            Events
+          <Button variant="contained" size="small" component={Link} to="/admin/events" color={location.pathname.includes("/admin/events") ? "secondary" : "primary"}>
+            <EventIcon />
           </Button>
-          <Button variant="contained" size="small" startIcon={<DescriptionIcon />} component={Link} to="/admin/pages" color={location.pathname.includes("/admin/pages") ? "secondary" : "primary"}>
-           Pages
+          <Button variant="contained" size="small" component={Link} to="/admin/pages" color={location.pathname.includes("/admin/pages") ? "secondary" : "primary"}>
+            <DescriptionIcon />
           </Button>
-          <Button variant="contained" size="small" startIcon={<ListIcon />} component={Link} to="/admin/lists" color={location.pathname.includes("/admin/lists") ? "secondary" : "primary"}>
-            Lists
+          <Button variant="contained" size="small" component={Link} to="/admin/lists" color={location.pathname.includes("/admin/lists") ? "secondary" : "primary"}>
+            <ListIcon />
+          </Button>
+          <Button variant="contained" size="small" component={Link} to="/admin/accounts" color={location.pathname.includes("/admin/accounts") ? "secondary" : "primary"}>
+            <ManageAccountsIcon />
           </Button>
           <Button variant="contained" size="small" component={Link} to="/admin/settings" color={location.pathname.includes("/admin/settings") ? "secondary" : "primary"}>
             <SettingsIcon />

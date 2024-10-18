@@ -43,6 +43,7 @@ import AdminEvents from './pages/admin/AdminEvents';
 import AdminLocations from './pages/admin/AdminLocations';
 import AdminPages from './pages/admin/AdminPages';
 import AdminLists from './pages/admin/AdminLists';
+import AdminAccounts from './pages/admin/AdminAccounts';
 
 import {
   fetchDocument
@@ -112,6 +113,8 @@ export default function App() {
               <Route path='/admin/pages/add' element={<AdminModal><AdminPages /></AdminModal>} />
               <Route path='/admin/lists/update/:updateId' element={<AdminModal><AdminLists /></AdminModal>} />
               <Route path='/admin/lists/add' element={<AdminModal><AdminLists /></AdminModal>} />
+              <Route path='/admin/accounts/update/:updateId' element={<AdminModal><AdminAccounts /></AdminModal>} />
+              <Route path='/admin/accounts/add' element={<AdminModal><AdminAccounts /></AdminModal>} />
               <Route path='/admin/settings/' element={<AdminModal><AdminSettings /></AdminModal>} />
               <Route path='/admin/:type/' element={<AdminModal><ListContent /></AdminModal>} />
             </Routes>

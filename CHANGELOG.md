@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.5.0] - 2024-10-?? (beta)
+
+Admin:
+  - Add: View Accounts
+  - Fix: If no account type set (bad url), redirect to Dashboard
+
+App:
+  - Fix: Do not apply Sentry to development builds
+
 ## [2.4.0] - 2024-06-09 (beta)
 
 Events:
