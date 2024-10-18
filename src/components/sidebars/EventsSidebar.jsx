@@ -11,13 +11,13 @@ import EventsPanel from '../panels/EventsPanel';
 import EventsCalendarPanel from '../panels/EventsCalendarPanel';
 
 const SidebarBox = styled(Box)(({ theme }) => ({
-  //background: theme.palette.brand.main,
   marginBottom: "2rem",
-  cursor: "pointer",
-  width: "300px"
 }));
 
+
 export default function EventsSidebar({events, onClickDate}) {
+
+  console.log('EventsSidebar', events);
 
   return (
     <SidebarBox>

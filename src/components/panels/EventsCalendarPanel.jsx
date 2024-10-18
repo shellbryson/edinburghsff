@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Calendar from 'react-calendar';
-import dayjs from 'dayjs';
+import dayjs, { isSameOrBefore } from 'dayjs';
 import 'dayjs/locale/en-gb';
 
 // MUI
@@ -11,11 +11,16 @@ import { useTheme, styled } from '@mui/material/styles';
 // Assets
 import 'react-calendar/dist/Calendar.css';
 
+// function isSameDay(a, b) {
+//   return differenceInCalendarDays(a, b) === 0;
+// }
+
 export default function EventsCalendarPanel({onClickDate, events}) {
 
   const theme = useTheme();
 
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [eventDates, setEventDates] = useState([]);
 
   const style = {
     events: {
@@ -27,10 +32,33 @@ export default function EventsCalendarPanel({onClickDate, events}) {
     }
   }
 
-  // useEffect(() => {
-  //   if (events.length === 0) return;
-  //   setEventsData(events);
-  // }, [events])
+  useEffect(() => {
+    if (events.length === 0) return;
+
+    console.log("Got events", events);
+
+    const d = [];
+
+    // get the start date of each event
+    events.forEach(event => {
+      const s = dayjs(event.eventStart.toDate());
+      const e = dayjs(event.eventEnd.toDate());
+
+      //console.log(s, e);
+
+      // if (s.isSame(e, 'day')) {
+      //   d.push(s);
+      // } else {
+      //   let currentDate = s.format('YYYY-MM-DD');
+      //   while (s.isSameOrBefore(e, 'day')) {
+      //     d.push(currentDate.format('YYYY-MM-DD'));
+      //     currentDate = currentDate.add(1, 'day'); // Correctly update currentDate
+      //   }
+      // }
+    });
+
+    setEventDates(d); // Pass the correct array to eventDates
+  }, [events]);
 
   const onChange = (date) => {
     onClickDate(date);
@@ -38,24 +66,21 @@ export default function EventsCalendarPanel({onClickDate, events}) {
   }
 
   function tileClassName({ date, view }) {
-    if (events.length === 0) return;
+    if (eventDates.length === 0) return;
 
-    console.log("DATE", date);
+    const calendarDate = dayjs(date);
 
-    events.forEach(event => {
-      const start = dayjs(event.eventStart.toDate());
-      const calendarDate = dayjs(date);
-      if (start.isSame(calendarDate, 'day')) {
-        return 'test';
+    eventDates.forEach(event => {
+      const s = event.format('YYYY-MM-DD');
+      const c = calendarDate.format('YYYY-MM-DD');
+      if (s === c) {
+        hasEvent = true;
       }
     })
-    // Add class to tiles in month view only
-    // if (view === 'month') {
-    //   // Check if a date React-Calendar wants to check is on the list of dates to add class to
-    //   if (events.find(dDate => isSameDay(dDate, date))) {
-    //     return 'test';
-    //   }
-    // }
+
+    if (hasEvent) {
+      return "THIS DATE HAS AN EVENT";
+    }
   }
   return (
     <Box style={style.events} className="sff-panel-events">
