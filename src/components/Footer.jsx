@@ -6,14 +6,12 @@ import { useAuth } from '../context/AuthContext';
 
 // MUI
 import Box from '@mui/material/Box';
-import { Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import Logo from './Logo';
 
 export default function Footer() {
   const theme = useTheme();
-
-  const { user } = useAuth();
+  const { user, userDocuments, logout } = useAuth();
   const style={
     footer: {
       display: "flex",
@@ -24,15 +22,31 @@ export default function Footer() {
     }
   }
 
+  const handleLogout = async () => {
+    try {
+      await logout();
+      console.log('You are logged out')
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+
   return (
     <>
       <Box style={style.footer} className="sff-footer">
         <Link to='/pages/about'>About</Link>
         <Link to='/pages/faq'>FAQ</Link>
         {!user?.uid &&
-          <Link to='/signin'>Sign in</Link>
+          <>
+            <Link to='/join'>Join</Link>
+            <Link to='/signin'>Login</Link>
+          </>
         }
-        {user?.uid && <>
+        {user?.uid && userDocuments.role !== "admin" && <>
+          <Link to='/' onClick={handleLogout}>Logout</Link>
+        </>
+        }
+        {user?.uid && userDocuments.role === "admin" && <>
           <Link to='/dashboard'>Dashboard</Link>
         </>
         }

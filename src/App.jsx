@@ -28,6 +28,7 @@ import EventDetails from './pages/EventDetails';
 import Community from './pages/Community';
 import Suggestions from './pages/Suggestions';
 import Page from './pages/Page';
+import Join from './pages/Join';
 
 // Modals
 import AdminModal from './components/modals/AdminModal';
@@ -43,6 +44,7 @@ import AdminEvents from './pages/admin/AdminEvents';
 import AdminLocations from './pages/admin/AdminLocations';
 import AdminPages from './pages/admin/AdminPages';
 import AdminLists from './pages/admin/AdminLists';
+import AdminAccounts from './pages/admin/AdminAccounts';
 
 import {
   fetchDocument
@@ -101,6 +103,7 @@ export default function App() {
               <Route path="events/:eventID/:eventTitle" element={<EventModal><EventDetails handleClose={handleClose}/></EventModal>} />
               <Route path="events" element={<ContentModal><Events /></ContentModal>} />
               <Route path="community" element={<ContentModal><Community /></ContentModal>} />
+              <Route path="join" element={<ContentModal><Join /></ContentModal>} />
               <Route path="feedback" element={<ContentModal><Suggestions /></ContentModal>} />
               <Route path="pages/:pageSlug" element={<ContentModal><Page /></ContentModal>} />
               <Route path="/dashboard" element={<AdminModal><Dashboard /></AdminModal>} />
@@ -112,6 +115,8 @@ export default function App() {
               <Route path='/admin/pages/add' element={<AdminModal><AdminPages /></AdminModal>} />
               <Route path='/admin/lists/update/:updateId' element={<AdminModal><AdminLists /></AdminModal>} />
               <Route path='/admin/lists/add' element={<AdminModal><AdminLists /></AdminModal>} />
+              <Route path='/admin/accounts/update/:updateId' element={<AdminModal><AdminAccounts /></AdminModal>} />
+              <Route path='/admin/accounts/add' element={<AdminModal><AdminAccounts /></AdminModal>} />
               <Route path='/admin/settings/' element={<AdminModal><AdminSettings /></AdminModal>} />
               <Route path='/admin/:type/' element={<AdminModal><ListContent /></AdminModal>} />
             </Routes>
