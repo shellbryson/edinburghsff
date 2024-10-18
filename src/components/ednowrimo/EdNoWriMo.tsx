@@ -57,79 +57,73 @@ function EdNoWriMo() {
   };
 
   return (
-    <div className="App">
-      <div className="endowrimo-page">
-        <LineChart width={900} height={450} data={data}>
-          <XAxis dataKey="name" interval={0} tickLine={false} />
-          <YAxis tickCount={6} />
-          <CartesianGrid stroke="#eee" strokeDasharray="5 5" />
-          <Line type="monotone" dataKey="Target" stroke="#8884d8" />
-          <Line type="monotone" dataKey="Actual" stroke="#82ca9d" />
-          <Line
-            type="monotone"
-            dataKey="Projection"
-            stroke="#82ca9d50"
-            strokeDasharray={11}
-            dot={false}
-          />
-        </LineChart>
-        <div>
-          <h3>Your Target</h3>
-          <input type="number" placeholder="50000" onChange={updateTarget} />
-        </div>
-        <div>
-          <h3 className="progress-header">Your Progress</h3>
-          {dailyInput.map((element: number | null, index: number) => {
-            if (index > 0) {
-              return (
-                <div
-                  key={index}
-                  className={classNames(
-                    "day-input",
-                    currentDay === index ? "today" : "",
-                    index < currentDay ? "past" : ""
-                  )}
-                >
-                  <h4>Day {index}</h4>
-                  <input
-                    type="number"
-                    placeholder={(element ?? currentMax).toString()}
-                    disabled={currentDay < index || currentDay > index}
-                    onChange={(event) =>
-                      updateProgress(index, event.target.valueAsNumber)
-                    }
-                  />
-                </div>
-              );
-            } else return null;
-          })}
-        </div>
-        <div className="awards">
-          <h3>Your Awards</h3>
-          {userData.maxWords > 0 && <img alt="first words" src={firstwords} />}
-          {userData.maxStreak > 3 && (
-            <img alt="three streak" src={threeStreak} />
-          )}
-          {userData.maxStreak > 5 && <img alt="five streak" src={fiveStreak} />}
-          {userData.maxStreak > 15 && (
-            <img alt="fifteen streak" src={fifteenStreak} />
-          )}
-          {userData.maxStreak > 29 && (
-            <img alt="full streak" src={fullStreak} />
-          )}
-          {userData.maxWords > 5000 && (
-            <img alt="5k words written" src={fivekwords} />
-          )}
-          {userData.maxWords > 10000 && (
-            <img alt="10k words written" src={tenkwords} />
-          )}
-          {userData.maxWords > 25000 && (
-            <img alt="25k words written" src={twentyfivekwords} />
-          )}
-          {userData.maxWords > 49000 && (
-            <img alt="50k words written" src={fiftykwords} />
-          )}
-        </div>
+    <div className="endowrimo-page">
+      <LineChart width={900} height={450} data={data}>
+        <XAxis dataKey="name" interval={0} tickLine={false} />
+        <YAxis tickCount={6} />
+        <CartesianGrid stroke="#eee" strokeDasharray="5 5" />
+        <Line type="monotone" dataKey="Target" stroke="#8884d8" />
+        <Line type="monotone" dataKey="Actual" stroke="#82ca9d" />
+        <Line
+          type="monotone"
+          dataKey="Projection"
+          stroke="#82ca9d50"
+          strokeDasharray={11}
+          dot={false}
+        />
+      </LineChart>
+      <div>
+        <h3>Your Target</h3>
+        <input type="number" placeholder="50000" onChange={updateTarget} />
+      </div>
+      <div>
+        <h3 className="progress-header">Your Progress</h3>
+        {dailyInput.map((element: number | null, index: number) => {
+          if (index > 0) {
+            return (
+              <div
+                key={index}
+                className={classNames(
+                  "day-input",
+                  currentDay === index ? "today" : "",
+                  index < currentDay ? "past" : ""
+                )}
+              >
+                <h4>Day {index}</h4>
+                <input
+                  type="number"
+                  placeholder={(element ?? currentMax).toString()}
+                  disabled={currentDay < index || currentDay > index}
+                  onChange={(event) =>
+                    updateProgress(index, event.target.valueAsNumber)
+                  }
+                />
+              </div>
+            );
+          } else return null;
+        })}
+      </div>
+      <div className="awards">
+        <h3>Your Awards</h3>
+        {userData.maxWords > 0 && <img alt="first words" src={firstwords} />}
+        {userData.maxStreak > 3 && <img alt="three streak" src={threeStreak} />}
+        {userData.maxStreak > 5 && <img alt="five streak" src={fiveStreak} />}
+        {userData.maxStreak > 15 && (
+          <img alt="fifteen streak" src={fifteenStreak} />
+        )}
+        {userData.maxStreak > 29 && <img alt="full streak" src={fullStreak} />}
+        {userData.maxWords > 5000 && (
+          <img alt="5k words written" src={fivekwords} />
+        )}
+        {userData.maxWords > 10000 && (
+          <img alt="10k words written" src={tenkwords} />
+        )}
+        {userData.maxWords > 25000 && (
+          <img alt="25k words written" src={twentyfivekwords} />
+        )}
+        {userData.maxWords > 49000 && (
+          <img alt="50k words written" src={fiftykwords} />
+        )}
       </div>
     </div>
   );
