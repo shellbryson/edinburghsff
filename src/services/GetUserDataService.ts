@@ -12,7 +12,7 @@ export class GetUserDataService {
         const userDataDB = new UserDataDB();
         const userInput = this.updateUserInput(userDataDB.getUserInput());
         const userTarget = userDataDB.getUserTarget();
-        return new UserData(userInput, userTarget, this.calcMaxStreak(userInput), this.calcMaxWords(userInput));
+        return new UserData(userInput, userTarget, this.calcCurrentStreak(userInput), this.calcMaxStreak(userInput), this.calcMaxWords(userInput));
     }
 
     private updateUserInput = (userInput: (number | null)[]): (number | null)[] => {
@@ -25,6 +25,24 @@ export class GetUserDataService {
             updatedInput.push(value);
         });
         return updatedInput;
+    }
+
+    private calcCurrentStreak = (userInput: (number | null)[]): number => {
+        let currentStreak = 0;
+        let currentIndex = userInput.length - 1;
+        let currentWords = userInput[currentIndex];
+
+        if (currentWords == null){
+            return currentStreak;
+        }
+
+        while (userInput[currentIndex - 1] ?? 0 < (currentWords ?? 0)){
+            currentStreak++;
+            currentIndex = currentIndex -1;
+            currentWords = userInput[currentIndex];
+        }
+
+        return currentStreak;
     }
 
     private calcMaxStreak = (userInput: (number | null)[]): number => {

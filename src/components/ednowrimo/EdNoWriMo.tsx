@@ -58,6 +58,30 @@ function EdNoWriMo() {
 
   return (
     <div className="endowrimo-page">
+      <div className="stats">
+        <div className="stat-block">
+          <p>Your goal:</p>
+          <p className="score">{target.toLocaleString()} words</p>
+        </div>
+        <div className="stat-block">
+          <p>Your current streak:</p>
+          <p className="score">{userData.currentStreak} days</p>
+        </div>
+        <div className="stat-block">
+          <p>Your top streak:</p>
+          <p className="score">{userData.maxStreak} days</p>
+        </div>
+        <div className="stat-block">
+          <p>Your current word count:</p>
+          <p className="score">{userData.maxWords.toLocaleString()} words</p>
+        </div>
+        <div className="stat-block">
+          <p>Your are:</p>
+          <p className="score">
+            {(userData.maxWords / target) * 100}% of the way there!
+          </p>
+        </div>
+      </div>
       <LineChart width={900} height={450} data={data}>
         <XAxis dataKey="name" interval={0} tickLine={false} />
         <YAxis tickCount={6} />
@@ -76,7 +100,7 @@ function EdNoWriMo() {
         <h3>Your Target</h3>
         <input type="number" placeholder="50000" onChange={updateTarget} />
       </div>
-      <div>
+      <div className="progress">
         <h3 className="progress-header">Your Progress</h3>
         {dailyInput.map((element: number | null, index: number) => {
           if (index > 0) {

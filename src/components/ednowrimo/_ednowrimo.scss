@@ -7,7 +7,37 @@
     top: 0;
     position: absolute;
     z-index: 910;
-    height: 100vh;
+    height: 91vh;
+
+    .stats {
+        padding: 20px;
+        text-align: center;
+
+        .stat-block {
+            background-color: #222299;
+            display: inline-block;
+            border-radius: 10px;
+            margin: 10px;
+            padding: 10px;
+            width: 150px;
+            height: 120px;
+            vertical-align: top;
+            position: relative;
+
+            p {
+                position: absolute;
+                top: 0;
+                width: calc(100% - 20px);
+            }
+
+            .score {
+                font-weight: bold;
+                vertical-align: bottom;
+                bottom: 10px;
+                top: auto;
+            }
+        }
+    }
 
     .recharts-wrapper {
         width: 100% !important;
@@ -24,39 +54,51 @@
         }
     }
 
-    .progress-header {
-        margin-bottom: 0;
-        margin-top: 40px;
-    }
+    .progress {
+        width: calc(100% - 170px);
+        position: relative;
 
-    .day-input {
-        color: #ffffff50;
-        display: inline-block;
-        padding: 10px;
-
-        h4 {
-            margin-top: 10px;
-            margin-bottom: 5px;
+        .progress-header {
+            margin-bottom: 0;
+            margin-top: 40px;
         }
 
-        input {
-            width: 55px;
+        .day-input {
+            color: #ffffff50;
+            display: inline-block;
+            padding: 10px;
+
+            h4 {
+                margin-top: 10px;
+                margin-bottom: 5px;
+            }
+
+            input {
+                width: 55px;
+            }
         }
-    }
 
-    .past {
-        color: white;
-    }
-
-    .today  {
-        color: green;
-
-        h4 {
-            text-transform: uppercase;
+        .past {
+            color: white;
         }
 
-        input {
-            font-weight: bold;
+        .today  {
+            color: #44f;
+            position: absolute;
+            right: 0;
+            top: 20px;
+            margin-right: -140px;
+            font-size: 30px;
+
+            h4 {
+                text-transform: uppercase;
+            }
+
+            input {
+                font-weight: bold;
+                font-size: 30px;
+                width: 120px;
+            }
         }
     }
 
