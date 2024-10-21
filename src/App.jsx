@@ -35,6 +35,9 @@ import AdminModal from './components/modals/AdminModal';
 import ContentModal from './components/modals/ContentModal';
 import EventModal from './components/modals/EventModal';
 
+// EdNoWriMo
+import EdNoWriMo from './components/ednowrimo/EdNoWriMo';
+
 // Suspended components
 import Signin from './pages/Signin';
 import Dashboard from './pages/admin/Dashboard';
@@ -119,6 +122,7 @@ export default function App() {
               <Route path='/admin/accounts/add' element={<AdminModal><AdminAccounts /></AdminModal>} />
               <Route path='/admin/settings/' element={<AdminModal><AdminSettings /></AdminModal>} />
               <Route path='/admin/:type/' element={<AdminModal><ListContent /></AdminModal>} />
+              <Route path='/ednowrimo' element={<EdNoWriMo/>} />
             </Routes>
           </ConfirmProvider>
         </EdinburghSFF>

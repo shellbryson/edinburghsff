@@ -9,7 +9,8 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start": "node dev"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
@@ -20,6 +21,7 @@
     "@sentry/react": "^8.2.1",
     "@sentry/vite-plugin": "^2.16.1",
     "@vercel/analytics": "^1.2.2",
+    "classnames": "^2.5.1",
     "dayjs": "^1.11.10",
     "firebase": "^10.10.0",
     "google-maps-react-markers": "^2.0.8",
@@ -31,17 +33,21 @@
     "react-helmet-async": "^2.0.5",
     "react-markdown": "^9.0.1",
     "react-router-dom": "^6.23.0",
+    "recharts": "^2.13.0",
     "sass": "^1.74.1",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
-    "@types/react": "^18.3.1",
-    "@types/react-dom": "^18.3.0",
+    "@types/react": "^18.3.11",
+    "@types/react-dom": "^18.3.1",
+    "@typescript-eslint/eslint-plugin": "^8.10.0",
+    "@typescript-eslint/parser": "^8.10.0",
     "@vitejs/plugin-react-swc": "^3.6.0",
-    "eslint": "^9.0.0",
+    "eslint": "^8.0.0",
     "eslint-plugin-react": "^7.34.1",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.6",
+    "typescript": "^5.6.3",
     "vite": "^5.2.11"
   }
 }
