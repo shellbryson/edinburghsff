@@ -29,14 +29,14 @@ export class GetUserDataService {
 
     private calcCurrentStreak = (userInput: (number | null)[]): number => {
         let currentStreak = 0;
-        let currentIndex = userInput.length - 1;
+        let currentIndex = userInput.filter(v => v !== null).length - 1;
         let currentWords = userInput[currentIndex];
 
         if (currentWords == null){
             return currentStreak;
         }
 
-        while (userInput[currentIndex - 1] ?? 0 < (currentWords ?? 0)){
+        while (userInput[currentIndex] ?? 0 < (currentWords ?? 0)){
             currentStreak++;
             currentIndex = currentIndex -1;
             currentWords = userInput[currentIndex];
@@ -51,10 +51,10 @@ export class GetUserDataService {
 
         userInput.forEach((value, index) => {
             if (value != null) {
-                if (index === 0 && value > 0) {
+                if (index === 1 && value > 0) {
                     currentStreak = 1;
                 }
-                if (index > 0){
+                if (index > 1){
                     if (value > (userInput[index -1] ?? value)) {
                         currentStreak++;
                     } else {

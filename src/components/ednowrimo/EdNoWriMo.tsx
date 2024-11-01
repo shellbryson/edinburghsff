@@ -116,7 +116,7 @@ function EdNoWriMo() {
                 <h4>Day {index}</h4>
                 <input
                   type="number"
-                  placeholder={(element ?? currentMax).toString()}
+                  placeholder={(element ?? "").toString()}
                   disabled={currentDay < index || currentDay > index}
                   onChange={(event) =>
                     updateProgress(index, event.target.valueAsNumber)
