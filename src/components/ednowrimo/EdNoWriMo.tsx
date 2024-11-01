@@ -60,26 +60,28 @@ function EdNoWriMo() {
     <div className="endowrimo-page">
       <div className="stats">
         <div className="stat-block">
-          <p>Your goal:</p>
-          <p className="score">{target.toLocaleString()} words</p>
+          <p>My goal:</p>
+          <p className="score-percent">{target.toLocaleString()}</p>
+          <p className="score-percent-plus">words</p>
         </div>
         <div className="stat-block">
-          <p>Your current streak:</p>
+          <p>My current streak:</p>
           <p className="score">{userData.currentStreak} days</p>
         </div>
         <div className="stat-block">
-          <p>Your top streak:</p>
+          <p>My top streak:</p>
           <p className="score">{userData.maxStreak} days</p>
         </div>
         <div className="stat-block">
-          <p>Your current word count:</p>
+          <p>My current word count:</p>
           <p className="score">{userData.maxWords.toLocaleString()} words</p>
         </div>
         <div className="stat-block">
-          <p>Your are:</p>
-          <p className="score">
-            {(userData.maxWords / target) * 100}% of the way there!
+          <p>I am:</p>
+          <p className="score-percent">
+            {Math.round((userData.maxWords / target) * 100)}%
           </p>
+          <p className="score-percent-plus">of the way there!</p>
         </div>
       </div>
       <LineChart width={900} height={450} data={data}>
@@ -116,7 +118,7 @@ function EdNoWriMo() {
                 <h4>Day {index}</h4>
                 <input
                   type="number"
-                  placeholder={(element ?? currentMax).toString()}
+                  placeholder={(element ?? "").toString()}
                   disabled={currentDay < index || currentDay > index}
                   onChange={(event) =>
                     updateProgress(index, event.target.valueAsNumber)
