@@ -20,20 +20,14 @@ function EdNoWriMo() {
   const [target, setTarget] = useState(userData.target);
   const [dailyTarget, setDailyTarget] = useState(target / 30);
   const maxNumber = () => {
-    return (
-      dailyInput.reduce((a: number | null, b: number | null) =>
-        Math.max(a ?? 0, b ?? 0)
-      ) ?? 0
-    );
+    return dailyInput.reduce((a, b) => Math.max(a ?? 0, b ?? 0)) ?? 0;
   };
-  const currentMax = userData.maxWords;
-  const [currentDaily, setCurrentDaily] = useState(currentMax / currentDay);
 
-  const data = dailyInput.map((value: number | null, index: number) => ({
+  const data = dailyInput.map((value, index) => ({
     name: index,
     Target: dailyTarget * index,
     Actual: value,
-    Projection: currentDaily * index,
+    Projection: userData.maxWords / (currentDay / index),
   }));
 
   const updateTarget = (e: ChangeEvent<HTMLInputElement>) => {
@@ -48,12 +42,6 @@ function EdNoWriMo() {
     }
     dailyArray[index] = value;
     setDailyInput(dailyArray);
-    setDailyTrend();
-  };
-
-  const setDailyTrend = () => {
-    const value = maxNumber();
-    setCurrentDaily(value / currentDay);
   };
 
   return (
