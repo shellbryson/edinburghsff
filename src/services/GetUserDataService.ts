@@ -30,16 +30,20 @@ export class GetUserDataService {
     private calcCurrentStreak = (userInput: (number | null)[]): number => {
         let currentStreak = 0;
         let currentIndex = userInput.filter(v => v !== null).length - 1;
-        let currentWords = userInput[currentIndex];
 
-        if (currentWords == null){
+        if (userInput[currentIndex] == null){
             return currentStreak;
         }
 
-        while (userInput[currentIndex] ?? 0 < (currentWords ?? 0)){
+        currentStreak = 1;
+        currentIndex = currentIndex - 1;
+
+        let lastDay = userInput[currentIndex] ?? 0;
+
+        while ((userInput[currentIndex - 1] ?? 0) < lastDay){
             currentStreak++;
-            currentIndex = currentIndex -1;
-            currentWords = userInput[currentIndex];
+            currentIndex = currentIndex - 1;
+            lastDay = userInput[currentIndex ] ?? 0;
         }
 
         return currentStreak;
