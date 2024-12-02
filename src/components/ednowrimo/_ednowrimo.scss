@@ -19,8 +19,8 @@
             border-radius: 10px;
             margin: 10px;
             padding: 10px;
-            width: 150px;
-            height: 120px;
+            width: 120px;
+            height: 100px;
             vertical-align: top;
             position: relative;
 
@@ -33,8 +33,9 @@
             .score {
                 font-weight: bold;
                 vertical-align: bottom;
-                bottom: 10px;
+                bottom: 0px;
                 top: auto;
+                font-size: 24px;
             }
 
             .score-percent {
@@ -120,6 +121,34 @@
         img {
             display: inline-block;
             height: 100px;
+        }
+    }
+
+    .project-selector {
+        display: none;
+    }
+
+    .selector-open {
+        display: flex;
+        position: fixed;
+        width: 250px;
+        height: 40px;
+        border: white 1px solid;
+        border-radius: 5px;
+        top: calc(50% - 200px);
+        left: calc(50% - 125px);
+        background-color: $background;
+        padding: 20px;
+
+        .select-dropdown {
+            display: inline-block;
+            margin-right: 40px;
+        }
+
+        button {
+            display: inline-block;
+            vertical-align: top;
+            height: 23px;
         }
     }
 }

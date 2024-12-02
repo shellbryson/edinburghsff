@@ -10,9 +10,14 @@ export class GetUserDataService {
     private fetchUserData = (): UserData => {
         //will be used to fetch data from server
         const userDataDB = new UserDataDB();
-        const userInput = this.updateUserInput(userDataDB.getUserInput());
-        const userTarget = userDataDB.getUserTarget();
-        return new UserData(userInput, userTarget, this.calcCurrentStreak(userInput), this.calcMaxStreak(userInput), this.calcMaxWords(userInput));
+        const userProjects = userDataDB.projects;
+        const projects = new Array<UserProject>();
+        userProjects.forEach(project => {
+            const projectInput = this.updateUserInput(project.projectData);
+            const formattedProject = new UserProject(project.name, projectInput, project.projectTarget, project.startDate, project.endDate, this.calcCurrentStreak(projectInput), this.calcMaxStreak(projectInput), this.calcMaxWords(projectInput), this.calcMaxWordsDaily(projectInput));
+            projects.push(formattedProject);
+        })
+        return new UserData(projects);
     }
 
     private updateUserInput = (userInput: (number | null)[]): (number | null)[] => {
@@ -30,8 +35,9 @@ export class GetUserDataService {
     private calcCurrentStreak = (userInput: (number | null)[]): number => {
         let currentStreak = 0;
         let currentIndex = userInput.filter(v => v !== null).length - 1;
+        const currentWords = userInput[currentIndex];
 
-        if (userInput[currentIndex] == null){
+        if (currentWords == null || currentWords === userInput[currentIndex - 1]){
             return currentStreak;
         }
 
@@ -78,5 +84,19 @@ export class GetUserDataService {
 
     private calcMaxWords = (userInput: (number | null)[]): number => {
         return userInput.reduce((a, b) => Math.max(a ?? 0, b ?? 0)) ?? 0;
+    }
+
+    private calcMaxWordsDaily = (userInput: (number | null)[]): number => {
+        const dailyInput = new Array<number>();
+
+        userInput.forEach((value, index) => {
+            if (index > 0){
+                const lastValue = userInput[index - 1];
+                const input = (value ?? 0) - (lastValue ?? 0);
+                dailyInput.push(input);
+            }
+        });
+
+        return dailyInput.reduce((a, b) => Math.max(a, b));
     }
 }
