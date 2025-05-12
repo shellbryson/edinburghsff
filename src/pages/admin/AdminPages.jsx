@@ -362,11 +362,21 @@ export default function AdminPages() {
 
         </Stack>
       </Box>
-      <Box style={style.actions}>
-        <Box>
+      <Box sx={{
+          position: 'sticky',
+          bottom: 0,
+          backgroundColor: 'background.paper',
+          padding: 2,
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          zIndex: 1,
+          borderTop: `1px solid ${theme.palette.divider}`,
+        }}>
+        <Box style={{ display: "flex", gap: "0.5rem" }}>
           { isUpdate && <Button onClick={() => handleDelete(updateId)} variant="outlined" color="warning" startIcon={<DeleteIcon />}>Delete</Button> }
         </Box>
-        <Box style={{ display: "flex", gap: "0.5rem" }}>
+        <Box style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
           { isDirty && <Typography sx={style.dirty} variant='p_small'>Unsaved</Typography> }
           <Button onClick={handleBack} variant='outlined'>Back</Button>
           { isUpdate && <Button onClick={handleUpdate} variant='contained'>Update Page</Button> }

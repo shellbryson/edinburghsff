@@ -488,15 +488,50 @@ export default function AdminMap() {
 
         </Stack>
       </Box>
-      <Box style={style.actions}>
+      <Box
+        sx={{
+          position: 'sticky',
+          bottom: 0,
+          backgroundColor: 'background.paper',
+          padding: 2,
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          zIndex: 1,
+          borderTop: `1px solid ${theme.palette.divider}`,
+        }}
+      >
         <Box>
-          { isUpdate && <Button onClick={() => handleDelete(updateId)} variant="outlined" color="warning" startIcon={<DeleteIcon />}>Delete</Button> }
+          {isUpdate && (
+            <Button
+              onClick={() => handleDelete(updateId)}
+              variant="outlined"
+              color="warning"
+              startIcon={<DeleteIcon />}
+            >
+              Delete
+            </Button>
+          )}
         </Box>
-        <Box style={{ display: "flex", gap: "0.5rem" }}>
-          { isDirty && <Typography sx={style.dirty} variant='p_small'>Unsaved changes</Typography> }
-          <Button onClick={handleBack} variant='outlined'>Back</Button>
-          { isUpdate && <Button onClick={handleUpdate} variant='contained'>Save Location</Button> }
-          { !isUpdate && <Button onClick={handleAdd} variant='contained'>Add Location</Button> }
+        <Box sx={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+          {isDirty && (
+            <Typography sx={style.dirty} variant="body2">
+              Unsaved changes
+            </Typography>
+          )}
+          <Button onClick={handleBack} variant="outlined">
+            Back
+          </Button>
+          {isUpdate && (
+            <Button onClick={handleUpdate} variant="contained">
+              Save Location
+            </Button>
+          )}
+          {!isUpdate && (
+            <Button onClick={handleAdd} variant="contained">
+              Add Location
+            </Button>
+          )}
         </Box>
       </Box>
     </AdminLayout>

@@ -82,8 +82,6 @@ const Item = styled(Box)(({ theme }) => ({
   margin: '4px',
   padding: '4px 4px 4px 0.5rem',
   transition: 'scale 0.2s',
-  // userSelect: "none",
-  // pointerEvents: "none"
 }));
 
 const EntryMoveButton = styled(Box)(({ theme }) => ({
@@ -502,8 +500,17 @@ export default function AdminLists() {
               </>
             )}
 
-            <Box style={{ display: "flex", justifyContent: "space-between", gap: "0.5rem"}}>
-              <Button onClick={(e) => handleRemoveItem()} variant='outlined' size="small">Remove</Button>
+        <Box sx={{
+            position: 'sticky',
+            bottom: 0,
+            backgroundColor: "#f2f2f2",
+            padding: 2,
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            zIndex: 1,
+            borderTop: `1px solid ${theme.palette.divider}`,
+          }}>              <Button onClick={(e) => handleRemoveItem()} variant='outlined' size="small">Remove</Button>
               <Box style={{ display: "flex", gap: "0.5rem"}}>
                 <Button onClick={(e) => setShowItemForm(false)} variant='outlined'>Close</Button>
                 { itemEditID !== "" && <Button onClick={(e) => handleUpdateItem()} variant='contained' size="small">Update entry</Button> }
@@ -562,7 +569,17 @@ export default function AdminLists() {
             </Stack>
           </Box>
         </Box>
-        <Box style={style.actions}>
+        <Box sx={{
+            position: 'sticky',
+            bottom: 0,
+            backgroundColor: 'background.paper',
+            padding: 2,
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            zIndex: 1,
+            borderTop: `1px solid ${theme.palette.divider}`,
+          }}>
           <Box>
             { isUpdate && <Button onClick={() => handleDelete(updateId)} variant="outlined" color="warning" startIcon={<DeleteIcon />}>Delete</Button> }
           </Box>

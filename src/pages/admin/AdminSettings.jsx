@@ -187,7 +187,17 @@ export default function AdminSettings() {
         </Stack>
         { error && <Alert severity="warning">{error}</Alert> }
       </Box>
-      <Box style={style.actions}>
+      <Box sx={{
+          position: 'sticky',
+          bottom: 0,
+          backgroundColor: 'background.paper',
+          padding: 2,
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          zIndex: 1,
+          borderTop: `1px solid ${theme.palette.divider}`,
+        }}>
         <div></div>
         <Box style={{ display: "flex", gap: "0.5rem" }}>
           { isDirty && <Typography sx={style.dirty} variant='p_small'>Unsaved changes</Typography> }
