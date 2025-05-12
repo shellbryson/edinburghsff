@@ -12,7 +12,7 @@ export class GetUserDataService {
         const userDataDB = new UserDataDB();
         const userInput = this.updateUserInput(userDataDB.getUserInput());
         const userTarget = userDataDB.getUserTarget();
-        return new UserData(userInput, userTarget, this.calcMaxStreak(userInput), this.calcMaxWords(userInput));
+        return new UserData(userInput, userTarget, this.calcCurrentStreak(userInput), this.calcMaxStreak(userInput), this.calcMaxWords(userInput));
     }
 
     private updateUserInput = (userInput: (number | null)[]): (number | null)[] => {
@@ -27,16 +27,34 @@ export class GetUserDataService {
         return updatedInput;
     }
 
+    private calcCurrentStreak = (userInput: (number | null)[]): number => {
+        let currentStreak = 0;
+        let currentIndex = userInput.filter(v => v !== null).length - 1;
+        let currentWords = userInput[currentIndex];
+
+        if (currentWords == null){
+            return currentStreak;
+        }
+
+        while (userInput[currentIndex] ?? 0 < (currentWords ?? 0)){
+            currentStreak++;
+            currentIndex = currentIndex -1;
+            currentWords = userInput[currentIndex];
+        }
+
+        return currentStreak;
+    }
+
     private calcMaxStreak = (userInput: (number | null)[]): number => {
         const streaks = new Array<number>();
         let currentStreak = 1;
 
         userInput.forEach((value, index) => {
             if (value != null) {
-                if (index === 0 && value > 0) {
+                if (index === 1 && value > 0) {
                     currentStreak = 1;
                 }
-                if (index > 0){
+                if (index > 1){
                     if (value > (userInput[index -1] ?? value)) {
                         currentStreak++;
                     } else {
