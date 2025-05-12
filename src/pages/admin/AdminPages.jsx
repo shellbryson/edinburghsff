@@ -30,6 +30,7 @@ import { useTheme } from '@mui/material/styles';
 // Icons
 import DeleteIcon from '@mui/icons-material/Delete';
 import ListIcon from '@mui/icons-material/List';
+import ArticleIcon from '@mui/icons-material/Article';
 
 // Custom UI
 import UploadImage from '../../components/admin/UploadImage';
@@ -62,6 +63,11 @@ const style = {
   }
 }
 
+const pageTypes = [
+  'Page',
+  'Author'
+];
+
 export default function AdminPages() {
 
   const inputRef = useRef(null);
@@ -86,6 +92,7 @@ export default function AdminPages() {
   // Specific to Pages
   const [slug, setSlug] = useState('');
   const [content, setContent] = useState('');
+  const [pageType, setPageType] = useState('Page' || '');
 
   const [lists, setLists] = useState([]);
   const [list, setList] = useState('');
@@ -125,6 +132,7 @@ export default function AdminPages() {
 
     setTitle(data.title);
     setDescription(data.description);
+    setPageType(data.pagetype);
     setContent(data.content);
     setList(data.list || '');
     setImgUrl(data.image);
@@ -147,6 +155,7 @@ export default function AdminPages() {
     const strippedImageUrl = imgUrl ? imgUrl.split('&')[0] : '';
     const payload = {
       title: title,
+      pagetype: pageType,
       description: description,
       content: content,
       list: list,
@@ -189,6 +198,7 @@ export default function AdminPages() {
     const strippedImageUrl = imgUrl ? imgUrl.split('&')[0] : '';
     const payload = {
       title: title,
+      pagetype: pageType,
       description: description,
       content: content,
       list: list,
@@ -254,6 +264,11 @@ export default function AdminPages() {
     setSlug(slugify(title));
   }
 
+  const handlePageTypeChange = (p) => {
+    if (p !== pageType) setIsDirty(true);
+    setPageType(p);
+  };
+
   const handleChangeDescription = (text) => {
     if (text !== description) setIsDirty(true);
     setDescription(text);
@@ -299,7 +314,6 @@ export default function AdminPages() {
     }
   };
 
-
   const onUpdateGallery = (images) => {
     setGalleryImages(images);
   }
@@ -314,6 +328,26 @@ export default function AdminPages() {
         <Stack spacing={2} sx={{ mt: 2}}>
           <TextField value={title} required label="Title" onChange={(e) => handleChangeTitle(e.target.value)} type='text' />
           <TextField value={slug} required label="Slug" onChange={(e) => handleChangeSlug(e.target.value)} type='text' />
+
+          <FormControl fullWidth>
+            <InputLabel>Page Type</InputLabel>
+            <Select
+              value={pageType || 'Page'}
+              label="Page Type"
+              onChange={(e) => handlePageTypeChange(e.target.value)}
+            >
+              { pageTypes.map((t, index) => (
+                <MenuItem key={index} value={t}>
+                  <SelectionItemBox>
+                    <ListItemIcon>
+                      <ArticleIcon />
+                    </ListItemIcon>
+                    <ListItemText primary={t} />
+                  </SelectionItemBox>
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
 
           <FormGroup>
             <FormControlLabel onChange={(e) => setShow(e.target.checked)} control={<Checkbox checked />} label="Display on site" />

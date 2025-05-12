@@ -10,6 +10,9 @@ Admin / Dashboards:
   - Add: Close button
   - Fix: Dashboard now scrolls if it doesn't fit on the screen
 
+Admin / Pages:
+  - Add: Page Types
+
 Admin / Content:
   - Add: Image upload now automatically uploads after a file is selected
   - Add: You can now delete an image (and you are challenged to confirm)
