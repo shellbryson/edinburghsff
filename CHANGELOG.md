@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [3.0.0] - 2025-05-12 (beta)
 
 Admin:
+  - Add: New tile layout for Dashboard
   - Add: Image upload now automatically uploads after a file is selected
   - Add: You can now delete an image (and you are challenged to confirm)
   - Add: Admin screens now always have their bottom action bars visible

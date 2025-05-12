@@ -73,36 +73,91 @@ const Dashboard = () => {
 
   return (
     <NavigationMenu>
-      <NavigationList>
-        <NavigationButton variant="contained" color="primary" endIcon={<PlaceIcon />} component={Link} to="/admin/locations">
-          Locations
+      <NavigationList sx={{ display: 'grid', width: "calc(100% - 2rem)", gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '1rem' }}>
+        <NavigationButton
+          variant="contained"
+          color="primary"
+          component={Link}
+          to="/admin/locations"
+          sx={{ flexDirection: 'column', alignItems: 'center', padding: '1rem', height: '150px' }}
+        >
+          <PlaceIcon sx={{ fontSize: '5rem' }} />
+          <Typography variant="button">Locations</Typography>
         </NavigationButton>
-        <NavigationButton variant="contained" color="primary" endIcon={<EventIcon />} component={Link} to="/admin/events">
-          Events
+        <NavigationButton
+          variant="contained"
+          color="primary"
+          component={Link}
+          to="/admin/events"
+          sx={{ flexDirection: 'column', alignItems: 'center', padding: '1rem', height: '150px' }}
+        >
+          <EventIcon sx={{ fontSize: '5rem' }} />
+          <Typography variant="button">Events</Typography>
         </NavigationButton>
-        <NavigationButton variant="contained" color="primary" endIcon={<DescriptionIcon />} component={Link} to="/admin/pages">
-          Pages
+        <NavigationButton
+          variant="contained"
+          color="primary"
+          component={Link}
+          to="/admin/pages"
+          sx={{ flexDirection: 'column', alignItems: 'center', padding: '1rem', height: '150px' }}
+        >
+          <DescriptionIcon sx={{ fontSize: '5rem' }} />
+          <Typography variant="button">Pages</Typography>
         </NavigationButton>
-        <NavigationButton variant="contained" color="primary" endIcon={<ListIcon />} component={Link} to="/admin/lists">
-          Lists
+        <NavigationButton
+          variant="contained"
+          color="primary"
+          component={Link}
+          to="/admin/lists"
+          sx={{ flexDirection: 'column', alignItems: 'center', padding: '1rem', height: '150px' }}
+        >
+          <ListIcon sx={{ fontSize: '5rem' }} />
+          <Typography variant="button">Lists</Typography>
         </NavigationButton>
-        <NavigationButton variant="contained" color="primary" endIcon={<ManageAccountsIcon />} component={Link} to="/admin/accounts">
-          Accounts
+        <NavigationButton
+          variant="contained"
+          color="primary"
+          component={Link}
+          to="/admin/accounts"
+          sx={{ flexDirection: 'column', alignItems: 'center', padding: '1rem', height: '150px' }}
+        >
+          <ManageAccountsIcon sx={{ fontSize: '5rem' }} />
+          <Typography variant="button">Accounts</Typography>
         </NavigationButton>
-        <NavigationButton variant="contained" color="primary" endIcon={<SettingsIcon />} component={Link} to="/admin/settings">
-          Settings
+        <NavigationButton
+          variant="contained"
+          color="primary"
+          component={Link}
+          to="/admin/settings"
+          sx={{ flexDirection: 'column', alignItems: 'center', padding: '1rem', height: '150px' }}
+        >
+          <SettingsIcon sx={{ fontSize: '5rem' }} />
+          <Typography variant="button">Settings</Typography>
         </NavigationButton>
-        <Button variant='outlined' onClick={handleLogout}>
-          Sign out
+        <Button
+          variant="outlined"
+          onClick={handleLogout}
+          sx={{ flexDirection: 'column', alignItems: 'center', padding: '1rem', height: '150px' }}
+        >
+          <Typography variant="button">Sign out</Typography>
         </Button>
-        <Button variant='outlined' component={Link} to="/">
-          Home
+        <Button
+          variant="outlined"
+          component={Link}
+          to="/"
+          sx={{ flexDirection: 'column', alignItems: 'center', padding: '1rem', height: '150px' }}
+        >
+          <Typography variant="button">Home</Typography>
         </Button>
-        <UserBox>
-          <Typography component="p" variant='p'>Signed in as:</Typography>
-          <Typography component="p" variant='p'>{user && user.email}</Typography>
-        </UserBox>
       </NavigationList>
+      <UserBox>
+        <Typography component="p" variant="p" align="center">
+          Signed in as:
+        </Typography>
+        <Typography component="p" variant="p" align="center">
+          {user && user.email}
+        </Typography>
+      </UserBox>
     </NavigationMenu>
   );
 };
