@@ -12,6 +12,7 @@ import Button from '@mui/material/Button';
 import { useConfirm } from "material-ui-confirm";
 
 import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
 const uploadImageFormStyle = {
   display: 'flex',
@@ -32,11 +33,6 @@ const imagePreviewStyle = {
   marginBottom: '1rem',
 }
 
-const toggleUploadStyle = {
-  display: 'flex',
-  justifyContent: 'center'
-}
-
 const imageStyle = {
   display: 'block',
   border: '1px solid #ccc',
@@ -45,39 +41,15 @@ const imageStyle = {
   height: "auto"
 }
 
+const styleDeleteButton = {
+  marginTop: '1rem'
+}
+
 const UploadImage = ({imageUploadedCallback, imgUrl}) => {
 
   const confirm = useConfirm();
 
   const [progresspercent, setProgresspercent] = useState(0);
-  const [showImageField, setShowImageField] = useState(true);
-
-  const handleFileUpload = (e) => {
-    e.preventDefault()
-    const file = e.target[0]?.files[0]
-
-    if (!file) return;
-
-    const filename = encodeURI(file.name);
-    const storageRef = ref(storage, `content_images/${uuid()}___${filename}`);
-    const uploadTask = uploadBytesResumable(storageRef, file);
-
-    uploadTask.on("state_changed",
-      (snapshot) => {
-        const progress =
-          Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
-        setProgresspercent(progress);
-      },
-      (error) => {
-        alert(error);
-      },
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          imageUploadedCallback(downloadURL)
-        });
-      }
-    );
-  }
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -118,20 +90,27 @@ const UploadImage = ({imageUploadedCallback, imgUrl}) => {
           </Box>
         )}
 
-        {showImageField && (
-          <div className="form">
+        <div className="form">
+          <Button
+            variant="contained"
+            component="label"
+            endIcon={<CloudUploadOutlinedIcon />}
+          >
+            Add an image
             <input
               type="file"
               accept=".png,.jpg,.svg,.gif"
               onChange={handleFileChange}
+              hidden
             />
-          </div>
-        )}
+          </Button>
+        </div>
 
         {imgUrl && (
           <Button
             variant="outlined"
             color="error"
+            style={styleDeleteButton}
             onClick={() => {
               const settings = {
                 description: "This action will permanently delete the uploaded image.",
@@ -154,9 +133,9 @@ const UploadImage = ({imageUploadedCallback, imgUrl}) => {
                   // User canceled the action, do nothing
                 });
             }}
-            startIcon={<CloudUploadOutlinedIcon />}
+            startIcon={<DeleteOutlineIcon />}
           >
-            Remove Image
+            Remove
           </Button>
         )}
       </Box>

@@ -186,7 +186,7 @@ export default function AdminMap() {
       return;
     }
     setIsLoading(true);
-    const strippedImageUrl = imgUrl ? imgUrl.split('&')[0] : '';
+    const strippedImageUrl = imgUrl;
     const payload = {
       title: title,
       title_short: titleShort,
@@ -355,6 +355,9 @@ export default function AdminMap() {
   };
 
   const handleFileUpload = (url) => {
+
+    console.log("File uploaded", url);
+
     if (url !== imgUrl) setIsDirty(true);
     setImgUrl(url);
   }
