@@ -30,22 +30,30 @@ const NavigationMenu = styled(Box)(({ theme }) => ({
 }));
 
 const NavigationButton = styled(Button)(({ theme }) => ({
+  display: "flex",
+  flexDirection: 'column', alignItems: 'center', padding: '1rem',
   minWidth: "100%",
   justifyContent: "space-between",
 }));
 
 const NavigationList = styled(Box)(({ theme }) => ({
-  display: "flex",
-  flexDirection: "column",
+  display: "grid",
+  gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
   gap: "1rem",
   margin: "1rem",
-  minWidth: "300px"
+  width: "100%"
 }));
 
 const UserBox = styled(Box)(({ theme }) => ({
-  padding: "1rem",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  flexDirection: "column",
+  padding: "1rem 5rem",
   backgroundColor: "rgba(0,0,0,0.1)",
   margin: "1rem",
+  gap: "1rem",
+  borderRadius: "0.5rem",
 }));
 
 const Dashboard = () => {
@@ -77,13 +85,12 @@ const Dashboard = () => {
   return (
     <AdminLayout>
       <NavigationMenu>
-        <NavigationList sx={{ display: 'grid', width: "calc(100% - 2rem)", gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '1rem' }}>
+        <NavigationList>
           <NavigationButton
             variant="contained"
             color="primary"
             component={Link}
             to="/admin/locations"
-            sx={{ flexDirection: 'column', alignItems: 'center', padding: '1rem', height: '150px' }}
           >
             <PlaceIcon sx={{ fontSize: '5rem' }} />
             <Typography variant="button">Locations</Typography>
@@ -93,7 +100,6 @@ const Dashboard = () => {
             color="primary"
             component={Link}
             to="/admin/events"
-            sx={{ flexDirection: 'column', alignItems: 'center', padding: '1rem', height: '150px' }}
           >
             <EventIcon sx={{ fontSize: '5rem' }} />
             <Typography variant="button">Events</Typography>
@@ -103,7 +109,6 @@ const Dashboard = () => {
             color="primary"
             component={Link}
             to="/admin/pages"
-            sx={{ flexDirection: 'column', alignItems: 'center', padding: '1rem', height: '150px' }}
           >
             <DescriptionIcon sx={{ fontSize: '5rem' }} />
             <Typography variant="button">Pages</Typography>
@@ -113,7 +118,6 @@ const Dashboard = () => {
             color="primary"
             component={Link}
             to="/admin/lists"
-            sx={{ flexDirection: 'column', alignItems: 'center', padding: '1rem', height: '150px' }}
           >
             <ListIcon sx={{ fontSize: '5rem' }} />
             <Typography variant="button">Lists</Typography>
@@ -123,7 +127,6 @@ const Dashboard = () => {
             color="primary"
             component={Link}
             to="/admin/accounts"
-            sx={{ flexDirection: 'column', alignItems: 'center', padding: '1rem', height: '150px' }}
           >
             <ManageAccountsIcon sx={{ fontSize: '5rem' }} />
             <Typography variant="button">Accounts</Typography>
@@ -133,34 +136,23 @@ const Dashboard = () => {
             color="primary"
             component={Link}
             to="/admin/settings"
-            sx={{ flexDirection: 'column', alignItems: 'center', padding: '1rem', height: '150px' }}
           >
             <SettingsIcon sx={{ fontSize: '5rem' }} />
             <Typography variant="button">Settings</Typography>
           </NavigationButton>
-          <Button
-            variant="outlined"
-            onClick={handleLogout}
-            sx={{ flexDirection: 'column', alignItems: 'center', padding: '1rem', height: '150px' }}
-          >
-            <Typography variant="button">Sign out</Typography>
-          </Button>
-          <Button
-            variant="outlined"
-            component={Link}
-            to="/"
-            sx={{ flexDirection: 'column', alignItems: 'center', padding: '1rem', height: '150px' }}
-          >
-            <Typography variant="button">Home</Typography>
-          </Button>
         </NavigationList>
         <UserBox>
           <Typography component="p" variant="p" align="center">
-            Signed in as:
+            Signed in as
           </Typography>
           <Typography component="p" variant="p" align="center">
             {user && user.email}
           </Typography>
+          <Button
+            variant="outlined"
+            onClick={handleLogout}>
+            <Typography variant="button">Sign out</Typography>
+          </Button>
         </UserBox>
       </NavigationMenu>
     </AdminLayout>
