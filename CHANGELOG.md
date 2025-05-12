@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.0.0] - 2025-05-12 (beta)
+
+Admin:
+  - Add: Image upload now automatically uploads after a file is selected
+  - Add: You can now delete an image (and you are challenged to confirm)
+
+App:
+  - Add: Upgrade to React 19
+
 ## [2.5.0] - 2024-10-?? (beta)
 
 Admin:

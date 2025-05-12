@@ -40,11 +40,11 @@ export const customTheme = createTheme({
       color: '#ffffff',
     },
     p: {
-      fontSize: 16,
+      fontSize: 18,
       padding: 0,
     },
     p_tiny: {
-      fontSize: 12,
+      fontSize: 14,
     },
     p_small: {
       fontSize: 13,
