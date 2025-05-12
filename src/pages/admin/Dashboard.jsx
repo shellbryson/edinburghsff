@@ -31,9 +31,17 @@ const NavigationMenu = styled(Box)(({ theme }) => ({
 
 const NavigationButton = styled(Button)(({ theme }) => ({
   display: "flex",
-  flexDirection: 'column', alignItems: 'center', padding: '1rem',
+  flexDirection: 'column',
+  alignItems: 'center',
+  padding: '1rem',
   minWidth: "100%",
+  gap: '1rem',
   justifyContent: "space-between",
+  [theme.breakpoints.down('sm')]: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    gap: '1rem',
+  },
 }));
 
 const NavigationList = styled(Box)(({ theme }) => ({
@@ -92,7 +100,7 @@ const Dashboard = () => {
             component={Link}
             to="/admin/locations"
           >
-            <PlaceIcon sx={{ fontSize: '5rem' }} />
+            <PlaceIcon sx={{ fontSize: 'clamp(2rem, calc(5vw + 2rem), 5rem)' }} />
             <Typography variant="button">Locations</Typography>
           </NavigationButton>
           <NavigationButton
@@ -101,7 +109,7 @@ const Dashboard = () => {
             component={Link}
             to="/admin/events"
           >
-            <EventIcon sx={{ fontSize: '5rem' }} />
+            <EventIcon sx={{ fontSize: 'clamp(2rem, calc(5vw + 2rem), 5rem)' }} />
             <Typography variant="button">Events</Typography>
           </NavigationButton>
           <NavigationButton
@@ -110,7 +118,7 @@ const Dashboard = () => {
             component={Link}
             to="/admin/pages"
           >
-            <DescriptionIcon sx={{ fontSize: '5rem' }} />
+            <DescriptionIcon sx={{ fontSize: 'clamp(2rem, calc(5vw + 2rem), 5rem)' }} />
             <Typography variant="button">Pages</Typography>
           </NavigationButton>
           <NavigationButton
@@ -119,7 +127,7 @@ const Dashboard = () => {
             component={Link}
             to="/admin/lists"
           >
-            <ListIcon sx={{ fontSize: '5rem' }} />
+            <ListIcon sx={{ fontSize: 'clamp(2rem, calc(5vw + 2rem), 5rem)' }} />
             <Typography variant="button">Lists</Typography>
           </NavigationButton>
           <NavigationButton
@@ -128,7 +136,7 @@ const Dashboard = () => {
             component={Link}
             to="/admin/accounts"
           >
-            <ManageAccountsIcon sx={{ fontSize: '5rem' }} />
+            <ManageAccountsIcon sx={{ fontSize: 'clamp(2rem, calc(5vw + 2rem), 5rem)' }} />
             <Typography variant="button">Accounts</Typography>
           </NavigationButton>
           <NavigationButton
@@ -137,7 +145,7 @@ const Dashboard = () => {
             component={Link}
             to="/admin/settings"
           >
-            <SettingsIcon sx={{ fontSize: '5rem' }} />
+            <SettingsIcon sx={{ fontSize: 'clamp(2rem, calc(5vw + 2rem), 5rem)' }} />
             <Typography variant="button">Settings</Typography>
           </NavigationButton>
         </NavigationList>
