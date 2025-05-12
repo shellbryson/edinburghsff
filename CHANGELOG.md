@@ -6,7 +6,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [3.0.0] - 2025-05-12 (beta)
 
 Admin / Dashboards:
-  - Add: New tile layout for Dashboard
+  - Add: New tiled layout
+  - Add: Close button
   - Fix: Dashboard now scrolls if it doesn't fit on the screen
 
 Admin / Content:

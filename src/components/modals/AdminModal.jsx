@@ -18,6 +18,7 @@ import { useTheme, styled } from '@mui/material/styles';
 
 // Icons
 import MenuIcon from '@mui/icons-material/Menu';
+import CloseIcon from '@mui/icons-material/Close';
 import HomeIcon from '@mui/icons-material/Home';
 import DescriptionIcon from '@mui/icons-material/Description';
 import ListIcon from '@mui/icons-material/List';
@@ -94,12 +95,17 @@ export default function AdminModal({ children }) {
       onClose={handleClose}>
       <DialogTitle>
         <Box style={{ display: "flex", justifyContent: "space-between", gap: "0.5rem"}}>
-          <Typography variant="h_medium" style={{ paddingBottom: "0"}}>
-            {adminDialogTitle}
-          </Typography>
           <IconButton aria-label="Admin menu" variant="outlined" size="small" color="primary" component={Link} to="/dashboard">
             <MenuIcon />
           </IconButton>
+          <Typography variant="h_medium" style={{ paddingBottom: "0"}}>
+            {adminDialogTitle}
+          </Typography>
+          <Box>
+          <IconButton aria-label="Close" size="small" color="primary" onClick={handleClose}>
+            <CloseIcon />
+          </IconButton>
+          </Box>
         </Box>
         <Box style={style.navigation} className="sff-navigation">
           <Button variant="outlined" size="small" color="primary" component={Link} to="/dashboard">
