@@ -12,6 +12,7 @@ Admin / Dashboards:
 
 Admin / Pages:
   - Add: Page Types
+  - Add: Discourage input while loading
 
 Admin / Content:
   - Add: Image upload now automatically uploads after a file is selected

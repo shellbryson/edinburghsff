@@ -36,6 +36,7 @@ import ArticleIcon from '@mui/icons-material/Article';
 import UploadImage from '../../components/admin/UploadImage';
 import GalleryEditor from '../../components/admin/GalleryEditor';
 import AdminLayout from '../../layouts/AdminLayout';
+import Loader from '../../components/Loader';
 
 import {
   fetchDocuments,
@@ -79,7 +80,7 @@ export default function AdminPages() {
   const confirm = useConfirm();
   const navigate = useNavigate();
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   // Common
   const [title, setTitle] = useState('');
@@ -116,6 +117,7 @@ export default function AdminPages() {
       setAdminDialogTitle("Page: Update");
     }
     fetchDocument("pages", params.updateId, (data) => {
+      setIsLoading(true);
       handleOpenUpdate(data);
     });
   }, [params.updateId]);
@@ -141,6 +143,7 @@ export default function AdminPages() {
     setGalleryImages(data.gallery || []);
 
     setIsUpdate(true);
+    setIsLoading(false);
   };
 
   // ### ADD
@@ -324,97 +327,100 @@ export default function AdminPages() {
 
   return (
     <AdminLayout>
-      <Box>
-        <Stack spacing={2} sx={{ mt: 2}}>
-          <TextField value={title} required label="Title" onChange={(e) => handleChangeTitle(e.target.value)} type='text' />
-          <TextField value={slug} required label="Slug" onChange={(e) => handleChangeSlug(e.target.value)} type='text' />
+      <Box sx={{ opacity: isLoading ? 0.5 : 1, pointerEvents: isLoading ? 'none' : 'auto' }}>
+        { isLoading && <Loader />}
+        <Box>
+          <Stack spacing={2} sx={{ mt: 2}}>
+            <TextField value={title} required label="Title" onChange={(e) => handleChangeTitle(e.target.value)} type='text' />
+            <TextField value={slug} required label="Slug" onChange={(e) => handleChangeSlug(e.target.value)} type='text' />
 
-          <FormControl fullWidth>
-            <InputLabel>Page Type</InputLabel>
-            <Select
-              value={pageType || 'Page'}
-              label="Page Type"
-              onChange={(e) => handlePageTypeChange(e.target.value)}
-            >
-              { pageTypes.map((t, index) => (
-                <MenuItem key={index} value={t}>
-                  <SelectionItemBox>
-                    <ListItemIcon>
-                      <ArticleIcon />
-                    </ListItemIcon>
-                    <ListItemText primary={t} />
-                  </SelectionItemBox>
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+            <FormControl fullWidth>
+              <InputLabel>Page Type</InputLabel>
+              <Select
+                value={pageType || 'Page'}
+                label="Page Type"
+                onChange={(e) => handlePageTypeChange(e.target.value)}
+              >
+                { pageTypes.map((t, index) => (
+                  <MenuItem key={index} value={t}>
+                    <SelectionItemBox>
+                      <ListItemIcon>
+                        <ArticleIcon />
+                      </ListItemIcon>
+                      <ListItemText primary={t} />
+                    </SelectionItemBox>
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
 
-          <FormGroup>
-            <FormControlLabel onChange={(e) => setShow(e.target.checked)} control={<Checkbox checked />} label="Display on site" />
-          </FormGroup>
+            <FormGroup>
+              <FormControlLabel onChange={(e) => setShow(e.target.checked)} control={<Checkbox checked />} label="Display on site" />
+            </FormGroup>
 
-          <TextField value={description} multiline rows={2} label="Description" onChange={(e) => handleChangeDescription(e.target.value)} />
+            <TextField value={description} multiline rows={2} label="Description" onChange={(e) => handleChangeDescription(e.target.value)} />
 
-          <Box>
-            <Typography variant="p">Masthead image</Typography>
-            <UploadImage imageUploadedCallback={handleFileUpload} imgUrl={imgUrl} />
-          </Box>
+            <Box>
+              <Typography variant="p">Masthead image</Typography>
+              <UploadImage imageUploadedCallback={handleFileUpload} imgUrl={imgUrl} />
+            </Box>
 
-          <TextField value={content} ref={inputRef} required multiline fullWidth rows={10} label="Content" onChange={(e) => handleChangeContent(e.target.value)}  />
+            <TextField value={content} ref={inputRef} required multiline fullWidth rows={10} label="Content" onChange={(e) => handleChangeContent(e.target.value)}  />
 
-          <FormControl fullWidth>
-            <InputLabel>Display a List</InputLabel>
-            <Select
-              value={list}
-              label="Display a List"
-              onChange={(e) => handleChangeListSelection(e.target.value)}
-            >
-              <MenuItem key={0} value={''}>
-                <SelectionItemBox>
-                  <ListItemIcon>
-                    <ListIcon />
-                  </ListItemIcon>
-                  <ListItemText primary={"None"} />
-                </SelectionItemBox>
-              </MenuItem>
-              { lists.map((list, index) => (
-                <MenuItem key={index} value={list.id}>
+            <FormControl fullWidth>
+              <InputLabel>Display a List</InputLabel>
+              <Select
+                value={list}
+                label="Display a List"
+                onChange={(e) => handleChangeListSelection(e.target.value)}
+              >
+                <MenuItem key={0} value={''}>
                   <SelectionItemBox>
                     <ListItemIcon>
                       <ListIcon />
                     </ListItemIcon>
-                    <ListItemText primary={list.title} />
+                    <ListItemText primary={"None"} />
                   </SelectionItemBox>
                 </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+                { lists.map((list, index) => (
+                  <MenuItem key={index} value={list.id}>
+                    <SelectionItemBox>
+                      <ListItemIcon>
+                        <ListIcon />
+                      </ListItemIcon>
+                      <ListItemText primary={list.title} />
+                    </SelectionItemBox>
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
 
-          <GalleryEditor galleryImages={galleryImages} onUpdate={onUpdateGallery} onClickImage={onClickImage} />
+            <GalleryEditor galleryImages={galleryImages} onUpdate={onUpdateGallery} onClickImage={onClickImage} />
 
-          { error && <Alert severity="warning">{error}</Alert> }
+            { error && <Alert severity="warning">{error}</Alert> }
 
-        </Stack>
-      </Box>
-      <Box sx={{
-          position: 'sticky',
-          bottom: 0,
-          backgroundColor: 'background.paper',
-          padding: 2,
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          zIndex: 1,
-          borderTop: `1px solid ${theme.palette.divider}`,
-        }}>
-        <Box style={{ display: "flex", gap: "0.5rem" }}>
-          { isUpdate && <Button onClick={() => handleDelete(updateId)} variant="outlined" color="warning" startIcon={<DeleteIcon />}>Delete</Button> }
+          </Stack>
         </Box>
-        <Box style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
-          { isDirty && <Typography sx={style.dirty} variant='p_small'>Unsaved</Typography> }
-          <Button onClick={handleBack} variant='outlined'>Back</Button>
-          { isUpdate && <Button onClick={handleUpdate} variant='contained'>Update Page</Button> }
-          { !isUpdate && <Button onClick={handleAdd} variant='contained'>Add Page</Button> }
+        <Box sx={{
+            position: 'sticky',
+            bottom: 0,
+            backgroundColor: 'background.paper',
+            padding: 2,
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            zIndex: 1,
+            borderTop: `1px solid ${theme.palette.divider}`,
+          }}>
+          <Box style={{ display: "flex", gap: "0.5rem" }}>
+            { isUpdate && <Button onClick={() => handleDelete(updateId)} variant="outlined" color="warning" startIcon={<DeleteIcon />}>Delete</Button> }
+          </Box>
+          <Box style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
+            { isDirty && <Typography sx={style.dirty} variant='p_small'>Unsaved</Typography> }
+            <Button onClick={handleBack} variant='outlined'>Back</Button>
+            { isUpdate && <Button onClick={handleUpdate} variant='contained'>Update Page</Button> }
+            { !isUpdate && <Button onClick={handleAdd} variant='contained'>Add Page</Button> }
+          </Box>
         </Box>
       </Box>
     </AdminLayout>
