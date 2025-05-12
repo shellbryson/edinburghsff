@@ -80,7 +80,7 @@ export default function AdminPages() {
   const confirm = useConfirm();
   const navigate = useNavigate();
 
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   // Common
   const [title, setTitle] = useState('');
@@ -264,7 +264,7 @@ export default function AdminPages() {
   const handleChangeTitle = (text) => {
     if (text !== title) setIsDirty(true);
     setTitle(text);
-    setSlug(slugify(title));
+    setSlug(slugify(text));
   }
 
   const handlePageTypeChange = (p) => {

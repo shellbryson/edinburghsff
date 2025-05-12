@@ -33,7 +33,8 @@ export function slugify(str) {
     .trim()
     .replace(/[^\w\s-]/g, "")
     .replace(/[\s_-]+/g, "-")
-    .replace(/^-+|-+$/g, "");
+    .replace(/^-+|-+$/g, "")
+    .replace(/-$/, ""); // Ensure no trailing hyphen remains
 }
 
 // Get map location index
