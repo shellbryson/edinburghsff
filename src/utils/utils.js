@@ -1,6 +1,5 @@
-import { doc, getDocs, getDoc, updateDoc, collection, orderBy, query, limit, startAfter } from 'firebase/firestore';
-import { list, listAll, ref } from "firebase/storage";
-import { db, storage } from "../firebase";
+import { doc, getDocs, getDoc, updateDoc, collection, orderBy, query } from 'firebase/firestore';
+import { db } from "../firebase";
 
 export function imageURL(filename, size) {
   if (!filename) return null;
@@ -118,50 +117,5 @@ export async function updateMapLocationsIndex(places, user, callback) {
     if (callback) callback(data);
   } catch (e) {
     console.error("Error adding document: ", e);
-  }
-}
-
-// Fetch images from Firebase Storage with pagination
-export async function fetchImagesWithPagination(collectionName, pageSize, lastVisibleDoc, callback) {
-  try {
-    const q = lastVisibleDoc
-      ? query(
-          collection(db, collectionName),
-          orderBy("createdAt", "desc"),
-          startAfter(lastVisibleDoc),
-          limit(pageSize)
-        )
-      : query(
-          collection(db, collectionName),
-          orderBy("createdAt", "desc"),
-          limit(pageSize)
-        );
-
-    const querySnapshot = await getDocs(q);
-    const images = [];
-    let newLastVisibleDoc = null;
-
-    querySnapshot.forEach((doc) => {
-
-      console.log("Image Document:", doc.id);
-
-
-      const data = doc.data();
-      images.push({
-        id: doc.id,
-        ...data,
-      });
-    });
-
-    if (!querySnapshot.empty) {
-      newLastVisibleDoc = querySnapshot.docs[querySnapshot.docs.length - 1];
-    }
-
-    callback({
-      images,
-      lastVisibleDoc: newLastVisibleDoc,
-    });
-  } catch (error) {
-    console.error("Error fetching images from Firestore collection:", error);
   }
 }

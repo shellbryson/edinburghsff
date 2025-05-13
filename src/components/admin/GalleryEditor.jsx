@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { fetchDocuments } from '../../utils/utils'; // Import the function
-// import { fetchImagesWithPagination } from '../../utils/utils'; // Import the function
+import { storage } from "../../firebase";
+import { ref } from "firebase/storage";
+
 
 // MUI Components
 import { useTheme, styled } from '@mui/material/styles';
@@ -125,10 +127,10 @@ export default function GalleryEditor({
 }) {
   const theme = useTheme();
   const [images, setImages] = useState([]);
-  const [lastVisible, setLastVisible] = useState(null);
+  // const [lastVisible, setLastVisible] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [showImage, setShowImage] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(null);
+  // const [showImage, setShowImage] = useState(false);
+  // const [selectedImage, setSelectedImage] = useState(null);
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -165,20 +167,20 @@ export default function GalleryEditor({
 
   const loadImages = () => {
     setLoading(true);
-    fetchDocuments('content_images', 10, lastVisible, ({ images: newImages, nextPageToken }) => {
-      setImages((prevImages) => [...prevImages, ...newImages]);
-      setLastVisible(nextPageToken);
+
+    const storageRef = ref(storage, `content_images/`);
+
+    fetchDocuments('gallery', { field: 'alt', mode: 'asc' }, (data) => {
+      const updatedData = data.map((item) => ({
+        ...item,
+        url: item.url,
+        display: true,
+      }));
+      setImages(updatedData);
       setLoading(false);
     });
   };
-  // const loadImages = () => {
-  //   setLoading(true);
-  //   fetchImagesWithPagination('content_images', 10, lastVisible, ({ images: newImages, nextPageToken }) => {
-  //     setImages((prevImages) => [...prevImages, ...newImages]);
-  //     setLastVisible(nextPageToken);
-  //     setLoading(false);
-  //   });
-  // };
+
 
   const handleFileUpload = (url) => {
     const image = {
@@ -240,19 +242,19 @@ export default function GalleryEditor({
                     <IconViewButton onClick={() => handleOnClickInsert(image)}>
                       <FileOpenIcon />
                     </IconViewButton>
-                    <img src={image.thumb} alt={image.name} />
+                    <img src={image.url} alt={image.alt} />
                   </ImageBox>
                 ))}
               </GalleryGrid>
 
               {/* Load More Button */}
-              {lastVisible && !loading && (
+              {/* {lastVisible && !loading && (
                 <Box style={{ textAlign: 'center', marginTop: '1rem' }}>
                   <Button variant="contained" onClick={loadImages}>
                     Load More
                   </Button>
                 </Box>
-              )}
+              )} */}
 
               {/* Loading Indicator */}
               {loading && (

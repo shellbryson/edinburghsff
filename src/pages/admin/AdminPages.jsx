@@ -304,19 +304,25 @@ export default function AdminPages() {
 
   const handleInsertImage = (image) => {
     if (inputRef.current) {
-      inputRef.current.focus();
 
-      const cursorPosition = inputRef.current.selectionStart;
-      const alt = image?.alt || 'Describe image';
-      const imageMardown = `![${alt}](${image.medium})`
-      const newContent = content.slice(0, cursorPosition) + imageMardown + content.slice(cursorPosition);
+      const textarea = inputRef.current;
+      textarea.focus();
 
-      setContent(newContent);
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
 
+
+      // Insert the image markdown at the cursor position
+      const alt = image.alt || "Describe image";
+      const imageMarkdown = `![${alt}](${image.url})`;
+
+      // Insert text at the current cursor position
+      const updatedText = content.slice(0, start) + imageMarkdown + content.slice(end);
+      setContent(updatedText);
+
+      // Restore cursor position after the update
       setTimeout(() => {
-        inputRef.current.selectionStart = cursorPosition + imageMardown.length;
-        inputRef.current.selectionEnd = cursorPosition + imageMardown.length;
-        inputRef.current.focus();
+        textarea.selectionStart = textarea.selectionEnd = start + imageMarkdown.length;
       }, 0);
     }
   };
@@ -375,7 +381,18 @@ export default function AdminPages() {
               <UploadImage imageUploadedCallback={handleFileUpload} imgUrl={imgUrl} />
             </Box>
 
-            <TextField value={content} ref={inputRef} required multiline fullWidth rows={10} label="Content" onChange={(e) => handleChangeContent(e.target.value)}  />
+            <TextField
+              value={content}
+              inputRef={(ref) => {
+                inputRef.current = ref;
+              }}
+              required
+              multiline
+              fullWidth
+              rows={10}
+              label="Content"
+              onChange={(e) => handleChangeContent(e.target.value)}
+            />
 
             <FormControl fullWidth>
               <InputLabel>Display a List</InputLabel>
