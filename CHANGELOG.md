@@ -18,6 +18,7 @@ Admin / Pages:
 
 Admin / Content:
   - Add: Image upload now automatically uploads after a file is selected
+  - Add: Images meta is now also stored in Gallery database
   - Add: You can now delete an image (and you are challenged to confirm)
   - Add: Admin screens now always have their bottom action bars visible
 

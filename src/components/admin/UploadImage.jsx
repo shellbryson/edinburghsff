@@ -2,8 +2,13 @@ import React, { useState } from 'react';
 
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../../firebase";
+import { doc, setDoc } from "firebase/firestore"; // Import Firestore functions
+import { db } from "../../firebase"; // Import your Firestore instance
 
 import { v4 as uuid } from 'uuid';
+
+// Contexts
+import { useAuth } from '../../context/AuthContext';
 
 // MUI Components
 import Box from '@mui/material/Box';
@@ -49,6 +54,7 @@ const styleDeleteButton = {
 const UploadImage = ({imageUploadedCallback, imgUrl}) => {
 
   const confirm = useConfirm();
+  const { user } = useAuth();
 
   const [progresspercent, setProgresspercent] = useState(0);
 
@@ -58,22 +64,52 @@ const UploadImage = ({imageUploadedCallback, imgUrl}) => {
     if (!file) return;
 
     const filename = encodeURI(file.name);
-    const storageRef = ref(storage, `content_images/${uuid()}___${filename}`);
+    const uniqueFilename = `${uuid()}___${filename}`;
+    const storageRef = ref(storage, `content_images/${uniqueFilename}`);
     const uploadTask = uploadBytesResumable(storageRef, file);
 
-    uploadTask.on("state_changed",
+    uploadTask.on(
+      "state_changed",
       (snapshot) => {
-        const progress =
-          Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+        const progress = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
         setProgresspercent(progress);
       },
       (error) => {
         alert(error);
       },
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+      async () => {
+        try {
+          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+
+          // Create a new Firestore document in the "gallery" collection
+          const galleryDoc = {
+            alt: "Image description",
+            filename: uniqueFilename,
+            url: downloadURL,
+            // uploadedAt: new Date().toISOString(),
+            size: file.size, // File size in bytes
+            type: file.type, // MIME type (e.g., "image/png")
+            created: {
+              email: user.email,
+              uid: user.uid,
+              timestamp: new Date()
+            },
+            updated: {
+              email: user.email,
+              uid: user.uid,
+              timestamp: new Date()
+            }
+          };
+
+          await setDoc(doc(db, "gallery", uniqueFilename), galleryDoc);
+
+          // Pass the download URL to the callback
           imageUploadedCallback(downloadURL);
-        });
+        } catch (error) {
+          console.error("Error saving image metadata to Firestore:", error);
+        }
       }
     );
   };

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { fetchImagesWithPagination } from '../../utils/utils'; // Import the function
+import { fetchDocuments } from '../../utils/utils'; // Import the function
+// import { fetchImagesWithPagination } from '../../utils/utils'; // Import the function
 
 // MUI Components
 import { useTheme, styled } from '@mui/material/styles';
@@ -164,12 +165,20 @@ export default function GalleryEditor({
 
   const loadImages = () => {
     setLoading(true);
-    fetchImagesWithPagination('content_images', 10, lastVisible, ({ images: newImages, nextPageToken }) => {
+    fetchDocuments('content_images', 10, lastVisible, ({ images: newImages, nextPageToken }) => {
       setImages((prevImages) => [...prevImages, ...newImages]);
       setLastVisible(nextPageToken);
       setLoading(false);
     });
   };
+  // const loadImages = () => {
+  //   setLoading(true);
+  //   fetchImagesWithPagination('content_images', 10, lastVisible, ({ images: newImages, nextPageToken }) => {
+  //     setImages((prevImages) => [...prevImages, ...newImages]);
+  //     setLastVisible(nextPageToken);
+  //     setLoading(false);
+  //   });
+  // };
 
   const handleFileUpload = (url) => {
     const image = {
@@ -183,8 +192,10 @@ export default function GalleryEditor({
   }
 
 
-  const handleOnClickInsert = (image) => () => {
+  const handleOnClickInsert = (image) => {
+    console.log("Insert Image: ", image);
     onClickImage(image);
+    setIsOpen(false);
   }
 
   const handleOnClickView = (image) => () => {
@@ -223,10 +234,10 @@ export default function GalleryEditor({
               <GalleryGrid>
                 {images.map((image, index) => (
                   <ImageBox key={index}>
-                    <IconInsertButton onClick={() => onClickImage(image.large)}>
+                    {/* <IconInsertButton onClick={() => handleOnClickInsert(image)}>
                       <PreviewIcon />
-                    </IconInsertButton>
-                    <IconViewButton onClick={() => setSelectedImage(image.original)}>
+                    </IconInsertButton> */}
+                    <IconViewButton onClick={() => handleOnClickInsert(image)}>
                       <FileOpenIcon />
                     </IconViewButton>
                     <img src={image.thumb} alt={image.name} />

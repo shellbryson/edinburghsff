@@ -304,9 +304,11 @@ export default function AdminPages() {
 
   const handleInsertImage = (image) => {
     if (inputRef.current) {
+      inputRef.current.focus();
+
       const cursorPosition = inputRef.current.selectionStart;
-      const imageUrl = image.url.split('&')[0];
-      const imageMardown = `![${image?.alt}](${imageUrl} "${image?.title}")`
+      const alt = image?.alt || 'Describe image';
+      const imageMardown = `![${alt}](${image.medium})`
       const newContent = content.slice(0, cursorPosition) + imageMardown + content.slice(cursorPosition);
 
       setContent(newContent);

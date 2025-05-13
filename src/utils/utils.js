@@ -122,44 +122,46 @@ export async function updateMapLocationsIndex(places, user, callback) {
 }
 
 // Fetch images from Firebase Storage with pagination
-export async function fetchImagesWithPagination(folderPath, pageSize, nextPageToken, callback) {
+export async function fetchImagesWithPagination(collectionName, pageSize, lastVisibleDoc, callback) {
   try {
-    const folderRef = ref(storage, folderPath);
-    const options = {
-      maxResults: pageSize,
-      pageToken: nextPageToken || undefined,
-    };
+    const q = lastVisibleDoc
+      ? query(
+          collection(db, collectionName),
+          orderBy("createdAt", "desc"),
+          startAfter(lastVisibleDoc),
+          limit(pageSize)
+        )
+      : query(
+          collection(db, collectionName),
+          orderBy("createdAt", "desc"),
+          limit(pageSize)
+        );
 
-    const result = await list(folderRef, options);
+    const querySnapshot = await getDocs(q);
+    const images = [];
+    let newLastVisibleDoc = null;
 
-    const images = result.items.map((itemRef) => {
-      const fullPath = itemRef.fullPath;
-      const baseUrl = `https://firebasestorage.googleapis.com/v0/b/${storage.app.options.storageBucket}/o/${encodeURIComponent(fullPath)}?alt=media`;
+    querySnapshot.forEach((doc) => {
 
-      // Extract the base filename without the size suffix
-      const baseFilename = itemRef.name.replace(/(_\d+x\d+)?\.\w+$/, ''); // Removes size suffix and extension
-      const extension = itemRef.name.split('.').pop(); // Get the file extension
+      console.log("Image Document:", doc.id);
 
-      // Generate URLs for all sizes
-      const urls = {
-        original: baseUrl,
-        icon: baseUrl.replace(itemRef.name, `${baseFilename}_32x32.${extension}`),
-        thumb: baseUrl.replace(itemRef.name, `${baseFilename}_100x100.${extension}`),
-        medium: baseUrl.replace(itemRef.name, `${baseFilename}_300x300.${extension}`),
-        large: baseUrl.replace(itemRef.name, `${baseFilename}_800x800.${extension}`),
-      };
 
-      return {
-        ...urls,
-        name: itemRef.name,
-      };
+      const data = doc.data();
+      images.push({
+        id: doc.id,
+        ...data,
+      });
     });
+
+    if (!querySnapshot.empty) {
+      newLastVisibleDoc = querySnapshot.docs[querySnapshot.docs.length - 1];
+    }
 
     callback({
       images,
-      nextPageToken: result.nextPageToken || null,
+      lastVisibleDoc: newLastVisibleDoc,
     });
   } catch (error) {
-    console.error("Error fetching images from Firebase Storage:", error);
+    console.error("Error fetching images from Firestore collection:", error);
   }
 }
