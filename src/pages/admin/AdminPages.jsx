@@ -322,6 +322,7 @@ export default function AdminPages() {
   }
 
   const onClickImage = (imageRef) => {
+    console.log("onClickImage", imageRef);
     handleInsertImage(imageRef);
   }
 

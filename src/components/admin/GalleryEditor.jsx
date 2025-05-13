@@ -41,17 +41,21 @@ const ImageDialog = styled(Dialog)(({ theme }) => ({
 const GalleryGrid = styled(Box)(({ theme }) => ({
   display: "grid",
   gap: "0.5rem",
-  gridTemplateColumns: "1fr 1fr 1fr",
+  gridTemplateColumns: "repeat(5, 1fr)",
   margin: "1rem 0",
+  [theme.breakpoints.down('sm')]: {
+    gridTemplateColumns: "repeat(3, 1fr)",
+  },
 }));
 
 const ImageBox = styled(Box)(({ theme }) => ({
   position: "relative",
   border: "1px solid #ccc",
+  aspectRatio: "1/1",
   '& img': {
     width: "100%",
     height: "100%",
-    objectFit: "cover",
+    objectFit: "contain",
   }
 }));
 
