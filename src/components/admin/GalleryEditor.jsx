@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { fetchImagesWithPagination } from '../../utils/utils'; // Import the function
 
 // MUI Components
 import { useTheme, styled } from '@mui/material/styles';
@@ -6,16 +7,43 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import IconButton from '@mui/material/IconButton';
+import Button from '@mui/material/Button';
 
 // Icons
 import PreviewIcon from '@mui/icons-material/Preview';
 import FileOpenIcon from '@mui/icons-material/FileOpen';
+import CloseIcon from '@mui/icons-material/Close';
 
 // Custom UI
 import UploadImage from './UploadImage';
+import AdminLayout from '../../layouts/AdminLayout';
 
-// Theme helpers
+
+// Helpers
+import ProtectedRoute from '../../helpers/ProtectedRoute';
 import useMediaQuery from '@mui/material/useMediaQuery';
+
+const BootstrapAdminDialog = styled(Dialog)(({ theme }) => ({
+  '& .MuiDialogContent-root': {
+    backgroundColor: '#fff',
+    color: '#000',
+    height: "100%",
+    padding: "0",
+  },
+  '& .MuiContainer-root': {
+    scrollBehavior: "smooth"
+  },
+  '& .MuiDialogActions-root': {
+    padding: theme.spacing(1),
+  },
+  '& .MuiPaper-root': {
+    backgroundColor: '#fff',
+    color: '#000',
+    height: "100%"
+  },
+}));
 
 const ImageDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -87,18 +115,61 @@ const IconInsertButton = styled(Box)(({ theme }) => ({
   }
 }));
 
-export default function GalleryEditor({galleryImages, onUpdate, onClickImage}) {
-
+export default function GalleryEditor({
+  galleryImages,
+  showGallery,
+  onUpdate,
+  onClickImage,
+  onClose
+}) {
   const theme = useTheme();
-  const [images, setImages] = useState([...galleryImages]);
+  const [images, setImages] = useState([]);
+  const [lastVisible, setLastVisible] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [showImage, setShowImage] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
 
+  const [isOpen, setIsOpen] = useState(false);
+
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const isDashboard = location.pathname.includes("dashboard");
+
+  const style={
+    page: {
+      display: "flex",
+      flexDirection: "column",
+      overflow: "auto",
+      height: "100%",
+      width: "100%",
+      padding: "0",
+      margin: "0",
+    },
+    navigation: {
+      display: fullScreen || isDashboard ? "none" : "flex",
+      flexWrap: "wrap",
+      justifyContent: "center",
+      gap: "0.5rem",
+      borderTop: "1px solid #ccc",
+      paddingTop: "1rem",
+      marginTop: "1rem",
+    }
+  }
 
   useEffect(() => {
-    setImages(galleryImages);
-  }, [galleryImages]);
+    setIsOpen(showGallery);
+    if (showGallery) {
+      loadImages();
+    }
+  }, [showGallery]);
+
+  const loadImages = () => {
+    setLoading(true);
+    fetchImagesWithPagination('content_images', 10, lastVisible, ({ images: newImages, nextPageToken }) => {
+      setImages((prevImages) => [...prevImages, ...newImages]);
+      setLastVisible(nextPageToken);
+      setLoading(false);
+    });
+  };
 
   const handleFileUpload = (url) => {
     const image = {
@@ -111,6 +182,7 @@ export default function GalleryEditor({galleryImages, onUpdate, onClickImage}) {
     setImages(newImages);
   }
 
+
   const handleOnClickInsert = (image) => () => {
     onClickImage(image);
   }
@@ -121,33 +193,67 @@ export default function GalleryEditor({galleryImages, onUpdate, onClickImage}) {
   }
 
   const handleClose = () => {
-    setShowImage(false);
+    onClose(false);
   };
 
   return (
-    <Box>
-      <Typography variant="h_medium">Gallery</Typography>
-      <UploadImage imageUploadedCallback={handleFileUpload} />
-      <GalleryGrid>
-        {images.map((image, index) => (
-          <ImageBox key={index}>
-            <IconInsertButton onClick={handleOnClickView(image)}><PreviewIcon /></IconInsertButton>
-            <IconViewButton onClick={handleOnClickInsert(image)}><FileOpenIcon /></IconViewButton>
-            <img src={image.url} alt={image.alt} title={image.title} />
-          </ImageBox>
-        ))}
-      </GalleryGrid>
-      { selectedImage?.url &&
-        <ImageDialog
-          fullWidth
-          maxWidth="md"
-          open={showImage} fullScreen={fullScreen}
-          onClose={handleClose}>
-          <DialogContent className="scroll">
-            <img src={selectedImage.url} alt={selectedImage.alt} title={selectedImage.title} />
-          </DialogContent>
-        </ImageDialog>
-      }
-    </Box>
+    <BootstrapAdminDialog
+      fullWidth
+      maxWidth="sm"
+      open={isOpen} fullScreen={fullScreen}
+      onClose={handleClose}>
+
+      <DialogTitle>
+        <Box style={{ display: "flex", justifyContent: "space-between", gap: "0.5rem"}}>
+          <Typography variant="h_medium" style={{ paddingBottom: "0"}}>
+            Gallery
+          </Typography>
+          <Box>
+          <IconButton aria-label="Close" size="small" color="primary" onClick={handleClose}>
+            <CloseIcon />
+          </IconButton>
+          </Box>
+        </Box>
+      </DialogTitle>
+
+      <DialogContent dividers style={{ overflow: "hidden" }}>
+        <ProtectedRoute>
+          <AdminLayout>
+            <Box style={style.page} className="sff-admin-layout">
+              <GalleryGrid>
+                {images.map((image, index) => (
+                  <ImageBox key={index}>
+                    <IconInsertButton onClick={() => onClickImage(image.large)}>
+                      <PreviewIcon />
+                    </IconInsertButton>
+                    <IconViewButton onClick={() => setSelectedImage(image.original)}>
+                      <FileOpenIcon />
+                    </IconViewButton>
+                    <img src={image.thumb} alt={image.name} />
+                  </ImageBox>
+                ))}
+              </GalleryGrid>
+
+              {/* Load More Button */}
+              {lastVisible && !loading && (
+                <Box style={{ textAlign: 'center', marginTop: '1rem' }}>
+                  <Button variant="contained" onClick={loadImages}>
+                    Load More
+                  </Button>
+                </Box>
+              )}
+
+              {/* Loading Indicator */}
+              {loading && (
+                <Box style={{ textAlign: 'center', marginTop: '1rem' }}>
+                  <Typography>Loading...</Typography>
+                </Box>
+              )}
+            </Box>
+          </AdminLayout>
+        </ProtectedRoute>
+      </DialogContent>
+    </BootstrapAdminDialog>
+
   );
 };

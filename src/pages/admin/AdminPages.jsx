@@ -82,6 +82,8 @@ export default function AdminPages() {
 
   const [isLoading, setIsLoading] = useState(false);
 
+  const [showGallery, setShowGallery] = useState(false);
+
   // Common
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -326,6 +328,11 @@ export default function AdminPages() {
     handleInsertImage(imageRef);
   }
 
+  const handleClickShowGallery = () => {
+    setShowGallery(true);
+    setGalleryImages([...galleryImages])
+  }
+
   return (
     <AdminLayout>
       <Box sx={{ opacity: isLoading ? 0.5 : 1, pointerEvents: isLoading ? 'none' : 'auto' }}>
@@ -396,7 +403,19 @@ export default function AdminPages() {
               </Select>
             </FormControl>
 
-            <GalleryEditor galleryImages={galleryImages} onUpdate={onUpdateGallery} onClickImage={onClickImage} />
+            <Button
+              variant="outlined"
+              onClick={handleClickShowGallery}
+            >
+              Gallery
+            </Button>
+
+            <GalleryEditor
+              showGallery={showGallery}
+              galleryImages={galleryImages}
+              onClose={() => setShowGallery(false)}
+              onUpdate={onUpdateGallery}
+              onClickImage={onClickImage} />
 
             { error && <Alert severity="warning">{error}</Alert> }
 

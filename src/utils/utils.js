@@ -1,5 +1,6 @@
-import { doc, getDocs, getDoc, updateDoc, collection, orderBy, query } from 'firebase/firestore';
-import { db } from "../firebase";
+import { doc, getDocs, getDoc, updateDoc, collection, orderBy, query, limit, startAfter } from 'firebase/firestore';
+import { list, listAll, ref } from "firebase/storage";
+import { db, storage } from "../firebase";
 
 export function imageURL(filename, size) {
   if (!filename) return null;
@@ -117,5 +118,48 @@ export async function updateMapLocationsIndex(places, user, callback) {
     if (callback) callback(data);
   } catch (e) {
     console.error("Error adding document: ", e);
+  }
+}
+
+// Fetch images from Firebase Storage with pagination
+export async function fetchImagesWithPagination(folderPath, pageSize, nextPageToken, callback) {
+  try {
+    const folderRef = ref(storage, folderPath);
+    const options = {
+      maxResults: pageSize,
+      pageToken: nextPageToken || undefined,
+    };
+
+    const result = await list(folderRef, options);
+
+    const images = result.items.map((itemRef) => {
+      const fullPath = itemRef.fullPath;
+      const baseUrl = `https://firebasestorage.googleapis.com/v0/b/${storage.app.options.storageBucket}/o/${encodeURIComponent(fullPath)}?alt=media`;
+
+      // Extract the base filename without the size suffix
+      const baseFilename = itemRef.name.replace(/(_\d+x\d+)?\.\w+$/, ''); // Removes size suffix and extension
+      const extension = itemRef.name.split('.').pop(); // Get the file extension
+
+      // Generate URLs for all sizes
+      const urls = {
+        original: baseUrl,
+        icon: baseUrl.replace(itemRef.name, `${baseFilename}_32x32.${extension}`),
+        thumb: baseUrl.replace(itemRef.name, `${baseFilename}_100x100.${extension}`),
+        medium: baseUrl.replace(itemRef.name, `${baseFilename}_300x300.${extension}`),
+        large: baseUrl.replace(itemRef.name, `${baseFilename}_800x800.${extension}`),
+      };
+
+      return {
+        ...urls,
+        name: itemRef.name,
+      };
+    });
+
+    callback({
+      images,
+      nextPageToken: result.nextPageToken || null,
+    });
+  } catch (error) {
+    console.error("Error fetching images from Firebase Storage:", error);
   }
 }
