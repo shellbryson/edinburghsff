@@ -331,8 +331,9 @@ export default function AdminPages() {
     setGalleryImages(images);
   }
 
-  const onClickImage = (imageRef) => {
-    console.log("onClickImage", imageRef);
+  const onInsertImage = (imageRef) => {
+    console.log("onInsertImage", imageRef);
+    setShowGallery(false);
     handleInsertImage(imageRef);
   }
 
@@ -434,7 +435,7 @@ export default function AdminPages() {
               galleryImages={galleryImages}
               onClose={() => setShowGallery(false)}
               onUpdate={onUpdateGallery}
-              onClickImage={onClickImage} />
+              onInsertImage={onInsertImage} />
 
             { error && <Alert severity="warning">{error}</Alert> }
 

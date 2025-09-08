@@ -122,7 +122,7 @@ export default function GalleryEditor({
   galleryImages,
   showGallery,
   onUpdate,
-  onClickImage,
+  onInsertImage,
   onClose
 }) {
   const theme = useTheme();
@@ -196,8 +196,7 @@ export default function GalleryEditor({
 
   const handleOnClickInsert = (image) => {
     console.log("Insert Image: ", image);
-    onClickImage(image);
-    setIsOpen(false);
+    onInsertImage(image);
   }
 
   const handleOnClickView = (image) => () => {

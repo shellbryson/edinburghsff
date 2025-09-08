@@ -40,7 +40,8 @@ import {
 
 const roles = [
   "admin",
-  "editor",
+  "staff",
+  "location-events",
   "author"
 ]
 
@@ -117,11 +118,43 @@ export default function AdminAccounts() {
   // ### ADD
   // Accounts are added in the User facing app, not here
 
+const handleAdd = async (e) => {
+    setError('');
+    if (!name || !email || !role) {
+      setError('Please give this page a title');
+      return;
+    }
+    setIsLoading(true);
+    const payload = {
+      name: name,
+      role: role,
+      created: {
+        email: user.email,
+        uid: user.uid,
+        timestamp: new Date()
+      },
+      updated: {
+        email: user.email,
+        uid: user.uid,
+        timestamp: new Date()
+      }
+    }
+    try {
+      const doc = await addDoc(collection(db, "pages"), payload);
+      console.log("Saved Page", doc.id);
+      setIsLoading(false);
+      navigate(`/admin/pages/update/${doc.id}`, { replace: true });
+    } catch (e) {
+      setIsLoading(false);
+      console.error("Error adding document: ", e);
+    }
+  };
+
   // ### UPDATE
 
   const handleUpdate = async () => {
     setError('');
-    if (!title || !description) {
+    if (!name || !email || !role) {
       setError('Please fill out all fields');
       return;
     }
@@ -188,16 +221,6 @@ export default function AdminAccounts() {
     setName(text);
   }
 
-  const handleChangeEmail = (text) => {
-    if (text !== email) setIsDirty(true);
-    setEmail(text);
-  }
-
-  const handleChangePassword = (text) => {
-    if (text !== password) setIsDirty(true);
-    setPassword(text);
-  }
-
   const handleChangeRole = (text) => {
     if (text !== role) setIsDirty(true);
     setRole(text);
@@ -213,8 +236,6 @@ export default function AdminAccounts() {
         <Stack spacing={2} sx={{ mt: 2}}>
           <TextField value={name} required label="Name" onChange={(e) => handleChangeName(e.target.value)} type='text' />
           <TextField value={email} required label="Email" onChange={(e) => handleChangeEmail(e.target.value)} type='email' />
-          <TextField value={password} required label="Password" onChange={(e) => handleChangePassword(e.target.value)} type='password' />
-
           <FormControl fullWidth>
             <InputLabel>Role</InputLabel>
             <Select
@@ -243,10 +264,11 @@ export default function AdminAccounts() {
         <Box>
           <Button onClick={() => handleDelete(updateId)} variant="outlined" color="warning" startIcon={<DeleteIcon />}>Delete</Button>
         </Box>
-        <Box style={{ display: "flex", gap: "0.5rem" }}>
+        <Box style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
           { isDirty && <Typography sx={style.dirty} variant='p_small'>Unsaved</Typography> }
           <Button onClick={handleBack} variant='outlined'>Back</Button>
-          <Button onClick={handleUpdate} variant='contained'>Update Account</Button>
+          { isUpdate && <Button onClick={handleUpdate} variant='contained'>Update Account</Button> }
+          { !isUpdate && <Button onClick={handleAdd} variant='contained'>Add Account</Button> }
         </Box>
       </Box>
     </AdminLayout>
