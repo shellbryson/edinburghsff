@@ -78,12 +78,10 @@ function EventCard({ event }: { event: SerializedEvent }) {
     </div>
   )
 
-  return event.url ? (
-    <a href={event.url} target="_blank" rel="noopener noreferrer" className="block">
+  return (
+    <Link href={`/events/${event.id}`} className="block">
       {inner}
-    </a>
-  ) : (
-    <div>{inner}</div>
+    </Link>
   )
 }
 

@@ -15,6 +15,27 @@ export interface SerializedEvent {
   eventIsDigital: boolean
 }
 
+export async function getEventByIdServer(id: string): Promise<SerializedEvent | null> {
+  const snap = await adminDb.collection('events').doc(id).get()
+  if (!snap.exists) return null
+  const data = snap.data()!
+  if (!data.eventStart) return null
+  return {
+    id: snap.id,
+    title: data.title ?? '',
+    summary: data.summary ?? undefined,
+    description: data.description ?? undefined,
+    url: data.url ?? undefined,
+    image: data.image ?? undefined,
+    eventStart: data.eventStart.toMillis(),
+    eventEnd: data.eventEnd?.toMillis() ?? undefined,
+    eventIsAllDay: data.eventIsAllDay ?? false,
+    eventIsFeatured: data.eventIsFeatured ?? false,
+    eventLocation: data.eventLocation ?? undefined,
+    eventIsDigital: data.eventIsDigital ?? false,
+  }
+}
+
 export async function getPublicEventsServer(): Promise<SerializedEvent[]> {
   const snap = await adminDb
     .collection('events')

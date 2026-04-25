@@ -57,8 +57,10 @@ export async function saveEvent(form: EventFormData, docId?: string): Promise<st
   if (docId) {
     const ref = doc(db, 'events', docId)
     const existing = await getDoc(ref)
-    const created = existing.exists() ? existing.data().created ?? updated : updated
-    await setDoc(ref, { ...data, created, updated })
+    const existingData = existing.exists() ? existing.data() : {}
+    const created = existingData.created ?? updated
+    const preserved = stripUndefined({ discordId: existingData.discordId })
+    await setDoc(ref, { ...data, ...preserved, created, updated })
     return docId
   }
 
