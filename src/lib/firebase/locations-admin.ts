@@ -3,6 +3,7 @@ import {
   setDoc, addDoc, deleteDoc, query, orderBy,
 } from 'firebase/firestore'
 import { db } from '@/lib/firebase/config'
+import { getAuditStamp } from '@/lib/firebase/audit'
 import type { Location } from '@/types/location'
 
 export async function getAllLocations(): Promise<Location[]> {
@@ -22,11 +23,18 @@ function stripUndefined(obj: Record<string, unknown>): Record<string, unknown> {
 
 export async function saveLocation(location: Omit<Location, 'id'>, docId?: string): Promise<string> {
   const data = stripUndefined(location as Record<string, unknown>)
+  const updated = getAuditStamp()
+
   if (docId) {
-    await setDoc(doc(db, 'locations', docId), data)
+    const ref = doc(db, 'locations', docId)
+    const existing = await getDoc(ref)
+    const created = existing.exists() ? existing.data().created ?? updated : updated
+    await setDoc(ref, { ...data, created, updated })
     return docId
   }
-  const ref = await addDoc(collection(db, 'locations'), data)
+
+  const created = updated
+  const ref = await addDoc(collection(db, 'locations'), { ...data, created, updated })
   return ref.id
 }
 

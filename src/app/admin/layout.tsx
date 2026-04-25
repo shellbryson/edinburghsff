@@ -11,6 +11,7 @@ async function getSession() {
 const NAV = [
   { href: '/admin', label: 'Dashboard', exact: true },
   { href: '/admin/pages', label: 'Pages' },
+  { href: '/admin/events', label: 'Events' },
   { href: '/admin/locations', label: 'Locations' },
 ]
 

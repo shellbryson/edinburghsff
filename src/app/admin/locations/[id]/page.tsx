@@ -16,6 +16,19 @@ function toList(items: string[]): string {
   return items.join(', ')
 }
 
+function parseCoordinatePair(value: string): { lat: string; lng: string } | null {
+  if (!value.includes(',')) return null
+
+  const [latPart, lngPart, ...rest] = value.split(',').map(s => s.trim())
+  if (rest.length > 0 || !latPart || !lngPart) return null
+
+  const latNum = Number(latPart)
+  const lngNum = Number(lngPart)
+  if (!Number.isFinite(latNum) || !Number.isFinite(lngNum)) return null
+
+  return { lat: latPart, lng: lngPart }
+}
+
 export default function AdminLocationEditor() {
   const params = useParams<{ id: string }>()
   const router = useRouter()
@@ -64,6 +77,21 @@ export default function AdminLocationEditor() {
 
   const toggleItem = (list: string[], setList: (v: string[]) => void, item: string) => {
     setList(list.includes(item) ? list.filter(i => i !== item) : [...list, item])
+  }
+
+  const handleCoordinateChange = (value: string, field: 'lat' | 'lng') => {
+    const parsed = parseCoordinatePair(value)
+    if (parsed) {
+      setLat(parsed.lat)
+      setLng(parsed.lng)
+      return
+    }
+
+    if (field === 'lat') {
+      setLat(value)
+    } else {
+      setLng(value)
+    }
   }
 
   const handleSave = async (e: React.FormEvent) => {
@@ -156,10 +184,10 @@ export default function AdminLocationEditor() {
           <h2 className="text-xs font-semibold uppercase tracking-widest text-black/40">Coordinates</h2>
           <div className="grid grid-cols-2 gap-4">
             <Field label="Latitude" required>
-              <input value={lat} onChange={e => setLat(e.target.value)} required placeholder="55.9533" className={inputCls} />
+              <input value={lat} onChange={e => handleCoordinateChange(e.target.value, 'lat')} required placeholder="55.9533" className={inputCls} />
             </Field>
             <Field label="Longitude" required>
-              <input value={lng} onChange={e => setLng(e.target.value)} required placeholder="-3.1883" className={inputCls} />
+              <input value={lng} onChange={e => handleCoordinateChange(e.target.value, 'lng')} required placeholder="-3.1883" className={inputCls} />
             </Field>
           </div>
         </section>
