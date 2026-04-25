@@ -1,40 +1,47 @@
 interface PageLayoutProps {
   title: string
+  meta?: string        // eyebrow label — defaults to "Edinburgh SFF"
   description?: string
   children?: React.ReactNode
 }
 
-export function PageLayout({ title, description, children }: PageLayoutProps) {
+export function PageLayout({ title, meta = 'Edinburgh SFF', description, children }: PageLayoutProps) {
   return (
-    <main className="flex-1 px-5 pt-14 pb-28 max-w-2xl mx-auto w-full">
-      <p
-        className="text-[10px] font-semibold tracking-[.12em] uppercase mb-3"
-        style={{ color: 'rgba(0,0,0,.5)', fontFamily: 'var(--font-body)' }}
-      >
-        Edinburgh SFF
-      </p>
+    <main className="flex-1 pb-28">
+      <div className="max-w-2xl mx-auto px-5">
 
-      <h1
-        className="text-[42px] leading-[.95] tracking-[-0.03em] font-bold mb-4"
-        style={{ fontFamily: 'var(--font-display)' }}
-      >
-        {title}<span style={{ color: 'var(--esff-accent)' }}>.</span>
-      </h1>
+        <header className="pt-12 pb-8 border-b border-black/10">
+          <p
+            className="text-[10px] font-bold tracking-[.14em] uppercase mb-4"
+            style={{ color: 'rgba(0,0,0,.45)', fontFamily: 'var(--font-body)' }}
+          >
+            {meta}
+          </p>
 
-      {description && (
-        <p
-          className="text-sm leading-relaxed mb-8"
-          style={{ color: 'rgba(0,0,0,.6)', maxWidth: '40ch' }}
-        >
-          {description}
-        </p>
-      )}
+          <h1
+            className="text-[52px] leading-[.95] tracking-[-0.03em] font-bold"
+            style={{ fontFamily: 'var(--font-display)' }}
+          >
+            {title}<span style={{ color: 'var(--esff-accent)' }}>.</span>
+          </h1>
 
-      {children && (
-        <div className={description ? '' : 'mt-8'}>
-          {children}
-        </div>
-      )}
+          {description && (
+            <p
+              className="text-[13px] leading-[1.45] mt-3"
+              style={{ color: 'rgba(0,0,0,.6)', maxWidth: '36ch' }}
+            >
+              {description}
+            </p>
+          )}
+        </header>
+
+        {children && (
+          <div className="pt-8">
+            {children}
+          </div>
+        )}
+
+      </div>
     </main>
   )
 }

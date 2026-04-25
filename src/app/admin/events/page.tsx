@@ -9,6 +9,8 @@ export default function AdminEventsPage() {
   const [events, setEvents] = useState<Event[]>([])
   const [loading, setLoading] = useState(true)
   const [deleting, setDeleting] = useState<string | null>(null)
+  const [syncing, setSyncing] = useState(false)
+  const [syncResult, setSyncResult] = useState<string | null>(null)
 
   const load = async () => {
     setLoading(true)
@@ -26,18 +28,54 @@ export default function AdminEventsPage() {
     setDeleting(null)
   }
 
+  const handleDiscordSync = async () => {
+    setSyncing(true)
+    setSyncResult(null)
+    try {
+      const res = await fetch('/api/sync-discord-events', { method: 'POST' })
+      const json = await res.json()
+      if (!res.ok) {
+        setSyncResult(`Error: ${json.error ?? res.statusText}`)
+      } else {
+        setSyncResult(`Synced — ${json.created} created, ${json.updated} updated`)
+        await load()
+      }
+    } catch (err) {
+      setSyncResult(`Error: ${err instanceof Error ? err.message : 'Unknown error'}`)
+    } finally {
+      setSyncing(false)
+    }
+  }
+
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between mb-2">
         <h1 className="text-xl font-bold tracking-tight">Events</h1>
-        <Link
-          href="/admin/events/new"
-          className="h-9 px-4 rounded-lg text-sm font-semibold flex items-center gap-1.5"
-          style={{ background: 'var(--ink)', color: 'var(--paper)' }}
-        >
-          + New event
-        </Link>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={handleDiscordSync}
+            disabled={syncing}
+            className="h-9 px-4 rounded-lg text-sm font-semibold border border-black/15 transition-colors hover:bg-black/5 disabled:opacity-40"
+          >
+            {syncing ? 'Syncing…' : 'Sync from Discord'}
+          </button>
+          <Link
+            href="/admin/events/new"
+            className="h-9 px-4 rounded-lg text-sm font-semibold flex items-center gap-1.5"
+            style={{ background: 'var(--ink)', color: 'var(--paper)' }}
+          >
+            + New event
+          </Link>
+        </div>
       </div>
+
+      {syncResult && (
+        <p className={`text-xs mb-4 ${syncResult.startsWith('Error') ? 'text-red-600' : 'text-black/50'}`}>
+          {syncResult}
+        </p>
+      )}
+
+      {!syncResult && <div className="mb-6" />}
 
       {loading && <p className="text-sm text-black/40">Loading…</p>}
 
@@ -57,6 +95,7 @@ export default function AdminEventsPage() {
               <tr className="border-b border-black/10 bg-black/[0.02]">
                 <th className="text-left px-4 py-2.5 font-semibold text-black/60">Title</th>
                 <th className="text-left px-4 py-2.5 font-semibold text-black/60">Date</th>
+                <th className="text-left px-4 py-2.5 font-semibold text-black/60">Source</th>
                 <th className="text-left px-4 py-2.5 font-semibold text-black/60">Status</th>
                 <th className="px-4 py-2.5" />
               </tr>
@@ -72,6 +111,13 @@ export default function AdminEventsPage() {
                     {event.eventStart?.toDate().toLocaleDateString('en-GB', {
                       day: 'numeric', month: 'short', year: 'numeric'
                     }) ?? '—'}
+                  </td>
+                  <td className="px-4 py-3">
+                    {(event as Event & { discordId?: string }).discordId && (
+                      <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-600">
+                        Discord
+                      </span>
+                    )}
                   </td>
                   <td className="px-4 py-3">
                     <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${

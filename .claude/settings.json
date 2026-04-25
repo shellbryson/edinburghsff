@@ -9,7 +9,8 @@
       "WebFetch(domain:api.anthropic.com)",
       "Bash(gunzip -c \"/Users/shellbryson/.claude/projects/-Users-shellbryson-Development-EdinburghSFF-edinburghsff-hub/785784dd-654d-411f-ac50-933629cebba1/tool-results/webfetch-1777124367084-qm7v9r.bin\")",
       "Bash(tar -t)",
-      "Bash(tar -x -O \"esff/project/Edinburgh SFF.html\")"
+      "Bash(tar -x -O \"esff/project/Edinburgh SFF.html\")",
+      "Read(//Users/shellbryson/Documents/Project Assets/SFF/v4/ESFF/**)"
     ]
   }
 }
