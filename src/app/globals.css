@@ -128,3 +128,73 @@
     @apply font-sans;
   }
 }
+
+/* Map pin marker */
+.map-pin {
+  position: relative;
+  width: 2rem;
+  height: 3rem;
+  margin-top: -3rem;
+  left: -1rem;
+  filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.5));
+  cursor: pointer;
+}
+
+.map-pin-icon {
+  display: flex;
+  position: absolute;
+  width: calc(2rem - 4px);
+  height: calc(2rem - 4px);
+  top: 0;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--pin-color);
+  border: 2px solid var(--pin-color);
+}
+
+.map-pin-icon::after {
+  content: '';
+  position: absolute;
+  top: 20px;
+  width: 1rem;
+  height: 1rem;
+  transform: rotate(45deg);
+  background-color: var(--pin-color);
+  z-index: -1;
+}
+
+.map-pin-icon > svg {
+  display: block;
+  width: 16px;
+  height: 16px;
+  color: #000;
+}
+
+/* Location modal */
+.location-modal {
+  background-color: #1b1a01;
+  border: 1px solid #27260d;
+  position: relative;
+}
+
+.location-modal::before {
+  content: '';
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background-color: #fded07;
+  top: 0;
+  right: 0;
+  z-index: 1;
+}
+
+.location-modal::after {
+  content: '';
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background-color: #fded07;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+}

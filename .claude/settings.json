@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm uninstall *)",
+      "Bash(npm run *)",
+      "WebFetch(domain:edinburghsff.com)",
+      "Bash(xargs ls *)",
+      "Read(//Users/shellbryson/Development/EdinburghSFF/edinburghsff/**)"
+    ]
+  }
+}
