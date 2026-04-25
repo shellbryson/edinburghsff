@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState, useMemo } from 'react'
+import Link from 'next/link'
 import { APIProvider, Map, AdvancedMarker, useMap } from '@vis.gl/react-google-maps'
 import { subscribeToLocations } from '@/lib/firebase/locations'
 import { MapPin } from '@/components/map/MapPin'
@@ -124,6 +125,19 @@ export function VenueMap() {
 
         {/* Floating top controls */}
         <div className="absolute top-0 left-0 right-0 z-30 flex flex-col gap-2 p-3.5 pt-[calc(env(safe-area-inset-top,0px)+14px)]">
+          {/* Back button */}
+          <div className="flex items-center gap-2">
+            <Link
+              href="/"
+              className="glass flex items-center gap-2 px-3.5 py-2.5 rounded-full shadow-[0_8px_24px_rgba(0,0,0,.08)] text-sm font-medium text-(--ink)"
+            >
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                <path d="M10 3L5 8l5 5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              Edinburgh SFF
+            </Link>
+          </div>
+
           {/* Search bar */}
           <div className="glass flex items-center gap-2.5 px-3.5 py-2.5 rounded-full shadow-[0_8px_24px_rgba(0,0,0,.08)]">
             <svg width="14" height="14" viewBox="0 0 16 16" fill="none" className="text-black/50 shrink-0">
