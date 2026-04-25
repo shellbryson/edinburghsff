@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { getPublicEventsServer, type SerializedEvent } from '@/lib/firebase/events-server'
 import { PageLayout } from '@/components/layout/PageLayout'
 import { SectionRule } from '@/components/SectionRule'
+import { EventsCalendar } from '@/components/EventsCalendar'
 
 export const revalidate = 60
 
@@ -94,11 +95,15 @@ export default async function EventsPage() {
   const upcomingGroups = groupByMonth(upcoming)
   const pastGroups = groupByMonth(past)
 
+  const calendarEvents = all.map(e => ({ start: e.eventStart, end: e.eventEnd }))
+
   return (
     <PageLayout
       meta="Upcoming"
       title="Events"
       description="Readings, workshops, open mics — across the city."
+      asideLabel="Calendar"
+      aside={<EventsCalendar events={calendarEvents} />}
     >
       {all.length === 0 && (
         <p className="text-sm" style={{ color: 'rgba(0,0,0,.45)' }}>
