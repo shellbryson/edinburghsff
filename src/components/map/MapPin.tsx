@@ -1,19 +1,19 @@
 'use client'
 
-import type { Location } from '@/types/location'
+import type { Pin } from '@/types/pin'
 
 interface MapPinProps {
-  location: Location
+  pin: Pin
   active: boolean
-  onClick: (location: Location) => void
+  onClick: (pin: Pin) => void
 }
 
-export function MapPin({ location, active, onClick }: MapPinProps) {
+export function MapPin({ pin, active, onClick }: MapPinProps) {
   return (
     <div
       className={`map-pin${active ? ' active' : ''}`}
-      onClick={() => onClick(location)}
-      title={location.title}
+      onClick={() => onClick(pin)}
+      title={pin.name}
     >
       <svg width="36" height="44" viewBox="-22 -36 44 50" overflow="visible">
         {/* pulse halo */}

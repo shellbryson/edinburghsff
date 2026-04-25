@@ -15,4 +15,6 @@ export interface Location {
   price?: number
   noise?: number
   image?: string
+  featured?: boolean
+  show?: boolean
 }

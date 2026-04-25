@@ -4,6 +4,7 @@ import { useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import { Coffee, Beer, Sandwich, Utensils, Wifi, Zap, PawPrint, X } from 'lucide-react'
 import type { Location } from '@/types/location'
+import type { Pin } from '@/types/pin'
 
 const FACILITY_ICONS: Record<string, React.ComponentType<{ size?: number }>> = {
   Coffee,
@@ -18,11 +19,11 @@ const FACILITY_ICONS: Record<string, React.ComponentType<{ size?: number }>> = {
 // ── List sheet (no selection) ──────────────────────────────────────────────
 
 interface ListSheetProps {
-  locations: Location[]
-  onSelect: (location: Location) => void
+  pins: Pin[]
+  onSelect: (pin: Pin) => void
 }
 
-export function ListSheet({ locations, onSelect }: ListSheetProps) {
+export function ListSheet({ pins, onSelect }: ListSheetProps) {
   const [expanded, setExpanded] = useState(false)
 
   return (
@@ -40,13 +41,12 @@ export function ListSheet({ locations, onSelect }: ListSheetProps) {
       </button>
 
       {/* Header */}
-      <div
-        className="flex items-center justify-between px-5 pb-3 flex-shrink-0 border-b border-black/[0.06] cursor-pointer"
+      <div className="flex items-center justify-between px-5 pb-3 flex-shrink-0 border-b border-black/[0.06] cursor-pointer"
         onClick={() => setExpanded(v => !v)}
       >
         <div>
           <p className="text-[10px] font-bold tracking-[.14em] uppercase text-black/50">
-            {locations.length} places
+            {pins.length} places
           </p>
           <p className="font-display font-bold text-[22px] tracking-tight leading-tight mt-0.5">
             Bookshops & venues
@@ -59,30 +59,25 @@ export function ListSheet({ locations, onSelect }: ListSheetProps) {
 
       {/* List */}
       <div className="flex-1 overflow-y-auto px-3.5 pb-20">
-        {locations.map((loc, i) => (
+        {pins.map((pin, i) => (
           <button
-            key={loc.id}
+            key={pin.id}
             className="w-full flex items-center gap-3.5 px-2 py-3 rounded-[10px] text-left hover:bg-black/[0.04] transition-colors"
-            onClick={() => onSelect(loc)}
+            onClick={() => onSelect(pin)}
           >
             <span className="font-display font-bold text-sm text-black/40 w-6 text-right tabular-nums">
               {String(i + 1).padStart(2, '0')}
             </span>
             <div className="flex-1 min-w-0">
               <p className="font-display font-semibold text-[15px] tracking-tight leading-snug">
-                {loc.title}
+                {pin.name}
               </p>
-              {(loc.tags || loc.address) && (
+              {pin.tags && (
                 <p className="text-[11px] text-black/55 mt-0.5">
-                  {[loc.tags?.split(',')[0], loc.address].filter(Boolean).join(' · ')}
+                  {pin.tags.split(',')[0].trim()}
                 </p>
               )}
             </div>
-            {loc.hours && (
-              <span className="text-[11px] font-semibold text-[var(--ink)] flex-shrink-0">
-                {loc.hours.split(',')[0]}
-              </span>
-            )}
           </button>
         ))}
       </div>

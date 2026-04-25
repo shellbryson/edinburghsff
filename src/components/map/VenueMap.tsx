@@ -3,10 +3,12 @@
 import { useEffect, useState, useMemo } from 'react'
 import Link from 'next/link'
 import { APIProvider, Map, AdvancedMarker, useMap } from '@vis.gl/react-google-maps'
-import { subscribeToLocations } from '@/lib/firebase/locations'
+import { getIndexedLocations } from '@/lib/firebase/locations'
+import { getLocationById } from '@/lib/firebase/locations-admin'
 import { MapPin } from '@/components/map/MapPin'
 import { ListSheet, DetailSheet } from '@/components/map/LocationSheet'
 import type { Location } from '@/types/location'
+import type { Pin } from '@/types/pin'
 
 const EDINBURGH_CENTER = { lat: 55.9533, lng: -3.1883 }
 const DEFAULT_ZOOM = 13
@@ -67,29 +69,29 @@ function ZoomControls() {
 
 // ── Main component ─────────────────────────────────────────────────────────
 export function VenueMap() {
-  const [locations, setLocations] = useState<Location[]>([])
+  const [pins, setPins] = useState<Pin[]>([])
   const [selected, setSelected] = useState<Location | null>(null)
   const [filter, setFilter] = useState('all')
   const [search, setSearch] = useState('')
 
   useEffect(() => {
-    const unsubscribe = subscribeToLocations(setLocations)
-    return unsubscribe
+    getIndexedLocations().then(setPins)
   }, [])
 
   const filtered = useMemo(() => {
-    return locations.filter(loc => {
-      if (filter !== 'all' && !loc.tags?.split(',').map(t => t.trim()).includes(filter)) return false
+    return pins.filter(pin => {
+      if (filter !== 'all' && !pin.tags?.split(',').map(t => t.trim()).includes(filter)) return false
       if (search) {
         const q = search.toLowerCase()
-        if (!(loc.title + (loc.tags ?? '') + (loc.address ?? '')).toLowerCase().includes(q)) return false
+        if (!(pin.name + (pin.tags ?? '')).toLowerCase().includes(q)) return false
       }
       return true
     })
-  }, [locations, filter, search])
+  }, [pins, filter, search])
 
-  const handlePinClick = (location: Location) => {
-    setSelected(location)
+  const handlePinClick = async (pin: Pin) => {
+    const location = await getLocationById(pin.id)
+    if (location) setSelected(location)
   }
 
   const handleClose = () => {
@@ -107,14 +109,14 @@ export function VenueMap() {
           gestureHandling="greedy"
           disableDefaultUI
         >
-          {filtered.map((location) => (
+          {filtered.map((pin) => (
             <AdvancedMarker
-              key={location.id}
-              position={{ lat: location.lat, lng: location.lng }}
+              key={pin.id}
+              position={{ lat: pin.lat, lng: pin.lng }}
             >
               <MapPin
-                location={location}
-                active={selected?.id === location.id}
+                pin={pin}
+                active={selected?.id === pin.id}
                 onClick={handlePinClick}
               />
             </AdvancedMarker>
@@ -163,8 +165,8 @@ export function VenueMap() {
           <div className="flex gap-1.5 overflow-x-auto scrollbar-none">
             {FILTERS.map(({ key, label }) => {
               const count = key === 'all'
-                ? locations.length
-                : locations.filter(l => l.tags?.split(',').map(t => t.trim()).includes(key)).length
+                ? pins.length
+                : pins.filter(p => p.tags?.split(',').map(t => t.trim()).includes(key)).length
               if (count === 0 && key !== 'all') return null
               const active = filter === key
               return (
@@ -189,7 +191,7 @@ export function VenueMap() {
         {selected ? (
           <DetailSheet location={selected} onClose={handleClose} />
         ) : (
-          <ListSheet locations={filtered} onSelect={setSelected} />
+          <ListSheet pins={filtered} onSelect={handlePinClick} />
         )}
       </div>
     </APIProvider>

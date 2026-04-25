@@ -2,13 +2,15 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { getAllLocations, deleteLocation } from '@/lib/firebase/locations-admin'
+import { getAllLocations, deleteLocation, buildPinIndex } from '@/lib/firebase/locations-admin'
 import type { Location } from '@/types/location'
 
 export default function AdminLocationsPage() {
   const [locations, setLocations] = useState<Location[]>([])
   const [loading, setLoading] = useState(true)
   const [deleting, setDeleting] = useState<string | null>(null)
+  const [indexing, setIndexing] = useState(false)
+  const [indexError, setIndexError] = useState('')
 
   const load = async () => {
     setLoading(true)
@@ -26,18 +28,45 @@ export default function AdminLocationsPage() {
     setDeleting(null)
   }
 
+  const handleRebuildIndex = async () => {
+    setIndexing(true)
+    setIndexError('')
+    try {
+      await buildPinIndex()
+    } catch (err) {
+      setIndexError(err instanceof Error ? err.message : 'Failed to rebuild index.')
+    } finally {
+      setIndexing(false)
+    }
+  }
+
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-xl font-bold tracking-tight">Locations</h1>
-        <Link
-          href="/admin/locations/new"
-          className="h-9 px-4 rounded-lg text-sm font-semibold flex items-center gap-1.5"
-          style={{ background: 'var(--ink)', color: 'var(--paper)' }}
-        >
-          + New location
-        </Link>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={handleRebuildIndex}
+            disabled={indexing}
+            className="h-9 px-4 rounded-lg text-sm font-semibold border border-black/20 hover:bg-black/3 transition-colors disabled:opacity-50"
+          >
+            {indexing ? 'Rebuilding…' : 'Rebuild map index'}
+          </button>
+          <Link
+            href="/admin/locations/new"
+            className="h-9 px-4 rounded-lg text-sm font-semibold flex items-center gap-1.5"
+            style={{ background: 'var(--ink)', color: 'var(--paper)' }}
+          >
+            + New location
+          </Link>
+        </div>
       </div>
+
+      {indexError && (
+        <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2 mb-4">
+          {indexError}
+        </p>
+      )}
 
       {loading && <p className="text-sm text-black/40">Loading…</p>}
 

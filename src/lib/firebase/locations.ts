@@ -1,6 +1,7 @@
-import { collection, onSnapshot, GeoPoint } from 'firebase/firestore'
+import { collection, onSnapshot, getDoc, doc, GeoPoint } from 'firebase/firestore'
 import { db } from '@/lib/firebase/config'
 import type { Location } from '@/types/location'
+import type { Pin } from '@/types/pin'
 
 function parseCoords(data: Record<string, unknown>): { lat: number; lng: number } {
   // Firestore GeoPoint stored in a `position` or `location` field
@@ -19,6 +20,23 @@ function parseCoords(data: Record<string, unknown>): { lat: number; lng: number 
     lat: Number(data.lat),
     lng: Number(data.lng),
   }
+}
+
+export async function getIndexedLocations(): Promise<Pin[]> {
+  const snap = await getDoc(doc(db, 'settings', 'index_pins'))
+  if (!snap.exists()) return []
+  const { pins } = snap.data() as { pins: Record<string, unknown>[] }
+  return pins
+    .map(data => {
+      const lat = Number(data.lat)
+      const lng = Number(data.lng)
+      if (isNaN(lat) || isNaN(lng)) {
+        console.warn('Indexed pin has invalid coordinates', data)
+        return null
+      }
+      return { ...data, lat, lng } as Pin
+    })
+    .filter((pin): pin is Pin => pin !== null)
 }
 
 export function subscribeToLocations(

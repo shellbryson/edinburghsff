@@ -1,10 +1,12 @@
 import {
   collection, doc, getDocs, getDoc,
   setDoc, addDoc, deleteDoc, query, orderBy,
+  serverTimestamp,
 } from 'firebase/firestore'
 import { db } from '@/lib/firebase/config'
 import { getAuditStamp } from '@/lib/firebase/audit'
 import type { Location } from '@/types/location'
+import type { Pin } from '@/types/pin'
 
 export async function getAllLocations(): Promise<Location[]> {
   const snap = await getDocs(query(collection(db, 'locations'), orderBy('title')))
@@ -40,4 +42,22 @@ export async function saveLocation(location: Omit<Location, 'id'>, docId?: strin
 
 export async function deleteLocation(docId: string): Promise<void> {
   await deleteDoc(doc(db, 'locations', docId))
+}
+
+export async function buildPinIndex(): Promise<void> {
+  const locations = await getAllLocations()
+  const pins: Pin[] = locations.map(loc => stripUndefined({
+    id: loc.id,
+    lat: String(loc.lat),
+    lng: String(loc.lng),
+    name: loc.title,
+    name_short: loc.name_short,
+    tags: loc.tags,
+    featured: loc.featured,
+    show: loc.show,
+  }) as unknown as Pin)
+  await setDoc(doc(db, 'settings', 'index_pins'), {
+    pins,
+    builtAt: serverTimestamp(),
+  })
 }
