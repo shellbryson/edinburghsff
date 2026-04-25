@@ -1,6 +1,6 @@
 import {
-  collection, doc, getDoc, getDocs,
-  setDoc, deleteDoc, query, orderBy,
+  collection, doc, getDocs,
+  setDoc, deleteDoc, query, orderBy, where, limit,
 } from 'firebase/firestore'
 import { db } from '@/lib/firebase/config'
 
@@ -13,9 +13,9 @@ export interface Page {
 }
 
 export async function getPageBySlug(slug: string): Promise<Page | null> {
-  const snap = await getDoc(doc(db, 'pages', slug))
-  if (!snap.exists()) return null
-  return { id: snap.id, ...snap.data() } as Page
+  const snap = await getDocs(query(collection(db, 'pages'), where('slug', '==', slug), limit(1)))
+  if (snap.empty) return null
+  return { id: snap.docs[0].id, ...snap.docs[0].data() } as Page
 }
 
 export async function getAllPages(): Promise<Page[]> {
@@ -23,11 +23,10 @@ export async function getAllPages(): Promise<Page[]> {
   return snap.docs.map(d => ({ id: d.id, ...d.data() }) as Page)
 }
 
-// slug is used as the Firestore document ID
-export async function savePage(page: Omit<Page, 'id'>): Promise<void> {
-  await setDoc(doc(db, 'pages', page.slug), page)
+export async function savePage(page: Omit<Page, 'id'>, docId?: string): Promise<void> {
+  await setDoc(doc(db, 'pages', docId ?? page.slug), page)
 }
 
-export async function deletePage(slug: string): Promise<void> {
-  await deleteDoc(doc(db, 'pages', slug))
+export async function deletePage(docId: string): Promise<void> {
+  await deleteDoc(doc(db, 'pages', docId))
 }

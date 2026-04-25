@@ -10,6 +10,7 @@ export default function AdminPageEditor() {
   const router = useRouter()
   const isNew = params.id === 'new'
 
+  const [docId, setDocId] = useState('')
   const [title, setTitle] = useState('')
   const [slug, setSlug] = useState('')
   const [description, setDescription] = useState('')
@@ -22,6 +23,7 @@ export default function AdminPageEditor() {
     if (isNew) return
     getPageBySlug(params.id).then(page => {
       if (!page) { router.replace('/admin/pages'); return }
+      setDocId(page.id)
       setTitle(page.title)
       setSlug(page.slug)
       setDescription(page.description ?? '')
@@ -44,7 +46,7 @@ export default function AdminPageEditor() {
     if (!slug.trim()) { setError('Slug is required.'); return }
     setSaving(true)
     try {
-      await savePage({ title, slug, description, content })
+      await savePage({ title, slug, description, content }, isNew ? undefined : docId)
       router.push('/admin/pages')
     } catch {
       setError('Failed to save. Please try again.')

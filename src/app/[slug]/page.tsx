@@ -1,7 +1,10 @@
 import type { Metadata } from 'next'
+
+export const revalidate = 60
 import { notFound } from 'next/navigation'
-import ReactMarkdown from 'react-markdown'
-import { getPageBySlug } from '@/lib/firebase/pages'
+import { getPageBySlugServer } from '@/lib/firebase/pages-server'
+import { PageLayout } from '@/components/layout/PageLayout'
+import { MarkdownContent } from '@/components/MarkdownContent'
 
 type Props = {
   params: Promise<{ slug: string }>
@@ -9,7 +12,7 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
-  const page = await getPageBySlug(slug)
+  const page = await getPageBySlugServer(slug)
   if (!page) return {}
   return {
     title: page.title,
@@ -19,21 +22,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ContentPage({ params }: Props) {
   const { slug } = await params
-  const page = await getPageBySlug(slug)
+  const page = await getPageBySlugServer(slug)
 
   if (!page) notFound()
 
   return (
-    <main className="flex-1 px-5 pt-12 pb-28 max-w-2xl mx-auto w-full">
-      <h1
-        className="text-4xl font-bold tracking-tight leading-tight mb-8"
-        style={{ fontFamily: 'var(--font-display)' }}
-      >
-        {page.title}
-      </h1>
-      <div className="prose-content">
-        <ReactMarkdown>{page.content}</ReactMarkdown>
-      </div>
-    </main>
+    <PageLayout title={page.title} description={page.description}>
+      <MarkdownContent content={page.content} />
+    </PageLayout>
   )
 }
