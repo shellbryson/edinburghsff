@@ -1,52 +1,31 @@
 'use client'
 
-import { Tent, Book, Pen, Library, Pin } from 'lucide-react'
 import type { Location } from '@/types/location'
-
-const PIN_COLORS: Record<string, string> = {
-  Venue: '#c184f8',
-  Cafe: '#62bae3',
-  Library: '#8cd672',
-  Bookshop: '#d69372',
-  Interesting: '#ffffff',
-  default: '#ffffff',
-}
-
-const PIN_ICONS: Record<string, React.ComponentType<{ size?: number }>> = {
-  Venue: Tent,
-  Cafe: Pen,
-  Library: Library,
-  Bookshop: Book,
-  Interesting: Pin,
-  default: Pin,
-}
-
-function getPinType(tags?: string): string {
-  if (!tags) return 'default'
-  const tag = tags.split(',').map(t => t.trim()).find(t => t in PIN_COLORS)
-  return tag ?? 'default'
-}
 
 interface MapPinProps {
   location: Location
+  active: boolean
   onClick: (location: Location) => void
 }
 
-export function MapPin({ location, onClick }: MapPinProps) {
-  const pinType = getPinType(location.tags)
-  const color = PIN_COLORS[pinType]
-  const Icon = PIN_ICONS[pinType]
-
+export function MapPin({ location, active, onClick }: MapPinProps) {
   return (
     <div
-      className="map-pin"
-      style={{ '--pin-color': color } as React.CSSProperties}
+      className={`map-pin${active ? ' active' : ''}`}
       onClick={() => onClick(location)}
       title={location.title}
     >
-      <div className="map-pin-icon">
-        <Icon size={16} />
-      </div>
+      <svg width="36" height="44" viewBox="-22 -36 44 50" overflow="visible">
+        {/* pulse halo */}
+        <circle className="pin-halo" cx="0" cy="-10" r="22" />
+        {/* teardrop body */}
+        <path
+          className="pin-body"
+          d="M0,-26 C-12,-26 -18,-18 -18,-10 C-18,2 0,16 0,16 C0,16 18,2 18,-10 C18,-18 12,-26 0,-26 Z"
+        />
+        {/* centre dot */}
+        <circle className="pin-dot" cx="0" cy="-12" r="5" />
+      </svg>
     </div>
   )
 }
