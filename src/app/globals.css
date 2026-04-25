@@ -89,6 +89,49 @@
   }
 }
 
+/* ── Markdown prose ───────────────────────────────────── */
+.prose-content {
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--ink);
+}
+.prose-content p { margin: 0 0 1.1rem; }
+.prose-content h1, .prose-content h2, .prose-content h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 2rem 0 0.6rem;
+  line-height: 1.15;
+}
+.prose-content h1 { font-size: 2rem; }
+.prose-content h2 { font-size: 1.4rem; }
+.prose-content h3 { font-size: 1.1rem; }
+.prose-content a { text-decoration: underline; text-underline-offset: 3px; }
+.prose-content a:hover { opacity: 0.7; }
+.prose-content ul, .prose-content ol { padding-left: 1.4rem; margin: 0 0 1.1rem; }
+.prose-content li { margin-bottom: 0.3rem; }
+.prose-content strong { font-weight: 600; }
+.prose-content em { font-style: italic; }
+.prose-content code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  background: rgba(0,0,0,.06);
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+}
+.prose-content hr {
+  border: none;
+  border-top: 1px solid rgba(0,0,0,.1);
+  margin: 2rem 0;
+}
+.prose-content blockquote {
+  border-left: 3px solid var(--esff-accent);
+  margin: 1.5rem 0;
+  padding: 0.5rem 0 0.5rem 1.2rem;
+  color: rgba(0,0,0,.7);
+  font-style: italic;
+}
+
 /* ── Map pin marker ───────────────────────────────────── */
 .map-pin {
   cursor: pointer;

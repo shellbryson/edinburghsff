@@ -75,7 +75,7 @@ const TABS = [
 export function TabBar() {
   const pathname = usePathname()
 
-  if (pathname.startsWith('/admin')) return null
+  if (pathname.startsWith('/admin') || pathname === '/login') return null
 
   return (
     <div className="fixed bottom-3.5 left-3.5 right-3.5 z-50 flex justify-center pointer-events-none">
