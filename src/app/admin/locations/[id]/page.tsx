@@ -94,8 +94,9 @@ export default function AdminLocationEditor() {
         noise: noise !== '' ? Number(noise) : undefined,
       }, isNew ? undefined : params.id)
       router.push('/admin/locations')
-    } catch {
-      setError('Failed to save. Please try again.')
+    } catch (err) {
+      console.error('saveLocation failed:', err)
+      setError(err instanceof Error ? err.message : 'Failed to save. Please try again.')
     } finally {
       setSaving(false)
     }
@@ -236,7 +237,7 @@ export default function AdminLocationEditor() {
           </button>
           <Link
             href="/admin/locations"
-            className="h-10 px-5 rounded-lg text-sm font-medium border border-black/20 flex items-center hover:bg-black/[0.03] transition-colors"
+            className="h-10 px-5 rounded-lg text-sm font-medium border border-black/20 flex items-center hover:bg-black/3 transition-colors"
           >
             Cancel
           </Link>

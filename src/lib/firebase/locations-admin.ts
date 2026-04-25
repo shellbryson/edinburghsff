@@ -16,12 +16,17 @@ export async function getLocationById(id: string): Promise<Location | null> {
   return { id: snap.id, ...snap.data() } as Location
 }
 
+function stripUndefined(obj: Record<string, unknown>): Record<string, unknown> {
+  return Object.fromEntries(Object.entries(obj).filter(([, v]) => v !== undefined))
+}
+
 export async function saveLocation(location: Omit<Location, 'id'>, docId?: string): Promise<string> {
+  const data = stripUndefined(location as Record<string, unknown>)
   if (docId) {
-    await setDoc(doc(db, 'locations', docId), location)
+    await setDoc(doc(db, 'locations', docId), data)
     return docId
   }
-  const ref = await addDoc(collection(db, 'locations'), location)
+  const ref = await addDoc(collection(db, 'locations'), data)
   return ref.id
 }
 
